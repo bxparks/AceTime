@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.2.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -101,9 +101,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a83e37a197999c7c9890fde96b741f6c6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1TimeZone.html#a83e37a197999c7c9890fde96b741f6c6">getType</a> () const</td></tr>
 <tr class="memdesc:a83e37a197999c7c9890fde96b741f6c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the type of <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>, used to determine the behavior of certain methods at runtime.  <a href="classace__time_1_1TimeZone.html#a83e37a197999c7c9890fde96b741f6c6">More...</a><br /></td></tr>
 <tr class="separator:a83e37a197999c7c9890fde96b741f6c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80af1923e140199a776de62d046461ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1TimeZone.html#a80af1923e140199a776de62d046461ad">resetZoneProcessor</a> ()</td></tr>
-<tr class="memdesc:a80af1923e140199a776de62d046461ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the underlying <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> if a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> is used.  <a href="classace__time_1_1TimeZone.html#a80af1923e140199a776de62d046461ad">More...</a><br /></td></tr>
-<tr class="separator:a80af1923e140199a776de62d046461ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4f490577af626bb2800ad62ac861668"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1TimeZone.html#af4f490577af626bb2800ad62ac861668">getStdOffset</a> () const</td></tr>
 <tr class="memdesc:af4f490577af626bb2800ad62ac861668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the Standard <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,...">TimeOffset</a>.  <a href="classace__time_1_1TimeZone.html#af4f490577af626bb2800ad62ac861668">More...</a><br /></td></tr>
 <tr class="separator:af4f490577af626bb2800ad62ac861668"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -641,7 +638,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 <p>Return the DST <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,...">TimeOffset</a>. </p>
 <p>Valid only for kTypeManual. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00263">263</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00246">246</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
@@ -672,7 +669,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 <p>Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and fixed offset from UTC (timeOffset).">OffsetDateTime</a> at the given epochSeconds. </p>
 <p>Used by <a class="el" href="classace__time_1_1ZonedDateTime.html#a9c02e18eba7ef8af1e41d4ecfe727bee" title="Factory method.">ZonedDateTime::forEpochSeconds()</a>, so exposed publically for testing and debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00429">429</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00412">412</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
@@ -703,7 +700,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 <p>Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and fixed offset from UTC (timeOffset).">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> for the current <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. </p>
 <p>Used by <a class="el" href="classace__time_1_1ZonedDateTime.html#a00ab2ef530c51e068b3b67dc91a69ccf" title="Factory method using separated date, time, and time zone fields.">ZonedDateTime::forComponents()</a>, so intended to be used mostly for testing and debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00383">383</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00366">366</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
@@ -733,7 +730,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 <p>Return the Standard <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,...">TimeOffset</a>. </p>
 <p>Valid only for kTypeManual. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00258">258</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00241">241</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
@@ -793,7 +790,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 <p>Return the zoneId for kTypeBasic, kTypeExtended. </p>
 <p>Returns 0 for kTypeManual. (It is not entirely clear that a valid zoneId is always &gt; 0, but there is little I can do without C++ exceptions.) </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00285">285</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00268">268</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
@@ -823,7 +820,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 <p>Return if mDstOffsetMinutes is not zero. </p>
 <p>This is a convenience method that is valid only if the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> is a kTypeManual. Returns false for all other type of <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. This is intended to be used by applications which allows the user to set the UTC offset and DST flag manually (e.g. examples/WorldClock.ino). </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00472">472</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00455">455</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
@@ -906,36 +903,6 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 
 </div>
 </div>
-<a id="a80af1923e140199a776de62d046461ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80af1923e140199a776de62d046461ad">&#9670;&nbsp;</a></span>resetZoneProcessor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ace_time::TimeZone::resetZoneProcessor </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reset the underlying <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> if a <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> is used. </p>
-<p>This is needed when the <a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a> changes and the current <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> object continues to be used. </p>
-
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00245">245</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
-
-</div>
-</div>
 <a id="af4e12e7f8296fefe6b979fd5b9af5ba7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af4e12e7f8296fefe6b979fd5b9af5ba7">&#9670;&nbsp;</a></span>toTimeZoneData()</h2>
 
@@ -962,7 +929,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 <p>Convert to a <a class="el" href="structace__time_1_1TimeZoneData.html" title="Data structure that captures the internal state of a TimeZone object with enough information so that ...">TimeZoneData</a> object, which can be fed back into ZoneManager::createForTimeZoneData() to recreate the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a>. </p>
 <p>Both TimeZone::kTypeBasic and TimeZone::kTypeExtended are mapped to TimeZoneData::kTypeZoneId. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00483">483</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00466">466</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>
@@ -986,7 +953,7 @@ zone". The first refers to a simple fixed offset from UTC. For example, we may s
 </ul>
 <p>Internally, the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone.">TimeZone</a> class does not care how this is implemented. The factory methods expose these types for the convenience of the end users. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00620">620</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeZone_8h_source.html#l00603">603</a> of file <a class="el" href="TimeZone_8h_source.html">TimeZone.h</a>.</p>
 
 </div>
 </div>

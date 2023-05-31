@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.2.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -103,9 +103,6 @@ Public Member Functions</h2></td></tr>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a059a9ffeab7e8885e6abe0e0abeb9bde">getType</a> () const</td></tr>
 <tr class="memdesc:a059a9ffeab7e8885e6abe0e0abeb9bde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the kTypeXxx of the current instance. <br /></td></tr>
 <tr class="separator:a059a9ffeab7e8885e6abe0e0abeb9bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2ed782c3a3d257a959395e428583643"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#ac2ed782c3a3d257a959395e428583643">resetTransitionCache</a> ()</td></tr>
-<tr class="memdesc:ac2ed782c3a3d257a959395e428583643"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the internal transition cache.  <a href="classace__time_1_1ZoneProcessor.html#ac2ed782c3a3d257a959395e428583643">More...</a><br /></td></tr>
-<tr class="separator:ac2ed782c3a3d257a959395e428583643"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc0ad2c3b5ebaaea73ee7376870464f4"><td class="memItemLeft" align="right" valign="top"><a id="abc0ad2c3b5ebaaea73ee7376870464f4"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#abc0ad2c3b5ebaaea73ee7376870464f4">isLink</a> () const =0</td></tr>
 <tr class="memdesc:abc0ad2c3b5ebaaea73ee7376870464f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if timezone is a Link entry pointing to a Zone entry. <br /></td></tr>
@@ -150,9 +147,8 @@ Protected Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a1b45f4d91195b4dfc63bbd4e4e3acb60">ZoneProcessor</a> (uint8_t type)</td></tr>
 <tr class="memdesc:a1b45f4d91195b4dfc63bbd4e4e3acb60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
 <tr class="separator:a1b45f4d91195b4dfc63bbd4e4e3acb60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a661878a49493ba4a45cb6120a1bd0319"><td class="memItemLeft" align="right" valign="top"><a id="a661878a49493ba4a45cb6120a1bd0319"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a661878a49493ba4a45cb6120a1bd0319">isFilled</a> (int16_t year) const</td></tr>
-<tr class="memdesc:a661878a49493ba4a45cb6120a1bd0319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the Transition cache is filled for the given year. <br /></td></tr>
+<tr class="memitem:a661878a49493ba4a45cb6120a1bd0319"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a661878a49493ba4a45cb6120a1bd0319">isFilled</a> (int16_t year) const</td></tr>
+<tr class="memdesc:a661878a49493ba4a45cb6120a1bd0319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the Transition cache is filled for the given year and current epochYear.  <a href="classace__time_1_1ZoneProcessor.html#a661878a49493ba4a45cb6120a1bd0319">More...</a><br /></td></tr>
 <tr class="separator:a661878a49493ba4a45cb6120a1bd0319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa78857884d8b64d4be4b499970d63a70"><td class="memItemLeft" align="right" valign="top"><a id="aa78857884d8b64d4be4b499970d63a70"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#aa78857884d8b64d4be4b499970d63a70">equals</a> (const <a class="el" href="classace__time_1_1ZoneProcessor.html">ZoneProcessor</a> &amp;other) const =0</td></tr>
@@ -161,15 +157,15 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a698fea5dd3a2c2b403b501d49ff3fe8f"><td class="memItemLeft" align="right" valign="top"><a id="a698fea5dd3a2c2b403b501d49ff3fe8f"></a>
-uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr>
+<tr class="memitem:a698fea5dd3a2c2b403b501d49ff3fe8f"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a698fea5dd3a2c2b403b501d49ff3fe8f">mType</a></td></tr>
+<tr class="memdesc:a698fea5dd3a2c2b403b501d49ff3fe8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">User-visible indicator of the subclass of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>, which implments a specific time-zone algorithm.  <a href="classace__time_1_1ZoneProcessor.html#a698fea5dd3a2c2b403b501d49ff3fe8f">More...</a><br /></td></tr>
 <tr class="separator:a698fea5dd3a2c2b403b501d49ff3fe8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59e6f11a9dd08a1bc5547a1985857453"><td class="memItemLeft" align="right" valign="top"><a id="a59e6f11a9dd08a1bc5547a1985857453"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>mIsFilled</b> = false</td></tr>
-<tr class="separator:a59e6f11a9dd08a1bc5547a1985857453"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b939ab666db193d3bf2bba8f298e736"><td class="memItemLeft" align="right" valign="top"><a id="a5b939ab666db193d3bf2bba8f298e736"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>mYear</b> = <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180">LocalDate::kInvalidYear</a></td></tr>
+<tr class="memitem:a5b939ab666db193d3bf2bba8f298e736"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#a5b939ab666db193d3bf2bba8f298e736">mYear</a> = <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180">LocalDate::kInvalidYear</a></td></tr>
+<tr class="memdesc:a5b939ab666db193d3bf2bba8f298e736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Year that was used to calculate the transitions in the current cache.  <a href="classace__time_1_1ZoneProcessor.html#a5b939ab666db193d3bf2bba8f298e736">More...</a><br /></td></tr>
 <tr class="separator:a5b939ab666db193d3bf2bba8f298e736"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6c3aaf365c46bffc72f6c852ff4779c"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneProcessor.html#ab6c3aaf365c46bffc72f6c852ff4779c">mEpochYear</a> = <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180">LocalDate::kInvalidYear</a></td></tr>
+<tr class="memdesc:ab6c3aaf365c46bffc72f6c852ff4779c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classace__time_1_1Epoch.html" title="Utility functions for setting, retrieving, and converting the current epoch.">Epoch</a> year that was used to calculate the transitions in the current cache.  <a href="classace__time_1_1ZoneProcessor.html#ab6c3aaf365c46bffc72f6c852ff4779c">More...</a><br /></td></tr>
+<tr class="separator:ab6c3aaf365c46bffc72f6c852ff4779c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -220,6 +216,37 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 </dl>
 
 <p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a700795c7fd43f3af82727bf2a461c264">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a700795c7fd43f3af82727bf2a461c264">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1d5077215681ac06c683f633be688fea">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1d5077215681ac06c683f633be688fea">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a661878a49493ba4a45cb6120a1bd0319"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a661878a49493ba4a45cb6120a1bd0319">&#9670;&nbsp;</a></span>isFilled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ace_time::ZoneProcessor::isFilled </td>
+          <td>(</td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>year</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if the Transition cache is filled for the given year and current epochYear. </p>
+<p>Checking the epoch year allows the cache to be automatically invalidated and regenerated if the epoch year is changed. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00230">230</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -334,36 +361,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 
 </div>
 </div>
-<a id="ac2ed782c3a3d257a959395e428583643"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2ed782c3a3d257a959395e428583643">&#9670;&nbsp;</a></span>resetTransitionCache()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ace_time::ZoneProcessor::resetTransitionCache </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reset the internal transition cache. </p>
-<p>Useful when <a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a> is changed at runtime. </p>
-
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00150">150</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
-
-</div>
-</div>
 <a id="af069bc08e2135e460c4442fd0be6d3e1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af069bc08e2135e460c4442fd0be6d3e1">&#9670;&nbsp;</a></span>setZoneKey()</h2>
 
@@ -400,6 +397,88 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 </dl>
 
 <p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adc346e63c3a99b9b8ef8908cf58c4ddd">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adc346e63c3a99b9b8ef8908cf58c4ddd">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8d4ce541670402a2dbb473e7fe6222d4">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8d4ce541670402a2dbb473e7fe6222d4">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab6c3aaf365c46bffc72f6c852ff4779c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6c3aaf365c46bffc72f6c852ff4779c">&#9670;&nbsp;</a></span>mEpochYear</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t ace_time::ZoneProcessor::mEpochYear = <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180">LocalDate::kInvalidYear</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classace__time_1_1Epoch.html" title="Utility functions for setting, retrieving, and converting the current epoch.">Epoch</a> year that was used to calculate the transitions in the current cache. </p>
+<p>Set to <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180" title="Sentinel year which indicates one or more of the following conditions:">LocalDate::kInvalidYear</a> to indicate invalid cache. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00256">256</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+
+</div>
+</div>
+<a id="a698fea5dd3a2c2b403b501d49ff3fe8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a698fea5dd3a2c2b403b501d49ff3fe8f">&#9670;&nbsp;</a></span>mType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t const ace_time::ZoneProcessor::mType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>User-visible indicator of the subclass of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>, which implments a specific time-zone algorithm. </p>
+<p>Three common ones are <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a283ca9be07f106494c22eee2729482de" title="Unique TimeZone type identifier for BasicZoneProcessor.">BasicZoneProcessor::kTypeBasic</a> and <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#ae0cfa8f81df6c2cab008944941153bfd" title="Unique TimeZone type identifier for ExtendedZoneProcessor.">ExtendedZoneProcessor::kTypeExtended</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00244">244</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+
+</div>
+</div>
+<a id="a5b939ab666db193d3bf2bba8f298e736"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b939ab666db193d3bf2bba8f298e736">&#9670;&nbsp;</a></span>mYear</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t ace_time::ZoneProcessor::mYear = <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180">LocalDate::kInvalidYear</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Year that was used to calculate the transitions in the current cache. </p>
+<p>Set to <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180" title="Sentinel year which indicates one or more of the following conditions:">LocalDate::kInvalidYear</a> to indicate invalid cache. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00250">250</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>

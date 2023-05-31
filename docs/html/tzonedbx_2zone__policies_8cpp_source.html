@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.2.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -76,7 +76,7 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//     --input_dir /home/brian/src/AceTime/src/tzonedbx/tzfiles</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//     --output_dir /home/brian/src/AceTime/src/tzonedbx</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2022g</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//     --tz_version 2023c</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//     --action zonedb</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     --language arduino</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">//     --scope extended</span></div>
@@ -99,10 +99,10 @@ $(function() {
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//   northamerica</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">//   southamerica</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2022g</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// from https://github.com/eggert/tz/releases/tag/2023c</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// Supported Zones: 16 (15 zones, 1 links)</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">// Unsupported Zones: 580 (336 zones, 244 links)</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">// Unsupported Zones: 580 (335 zones, 245 links)</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// Original Years:  [1844,2087]</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// Generated Years: [1945,2087]</span></div>
@@ -876,13 +876,13 @@ $(function() {
 <div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;  },</div>
-<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;  <span class="comment">// Rule    Morocco    2023    only    -    Apr    30     2:00    0    -</span></div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;  <span class="comment">// Rule    Morocco    2023    only    -    Apr    23     2:00    0    -</span></div>
 <div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;  {</div>
 <div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;    2023 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;    2023 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;    4 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    30 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    23 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -1068,13 +1068,13 @@ $(function() {
 <div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l00997"></a><span class="lineno">  997</span>&#160;  },</div>
-<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;  <span class="comment">// Rule    Morocco    2031    only    -    Feb     2     2:00    0    -</span></div>
+<div class="line"><a name="l00998"></a><span class="lineno">  998</span>&#160;  <span class="comment">// Rule    Morocco    2031    only    -    Jan    26     2:00    0    -</span></div>
 <div class="line"><a name="l00999"></a><span class="lineno">  999</span>&#160;  {</div>
 <div class="line"><a name="l01000"></a><span class="lineno"> 1000</span>&#160;    2031 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l01001"></a><span class="lineno"> 1001</span>&#160;    2031 <span class="comment">/*toYear*/</span>,</div>
-<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;    2 <span class="comment">/*inMonth*/</span>,</div>
+<div class="line"><a name="l01002"></a><span class="lineno"> 1002</span>&#160;    1 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l01003"></a><span class="lineno"> 1003</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;    2 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l01004"></a><span class="lineno"> 1004</span>&#160;    26 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l01005"></a><span class="lineno"> 1005</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l01006"></a><span class="lineno"> 1006</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -1260,13 +1260,13 @@ $(function() {
 <div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l01189"></a><span class="lineno"> 1189</span>&#160;  },</div>
-<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;  <span class="comment">// Rule    Morocco    2038    only    -    Nov     7     2:00    0    -</span></div>
+<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;  <span class="comment">// Rule    Morocco    2038    only    -    Oct    31     2:00    0    -</span></div>
 <div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160;  {</div>
 <div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;    2038 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;    2038 <span class="comment">/*toYear*/</span>,</div>
-<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;    11 <span class="comment">/*inMonth*/</span>,</div>
+<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;    10 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;    7 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;    31 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l01197"></a><span class="lineno"> 1197</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l01198"></a><span class="lineno"> 1198</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l01199"></a><span class="lineno"> 1199</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -1452,13 +1452,13 @@ $(function() {
 <div class="line"><a name="l01379"></a><span class="lineno"> 1379</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l01380"></a><span class="lineno"> 1380</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l01381"></a><span class="lineno"> 1381</span>&#160;  },</div>
-<div class="line"><a name="l01382"></a><span class="lineno"> 1382</span>&#160;  <span class="comment">// Rule    Morocco    2046    only    -    Aug    12     2:00    0    -</span></div>
+<div class="line"><a name="l01382"></a><span class="lineno"> 1382</span>&#160;  <span class="comment">// Rule    Morocco    2046    only    -    Aug     5     2:00    0    -</span></div>
 <div class="line"><a name="l01383"></a><span class="lineno"> 1383</span>&#160;  {</div>
 <div class="line"><a name="l01384"></a><span class="lineno"> 1384</span>&#160;    2046 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l01385"></a><span class="lineno"> 1385</span>&#160;    2046 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l01386"></a><span class="lineno"> 1386</span>&#160;    8 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l01387"></a><span class="lineno"> 1387</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l01388"></a><span class="lineno"> 1388</span>&#160;    12 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l01388"></a><span class="lineno"> 1388</span>&#160;    5 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l01389"></a><span class="lineno"> 1389</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l01390"></a><span class="lineno"> 1390</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l01391"></a><span class="lineno"> 1391</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -1644,13 +1644,13 @@ $(function() {
 <div class="line"><a name="l01571"></a><span class="lineno"> 1571</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l01572"></a><span class="lineno"> 1572</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l01573"></a><span class="lineno"> 1573</span>&#160;  },</div>
-<div class="line"><a name="l01574"></a><span class="lineno"> 1574</span>&#160;  <span class="comment">// Rule    Morocco    2054    only    -    May    17     2:00    0    -</span></div>
+<div class="line"><a name="l01574"></a><span class="lineno"> 1574</span>&#160;  <span class="comment">// Rule    Morocco    2054    only    -    May    10     2:00    0    -</span></div>
 <div class="line"><a name="l01575"></a><span class="lineno"> 1575</span>&#160;  {</div>
 <div class="line"><a name="l01576"></a><span class="lineno"> 1576</span>&#160;    2054 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l01577"></a><span class="lineno"> 1577</span>&#160;    2054 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l01578"></a><span class="lineno"> 1578</span>&#160;    5 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l01579"></a><span class="lineno"> 1579</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l01580"></a><span class="lineno"> 1580</span>&#160;    17 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l01580"></a><span class="lineno"> 1580</span>&#160;    10 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l01581"></a><span class="lineno"> 1581</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l01582"></a><span class="lineno"> 1582</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l01583"></a><span class="lineno"> 1583</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -1836,13 +1836,13 @@ $(function() {
 <div class="line"><a name="l01763"></a><span class="lineno"> 1763</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l01764"></a><span class="lineno"> 1764</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l01765"></a><span class="lineno"> 1765</span>&#160;  },</div>
-<div class="line"><a name="l01766"></a><span class="lineno"> 1766</span>&#160;  <span class="comment">// Rule    Morocco    2062    only    -    Feb    19     2:00    0    -</span></div>
+<div class="line"><a name="l01766"></a><span class="lineno"> 1766</span>&#160;  <span class="comment">// Rule    Morocco    2062    only    -    Feb    12     2:00    0    -</span></div>
 <div class="line"><a name="l01767"></a><span class="lineno"> 1767</span>&#160;  {</div>
 <div class="line"><a name="l01768"></a><span class="lineno"> 1768</span>&#160;    2062 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l01769"></a><span class="lineno"> 1769</span>&#160;    2062 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l01770"></a><span class="lineno"> 1770</span>&#160;    2 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l01771"></a><span class="lineno"> 1771</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l01772"></a><span class="lineno"> 1772</span>&#160;    19 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l01772"></a><span class="lineno"> 1772</span>&#160;    12 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l01773"></a><span class="lineno"> 1773</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l01774"></a><span class="lineno"> 1774</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l01775"></a><span class="lineno"> 1775</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -2028,13 +2028,13 @@ $(function() {
 <div class="line"><a name="l01955"></a><span class="lineno"> 1955</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l01956"></a><span class="lineno"> 1956</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l01957"></a><span class="lineno"> 1957</span>&#160;  },</div>
-<div class="line"><a name="l01958"></a><span class="lineno"> 1958</span>&#160;  <span class="comment">// Rule    Morocco    2069    only    -    Nov    24     2:00    0    -</span></div>
+<div class="line"><a name="l01958"></a><span class="lineno"> 1958</span>&#160;  <span class="comment">// Rule    Morocco    2069    only    -    Nov    17     2:00    0    -</span></div>
 <div class="line"><a name="l01959"></a><span class="lineno"> 1959</span>&#160;  {</div>
 <div class="line"><a name="l01960"></a><span class="lineno"> 1960</span>&#160;    2069 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l01961"></a><span class="lineno"> 1961</span>&#160;    2069 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l01962"></a><span class="lineno"> 1962</span>&#160;    11 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l01963"></a><span class="lineno"> 1963</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l01964"></a><span class="lineno"> 1964</span>&#160;    24 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l01964"></a><span class="lineno"> 1964</span>&#160;    17 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l01965"></a><span class="lineno"> 1965</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l01966"></a><span class="lineno"> 1966</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l01967"></a><span class="lineno"> 1967</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -2220,13 +2220,13 @@ $(function() {
 <div class="line"><a name="l02147"></a><span class="lineno"> 2147</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l02148"></a><span class="lineno"> 2148</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l02149"></a><span class="lineno"> 2149</span>&#160;  },</div>
-<div class="line"><a name="l02150"></a><span class="lineno"> 2150</span>&#160;  <span class="comment">// Rule    Morocco    2077    only    -    Aug    29     2:00    0    -</span></div>
+<div class="line"><a name="l02150"></a><span class="lineno"> 2150</span>&#160;  <span class="comment">// Rule    Morocco    2077    only    -    Aug    22     2:00    0    -</span></div>
 <div class="line"><a name="l02151"></a><span class="lineno"> 2151</span>&#160;  {</div>
 <div class="line"><a name="l02152"></a><span class="lineno"> 2152</span>&#160;    2077 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l02153"></a><span class="lineno"> 2153</span>&#160;    2077 <span class="comment">/*toYear*/</span>,</div>
 <div class="line"><a name="l02154"></a><span class="lineno"> 2154</span>&#160;    8 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l02155"></a><span class="lineno"> 2155</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l02156"></a><span class="lineno"> 2156</span>&#160;    29 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l02156"></a><span class="lineno"> 2156</span>&#160;    22 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l02157"></a><span class="lineno"> 2157</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l02158"></a><span class="lineno"> 2158</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l02159"></a><span class="lineno"> 2159</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -2340,13 +2340,13 @@ $(function() {
 <div class="line"><a name="l02267"></a><span class="lineno"> 2267</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l02268"></a><span class="lineno"> 2268</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l02269"></a><span class="lineno"> 2269</span>&#160;  },</div>
-<div class="line"><a name="l02270"></a><span class="lineno"> 2270</span>&#160;  <span class="comment">// Rule    Morocco    2082    only    -    Jul     5     2:00    0    -</span></div>
+<div class="line"><a name="l02270"></a><span class="lineno"> 2270</span>&#160;  <span class="comment">// Rule    Morocco    2082    only    -    Jun    28     2:00    0    -</span></div>
 <div class="line"><a name="l02271"></a><span class="lineno"> 2271</span>&#160;  {</div>
 <div class="line"><a name="l02272"></a><span class="lineno"> 2272</span>&#160;    2082 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l02273"></a><span class="lineno"> 2273</span>&#160;    2082 <span class="comment">/*toYear*/</span>,</div>
-<div class="line"><a name="l02274"></a><span class="lineno"> 2274</span>&#160;    7 <span class="comment">/*inMonth*/</span>,</div>
+<div class="line"><a name="l02274"></a><span class="lineno"> 2274</span>&#160;    6 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l02275"></a><span class="lineno"> 2275</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l02276"></a><span class="lineno"> 2276</span>&#160;    5 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l02276"></a><span class="lineno"> 2276</span>&#160;    28 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l02277"></a><span class="lineno"> 2277</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l02278"></a><span class="lineno"> 2278</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l02279"></a><span class="lineno"> 2279</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
@@ -2412,13 +2412,13 @@ $(function() {
 <div class="line"><a name="l02339"></a><span class="lineno"> 2339</span>&#160;    0 <span class="comment">/*deltaCode ((deltaMinutes=-60)/15 + 4)*/</span>,</div>
 <div class="line"><a name="l02340"></a><span class="lineno"> 2340</span>&#160;    0 <span class="comment">/*letterIndex (&quot;&quot;)*/</span>,</div>
 <div class="line"><a name="l02341"></a><span class="lineno"> 2341</span>&#160;  },</div>
-<div class="line"><a name="l02342"></a><span class="lineno"> 2342</span>&#160;  <span class="comment">// Rule    Morocco    2085    only    -    Jun     3     2:00    0    -</span></div>
+<div class="line"><a name="l02342"></a><span class="lineno"> 2342</span>&#160;  <span class="comment">// Rule    Morocco    2085    only    -    May    27     2:00    0    -</span></div>
 <div class="line"><a name="l02343"></a><span class="lineno"> 2343</span>&#160;  {</div>
 <div class="line"><a name="l02344"></a><span class="lineno"> 2344</span>&#160;    2085 <span class="comment">/*fromYear*/</span>,</div>
 <div class="line"><a name="l02345"></a><span class="lineno"> 2345</span>&#160;    2085 <span class="comment">/*toYear*/</span>,</div>
-<div class="line"><a name="l02346"></a><span class="lineno"> 2346</span>&#160;    6 <span class="comment">/*inMonth*/</span>,</div>
+<div class="line"><a name="l02346"></a><span class="lineno"> 2346</span>&#160;    5 <span class="comment">/*inMonth*/</span>,</div>
 <div class="line"><a name="l02347"></a><span class="lineno"> 2347</span>&#160;    0 <span class="comment">/*onDayOfWeek*/</span>,</div>
-<div class="line"><a name="l02348"></a><span class="lineno"> 2348</span>&#160;    3 <span class="comment">/*onDayOfMonth*/</span>,</div>
+<div class="line"><a name="l02348"></a><span class="lineno"> 2348</span>&#160;    27 <span class="comment">/*onDayOfMonth*/</span>,</div>
 <div class="line"><a name="l02349"></a><span class="lineno"> 2349</span>&#160;    8 <span class="comment">/*atTimeCode*/</span>,</div>
 <div class="line"><a name="l02350"></a><span class="lineno"> 2350</span>&#160;    0 <span class="comment">/*atTimeModifier (kSuffixW + minute=0)*/</span>,</div>
 <div class="line"><a name="l02351"></a><span class="lineno"> 2351</span>&#160;    4 <span class="comment">/*deltaCode ((deltaMinutes=0)/15 + 4)*/</span>,</div>
