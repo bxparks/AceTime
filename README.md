@@ -56,7 +56,7 @@ This library can be an alternative to the Arduino Time
 offsets of type `kTypeManual`. See [Migrating to
 v2.2.0](MIGRATING.md#MigratingToVersion220) for details.
 
-**Version**: 2.2.2 (2023-04-01, TZDB version 2023c)
+**Version**: 2.2.3 (2023-05-31, TZDB version 2023c)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -499,6 +499,7 @@ different programming languages:
 **8-bit processors**
 
 ```
+Sizes of Objects:
 sizeof(LocalDate): 4
 sizeof(LocalTime): 4
 sizeof(LocalDateTime): 8
@@ -509,10 +510,10 @@ sizeof(TimeZoneData): 5
 sizeof(ZonedDateTime): 15
 sizeof(ZonedExtra): 16
 sizeof(TimePeriod): 4
-sizeof(BasicZoneProcessor): 142
-sizeof(ExtendedZoneProcessor): 456
-sizeof(BasicZoneProcessorCache<1>): 146
-sizeof(ExtendedZoneProcessorCache<1>): 460
+sizeof(BasicZoneProcessor): 143
+sizeof(ExtendedZoneProcessor): 457
+sizeof(BasicZoneProcessorCache<1>): 147
+sizeof(ExtendedZoneProcessorCache<1>): 461
 sizeof(BasicZoneManager): 7
 sizeof(ExtendedZoneManager): 7
 sizeof(internal::ZoneContext): 14
@@ -529,6 +530,7 @@ sizeof(ExtendedZoneProcessor::MatchingEra): 24
 
 **32-bit processors**
 ```
+Sizes of Objects:
 sizeof(LocalDate): 4
 sizeof(LocalTime): 4
 sizeof(LocalDateTime): 8
@@ -539,10 +541,10 @@ sizeof(TimeZoneData): 8
 sizeof(ZonedDateTime): 24
 sizeof(ZonedExtra): 16
 sizeof(TimePeriod): 4
-sizeof(BasicZoneProcessor): 204
-sizeof(ExtendedZoneProcessor): 604
-sizeof(BasicZoneProcessorCache<1>): 212
-sizeof(ExtendedZoneProcessorCache<1>): 612
+sizeof(BasicZoneProcessor): 208
+sizeof(ExtendedZoneProcessor): 608
+sizeof(BasicZoneProcessorCache<1>): 216
+sizeof(ExtendedZoneProcessorCache<1>): 616
 sizeof(BasicZoneManager): 12
 sizeof(ExtendedZoneManager): 12
 sizeof(internal::ZoneContext): 24
@@ -614,23 +616,23 @@ Arduino Nano:
 | ZonedDateTime                          |   1440/   28 |   966/   17 |
 | Manual ZoneManager                     |   1398/   13 |   924/    2 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   6870/  355 |  6396/  344 |
-| Basic TimeZone (2 zones)               |   7336/  503 |  6862/  492 |
-| BasicZoneManager (1 zone)              |   7074/  366 |  6600/  355 |
-| BasicZoneManager (all zones)           |  19764/  744 | 19290/  733 |
-| BasicZoneManager (all zones+links)     |  25116/  744 | 24642/  733 |
+| Basic TimeZone (1 zone)                |   6892/  356 |  6418/  345 |
+| Basic TimeZone (2 zones)               |   7356/  505 |  6882/  494 |
+| BasicZoneManager (1 zone)              |   7096/  367 |  6622/  356 |
+| BasicZoneManager (all zones)           |  19746/  745 | 19272/  734 |
+| BasicZoneManager (all zones+links)     |  25126/  745 | 24652/  734 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |   7690/  368 |   616/    2 |
-| Basic ZoneSorterByOffsetAndName [1]    |   7862/  368 |   788/    2 |
+| Basic ZoneSorterByName [1]             |   7712/  369 |   616/    2 |
+| Basic ZoneSorterByOffsetAndName [1]    |   7884/  369 |   788/    2 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   9992/  742 |  9518/  731 |
-| Extended TimeZone (2 zones)            |  10508/ 1207 | 10034/ 1196 |
-| ExtendedZoneManager (1 zone)           |  10168/  748 |  9694/  737 |
-| ExtendedZoneManager (all zones)        |  34416/ 1208 | 33942/ 1197 |
-| ExtendedZoneManager (all zones+links)  |  40420/ 1208 | 39946/ 1197 |
+| Extended TimeZone (1 zone)             |   9980/  743 |  9506/  732 |
+| Extended TimeZone (2 zones)            |  10496/ 1209 | 10022/ 1198 |
+| ExtendedZoneManager (1 zone)           |  10156/  749 |  9682/  738 |
+| ExtendedZoneManager (all zones)        |  35246/ 1209 | 34772/ 1198 |
+| ExtendedZoneManager (all zones+links)  |  41278/ 1209 | 40804/ 1198 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  10780/  750 |   612/    2 |
-| Extended ZoneSorterByOffsetAndName [2] |  10958/  750 |   790/    2 |
+| Extended ZoneSorterByName [2]          |  10768/  751 |   612/    2 |
+| Extended ZoneSorterByOffsetAndName [2] |  10946/  751 |   790/    2 |
 +---------------------------------------------------------------------+
 ```
 
@@ -642,27 +644,27 @@ ESP8266:
 |----------------------------------------+--------------+-------------|
 | baseline                               | 260089/27892 |     0/    0 |
 |----------------------------------------+--------------+-------------|
-| LocalDateTime                          | 260613/27912 |   524/   20 |
-| ZonedDateTime                          | 261733/27928 |  1644/   36 |
+| LocalDateTime                          | 292761/28732 | 32672/  840 |
+| ZonedDateTime                          | 267785/28732 |  7696/  840 |
 | Manual ZoneManager                     | 261713/27900 |  1624/    8 |
 |----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                | 266965/28704 |  6876/  812 |
-| Basic TimeZone (2 zones)               | 267461/28904 |  7372/ 1012 |
-| BasicZoneManager (1 zone)              | 267125/28720 |  7036/  828 |
-| BasicZoneManager (all zones)           | 284261/28720 | 24172/  828 |
-| BasicZoneManager (all zones+links)     | 292741/28720 | 32652/  828 |
+| Basic TimeZone (1 zone)                | 266985/28708 |  6896/  816 |
+| Basic TimeZone (2 zones)               | 267481/28916 |  7392/ 1024 |
+| BasicZoneManager (1 zone)              | 267145/28732 |  7056/  840 |
+| BasicZoneManager (all zones)           | 284233/28732 | 24144/  840 |
+| BasicZoneManager (all zones+links)     | 292761/28732 | 32672/  840 |
 |----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             | 267749/28728 |   624/    8 |
-| Basic ZoneSorterByOffsetAndName [1]    | 267893/28728 |   768/    8 |
+| Basic ZoneSorterByName [1]             | 267785/28732 |   640/    0 |
+| Basic ZoneSorterByOffsetAndName [1]    | 267913/28732 |   768/    0 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 269021/29288 |  8932/ 1396 |
-| Extended TimeZone (2 zones)            | 269581/29904 |  9492/ 2012 |
-| ExtendedZoneManager (1 zone)           | 269165/29296 |  9076/ 1404 |
-| ExtendedZoneManager (all zones)        | 301581/29296 | 41492/ 1404 |
-| ExtendedZoneManager (all zones+links)  | 311117/29296 | 51028/ 1404 |
+| Extended TimeZone (1 zone)             | 269025/29300 |  8936/ 1408 |
+| Extended TimeZone (2 zones)            | 269601/29916 |  9512/ 2024 |
+| ExtendedZoneManager (1 zone)           | 269185/29308 |  9096/ 1416 |
+| ExtendedZoneManager (all zones)        | 302497/29308 | 42408/ 1416 |
+| ExtendedZoneManager (all zones+links)  | 312065/29308 | 51976/ 1416 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 269789/29304 |   624/    8 |
-| Extended ZoneSorterByOffsetAndName [2] | 269821/29304 |   656/    8 |
+| Extended ZoneSorterByName [2]          | 269809/29308 |   624/    0 |
+| Extended ZoneSorterByOffsetAndName [2] | 269841/29308 |   656/    0 |
 +---------------------------------------------------------------------+
 ```
 
@@ -697,24 +699,24 @@ Arduino Nano:
 | ZonedDateTime::forEpochSeconds(Extended_nocache) |   -1.000 |
 | ZonedDateTime::forEpochSeconds(Extended_cached)  |   -1.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forComponents(Basic_nocache)      | 1815.000 |
-| ZonedDateTime::forComponents(Basic_cached)       | 1224.000 |
+| ZonedDateTime::forComponents(Basic_nocache)      | 1816.000 |
+| ZonedDateTime::forComponents(Basic_cached)       | 1225.000 |
 | ZonedDateTime::forComponents(Extended_nocache)   |   -1.000 |
 | ZonedDateTime::forComponents(Extended_cached)    |   -1.000 |
 |--------------------------------------------------+----------|
-| ZonedExtra::forEpochSeconds(Basic_nocache)       |  893.000 |
-| ZonedExtra::forEpochSeconds(Basic_cached)        |  323.000 |
+| ZonedExtra::forEpochSeconds(Basic_nocache)       |  895.000 |
+| ZonedExtra::forEpochSeconds(Basic_cached)        |  326.000 |
 | ZonedExtra::forEpochSeconds(Extended_nocache)    |   -1.000 |
 | ZonedExtra::forEpochSeconds(Extended_cached)     |   -1.000 |
 |--------------------------------------------------+----------|
-| ZonedExtra::forComponents(Basic_nocache)         | 1793.000 |
-| ZonedExtra::forComponents(Basic_cached)          | 1201.000 |
+| ZonedExtra::forComponents(Basic_nocache)         | 1796.000 |
+| ZonedExtra::forComponents(Basic_cached)          | 1206.000 |
 | ZonedExtra::forComponents(Extended_nocache)      |   -1.000 |
 | ZonedExtra::forComponents(Extended_cached)       |   -1.000 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |  117.000 |
+| BasicZoneManager::createForZoneName(binary)      |  116.000 |
 | BasicZoneManager::createForZoneId(binary)        |   49.000 |
-| BasicZoneManager::createForZoneId(linear)        |  299.000 |
+| BasicZoneManager::createForZoneId(linear)        |  300.000 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 1000
 ```
@@ -725,42 +727,42 @@ ESP8266:
 +--------------------------------------------------+----------+
 | Method                                           |   micros |
 |--------------------------------------------------+----------|
-| EmptyLoop                                        |    5.000 |
+| EmptyLoop                                        |    4.800 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |    6.200 |
-| LocalDate::toEpochDays()                         |    3.000 |
-| LocalDate::dayOfWeek()                           |    3.800 |
+| LocalDate::forEpochDays()                        |    7.400 |
+| LocalDate::toEpochDays()                         |    2.800 |
+| LocalDate::dayOfWeek()                           |    3.600 |
 |--------------------------------------------------+----------|
-| OffsetDateTime::forEpochSeconds()                |   12.200 |
-| OffsetDateTime::toEpochSeconds()                 |    6.800 |
+| OffsetDateTime::forEpochSeconds()                |   12.600 |
+| OffsetDateTime::toEpochSeconds()                 |    7.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::toEpochSeconds()                  |    7.000 |
-| ZonedDateTime::toEpochDays()                     |    5.600 |
-| ZonedDateTime::forEpochSeconds(UTC)              |   14.800 |
+| ZonedDateTime::toEpochSeconds()                  |    6.800 |
+| ZonedDateTime::toEpochDays()                     |    5.800 |
+| ZonedDateTime::forEpochSeconds(UTC)              |   15.000 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forEpochSeconds(Basic_nocache)    |  102.800 |
-| ZonedDateTime::forEpochSeconds(Basic_cached)     |   22.000 |
-| ZonedDateTime::forEpochSeconds(Extended_nocache) |  238.800 |
-| ZonedDateTime::forEpochSeconds(Extended_cached)  |   29.000 |
+| ZonedDateTime::forEpochSeconds(Basic_nocache)    |  103.000 |
+| ZonedDateTime::forEpochSeconds(Basic_cached)     |   22.800 |
+| ZonedDateTime::forEpochSeconds(Extended_nocache) |  239.200 |
+| ZonedDateTime::forEpochSeconds(Extended_cached)  |   29.200 |
 |--------------------------------------------------+----------|
-| ZonedDateTime::forComponents(Basic_nocache)      |  125.600 |
-| ZonedDateTime::forComponents(Basic_cached)       |   47.200 |
-| ZonedDateTime::forComponents(Extended_nocache)   |  172.200 |
-| ZonedDateTime::forComponents(Extended_cached)    |    3.200 |
+| ZonedDateTime::forComponents(Basic_nocache)      |  126.000 |
+| ZonedDateTime::forComponents(Basic_cached)       |   47.800 |
+| ZonedDateTime::forComponents(Extended_nocache)   |  172.400 |
+| ZonedDateTime::forComponents(Extended_cached)    |    3.400 |
 |--------------------------------------------------+----------|
 | ZonedExtra::forEpochSeconds(Basic_nocache)       |   92.800 |
-| ZonedExtra::forEpochSeconds(Basic_cached)        |    8.400 |
-| ZonedExtra::forEpochSeconds(Extended_nocache)    |  224.400 |
-| ZonedExtra::forEpochSeconds(Extended_cached)     |   14.800 |
+| ZonedExtra::forEpochSeconds(Basic_cached)        |    8.600 |
+| ZonedExtra::forEpochSeconds(Extended_nocache)    |  224.800 |
+| ZonedExtra::forEpochSeconds(Extended_cached)     |   15.200 |
 |--------------------------------------------------+----------|
-| ZonedExtra::forComponents(Basic_nocache)         |  124.400 |
-| ZonedExtra::forComponents(Basic_cached)          |   46.000 |
-| ZonedExtra::forComponents(Extended_nocache)      |  171.000 |
-| ZonedExtra::forComponents(Extended_cached)       |    2.200 |
+| ZonedExtra::forComponents(Basic_nocache)         |  124.800 |
+| ZonedExtra::forComponents(Basic_cached)          |   46.600 |
+| ZonedExtra::forComponents(Extended_nocache)      |  171.400 |
+| ZonedExtra::forComponents(Extended_cached)       |    2.400 |
 |--------------------------------------------------+----------|
-| BasicZoneManager::createForZoneName(binary)      |   14.800 |
-| BasicZoneManager::createForZoneId(binary)        |    6.200 |
-| BasicZoneManager::createForZoneId(linear)        |   43.200 |
+| BasicZoneManager::createForZoneName(binary)      |   14.600 |
+| BasicZoneManager::createForZoneId(binary)        |    6.600 |
+| BasicZoneManager::createForZoneId(linear)        |   43.000 |
 +--------------------------------------------------+----------+
 Iterations_per_run: 5000
 ```
@@ -779,10 +781,10 @@ These boards are tested on each release:
 * SparkFun Pro Micro (16 MHz ATmega32U4)
 * Seeed Studio XIAO M0 (SAMD21, 48 MHz ARM Cortex-M0+)
 * STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
+* Adafruit ItsyBitsy M4 (SAMD51, 120 MHz ARM Cortex-M4)
 * NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
 * WeMos D1 Mini (ESP-12E module, 80 MHz ESP8266)
 * ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
-* Teensy 3.2 (96 MHz ARM Cortex-M4)
 
 **Tier 2: Should work**
 
@@ -792,6 +794,7 @@ These boards should work but I don't test them as often:
 * Arduino Pro Mini (16 MHz ATmega328P)
 * Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
 * Teensy LC (48 MHz ARM Cortex-M0+)
+* Teensy 3.2 (96 MHz ARM Cortex-M4)
 
 **Tier 3: May work, but not supported**
 
@@ -801,7 +804,8 @@ These boards should work but I don't test them as often:
         boards. These are explicitly blacklisted. See below.
         * Other 3rd party SAMD21 boards using the previous Arduino API.
     * The ones using the previous Arduino API *may* work but I have not
-      explicitly tested any of them except for the Seeed Studio XIAO M0.
+      explicitly tested any of them except for the Seeed Studio XIAO M0
+      and Adafruit ItsyBitsy M4.
 
 **Tier Blacklisted**
 

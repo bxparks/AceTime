@@ -13,9 +13,7 @@ AUNITER_DIR := ../../../AUniter/tools
 TARGETS := nano.txt micro.txt samd21.txt stm32.txt samd51.txt \
 	esp8266.txt esp32.txt
 
-# It is not possible to auto-generate the $(TARGETS) because the USB ports are
-# dynamic.
-README.md: generate_readme.py generate_table.awk $(TARGETS)
+README.md: $(TARGETS) generate_readme.py generate_table.awk
 	./generate_readme.py > $@
 
 benchmarks: $(TARGETS)
@@ -28,6 +26,7 @@ benchmarks: $(TARGETS)
 nano.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END nano:USB0
 
+# Sparkfun Micro does not flash using the Arduino CLI. Use IDE instead.
 micro.txt:
 	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END micro:ACM0
 
@@ -37,6 +36,9 @@ samd21.txt:
 stm32.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END stm32:ACM0
 
+# ItsyBitsy M4 appears on ACM0 when powered on, then disappears after flashing,
+# and reappears on ACM1s. Specifying the ports as "ACM*" tells auniter.sh to
+# use any port satisfying the glob pattern.
 samd51.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon --delay 2 -o $@ --eof END itsym4:ACM*
 
