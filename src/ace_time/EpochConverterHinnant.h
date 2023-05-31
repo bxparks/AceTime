@@ -22,20 +22,19 @@ class EpochConverterHinnant {
      * Epoch year used by this epoch converter. Must be a multiple of 400. Other
      * parts of the AceTime library will probably use a different epoch year.
      */
-    static const int16_t kConverterEpochYear = 2000;
+    static const int16_t kInternalEpochYear = 2000;
 
     /**
      * Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to
-     * the converter epoch (2000-01-01 00:00:00 UTC).
+     * the internal epoch (2000-01-01 00:00:00 UTC).
      */
-    static const int32_t kDaysToConverterEpochFromUnixEpoch = 10957;
+    static const int32_t kDaysToInternalEpochFromUnixEpoch = 10957;
 
     /**
      * Convert (year, month, day) in the Gregorian calendar to days since the
-     * converter epoch (2000-01-01 instead of 2050-01-01). The `year` is
-     * restricted to be greater than or equal to 0001, which allows the internal
-     * 400-year era to start on 0000-03-01 with era=0, and we don't have to
-     * worry about negative eras.
+     * internal epoch (2000-01-01). The `year` is restricted to be greater than
+     * or equal to 0001, which allows the internal 400-year era to start on
+     * 0000-03-01 with era=0, and we don't have to worry about negative eras.
      *
      * No input validation is performed. The behavior is undefined if the
      * parameters are outside their expected range. The algorithm will likely
@@ -59,7 +58,7 @@ class EpochConverterHinnant {
 
       int32_t dayOfEpochPrime = dayOfEra + 146097 * era;
       return dayOfEpochPrime
-          - (kConverterEpochYear / 400) * 146097 /*relative to 2000-03-01*/
+          - (kInternalEpochYear / 400) * 146097 /*relative to 2000-03-01*/
           + 60 /*relative to 2000-01-01, 2000 is a leap year*/;
     }
 
@@ -69,7 +68,7 @@ class EpochConverterHinnant {
      * No input validation is performed. The behavior is undefined if the
      * parameters are outside their expected range.
      *
-     * @param epochDays number of days from the converter epoch of 2000-01-01
+     * @param epochDays number of days from the internal epoch of 2000-01-01
      * @param year year [1,9999]
      * @param month month integer [1, 12]
      * @param day day of month integer[1, 31]
@@ -78,7 +77,7 @@ class EpochConverterHinnant {
         int16_t& year, uint8_t& month, uint8_t& day) {
 
       int32_t dayOfEpochPrime = epochDays
-          + (kConverterEpochYear / 400) * 146097 - 60;
+          + (kInternalEpochYear / 400) * 146097 - 60;
       uint16_t era = (uint32_t) dayOfEpochPrime / 146097; // [0,24]
       uint32_t dayOfEra = dayOfEpochPrime - 146097 * era; // [0,146096]
       uint16_t yearOfEra = (dayOfEra - dayOfEra / 1460 + dayOfEra / 36524

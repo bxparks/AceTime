@@ -31,23 +31,24 @@ class Epoch {
     /** Set the current epoch year. */
     static void currentEpochYear(int16_t year) {
       sCurrentEpochYear = year;
-      sDaysToCurrentEpochFromConverterEpoch = daysFromConverterEpoch(year);
+      sDaysToCurrentEpochFromInternalEpoch = daysFromInternalEpoch(year);
     }
 
     /**
      * Return number of days to the given {year}-01-01 from the converter
      * epoch of 2000-01-01.
      */
-    static int32_t daysFromConverterEpoch(int16_t year) {
+    static int32_t daysFromInternalEpoch(int16_t year) {
       return ACE_TIME_EPOCH_CONVERTER::toEpochDays(year, 1, 1);
     }
 
     /**
-     * Number of days from the converter epoch (2000-01-01) to the current
-     * epoch.
+     * Number of days from the internal epoch (2000-01-01) to the current
+     * epoch. This is an internal implementation that is public for testing
+     * purposes.
      */
-    static int32_t daysToCurrentEpochFromConverterEpoch() {
-      return sDaysToCurrentEpochFromConverterEpoch;
+    static int32_t daysToCurrentEpochFromInternalEpoch() {
+      return sDaysToCurrentEpochFromInternalEpoch;
     }
 
     /**
@@ -55,8 +56,8 @@ class Epoch {
      * the current epoch.
      */
     static int32_t daysToCurrentEpochFromUnixEpoch() {
-      return ACE_TIME_EPOCH_CONVERTER::kDaysToConverterEpochFromUnixEpoch
-          + sDaysToCurrentEpochFromConverterEpoch;
+      return ACE_TIME_EPOCH_CONVERTER::kDaysToInternalEpochFromUnixEpoch
+          + sDaysToCurrentEpochFromInternalEpoch;
     }
 
     /**
@@ -113,8 +114,8 @@ class Epoch {
     /** Base year `yyyy` of current epoch {yyyy}-01-01T00:00:00. */
     static int16_t sCurrentEpochYear;
 
-    /** Number of days from kConverterEpochYear to sCurrentEpochYear. */
-    static int32_t sDaysToCurrentEpochFromConverterEpoch;
+    /** Number of days from kInternalEpochYear to sCurrentEpochYear. */
+    static int32_t sDaysToCurrentEpochFromInternalEpoch;
 };
 
 }

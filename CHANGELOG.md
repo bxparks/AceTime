@@ -18,6 +18,11 @@
             * `ZoneProcessor::resetTransitionCache()`
             * `ZoneProcessorCache::resetZoneProcessors()`
             * `ZoneManager::resetZoneProcessors()`
+    * Rename "Converter Epoch" to "Internal Epoch".
+        * Change `daysToCurrentEpochFromConverterEpoch()` to
+          `daysToCurrentEpochFromInternalEpoch()`.
+        * This is an internal implementation detail, exposed only for testing
+          purposes.
 * 2.2.2 (2023-04-01, TZDB version 2023c)
     * Upgrade TZDB from 2023b to 2023c.
         * https://mm.icann.org/pipermail/tz-announce/2023-March/000079.html

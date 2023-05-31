@@ -355,10 +355,6 @@ class Epoch {
     // Set the current epoch year.
     static int16_t currentEpochYear(int16_t epochYear);
 
-    // The number of days from the converter epoch (2000-01-01T00:00:00) to
-    // the current epoch ({yyyy}-01-01T00:00:00).
-    static int32_t daysToCurrentEpochFromConverterEpoch();
-
     // The number of days from the Unix epoch (1970-01-01T00:00:00)
     // to the current epoch ({yyyy}-01-01T00:00:00).
     static int32_t daysToCurrentEpochFromUnixEpoch();

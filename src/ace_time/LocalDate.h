@@ -175,8 +175,8 @@ class LocalDate {
         month = 0;
         day = 0;
       } else {
-        // shift relative to Epoch::kConverterEpochYear
-        epochDays += Epoch::daysToCurrentEpochFromConverterEpoch();
+        // shift relative to Epoch::kInternalEpochYear
+        epochDays += Epoch::daysToCurrentEpochFromInternalEpoch();
         ACE_TIME_EPOCH_CONVERTER::fromEpochDays(epochDays, year, month, day);
       }
       return forComponents(year, month, day);
@@ -355,7 +355,7 @@ class LocalDate {
     int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
       int32_t days = ACE_TIME_EPOCH_CONVERTER::toEpochDays(mYear, mMonth, mDay)
-          - Epoch::daysToCurrentEpochFromConverterEpoch();
+          - Epoch::daysToCurrentEpochFromInternalEpoch();
       return days;
     }
 
