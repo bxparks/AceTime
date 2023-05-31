@@ -14,12 +14,12 @@ samd21_results = check_output(
     "./generate_table.awk < samd21.txt", shell=True, text=True)
 stm32_results = check_output(
     "./generate_table.awk < stm32.txt", shell=True, text=True)
+samd51_results = check_output(
+    "./generate_table.awk < samd51.txt", shell=True, text=True)
 esp8266_results = check_output(
     "./generate_table.awk < esp8266.txt", shell=True, text=True)
 esp32_results = check_output(
     "./generate_table.awk < esp32.txt", shell=True, text=True)
-teensy32_results = check_output(
-    "./generate_table.awk < teensy32.txt", shell=True, text=True)
 
 print(f"""\
 # Memory Benchmark
@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v2.2.0
+**Version**: AceTime v2.2.3
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -238,6 +238,7 @@ ASCII table.
     * ExtendedZoneProcessor
         * No change for 1-2 zones.
         * Decreases flash consumption by ~300 bytes for full TZ database.
+
 **v2.2.0**
 * Upgrade tool chain
     * Arduino AVR from 1.8.5 to 1.8.6
@@ -245,8 +246,21 @@ ASCII table.
     * ESP8266 from 3.0.2 to 3.1.2 failed, reverted back to 3.0.2
     * ESP32 from 2.0.5 to 2.0.7
 * Add support for Seeed XIAO SAMD21
-    * Seeeduino 1.8.3
+    * Using Seeeduino SAMD Core 1.8.3
 * Upgrade to TZDB 2023b
+
+**v2.2.2**
+* Upgrade to TZDB 2023c
+
+**v2.2.3**
+* Add support for Adafruit ItsyBitsy M4
+    * Using Adafruit SAMD Core 1.7.11
+* Remove Teensy 3.2
+    * Nearing end of life. Moved to Tier 2 (should work).
+* Upgrade tool chain
+    * Seeeduino 1.8.4
+    * STM32duino 2.5.0
+    * ESP32 Boards 2.0.9
 
 # Legend
 
@@ -283,7 +297,7 @@ ASCII table.
 
 * SAMD21, 48 MHz ARM Cortex-M0+
 * Arduino IDE 1.8.19, Arduino CLI 0.31.1
-* Seeeduino SAMD Boards 1.8.3
+* Seeeduino SAMD Boards 1.8.4
 
 ```
 {samd21_results}
@@ -293,7 +307,7 @@ ASCII table.
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* STM32duino 2.4.0
+* STM32duino 2.5.0
 
 ```
 {stm32_results}
@@ -302,6 +316,15 @@ ASCII table.
 An entry of `-1` indicates that the memory usage exceeded the maximum of the
 microcontroller and the compiler did not generate the desired information.
 
+## SAMD51 (Adafruit ItsyBitsy M4)
+
+* SAMD51, 120 MHz ARM Cortex-M4
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Adafruit SAMD 1.7.11
+
+```
+{samd51_results}
+```
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
@@ -316,7 +339,7 @@ microcontroller and the compiler did not generate the desired information.
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* ESP32 Boards 2.0.7
+* ESP32 Boards 2.0.9
 
 ```
 {esp32_results}
@@ -325,15 +348,4 @@ microcontroller and the compiler did not generate the desired information.
 RAM usage remains constant as more objects are created, which indicates that an
 initial pool of a certain minimum size is created regardless of the actual RAM
 usage by objects.
-
-## Teensy 3.2
-
-* 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* Teensyduino 1.57
-* Compiler options: "Faster"
-
-```
-{teensy32_results}
-```
 """)
