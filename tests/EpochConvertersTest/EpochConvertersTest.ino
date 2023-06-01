@@ -94,6 +94,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 
   // On slow 8-bit processors, the test suite can take over 50 seconds.
   TestRunner::setTimeout(100);

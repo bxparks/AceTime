@@ -5,6 +5,7 @@
 
 #include "LocalDateTime.h"
 #include "OffsetDateTime.h"
+#include "TimeOffset.h"
 
 namespace ace_time {
 

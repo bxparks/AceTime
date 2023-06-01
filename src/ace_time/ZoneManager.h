@@ -10,6 +10,7 @@
 #include <AceSorting.h>
 #include "../zoneinfo/ZoneInfo.h"
 #include "ZoneRegistrar.h"
+#include "TimeOffset.h"
 #include "ZoneProcessorCache.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"

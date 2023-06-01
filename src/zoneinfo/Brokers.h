@@ -190,8 +190,8 @@ class ZoneRuleBroker {
       return pgm_read_byte(&mZoneRule->onDayOfMonth);
     }
 
-    uint16_t atTimeMinutes() const {
-      return timeCodeToMinutes(
+    uint32_t atTimeSeconds() const {
+      return 60 * timeCodeToMinutes(
           pgm_read_byte(&mZoneRule->atTimeCode),
           pgm_read_byte(&mZoneRule->atTimeModifier));
     }
@@ -200,8 +200,8 @@ class ZoneRuleBroker {
       return toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
-    int16_t deltaMinutes() const {
-      return toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
+    int32_t deltaSeconds() const {
+      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
     const char* letter() const {
@@ -291,14 +291,14 @@ class ZoneEraBroker {
           (const ZP*) pgm_read_ptr(&mZoneEra->zonePolicy));
     }
 
-    int16_t offsetMinutes() const {
-      return toOffsetMinutes(
+    int32_t offsetSeconds() const {
+      return 60 * toOffsetMinutes(
         pgm_read_byte(&mZoneEra->offsetCode),
         pgm_read_byte(&mZoneEra->deltaCode));
     }
 
-    int16_t deltaMinutes() const {
-      return toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
+    int32_t deltaSeconds() const {
+      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     const char* format() const {
@@ -317,8 +317,8 @@ class ZoneEraBroker {
       return pgm_read_byte(&mZoneEra->untilDay);
     }
 
-    uint16_t untilTimeMinutes() const {
-      return timeCodeToMinutes(
+    uint32_t untilTimeSeconds() const {
+      return 60 * timeCodeToMinutes(
         pgm_read_byte(&mZoneEra->untilTimeCode),
         pgm_read_byte(&mZoneEra->untilTimeModifier));
     }

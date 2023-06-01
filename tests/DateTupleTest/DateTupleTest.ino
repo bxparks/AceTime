@@ -55,30 +55,31 @@ test(DateTuple, normalizeDateTuple) {
   normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{2000, 1, 1, 0, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, 15*95, ZoneContext::kSuffixW}; // 23:45
+  dtp = {2000, 1, 1, (23*60+45)*60, ZoneContext::kSuffixW}; // 23:45
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{2000, 1, 1, 15*95, ZoneContext::kSuffixW}));
+  assertTrue((dtp
+      == DateTuple{2000, 1, 1, (23*60+45)*60, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, 15*96, ZoneContext::kSuffixW}; // 24:00
+  dtp = {2000, 1, 1, 24*60*60, ZoneContext::kSuffixW}; // 24:00
   normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{2000, 1, 2, 0, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, 15*97, ZoneContext::kSuffixW}; // 24:15
+  dtp = {2000, 1, 1, (24*60+15)*60, ZoneContext::kSuffixW}; // 24:15
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{2000, 1, 2, 15, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{2000, 1, 2, 15*60, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, -15*96, ZoneContext::kSuffixW}; // -24:00
+  dtp = {2000, 1, 1, -24*60*60, ZoneContext::kSuffixW}; // -24:00
   normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{1999, 12, 31, 0, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
+  dtp = {2000, 1, 1, -(24*60+15)*60, ZoneContext::kSuffixW}; // -24:15
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{1999, 12, 31, -15, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{1999, 12, 31, -15*60, ZoneContext::kSuffixW}));
 }
 
 test(DateTuple, substractDateTuple) {
   DateTuple dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
-  DateTuple dtb = {2000, 1, 1, 1, ZoneContext::kSuffixW}; // 2000-01-01 00:01
+  DateTuple dtb = {2000, 1, 1, 60, ZoneContext::kSuffixW}; // 2000-01-01 00:01
   acetime_t diff = subtractDateTuple(dta, dtb);
   assertEqual((acetime_t) -60, diff);
 
@@ -105,7 +106,7 @@ test(DateTuple, substractDateTuple) {
 // should be identical to the year 2000, in particular, the leap years.
 test(DateTuple, substractDateTuple_no_overflow) {
   DateTuple dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
-  DateTuple dtb = {6000, 1, 1, 1, ZoneContext::kSuffixW}; // 6000-01-01 00:01
+  DateTuple dtb = {6000, 1, 1, 60, ZoneContext::kSuffixW}; // 6000-01-01 00:01
   acetime_t diff = subtractDateTuple(dta, dtb);
   assertEqual((acetime_t) -60, diff);
 

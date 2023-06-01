@@ -9,6 +9,7 @@
 #include <AceCommon.h> // KString
 #include "../zoneinfo/ZoneInfo.h"
 #include "../zoneinfo/Brokers.h"
+#include "TimeOffset.h"
 
 class Print;
 
@@ -59,10 +60,10 @@ class BasicZone {
     }
 
     /** Return the STDOFF of the last ZoneEra. */
-    int16_t stdOffsetMinutes() const {
+    TimeOffset stdOffset() const {
       uint8_t numEras = mZoneInfoBroker.numEras();
       basic::ZoneEraBroker zeb = mZoneInfoBroker.era(numEras - 1);
-      return zeb.offsetMinutes();
+      return TimeOffset::forSeconds(zeb.offsetSeconds());
     }
 
     /** Return the name as a KString. */

@@ -7,7 +7,6 @@
 #define ACE_TIME_ZONE_PROCESSOR_CACHE_H
 
 #include "common/common.h"
-#include "TimeOffset.h"
 #include "OffsetDateTime.h"
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"

@@ -296,10 +296,10 @@ class TimeZone {
           }
           return ZonedExtra(
               ZonedExtra::kTypeExact,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
               abbrev);
 
         default: {
@@ -309,10 +309,10 @@ class TimeZone {
           }
           return ZonedExtra(
             result.type, // ZonedExtra::type is identical to FindResult::type
-            result.stdOffsetMinutes,
-            result.dstOffsetMinutes,
-            result.reqStdOffsetMinutes,
-            result.reqDstOffsetMinutes,
+            result.stdOffsetSeconds,
+            result.dstOffsetSeconds,
+            result.reqStdOffsetSeconds,
+            result.reqDstOffsetSeconds,
             result.abbrev);
         }
       }
@@ -334,10 +334,10 @@ class TimeZone {
           }
           return ZonedExtra(
               ZonedExtra::kTypeExact,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
               abbrev);
 
         default: {
@@ -348,10 +348,10 @@ class TimeZone {
           }
           return ZonedExtra(
             result.type, // ZonedExtra::type is identical to FindResult::type
-            result.stdOffsetMinutes,
-            result.dstOffsetMinutes,
-            result.reqStdOffsetMinutes,
-            result.reqDstOffsetMinutes,
+            result.stdOffsetSeconds,
+            result.dstOffsetSeconds,
+            result.reqStdOffsetSeconds,
+            result.reqDstOffsetSeconds,
             result.abbrev);
         }
       }
@@ -383,8 +383,8 @@ class TimeZone {
           }
 
           // Convert FindResult into OffsetDateTime using the requested offset.
-          TimeOffset reqOffset = TimeOffset::forMinutes(
-              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
+          TimeOffset reqOffset = TimeOffset::forSeconds(
+              result.reqStdOffsetSeconds + result.reqDstOffsetSeconds);
           odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, reqOffset);
           odt.fold(result.fold);
 
@@ -394,8 +394,8 @@ class TimeZone {
           // dstOffsetMinutes.
           if (result.type == FindResult::kTypeGap) {
             acetime_t epochSeconds = odt.toEpochSeconds();
-            TimeOffset targetOffset = TimeOffset::forMinutes(
-                result.stdOffsetMinutes + result.dstOffsetMinutes);
+            TimeOffset targetOffset = TimeOffset::forSeconds(
+                result.stdOffsetSeconds + result.dstOffsetSeconds);
             odt = OffsetDateTime::forEpochSeconds(epochSeconds, targetOffset);
           }
           break;
@@ -429,8 +429,8 @@ class TimeZone {
             break;
           }
 
-          TimeOffset offset = TimeOffset::forMinutes(
-              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
+          TimeOffset offset = TimeOffset::forSeconds(
+              result.reqStdOffsetSeconds + result.reqDstOffsetSeconds);
           odt = OffsetDateTime::forEpochSeconds(
               epochSeconds, offset, result.fold);
           break;

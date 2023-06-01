@@ -29,9 +29,9 @@ test(BasicBrokerTest, ZoneRuleBroker) {
   assertEqual(10, rule.inMonth());
   assertEqual(7, rule.onDayOfWeek());
   assertEqual(0, rule.onDayOfMonth());
-  assertEqual((uint16_t)120, rule.atTimeMinutes());
+  assertEqual((uint32_t)2*60*60, rule.atTimeSeconds());
   assertEqual(ZoneContext::kSuffixW, rule.atTimeSuffix());
-  assertEqual(0, rule.deltaMinutes());
+  assertEqual(0, rule.deltaSeconds());
   assertEqual((uint8_t)'S', rule.letter());
 }
 
@@ -45,13 +45,13 @@ test(BasicBrokerTest, ZoneEraBroker) {
   const basic::ZoneEra* eras = kZoneAmerica_Los_Angeles.eras;
   ZoneEraBroker era(&kZoneContext, &eras[0]);
   assertFalse(era.isNull());
-  assertEqual(-32 * 15, era.offsetMinutes());
-  assertEqual(0 * 15, era.deltaMinutes());
+  assertEqual(-8*60*60, era.offsetSeconds());
+  assertEqual(0, era.deltaSeconds());
   assertEqual("P%T", era.format());
   assertEqual(ZoneContext::kMaxUntilYear, era.untilYear());
   assertEqual((uint8_t)1, era.untilMonth());
   assertEqual((uint8_t)1, era.untilDay());
-  assertEqual((uint16_t)0, era.untilTimeMinutes());
+  assertEqual((uint32_t)0, era.untilTimeSeconds());
   assertEqual(ZoneContext::kSuffixW, era.untilTimeSuffix());
 
   const basic::ZoneEra* eras2 = kZoneAmerica_Los_Angeles.eras;
