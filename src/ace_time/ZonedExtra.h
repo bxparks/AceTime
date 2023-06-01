@@ -18,7 +18,8 @@ class LocalDateTime;
 
 class ZonedExtra {
   public:
-    static const int16_t kInvalidMinutes = INT16_MIN;
+    /** Size of char buffer needed to hold the largest abbreviation. */
+    static const uint8_t kAbbrevSize = internal::kAbbrevSize;
 
     /**
      * The epochSeconds or LocalDateTime was not found because it was outside
@@ -165,6 +166,8 @@ class ZonedExtra {
     const char* abbrev() const { return mAbbrev; }
 
   private:
+    static const int16_t kInvalidMinutes = INT16_MIN;
+
     int16_t mStdOffsetMinutes = kInvalidMinutes;
     int16_t mDstOffsetMinutes = kInvalidMinutes;
     int16_t mReqStdOffsetMinutes = kInvalidMinutes;

@@ -237,23 +237,6 @@ class TimeZone {
      */
     uint8_t getType() const { return mType; }
 
-    /**
-     * Reset the underlying ZoneProcessor if a ZoneProcessor is used. This is
-     * needed when the Epoch::currentEpochYear() changes and the current
-     * TimeZone object continues to be used.
-     */
-    void resetZoneProcessor() {
-      switch (mType) {
-        case kTypeError:
-        case kTypeReserved:
-        case kTypeManual:
-          break;
-
-        default:
-          return getBoundZoneProcessor()->resetTransitionCache();
-      }
-    }
-
     /** Return the Standard TimeOffset. Valid only for kTypeManual. */
     TimeOffset getStdOffset() const {
       return TimeOffset::forMinutes(mStdOffsetMinutes);

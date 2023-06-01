@@ -47,9 +47,41 @@ class ExtendedTransitionTest: public aunit::TestOnce {
       ExtendedZoneProcessor zoneProcessor;
       TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
 
+      assertNoFatalFailure(checkTestItems(
+          zoneProcessor, tz, testData->numTransitions, testData->transitions,
+          dstValidationScope, abbrevValidationScope));
+      assertNoFatalFailure(checkTestItems(
+          zoneProcessor, tz, testData->numSamples, testData->samples,
+          dstValidationScope, abbrevValidationScope));
+
+      // Assert that the TransitionStorage buffer size is exactly the buffer
+      // size calculated from zone_processor.py.
+      if (expectedBufSize) {
+        zoneProcessor.resetTransitionAllocSize();
+        // Include (startYear - 1) and (untilYear + 1) because the local year
+        // may shift slightly when converting from an epochSeconds.
+        for (
+            int y = testData->startYear - 1;
+            y < testData->untilYear + 1;
+            y++) {
+          zoneProcessor.initForYear(y);
+        }
+        uint8_t observedBufSize = zoneProcessor.getTransitionAllocSize();
+        assertLessOrEqual(observedBufSize, expectedBufSize);
+      }
+    }
+
+    void checkTestItems(
+        ExtendedZoneProcessor& zoneProcessor,
+        TimeZone& tz,
+        uint16_t numItems,
+        const ValidationItem* const items,
+        ValidationScope dstValidationScope,
+        ValidationScope abbrevValidationScope) {
+
       bool passed = true;
-      for (uint16_t i = 0; i < testData->numItems; i++) {
-        const ValidationItem& item = testData->items[i];
+      for (uint16_t i = 0; i < numItems; i++) {
+        const ValidationItem& item = items[i];
         acetime_t epochSeconds = item.epochSeconds;
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
 
@@ -91,22 +123,6 @@ class ExtendedTransitionTest: public aunit::TestOnce {
         }
       }
       assertTrue(passed);
-
-      // Assert that the TransitionStorage buffer size is exactly the buffer
-      // size calculated from zone_processor.py.
-      if (expectedBufSize) {
-        zoneProcessor.resetTransitionAllocSize();
-        // Include (startYear - 1) and (untilYear + 1) because the local year
-        // may shift slightly when converting from an epochSeconds.
-        for (
-            int y = testData->startYear - 1;
-            y < testData->untilYear + 1;
-            y++) {
-          zoneProcessor.initForYear(y);
-        }
-        uint8_t observedBufSize = zoneProcessor.getTransitionAllocSize();
-        assertLessOrEqual(observedBufSize, expectedBufSize);
-      }
     }
 
     void checkComponent(bool& passed, int i, const ValidationItem& item,

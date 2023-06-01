@@ -5,7 +5,7 @@
  * hh:mm:ss) into epoch seconds.
  *
  * The zones.txt file comes from
- * AceTimeValidation/ExtendedHinnantDate/zonedbxhd/zones.txt.
+ * AceTimeValidation/tests/HinnantExtendedTest/zonedbxhd/zones.txt.
  *
  * To compile the binary, type:
  *

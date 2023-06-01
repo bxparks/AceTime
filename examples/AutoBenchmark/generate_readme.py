@@ -14,12 +14,12 @@ samd21_results = check_output(
     "./generate_table.awk < samd21.txt", shell=True, text=True)
 stm32_results = check_output(
     "./generate_table.awk < stm32.txt", shell=True, text=True)
+samd51_results = check_output(
+    "./generate_table.awk < samd51.txt", shell=True, text=True)
 esp8266_results = check_output(
     "./generate_table.awk < esp8266.txt", shell=True, text=True)
 esp32_results = check_output(
     "./generate_table.awk < esp32.txt", shell=True, text=True)
-teensy32_results = check_output(
-    "./generate_table.awk < teensy32.txt", shell=True, text=True)
 
 print(f"""\
 # Auto Benchmark
@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v2.2.0
+**Version**: AceTime v2.2.3
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -210,6 +210,19 @@ The CPU times below are given in microseconds.
     * Seeeduino 1.8.3
 * Upgrade to TZDB 2023b
 
+**v2.2.2**
+* Upgrade to TZDB 2023c
+
+**v2.2.3**
+* Add support for Adafruit ItsyBitsy M4
+    * Using Adafruit SAMD Boards 1.7.11
+* Remove Teensy 3.2
+    * Nearing end of life. Moved to Tier 2 (should work).
+* Upgrade tool chain
+    * Seeeduino SAMD Boards 1.8.4
+    * STM32duino Boards 2.5.0
+    * ESP32 Boards 2.0.9
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
@@ -234,7 +247,7 @@ The CPU times below are given in microseconds.
 
 * SAMD21, 48 MHz ARM Cortex-M0+
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* Seeeduino 1.8.3
+* Seeeduino 1.8.4
 
 ```
 {samd21_results}
@@ -244,10 +257,20 @@ The CPU times below are given in microseconds.
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* STM32duino 2.4.0
+* STM32duino 2.5.0
 
 ```
 {stm32_results}
+```
+
+## Adafruit ItsyBitsy M4 SAMD51
+
+* SAMD51, 120 MHz ARM Cortex-M4
+* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Adafruit SAMD 1.7.11
+
+```
+{samd51_results}
 ```
 
 ## ESP8266
@@ -264,7 +287,7 @@ The CPU times below are given in microseconds.
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* ESP32 Boards 2.0.7
+* ESP32 Boards 2.0.9
 
 ```
 {esp32_results}
@@ -272,15 +295,4 @@ The CPU times below are given in microseconds.
 
 Note: Once the benchmark of the function under test becomes smaller than the
 duration of an empty loop, the numbers become unreliable.
-
-## Teensy 3.2
-
-* 96 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* Teensyduino 1.57
-* Compiler options: "Faster"
-
-```
-{teensy32_results}
-```
 """)

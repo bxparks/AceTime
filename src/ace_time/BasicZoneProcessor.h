@@ -325,7 +325,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYear = LocalDate::kInvalidYear;
-      mIsFilled = false;
       mNumTransitions = 0;
     }
 
@@ -337,6 +336,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     void log() const {
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("BasicZoneProcessor:\n");
+        logging::printf("  mEpochYear: %d\n", mEpochYear);
         logging::printf("  mYear: %d\n", mYear);
         logging::printf("  mNumTransitions: %d\n", mNumTransitions);
         for (int i = 0; i < mNumTransitions; i++) {
@@ -465,6 +465,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
 
       mYear = year;
+      mEpochYear = Epoch::currentEpochYear();
       mNumTransitions = 0; // clear cache
 
       if (year < mZoneInfoBroker.zoneContext()->startYear - 1
@@ -477,8 +478,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       addTransitionAfterYear(year, currentEra);
       calcTransitions();
       calcAbbreviations();
-
-      mIsFilled = true;
 
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         log();

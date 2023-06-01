@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.2.3</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -175,7 +175,7 @@ static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a>&#160;
 <tr class="memdesc:ab04f803683ec7c9ae5d4037efb297a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method using the number of seconds since the current epoch year given by <code>currentEpochYear()</code>.  <a href="classace__time_1_1LocalDate.html#ab04f803683ec7c9ae5d4037efb297a77">More...</a><br /></td></tr>
 <tr class="separator:ab04f803683ec7c9ae5d4037efb297a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21925fbcffdaaf85918aafcc4ee9547b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a21925fbcffdaaf85918aafcc4ee9547b">forUnixSeconds64</a> (int64_t unixSeconds)</td></tr>
-<tr class="memdesc:a21925fbcffdaaf85918aafcc4ee9547b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method that takes the 64-bit number of seconds since Unix <a class="el" href="classace__time_1_1Epoch.html" title="Utitliy functions for setting, retrieving, and converting the current epoch.">Epoch</a> of 1970-01-01.  <a href="classace__time_1_1LocalDate.html#a21925fbcffdaaf85918aafcc4ee9547b">More...</a><br /></td></tr>
+<tr class="memdesc:a21925fbcffdaaf85918aafcc4ee9547b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method that takes the 64-bit number of seconds since Unix <a class="el" href="classace__time_1_1Epoch.html" title="Utility functions for setting, retrieving, and converting the current epoch.">Epoch</a> of 1970-01-01.  <a href="classace__time_1_1LocalDate.html#a21925fbcffdaaf85918aafcc4ee9547b">More...</a><br /></td></tr>
 <tr class="separator:a21925fbcffdaaf85918aafcc4ee9547b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cb1f5070d7141136327b544560e8ebe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a1cb1f5070d7141136327b544560e8ebe">forDateString</a> (const char *dateString)</td></tr>
 <tr class="memdesc:a1cb1f5070d7141136327b544560e8ebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1LocalDate.html#a1cb1f5070d7141136327b544560e8ebe">More...</a><br /></td></tr>
@@ -577,7 +577,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Factory method that takes the 64-bit number of seconds since Unix <a class="el" href="classace__time_1_1Epoch.html" title="Utitliy functions for setting, retrieving, and converting the current epoch.">Epoch</a> of 1970-01-01. </p>
+<p>Factory method that takes the 64-bit number of seconds since Unix <a class="el" href="classace__time_1_1Epoch.html" title="Utility functions for setting, retrieving, and converting the current epoch.">Epoch</a> of 1970-01-01. </p>
 <p>Similar to <a class="el" href="classace__time_1_1LocalDate.html#ab04f803683ec7c9ae5d4037efb297a77" title="Factory method using the number of seconds since the current epoch year given by currentEpochYear().">forEpochSeconds()</a>, the seconds corresponding to the partial day are truncated down towards the smallest whole day. Valid over the entire range of year <code>[0,10000]</code> due to the use of <code>int64_t</code> operations. </p>
 
 <p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00227">227</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>

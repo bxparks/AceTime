@@ -14,14 +14,14 @@
 #define FEATURE_BASIC_TIME_ZONE2 5
 #define FEATURE_BASIC_ZONE_MANAGER_ONE 6
 #define FEATURE_BASIC_ZONE_MANAGER_ZONES 7
-#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS 8
+#define FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_LINKS 8
 #define FEATURE_BASIC_ZONE_SORTER_BY_NAME 9
 #define FEATURE_BASIC_ZONE_SORTER_BY_OFFSET_AND_NAME 10
 #define FEATURE_EXTENDED_TIME_ZONE 11
 #define FEATURE_EXTENDED_TIME_ZONE2 12
 #define FEATURE_EXTENDED_ZONE_MANAGER_ONE 13
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES 14
-#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS 15
+#define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_LINKS 15
 #define FEATURE_EXTENDED_ZONE_SORTER_BY_NAME 16
 #define FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME 17
 
@@ -79,7 +79,7 @@ volatile int16_t year = 2019;
       zonedb::kZoneRegistrySize,
       zonedb::kZoneRegistry,
       zoneProcessorCache);
-#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_LINKS
   BasicZoneProcessorCache<1> zoneProcessorCache;
   BasicZoneManager manager(
     zonedb::kZoneAndLinkRegistrySize,
@@ -145,7 +145,7 @@ volatile int16_t year = 2019;
       zonedbx::kZoneRegistrySize,
       zonedbx::kZoneRegistry,
       zoneProcessorCache);
-#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_LINKS
   ExtendedZoneProcessorCache<1> zoneProcessorCache;
   ExtendedZoneManager manager(
       zonedbx::kZoneAndLinkRegistrySize,
@@ -250,7 +250,7 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+#elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ZONES_AND_LINKS
   auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
@@ -290,7 +290,7 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_FAT_LINKS
+#elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_LINKS
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();

@@ -26,14 +26,15 @@ jobs:
     - name: Checkout Additional Repos
       run: |
         cd ..
-        git clone --depth 1 https://github.com/bxparks/EpoxyDuino
+        git clone --depth 1 https://github.com/HowardHinnant/date
         git clone --depth 1 https://github.com/bxparks/AUnit
         git clone --depth 1 https://github.com/bxparks/AceCommon
         git clone --depth 1 https://github.com/bxparks/AceSorting
         git clone --depth 1 https://github.com/bxparks/AceTimeTools
-        git clone --depth 1 https://github.com/bxparks/AceTimePython
         git clone --depth 1 https://github.com/bxparks/AceTimeValidation
-        git clone --depth 1 https://github.com/HowardHinnant/date
+        git clone --depth 1 https://github.com/bxparks/EpoxyDuino
+        git clone --depth 1 https://github.com/bxparks/acetimec
+        git clone --depth 1 https://github.com/bxparks/acetimepy
         git clone https://github.com/eggert/tz
 
     - name: Set up Python 3.7
@@ -49,23 +50,30 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r ../AceTimeTools/requirements.txt
         pip install -e ../AceTimeTools
-        pip install -r ../AceTimePython/requirements.txt
-        pip install -e ../AceTimePython
+        pip install -r ../acetimepy/requirements.txt
+        pip install -e ../acetimepy
 
     - name: Install libcurl4-openssl-dev
       run: |
         sudo apt update
         sudo apt install -y libcurl4-openssl-dev
 
-    # Run the validations from AceTimeValidations (BasicHinnantDateTest,
-    # ExtendedHinnantDateTest, BasicAcetzTest, ExtendedAcetzTest). We don't run
-    # the others because when a new TZDB version comes out, the Python
-    # zoneinfo, Python pytz, Python dateutil, and Java validation tests will
-    # fail because they depend on the obsolete TZ database on the host
-    # Operating System. The 'make validations' will also compile the binary in
+    - name: Build Compare tools
+      run: |
+        make -C ../acetimec/src
+        make -C ../AceTimeValidation/tools/compare_acetimec
+        make -C ../AceTimeValidation/tools/compare_libc
+        make -C ../AceTimeValidation/tools/compare_hinnant
+
+    # Run the tests in AceTimeValidations (HinnantBasicTest,
+    # HinnantExtendedTest, AcetzBasicTest, AcetzExtendedTest). We don't run the
+    # others because when a new TZDB version comes out, the Python zoneinfo,
+    # Python pytz, Python dateutil, and Java validation tests will fail because
+    # they depend on the obsolete TZ database on the host Operating System. The
+    # 'make validations' will also compile the binary in
     # AceTimeValidation/compare_cpp/ as necessary.
     - name: AceTimeValidation
       run: |
         cd ../AceTimeValidation
-        make validations
-        make runvalidations
+        make -C tests tests
+        make -C tests runtests

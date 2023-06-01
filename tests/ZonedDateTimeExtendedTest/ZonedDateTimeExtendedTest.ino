@@ -391,7 +391,7 @@ test(ZonedDateTimeExtendedTest, normalize) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
 
-  // Set the date/time to 2021-04-20T11:00:00, which happens to be in DST.
+  // Set the date/time to 2021-04-20T09:00:00, which happens to be in DST.
   dt.year(2021);
   dt.month(4);
   dt.day(20);
@@ -435,7 +435,6 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
   // Reconfigure the current epoch year to 2050 to allow calculations in the
   // year 2090.
   testing::EpochYearContext context(2050);
-  extendedZoneManager.resetZoneProcessors();
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &kZoneAfrica_Casablanca);
@@ -472,9 +471,6 @@ test(ZonedDateTimeExtendedTest, morocco_2090) {
   dt = ZonedDateTime::forComponents(2090, 1, 1, 1, 0, 0, tz);
   epochSeconds = dt.toEpochSeconds();
   assertEqual(epochSeconds, (int32_t) 14610 * 86400);
-
-  // Reset the transition caches of the zone processors.
-  extendedZoneManager.resetZoneProcessors();
 }
 
 // --------------------------------------------------------------------------
@@ -490,7 +486,6 @@ test(ZonedDateTimeExtendedTest, Pacific_Apia) {
   // Reconfigure the current epoch year to 2050 to allow calculations in the
   // year 2090.
   testing::EpochYearContext context(2050);
-  extendedZoneManager.resetZoneProcessors();
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(&kZonePacific_Apia);
 
@@ -579,9 +574,6 @@ test(ZonedDateTimeExtendedTest, Pacific_Apia) {
   assertEqual(0, dt.second());
   assertEqual(14*60, dt.timeOffset().toMinutes());
   assertEqual(0, dt.fold());
-
-  // Reset the transition caches of the zone processors.
-  extendedZoneManager.resetZoneProcessors();
 }
 
 // --------------------------------------------------------------------------

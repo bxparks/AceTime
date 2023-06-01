@@ -99,9 +99,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * each Zone is given by the kZoneBufSize{zoneName} constant in the
      * generated `zonedb[x]/zone_infos.h` file. The maximum over all zones is
      * given in the 'MaxBufSize' comment in the `zone_infos.h` file. Currently
-     * that overall maximum is 7, which has been verified by the
-     * ExtendedDateUtilTest, ExtendedJavaTest, and ExtendedAcetzTest validation
-     * tests. We set this to one more than 7 for safety.
+     * that overall maximum is 7, which has been verified by various tests (e.g.
+     * HinnantExtendedTest, DateUtilExtendedTest, JavaExtendedTest, and
+     * AcetzExtendedTest) in the AceTimeValidation project. We set this to one
+     * more than 7 for safety.
      */
     static const uint8_t kMaxTransitions = 8;
 
@@ -254,6 +255,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     void log() const {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("ExtendedZoneProcessor:\n");
+        logging::printf("  mEpochYear: %d\n", mEpochYear);
         logging::printf("  mYear: %d\n", mYear);
         logging::printf("  mNumMatches: %d\n", mNumMatches);
         for (int i = 0; i < mNumMatches; i++) {
@@ -281,7 +283,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
       mYear = LocalDate::kInvalidYear;
-      mIsFilled = false;
       mNumMatches = 0;
       resetTransitionAllocSize(); // clear the alloc size for new zone
     }
@@ -322,6 +323,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
 
       mYear = year;
+      mEpochYear = Epoch::currentEpochYear();
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
@@ -341,8 +343,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::YearMonthTuple untilYm =  { (int16_t) (year + 1), 2 };
 
       // Step 1. The equivalent steps for the Python version are in the
-      // AceTimePython project, under
-      // zone_processor.ZoneProcessor.init_for_year().
+      // acetimepy project, under zone_processor.ZoneProcessor.init_for_year().
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("==== Step 1: findMatches()\n");
       }
@@ -380,7 +381,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       calcAbbreviations(begin, end);
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) { log(); }
 
-      mIsFilled = true;
       return true;
     }
 

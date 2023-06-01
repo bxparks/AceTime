@@ -1,6 +1,46 @@
 # Changelog
 
 * Unreleased
+* 2.2.3 (2023-05-31, TZDB version 2023c)
+    * Update `ace_time/testing/*` classes to support splitting the test data
+      into 2 separate lists: `transitions` and `samples`.
+        * Required to support new `validation_data.json` from AceTimeValidation.
+    * Update `AceTimeValidation` test names to `tests/Xxx{Basic,Extended}Test`.
+    * Add `ZonedExtra::kAbbrevSize` to define the `char` buffer size needed to
+      hold an abbreviation.
+    * Change `ZonedExtra::kInvalidMinutes` from public to private.
+        * This is an implementation detail.
+        * Use `ZonedExtra::isError()` instead.
+    * Rename AceTimePython to acetimepy.
+    * ZoneProcessor transition cache
+        * Save the epoch year, and automatically invalidate and regenerate the
+          cache when the `Epoch::currentEpochYear()` is modified.
+        * Remove cache invalidation methods which are no longer needed:
+            * `ZoneProcessor::resetTransitionCache()`
+            * `ZoneProcessorCache::resetZoneProcessors()`
+            * `ZoneManager::resetZoneProcessors()`
+    * Rename "Converter Epoch" to "Internal Epoch".
+        * Change `daysToCurrentEpochFromConverterEpoch()` to
+          `daysToCurrentEpochFromInternalEpoch()`.
+        * This is an internal implementation detail, exposed only for testing
+          purposes.
+    * Update supported boards and tiers
+        * Add SAMD21 and SAMD51 boards to Tier 1
+            * Add Adafruit ItsyBitsy M4 (SAMD51 120MHz ARM Cortex-M4)
+            * SAMD21 and SAMD51 boards are back in Tier 1, as long as they use
+              the traditional Arduino API instead of the new
+              [Arduino-Core](https://github.com/arduino/ArduinoCore-api).
+            * Fortunately most third party SAMD21 and SAMD51 boards continue to
+              use the traditional Arduino API.
+        * Move Teensy 3.2 to Tier 2
+            * This board is entering end-of-life.
+            * As well, the Teensyduino environment integrates with the Arduino
+              IDE and CLI in a way that's different than all other third-party
+              Arduino boards. Some of my automation scripts do not work with
+              Teensyduino, so it becomes very time consuming to test the Teensy
+              boards.
+            * All Teensy boards are now in Tier 2 ("Should work but not tested
+              often").
 * 2.2.2 (2023-04-01, TZDB version 2023c)
     * Upgrade TZDB from 2023b to 2023c.
         * https://mm.icann.org/pipermail/tz-announce/2023-March/000079.html
@@ -387,7 +427,7 @@
         * All of these methods were intended for internal debugging so these
           changes are not considered to be an API change.
         * The semantics of these methods are now closer to the algorithm in
-          `AceTimePython/zone_processor.ZoneProcessor`.
+          `acetimepy/zone_processor.py`.
     * **Breaking Change**: Extract `BasicZoneProcessorCache` and
       `ExtendedZoneProcessorCache` out of `BasicZoneManager` and
       `ExtendedZoneManager`. Remove all pure `virtual` methods from
@@ -448,19 +488,19 @@
         * They are now considered to happen at the same time if any of the 'w'
           time, 's' time, or 'u' time are equal.
         * The behavior of `ExtendedZoneProcessor.h` should now be identical
-          to `zone_processor.py` in the `AceTimePython` library.
+          to `zone_processor.py` in the `acetimepy` library.
         * Seems to affect only `Europe/Lisbon` in 1992, which is not a part of
           the predefined `zonedb` or `zonedbx` database, which normally include
           only 2000 until 2050.
     * Testing
-        * Create [AceTimePython](https://github.com/bxparks/AceTimePython)
+        * Create [acetimepy](https://github.com/bxparks/acetimepy)
           library extracted from the previously split
           [AceTimeTools](https://github.com/bxparks/AceTimeTools) project.
         * Update `ace_time/testing/ExtendedTransitionTest.h` to validate
           the exact equality between the observed maximum buffer size of
           TransitionStorage as observed by `ExtendedZoneProcessor` and the
           buffer size calculated by AceTimeTools using `zone_processor.py` of
-          `AceTimePython` library.
+          `acetimepy` library.
         * Create `examples/DebugZoneProcessor` for debugging the internal logic
           of `ExtendedZoneProcessor`.
     * Tool Chain
@@ -543,12 +583,11 @@
         * Run the Noda Time `TzdbCompiler` manually to generate custom
           `tzdata$(TZ_VERSION).nzd` for the specific TZDB version specified in
           the Makefile.
-        * Add `tests/validation/BasicNodaTest` which matches AceTime completely
-          from year 2000 until 2050.
+        * Add `tests/validation/tests/NodaBasicTest` which matches AceTime
+          completely from year 2000 until 2050.
         * Add  `tests/validation/ExtendedNodaTest` which maches AceTime
           completely from year 1974 until 2050.
-        * Identical results to `BasicHinnantDateTest` and
-          `ExtendedHinnantDateTest`.
+        * Identical results to `HinnantBasicTest` and `HinnantExtendedTest`.
     * Add `ace_time::clock::Stm32F1Clock` and `ace_time::hw::Stm32F1Rtc`
         * Specialized classes for the STM32F1 chip, particularly the Blue Pill
           board, using the `LSE_CLOCK` (low speed external clock).
@@ -575,7 +614,7 @@
           but only 50-60 bytes on other 32-bit processors.
     * Finish a working implementation of `acetz.py`.
         * Includes support for `fold`.
-        * Create `BasicAcetzTest` and `ExtendedAcetzTest` and verify all zones
+        * Create `AcetzBasicTest` and `AcetzExtendedTest` and verify all zones
           validate.
     * Time zone short names are printed with spaces instead of underscore.
         * Various `printShortNameTo()` and `printShortTo()` methods now print
@@ -912,8 +951,8 @@
     * Upgrade to TZDB 2020c
       (https://mm.icann.org/pipermail/tz-announce/2020-October/000060.html)
         * "Fiji starts DST later than usual, on 2020-12-20."
-    * Restrict GitHub Actions workflow to run just BasicHinnantDateTest and
-      ExtendedHinnantDateTest, because the other Python and Java tests break
+    * Restrict GitHub Actions workflow to run just HinnantBasicTest and
+      HinnantExtendedTest, because the other Python and Java tests break
       every time a new TZDB version comes out.
     * Add `DEVELOPER.md` file containing notes mostly for myself.
 * 1.1 (2020-04-25, TZ DB version 2020a)

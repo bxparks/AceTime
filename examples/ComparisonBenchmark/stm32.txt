@@ -1,9 +1,9 @@
 BENCHMARKS
-EmptyLoop 0.900
-LocalDateTime::forEpochSeconds() 2.000
-breakTime() 25.600
+EmptyLoop 0.800
+LocalDateTime::forEpochSeconds() 3.000
+breakTime() 31.200
 LocalDateTime::toEpochSeconds() 1.900
-makeTime() 21.500
+makeTime() 22.600
 Iterations_per_run 10000
 Delta_seconds 47336
 END

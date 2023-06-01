@@ -193,14 +193,14 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual(
       (acetime_t) (39434400 /*relative to 2000*/
-          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),
       zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
   assertEqual(
       (acetime_t) (57574800 /*relative to 2000*/
-          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
@@ -243,14 +243,14 @@ test(BasicZoneProcessorTest, initForLocalDate) {
   assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
   assertEqual(
       (acetime_t) (574077600 /*relative to 2000*/
-          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),
       zoneProcessor.mTransitions[1].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
   assertEqual(
       (acetime_t) (594637200 /*relative to 2000*/
-          - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400),
+          - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
@@ -299,17 +299,18 @@ test(BasicZoneProcessorTest, createAbbreviation) {
 
 test(BasicZoneProcessorTest, setZoneKey) {
   BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
+  assertEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
   zoneProcessor.initForEpochSeconds(0);
-  assertTrue(zoneProcessor.mIsFilled);
+  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
 
   zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
-  assertFalse(zoneProcessor.mIsFilled);
+  assertEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
   zoneProcessor.initForEpochSeconds(0);
-  assertTrue(zoneProcessor.mIsFilled);
+  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
 
   // Check that the cache remains valid if the zoneInfo does not change
   zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
-  assertTrue(zoneProcessor.mIsFilled);
+  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
 }
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles

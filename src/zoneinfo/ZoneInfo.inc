@@ -123,7 +123,21 @@ struct ZoneInfo {
   /** ZoneContext metadata. */
   const internal::ZoneContext* const zoneContext;
 
-  /** Number of ZoneEra entries. Set to 0 if this Zone is a actually a Link. */
+  /**
+   * Number of ZoneEra entries.
+   *
+   * If this Zone is a actually a Link to a target Zone, the ZoneEra and
+   * numEras of the target Zone is placed here, and the targetInfo pointer
+   * below is set to the target ZoneInfo. This allows a Link entry to be
+   * self-contained, acting like any other Zone entry, which simplifies some of
+   * the code the ZoneProcessor because it does not need to traverse the link
+   * to find the required information. In essence, a Link is a "hard link" to a
+   * Zone.
+   *
+   * An alternative implementation is to set numEras to 0 for a Link, and
+   * traverse the targetInfo to find the required numEras and eras. This led to
+   * more complicated code.
+   */
   uint8_t const numEras;
 
   /**
@@ -132,6 +146,6 @@ struct ZoneInfo {
    */
   const ZoneEra* const eras;
 
-  /** If Link, points to the target zone info. If Zone, null. */
+  /** If Link, points to the target zone info. If Zone, nullptr. */
   const ZoneInfo* const targetInfo;
 };

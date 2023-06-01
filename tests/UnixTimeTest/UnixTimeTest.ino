@@ -60,11 +60,12 @@ test(UnixTimeTest, toEpochSeconds) {
   t.tm_year = 2018 - 1900; // year since 1900 (!)
 
 #if defined(AVR)
+  // AVR libc epoch year is 2000, which happens to be the same as the AceTime
+  // internal epoch.
   //time_t avrSeconds = mk_gmtime(&t);
   time_t avrSeconds = mktime(&t);
-  // AVR libc epoch year is 2000 which is the same as the AceTime base epoch
   acetime_t expected = avrSeconds
-      - Epoch::daysToCurrentEpochFromConverterEpoch() * 86400;
+      - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400;
   assertEqual(epochSeconds, expected);
 #elif defined(ESP8266) || defined(ESP32)
   time_t espSeconds = mktime(&t);
@@ -85,9 +86,10 @@ test(UnixTimeTest, forEpochSeconds) {
   // 2029-12-31 23:59:59Z Monday
   acetime_t epochSeconds = 10958 * (acetime_t) 86400 - 1;
 #if defined(AVR)
-  // AVR libc epoch year is 2000,  same as the converter epoch
+  // AVR libc epoch year is 2000, which happens to be the same as the AceTime
+  // internal epoch.
   time_t avrSeconds = (time_t) epochSeconds
-      + Epoch::daysToCurrentEpochFromConverterEpoch() * 86400;
+      + Epoch::daysToCurrentEpochFromInternalEpoch() * 86400;
   gmtime_r(&avrSeconds, &t);
 #elif defined(ESP8266) || defined(ESP32)
   time_t espSeconds = epochSeconds
