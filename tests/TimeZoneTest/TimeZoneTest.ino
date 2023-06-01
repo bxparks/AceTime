@@ -209,7 +209,7 @@ test(TimeZoneBasicTest, getZonedExtra) {
   ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(ldt);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -280,7 +280,7 @@ test(TimeZoneBasicTest, link) {
   ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(ldt);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());

@@ -511,10 +511,10 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual(0*60, result.reqDstOffsetMinutes);
   assertEqual("PST", result.abbrev);
 
-  // spring forward into the gap, but BasicZoneProcessor cannot detect it
+  // spring forward in the gap
   ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 1);
   result = zoneProcessor.findByLocalDateTime(ldt);
-  assertEqual((int)result.type, (int)FindResult::kTypeExact);
+  assertEqual((int)result.type, (int)FindResult::kTypeGap);
   assertEqual(-8*60, result.stdOffsetMinutes);
   assertEqual(1*60, result.dstOffsetMinutes);
   assertEqual(-8*60, result.reqStdOffsetMinutes);
