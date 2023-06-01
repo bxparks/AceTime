@@ -239,6 +239,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * since that seems to match closely to what most people would expect to
      * happen in a gap or overlap (e.g. In the gap of 2am->3am, a 2:30am would
      * get shifted to 3:30am.)
+     *
+     * This algorithm will detect a FindResult::kTypeGap, but it will not be
+     * able to distinguish between a kTypeExact and kTypeOverlap.
      */
     FindResult findByLocalDateTime(
         const LocalDateTime& ldt) const override {
@@ -270,20 +273,23 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           result2.reqStdOffsetMinutes + result2.reqDstOffsetMinutes);
 
       // If offset1 and offset2 are equal, then we have an equilibrium
-      // and odt(1) must equal odt(2), so we can just return the last odt.
+      // and odt(1) must equal odt(2).
       if (offset1 == offset2) {
-        // pass, pick any of result1 or result2
+        // I think this happens for kTypeExact or kTypeOverlap, but the current
+        // algorithm cannot distinguish between the two, so let's pretend that
+        // it is kTypeExact. Pick either of result1 or result2.
         result = result1;
       } else {
+        // If the offsets don't match, then I think we have a kTypeGap.
         // Pick the req{Std,Dst}OffsetMinute that generates the later
         // epochSeconds (the earlier transition), but convert into the
         // LocalDateTime of the earlier epochSeconds (the later transition).
-        // TODO: This does not produce the desired result inside a DST gap.
         if (epochSeconds1 > epochSeconds2) {
           result = result1;
         } else {
           result = result2;
         }
+        result.type = FindResult::kTypeGap;
       }
 
       return result;
