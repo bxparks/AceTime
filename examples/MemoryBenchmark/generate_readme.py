@@ -123,7 +123,7 @@ ASCII table.
   bytes of flash on 8-bit and 32-bit processors. But removing
   `originalTransitionTime` from `Transition` decreases flash usage by about 20
   bytes.
-* Upgrade ESP8266 Core from 2.7.4 to 3.0.2. Flash consumption increases by
+* Upgrade ESP8266 Boards from 2.7.4 to 3.0.2. Flash consumption increases by
   3-5 kB across the board.
 * Upgrade Teensyduino from 1.54 to 1.55. Add memory consumed by `malloc()` and
   `free()` when using classes with virtual methods into baseline
@@ -199,9 +199,9 @@ ASCII table.
 **v1.11.5**
 * Upgrade tool chain
     * Arduino CLI from 0.20.2 to 0.27.1
-    * Arduino AVR Core from 1.8.4 to 1.8.5
+    * Arduino AVR Boards from 1.8.4 to 1.8.5
     * STM32duino from 2.2.0 to 2.3.0
-    * ESP32 Core from 2.0.2 to 2.0.5
+    * ESP32 Boards from 2.0.2 to 2.0.5
     * Teensyduino from 1.56 to 1.57
 * Upgrade TZDB from 2022b to 2022d
 
@@ -246,7 +246,7 @@ ASCII table.
     * ESP8266 from 3.0.2 to 3.1.2 failed, reverted back to 3.0.2
     * ESP32 from 2.0.5 to 2.0.7
 * Add support for Seeed XIAO SAMD21
-    * Using Seeeduino SAMD Core 1.8.3
+    * Using Seeeduino SAMD Boards 1.8.3
 * Upgrade to TZDB 2023b
 
 **v2.2.2**
@@ -254,12 +254,12 @@ ASCII table.
 
 **v2.2.3**
 * Add support for Adafruit ItsyBitsy M4
-    * Using Adafruit SAMD Core 1.7.11
+    * Using Adafruit SAMD Boards 1.7.11
 * Remove Teensy 3.2
     * Nearing end of life. Moved to Tier 2 (should work).
 * Upgrade tool chain
-    * Seeeduino 1.8.4
-    * STM32duino 2.5.0
+    * Seeeduino SAMD Boards 1.8.4
+    * STM32duino Boards 2.5.0
     * ESP32 Boards 2.0.9
 
 # Legend

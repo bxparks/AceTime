@@ -65,7 +65,7 @@ The CPU times below are given in microseconds.
 
 * 16MHz ATmega328P
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* Arduino AVR Boards 1.8.4
+* Arduino AVR Boards 1.8.6
 
 ```
 Sizes of Objects:
@@ -117,7 +117,7 @@ Delta_seconds: 2000
 
 * SAMD21, 48 MHz ARM Cortex-M0+
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* Seeeduino 1.8.4
+* Seeeduino SAMD Boards 1.8.4
 
 ```
 Sizes of Objects:
@@ -169,7 +169,7 @@ Delta_seconds: 10000
 
 * SAMD51, 120 MHz ARM Cortex-M4
 * Arduino IDE 1.8.19, Arduino CLI 0.31.0
-* Adafruit SAMD 1.7.11
+* Adafruit SAMD Boards 1.7.11
 
 ```
 Sizes of Objects:

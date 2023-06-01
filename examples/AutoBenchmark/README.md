@@ -191,12 +191,12 @@ The CPU times below are given in microseconds.
 
 **v2.2.3**
 * Add support for Adafruit ItsyBitsy M4
-    * Using Adafruit SAMD Core 1.7.11
+    * Using Adafruit SAMD Boards 1.7.11
 * Remove Teensy 3.2
     * Nearing end of life. Moved to Tier 2 (should work).
 * Upgrade tool chain
-    * Seeeduino 1.8.4
-    * STM32duino 2.5.0
+    * Seeeduino SAMD Boards 1.8.4
+    * STM32duino Boards 2.5.0
     * ESP32 Boards 2.0.9
 
 ## Arduino Nano
