@@ -15,6 +15,12 @@
     * Update `BasicZoneManager` to detect gaps.
         * Allows `AceTimeValidation/validation` tests to pass.
         * Still not able to distinguish between exact and overlap though.
+    * Support timezones before 1972.
+        * Before standardizing on UTC, many timezones had local times that
+          differed from UTC by an amount requiring one-second precision instead
+          of one-minute precision.
+        * Change `TimeOffset` to support one-second resolution using `int32_t`
+          number of seconds internally.
 * 2.2.3 (2023-05-31, TZDB version 2023c)
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.
