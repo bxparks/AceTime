@@ -469,7 +469,9 @@ class ZoneRegistryBroker {
 //-----------------------------------------------------------------------------
 
 /**
- * A factory that creates an ZoneInfoBroker.
+ * A storage object that creates an ZoneInfoBroker from a key that identifies
+ * the ZoneInfo. The key can be a pointer to flash memory, or an integer into
+ * a list stored in a file.
  *
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo or extended::ZoneInfo)
  * @tparam ZE ZoneEra type (e.g. basic::ZoneEra or extended::ZoneEra)
@@ -477,7 +479,7 @@ class ZoneRegistryBroker {
  * @tparam ZR ZoneRule type (e.g. basic::ZoneRule or extended::ZoneRule)
  */
 template <typename ZI, typename ZE, typename ZP, typename ZR>
-class BrokerFactory {
+class ZoneInfoStore {
   public:
     /**
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
@@ -514,7 +516,7 @@ using ZoneInfoBroker = internal::ZoneInfoBroker<
  */
 using ZoneRegistryBroker = internal::ZoneRegistryBroker<ZoneInfo>;
 
-using BrokerFactory = internal::BrokerFactory<
+using ZoneInfoStore = internal::ZoneInfoStore<
     ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 } // basic
@@ -542,7 +544,7 @@ using ZoneInfoBroker = internal::ZoneInfoBroker<
  */
 using ZoneRegistryBroker = internal::ZoneRegistryBroker<ZoneInfo>;
 
-using BrokerFactory = internal::BrokerFactory<
+using ZoneInfoStore = internal::ZoneInfoStore<
     ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 } // extended

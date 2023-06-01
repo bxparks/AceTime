@@ -1,6 +1,9 @@
 # Changelog
 
 * Unreleased
+    * Rename `BrokerFactory` to `ZoneInfoStore` for better self-documentation.
+        * This is an internal implementation detail. Downstream clients should
+          not be affected.
 * 2.2.3 (2023-05-31, TZDB version 2023c)
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.

@@ -193,7 +193,7 @@ inline int8_t compareYearMonth(int16_t aYear, uint8_t aMonth,
  *
  * Not thread-safe.
  *
- * @tparam BF type of BrokerFactory, needed for implementations that require
+ * @tparam BF type of ZoneInfoStore, needed for implementations that require
  *    more complex brokers, and allows this template class to be independent
  *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
@@ -320,10 +320,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (! mBrokerFactory) return;
+      if (! mZoneInfoStore) return;
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
-      mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
+      mZoneInfoBroker = mZoneInfoStore->createZoneInfoBroker(zoneKey);
       mYear = LocalDate::kInvalidYear;
       mNumTransitions = 0;
     }
@@ -347,34 +347,34 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Set the broker factory at runtime. This is an advanced usage where the
-     * custom subclass of ExtendedZoneProcessorTemplate does not know its broker
-     * factory at compile time, so it must be set at runtime through this
+     * Set the zone info store at runtime. This is an advanced usage where the
+     * custom subclass of ExtendedZoneProcessorTemplate does not know its zone
+     * info store at compile time, so it must be set at runtime through this
      * method.
      */
-    void setBrokerFactory(const BF* brokerFactory) {
-      mBrokerFactory = brokerFactory;
+    void setZoneInfoStore(const BF* zoneInfoStore) {
+      mZoneInfoStore = zoneInfoStore;
     }
 
   protected:
 
     /**
-     * Constructor. When first initialized inside a cache, the brokerFactory may
+     * Constructor. When first initialized inside a cache, the zoneInfoStore may
      * be set to nullptr, and the zoneKey should be ignored.
      *
      * @param type indentifier for the specific subclass of ZoneProcessor (e.g.
      *    Basic versus Extended) mostly used for debugging
-     * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
+     * @param zoneInfoStore pointer to a ZoneInfoStore that creates a ZIB
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
      */
     explicit BasicZoneProcessorTemplate(
         uint8_t type,
-        const BF* brokerFactory /*nullable*/,
+        const BF* zoneInfoStore /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
-        mBrokerFactory(brokerFactory)
+        mZoneInfoStore(zoneInfoStore)
     {
       setZoneKey(zoneKey);
     }
@@ -971,7 +971,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
-    const BF* mBrokerFactory; // nullable
+    const BF* mZoneInfoStore; // nullable
     ZIB mZoneInfoBroker;
 
     mutable uint8_t mNumTransitions = 0;
@@ -983,7 +983,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class BasicZoneProcessor: public BasicZoneProcessorTemplate<
-    basic::BrokerFactory,
+    basic::ZoneInfoStore,
     basic::ZoneInfoBroker,
     basic::ZoneEraBroker,
     basic::ZonePolicyBroker,
@@ -995,16 +995,16 @@ class BasicZoneProcessor: public BasicZoneProcessorTemplate<
 
     explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr)
       : BasicZoneProcessorTemplate<
-          basic::BrokerFactory,
+          basic::ZoneInfoStore,
           basic::ZoneInfoBroker,
           basic::ZoneEraBroker,
           basic::ZonePolicyBroker,
           basic::ZoneRuleBroker>(
-              kTypeBasic, &mBrokerFactory, (uintptr_t) zoneInfo)
+              kTypeBasic, &mZoneInfoStore, (uintptr_t) zoneInfo)
     {}
 
   private:
-    basic::BrokerFactory mBrokerFactory;
+    basic::ZoneInfoStore mZoneInfoStore;
 };
 
 } // namespace ace_time
