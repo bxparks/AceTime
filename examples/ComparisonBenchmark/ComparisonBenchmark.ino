@@ -17,7 +17,7 @@
 
 void setup() {
 #if ! defined(EPOXY_DUINO)
-  delay(1000);
+  delay(2000); // ESP8266, ESP32 now needs 2000 instead of 1000
 #endif
 
   SERIAL_PORT_MONITOR.begin(115200);
