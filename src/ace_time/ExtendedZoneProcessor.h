@@ -10,7 +10,6 @@
 #include <string.h> // memcpy(), strncpy()
 #include <AceCommon.h> // copyReplaceString()
 #include "../zoneinfo/compat.h"
-#include "../zoneinfo/ZonePolicy.h"
 #include "../zoneinfo/ZoneInfo.h"
 #include "../zoneinfo/Brokers.h"
 #include "common/common.h" // kAbbrevSize

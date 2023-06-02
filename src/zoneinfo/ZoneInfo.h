@@ -8,7 +8,6 @@
 
 #include <stdint.h>
 #include "ZoneContext.h"
-#include "ZonePolicy.h"
 
 namespace ace_time {
 

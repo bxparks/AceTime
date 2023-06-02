@@ -4,6 +4,8 @@
     * Rename `BrokerFactory` to `ZoneInfoStore` for better self-documentation.
         * This is an internal implementation detail. Downstream clients should
           not be affected.
+    * Merge `zoneinfo/ZonePolicy.h` into `zoneinfo/ZoneInfo.h` for simplicity.
+        * Only a single header file describes the zone info database.
     * Update `BasicZoneManager` to detect gaps.
         * Allows `AceTimeValidation/validation` tests to pass.
         * Still not able to distinguish between exact and overlap though.
