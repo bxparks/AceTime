@@ -97,16 +97,16 @@ As explained in the README.md, the AceTime library comes with 2 versions of the
 * `src/zonedb/*`: files used by the `BasicZoneProcessor` class
 * `src/zonedbx/*`: files used by the `ExtendedZoneProcessor` class
 
-There are 2 main files in these directories:
+There are 3 main files in these directories:
 
 * `zone_infos.h', `zone_infos.cpp`
 * `zone_policies.h`, `zone_policies.cpp`
+* `zone_registry.h`, `zone_registry.cpp`
 
 The format and meaning of these files are probably best explained in the header
-files:
+file for those data files:
 
-* `src/ace_time/internal/ZoneInfo.h`
-* `src/ace_time/internal/ZonePolicy.h`
+* `src/zoneinfo/ZoneInfo.h`
 
 Some of the tricky encoding schemes were created to preserve resolution, while
 keeping the binary size of the data structures as small as possible. For

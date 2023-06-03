@@ -76,8 +76,8 @@ void setup() {
 
   // ace_time::basic and ace_time::extended classes
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(internal::ZoneContext): "));
-  SERIAL_PORT_MONITOR.println(sizeof(internal::ZoneContext));
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneContext));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneEra): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneEra));

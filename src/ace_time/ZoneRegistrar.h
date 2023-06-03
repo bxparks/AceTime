@@ -8,9 +8,8 @@
 
 #include <stdint.h>
 #include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
-#include "compat.h" // ACE_TIME_USE_PROGMEM
-#include "ZoneInfo.h"
-#include "Brokers.h"
+#include "../zoneinfo/ZoneInfo.h"
+#include "../zoneinfo/Brokers.h"
 
 // AutoBenchmark.ino
 void runIndexForZoneIdBinary();
@@ -92,8 +91,8 @@ class ZoneRegistrarTemplate {
       ZIB zoneInfoBroker(ZRGB(mZoneRegistry).zoneInfo(index));
       ace_common::KString kname(
         zoneInfoBroker.name(),
-        zoneInfoBroker.zoneContext()->fragments,
-        zoneInfoBroker.zoneContext()->numFragments
+        zoneInfoBroker.zoneContext().fragments(),
+        zoneInfoBroker.zoneContext().numFragments()
       );
       return (kname.compareTo(name) == 0) ? index : kInvalidIndex;
     }

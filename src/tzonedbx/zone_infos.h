@@ -86,7 +86,7 @@ namespace tzonedbx {
 extern const char kTzDatabaseVersion[];
 
 // Metadata about the zonedb files.
-extern const internal::ZoneContext kZoneContext;
+extern const extended::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 15

@@ -2260,7 +2260,7 @@ static RAM using the
 keyword on microcontrollers which support this feature.
 
 The following classes represent the various objects stored in `PROGMEM`, and are
-defined in the `zoneinfo/ZoneInfo.h` and `zoneinfo/ZonePolicy.h` files:
+defined in the `zoneinfo/ZoneInfo.h` header files:
 
 * `ZoneRule`
 * `ZonePolicy`: a collection of `ZoneRule`

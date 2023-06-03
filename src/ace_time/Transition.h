@@ -665,7 +665,7 @@ class TransitionStorageTemplate {
           ldt.month(),
           ldt.day(),
           (int16_t) (ldt.hour() * 60 + ldt.minute()),
-          internal::ZoneContext::kSuffixW,
+          extended::ZoneContext::kSuffixW,
       };
 
       // Examine adjacent pairs of Transitions, looking for an exact match, gap,

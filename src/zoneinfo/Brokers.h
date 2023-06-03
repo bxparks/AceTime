@@ -12,22 +12,13 @@
  * These classes provide a thin layer of indirection for accessing the
  * zoneinfo files stored in the zonedb/ and zonedbx/ directories.
  *
- * When ACE_TIME_USE_PROGMEM is enabled, the zoneinfo files are stored in flash
- * memory (using the PROGMEM keyword), and cannot be accessed directly on
- * microcontrollers using the Harvard architecture (e.g. AVR) where data and
- * program live in 2 different address spaces. The data in flash memory must be
- * accessed using helper routines in <pgmspace.h>. These classes abstract away
- * this difference so that the code BasicZoneProcessor and ExtendedZoneProcessor
- * can be written to be (mostly) agnostic to how the zoneinfo files are stored.
- *
- * When ACE_TIME_USE_PROGMEM is disabled, the compiler will optimize away this
- * entire abstraction layer, so the resulting machine code is no bigger than
- * (and in most cases, identical to) accessing the zoneinfo files directly.
- *
- * The abstraction layer is thin enough that the code in BasicZoneProcessor and
- * ExtendedZoneProcessor did not change very much. It was mostly a mechanical
- * source code replacement of direct zoneinfo access to using these data
- * brokers.
+ * The zoneinfo files are stored in flash memory (using the PROGMEM keyword),
+ * and cannot be accessed directly on microcontrollers using the Harvard
+ * architecture (e.g. AVR) where data and program live in 2 different address
+ * spaces. The data in flash memory must be accessed using helper routines in
+ * <pgmspace.h>. These classes abstract away this difference so that the code
+ * BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly)
+ * agnostic to how the zoneinfo files are stored.
  *
  * The brokers in the basic:: and extended:: namespaces are identical in code.
  * The purpose for having separate class hierarchies is to provide compile-time
@@ -39,7 +30,6 @@
 #include <AceCommon.h> // KString
 #include "compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
-#include "ZoneContext.h"
 #include "ZoneInfo.h"
 
 class __FlashStringHelper;
@@ -49,15 +39,75 @@ namespace ace_time {
 namespace internal {
 
 /**
+ * Data broker for accessing a ZoneContext. Currently, this assumes that the
+ * ZoneContext is in RAM. TODO: Move ZoneContext to PROGMEM for consistency.
+ *
+ * @tparam ZC the specific ZoneContext class
+ */
+template <typename ZC>
+class ZoneContextBroker {
+  public:
+    explicit ZoneContextBroker(const ZC* zoneContext = nullptr)
+        : mZoneContext(zoneContext)
+    {}
+
+    // use the default copy constructor
+    ZoneContextBroker(const ZoneContextBroker&) = default;
+
+    // use the default assignment operator
+    ZoneContextBroker& operator=(const ZoneContextBroker&) = default;
+
+    bool isNull() const { return mZoneContext == nullptr; }
+
+    const ZC* raw() const { return mZoneContext; }
+
+    int16_t startYear() const {
+      return mZoneContext->startYear;
+    }
+
+    int16_t untilYear() const {
+      return mZoneContext->untilYear;
+    }
+
+    int16_t maxTransitions() const {
+      return mZoneContext->maxTransitions;
+    }
+
+    const char* tzVersion() const {
+      return mZoneContext->onDayOfWeek;
+    }
+
+    uint8_t numFragments() const {
+      return mZoneContext->numFragments;
+    }
+
+    uint8_t numLetters() const {
+      return mZoneContext->numLetters;
+    }
+
+    const char* const* fragments() const {
+      return mZoneContext->fragments;
+    }
+
+    const char* letter(uint8_t i) const {
+      return mZoneContext->letters[i];
+    }
+
+  private:
+    const ZC* mZoneContext;
+};
+
+/**
  * Data broker for accessing ZoneRule.
  *
+ * @tparam ZC ZoneContext type
  * @tparam ZR ZoneRule type (e.g. basic::ZoneRule or extended::ZoneRule)
  */
-template <typename ZR>
+template <typename ZC, typename ZR>
 class ZoneRuleBroker {
   public:
     explicit ZoneRuleBroker(
-        const internal::ZoneContext* zoneContext = nullptr,
+        const ZC* zoneContext = nullptr,
         const ZR* zoneRule = nullptr)
         : mZoneContext(zoneContext)
         , mZoneRule(zoneRule)
@@ -70,8 +120,6 @@ class ZoneRuleBroker {
     ZoneRuleBroker& operator=(const ZoneRuleBroker&) = default;
 
     bool isNull() const { return mZoneRule == nullptr; }
-
-  #if ACE_TIME_USE_PROGMEM
 
     int16_t fromYear() const {
       return pgm_read_word(&mZoneRule->fromYear);
@@ -94,17 +142,17 @@ class ZoneRuleBroker {
     }
 
     uint16_t atTimeMinutes() const {
-      return internal::timeCodeToMinutes(
+      return timeCodeToMinutes(
           pgm_read_byte(&mZoneRule->atTimeCode),
           pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
     uint8_t atTimeSuffix() const {
-      return internal::toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
+      return toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
     int16_t deltaMinutes() const {
-      return internal::toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
+      return toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
     const char* letter() const {
@@ -112,54 +160,23 @@ class ZoneRuleBroker {
       return mZoneContext->letters[index];
     }
 
-  #else
-
-    int16_t fromYear() const { return mZoneRule->fromYear; }
-
-    int16_t toYear() const { return mZoneRule->toYear; }
-
-    uint8_t inMonth() const { return mZoneRule->inMonth; }
-
-    uint8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
-
-    int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
-
-    uint16_t atTimeMinutes() const {
-      return internal::timeCodeToMinutes(
-          mZoneRule->atTimeCode, mZoneRule->atTimeModifier);
-    }
-
-    uint8_t atTimeSuffix() const {
-      return internal::toSuffix(mZoneRule->atTimeModifier);
-    }
-
-    int16_t deltaMinutes() const {
-      return internal::toDeltaMinutes(mZoneRule->deltaCode);
-    }
-
-    const char* letter() const {
-      uint8_t index = mZoneRule->letterIndex;
-      return mZoneContext->letters[index];
-    }
-
-  #endif
-
   private:
-    const internal::ZoneContext* mZoneContext;
+    const ZC* mZoneContext;
     const ZR* mZoneRule;
 };
 
 /**
  * Data broker for accessing ZonePolicy.
  *
+ * @tparam ZC ZoneContext type
  * @tparam ZP ZonePolicy type (e.g. basic::ZonePolicy or extended::ZonePolicy)
  * @tparam ZR ZoneRule type (e.g. basic::ZoneRule or extended::ZoneRule)
  */
-template <typename ZP, typename ZR>
+template <typename ZC, typename ZP, typename ZR>
 class ZonePolicyBroker {
   public:
     explicit ZonePolicyBroker(
-        const internal::ZoneContext* zoneContext,
+        const ZC* zoneContext,
         const ZP* zonePolicy)
         : mZoneContext(zoneContext)
         , mZonePolicy(zonePolicy)
@@ -173,29 +190,17 @@ class ZonePolicyBroker {
 
     bool isNull() const { return mZonePolicy == nullptr; }
 
-  #if ACE_TIME_USE_PROGMEM
-
     uint8_t numRules() const {
       return pgm_read_byte(&mZonePolicy->numRules);
     }
 
-    const ZoneRuleBroker<ZR> rule(uint8_t i) const {
+    const ZoneRuleBroker<ZC, ZR> rule(uint8_t i) const {
       const ZR* rules = (const ZR*) pgm_read_ptr(&mZonePolicy->rules);
-      return ZoneRuleBroker<ZR>(mZoneContext, &rules[i]);
+      return ZoneRuleBroker<ZC, ZR>(mZoneContext, &rules[i]);
     }
-
-  #else
-
-    uint8_t numRules() const { return mZonePolicy->numRules; }
-
-    const ZoneRuleBroker<ZR> rule(uint8_t i) const {
-      return ZoneRuleBroker<ZR>(mZoneContext, &mZonePolicy->rules[i]);
-    }
-
-  #endif
 
   private:
-    const internal::ZoneContext* mZoneContext;
+    const ZC* mZoneContext;
     const ZP* mZonePolicy;
 };
 
@@ -204,15 +209,16 @@ class ZonePolicyBroker {
 /**
  * Data broker for accessing ZoneEra.
  *
+ * @tparam ZC ZoneContext
  * @tparam ZE ZoneEra type (e.g. basic::ZoneEra or extended::ZoneEra)
  * @tparam ZP ZonePolicy type (e.g. basic::ZonePolicy or extended::ZonePolicy)
  * @tparam ZR ZoneRule type (e.g. basic::ZoneRule or extended::ZoneRule)
  */
-template <typename ZE, typename ZP, typename ZR>
+template <typename ZC, typename ZE, typename ZP, typename ZR>
 class ZoneEraBroker {
   public:
     explicit ZoneEraBroker(
-        const internal::ZoneContext* zoneContext = nullptr,
+        const ZC* zoneContext = nullptr,
         const ZE* zoneEra = nullptr)
         : mZoneContext(zoneContext)
         , mZoneEra(zoneEra)
@@ -230,22 +236,20 @@ class ZoneEraBroker {
       return mZoneEra == other.mZoneEra;
     }
 
-  #if ACE_TIME_USE_PROGMEM
-
-    const ZonePolicyBroker<ZP, ZR> zonePolicy() const {
-      return ZonePolicyBroker<ZP, ZR>(
+    const ZonePolicyBroker<ZC, ZP, ZR> zonePolicy() const {
+      return ZonePolicyBroker<ZC, ZP, ZR>(
           mZoneContext,
           (const ZP*) pgm_read_ptr(&mZoneEra->zonePolicy));
     }
 
     int16_t offsetMinutes() const {
-      return internal::toOffsetMinutes(
+      return toOffsetMinutes(
         pgm_read_byte(&mZoneEra->offsetCode),
         pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     int16_t deltaMinutes() const {
-      return internal::toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
+      return toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     const char* format() const {
@@ -265,63 +269,30 @@ class ZoneEraBroker {
     }
 
     uint16_t untilTimeMinutes() const {
-      return internal::timeCodeToMinutes(
+      return timeCodeToMinutes(
         pgm_read_byte(&mZoneEra->untilTimeCode),
         pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
     uint8_t untilTimeSuffix() const {
-      return internal::toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
+      return toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
-
-  #else
-
-    const ZonePolicyBroker<ZP> zonePolicy() const {
-      return ZonePolicyBroker<ZP>(mZoneContext, mZoneEra->zonePolicy);
-    }
-
-    int16_t offsetMinutes() const {
-      return internal::toOffsetMinutes(
-          mZoneEra->offsetCode, mZoneEra->deltaCode);
-    }
-
-    int16_t deltaMinutes() const {
-      return internal::toDeltaMinutes(mZoneEra->deltaCode);
-    }
-
-    const char* format() const { return mZoneEra->format; }
-
-    int16_t untilYear() const { return mZoneEra->untilYear; }
-
-    uint8_t untilMonth() const { return mZoneEra->untilMonth; }
-
-    uint8_t untilDay() const { return mZoneEra->untilDay; }
-
-    uint16_t untilTimeMinutes() const {
-      return internal::timeCodeToMinutes(
-          mZoneEra->untilTimeCode, mZoneEra->untilTimeModifier);
-    }
-
-    uint8_t untilTimeSuffix() const {
-      return internal::toSuffix(mZoneEra->untilTimeModifier);
-    }
-
-  #endif
 
   private:
-    const internal::ZoneContext* mZoneContext;
+    const ZC* mZoneContext;
     const ZE* mZoneEra;
 };
 
 /**
  * Data broker for accessing ZoneInfo.
  *
+ * @tparam ZC ZoneContext type
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo or extended::ZoneInfo)
  * @tparam ZE ZoneEra type (e.g. basic::ZoneEra or extended::ZoneEra)
  * @tparam ZP ZonePolicy type (e.g. basic::ZonePolicy or extended::ZonePolicy)
  * @tparam ZR ZoneRule type (e.g. basic::ZoneRule or extended::ZoneRule)
  */
-template <typename ZI, typename ZE, typename ZP, typename ZR>
+template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 class ZoneInfoBroker {
   public:
     explicit ZoneInfoBroker(const ZI* zoneInfo = nullptr):
@@ -347,11 +318,9 @@ class ZoneInfoBroker {
 
     bool isNull() const { return mZoneInfo == nullptr; }
 
-  #if ACE_TIME_USE_PROGMEM
-
-    const internal::ZoneContext* zoneContext() const {
-      return (const internal::ZoneContext*)
-          pgm_read_ptr(&mZoneInfo->zoneContext);
+    const ZoneContextBroker<ZC> zoneContext() const {
+      const ZC* context = (const ZC*) pgm_read_ptr(&mZoneInfo->zoneContext);
+      return ZoneContextBroker<ZC>(context);
     }
 
     const __FlashStringHelper* name() const {
@@ -366,9 +335,9 @@ class ZoneInfoBroker {
       return pgm_read_byte(&mZoneInfo->numEras);
     }
 
-    const ZoneEraBroker<ZE, ZP, ZR> era(uint8_t i) const {
+    const ZoneEraBroker<ZC, ZE, ZP, ZR> era(uint8_t i) const {
       auto eras = (const ZE*) pgm_read_ptr(&mZoneInfo->eras);
-      return ZoneEraBroker<ZE, ZP, ZR>(zoneContext(), &eras[i]);
+      return ZoneEraBroker<ZC, ZE, ZP, ZR>(zoneContext().raw(), &eras[i]);
     }
 
     bool isLink() const {
@@ -379,28 +348,6 @@ class ZoneInfoBroker {
       return ZoneInfoBroker(
           (const ZI*) pgm_read_ptr(&mZoneInfo->targetInfo));
     }
-
-  #else
-
-    const internal::ZoneContext* zoneContext() const {
-      return mZoneInfo->zoneContext;
-    }
-
-    const char* name() const { return mZoneInfo->name; }
-
-    uint32_t zoneId() const { return mZoneInfo->zoneId; }
-
-    uint8_t numEras() const { return mZoneInfo->numEras; }
-
-    const ZoneEraBroker era(uint8_t i) const {
-      return ZoneEraBroker(zoneContext(), &mZoneInfo->eras[i]);
-    }
-
-    const ZoneInfoBroker targetInfo() const {
-      return ZoneInfoBroker(mZoneInfo->targetInfo);
-    }
-
-  #endif
 
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
     void printNameTo(Print& printer) const;
@@ -416,15 +363,16 @@ class ZoneInfoBroker {
 };
 
 
-template <typename ZI, typename ZE, typename ZP, typename ZR>
-void ZoneInfoBroker<ZI, ZE, ZP, ZR>::printNameTo(Print& printer) const {
-  const ZoneContext* zc = zoneContext();
-  ace_common::KString kname(name(), zc->fragments, zc->numFragments);
+template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
+void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printNameTo(Print& printer) const {
+  ZoneContextBroker<ZC> zc = zoneContext();
+  ace_common::KString kname(name(), zc.fragments(), zc.numFragments());
   kname.printTo(printer);
 }
 
-template <typename ZI, typename ZE, typename ZP, typename ZR>
-void ZoneInfoBroker<ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer) const {
+template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
+void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer)
+    const {
   ace_common::printReplaceCharTo(printer, findShortName(name()), '_', ' ');
 }
 
@@ -448,19 +396,9 @@ class ZoneRegistryBroker {
     // use default assignment operator
     ZoneRegistryBroker& operator=(const ZoneRegistryBroker&) = default;
 
-  #if ACE_TIME_USE_PROGMEM
-
     const ZI* zoneInfo(uint16_t i) const {
       return (const ZI*) pgm_read_ptr(&mZoneRegistry[i]);
     }
-
-  #else
-
-    const ZI* zoneInfo(uint16_t i) const {
-      return mZoneRegistry[i];
-    }
-
-  #endif
 
   private:
     const ZI* const* mZoneRegistry;
@@ -473,21 +411,22 @@ class ZoneRegistryBroker {
  * the ZoneInfo. The key can be a pointer to flash memory, or an integer into
  * a list stored in a file.
  *
+ * @tparam ZC ZoneContext type
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo or extended::ZoneInfo)
  * @tparam ZE ZoneEra type (e.g. basic::ZoneEra or extended::ZoneEra)
  * @tparam ZP ZonePolicy type (e.g. basic::ZonePolicy or extended::ZonePolicy)
  * @tparam ZR ZoneRule type (e.g. basic::ZoneRule or extended::ZoneRule)
  */
-template <typename ZI, typename ZE, typename ZP, typename ZR>
+template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 class ZoneInfoStore {
   public:
     /**
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
      */
-    ZoneInfoBroker<ZI, ZE, ZP, ZR>
+    ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>
     createZoneInfoBroker(uintptr_t zoneKey) const {
-      return ZoneInfoBroker<ZI, ZE, ZP, ZR>((const ZI*) zoneKey);
+      return ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>((const ZI*) zoneKey);
     }
 };
 
@@ -497,18 +436,23 @@ class ZoneInfoStore {
 
 namespace basic {
 
+/** Data broker for accessing ZoneContext. */
+using ZoneContextBroker = internal::ZoneContextBroker<ZoneContext>;
+
 /** Data broker for accessing ZoneRule. */
-using ZoneRuleBroker = internal::ZoneRuleBroker<ZoneRule>;
+using ZoneRuleBroker = internal::ZoneRuleBroker<ZoneContext, ZoneRule>;
 
 /** Data broker for accessing ZonePolicy. */
-using ZonePolicyBroker = internal::ZonePolicyBroker<ZonePolicy, ZoneRule>;
+using ZonePolicyBroker = internal::ZonePolicyBroker<
+    ZoneContext, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneEra. */
-using ZoneEraBroker = internal::ZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>;
+using ZoneEraBroker = internal::ZoneEraBroker<
+    ZoneContext, ZoneEra, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneInfo. */
 using ZoneInfoBroker = internal::ZoneInfoBroker<
-    ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
+    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 /**
  * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
@@ -516,8 +460,9 @@ using ZoneInfoBroker = internal::ZoneInfoBroker<
  */
 using ZoneRegistryBroker = internal::ZoneRegistryBroker<ZoneInfo>;
 
+/** Storage object that returns a ZoneInfoBroker from a ZoneInfo pointer. */
 using ZoneInfoStore = internal::ZoneInfoStore<
-    ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
+    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 } // basic
 
@@ -525,18 +470,23 @@ using ZoneInfoStore = internal::ZoneInfoStore<
 
 namespace extended {
 
+/** Data broker for accessing ZoneContext. */
+using ZoneContextBroker = internal::ZoneContextBroker<ZoneContext>;
+
 /** Data broker for accessing ZoneRule. */
-using ZoneRuleBroker = internal::ZoneRuleBroker<ZoneRule>;
+using ZoneRuleBroker = internal::ZoneRuleBroker<ZoneContext, ZoneRule>;
 
 /** Data broker for accessing ZonePolicy. */
-using ZonePolicyBroker = internal::ZonePolicyBroker<ZonePolicy, ZoneRule>;
+using ZonePolicyBroker = internal::ZonePolicyBroker<
+    ZoneContext, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneEra. */
-using ZoneEraBroker = internal::ZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>;
+using ZoneEraBroker = internal::ZoneEraBroker<
+    ZoneContext, ZoneEra, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneInfo. */
 using ZoneInfoBroker = internal::ZoneInfoBroker<
-    ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
+    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 /**
  * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
@@ -544,8 +494,9 @@ using ZoneInfoBroker = internal::ZoneInfoBroker<
  */
 using ZoneRegistryBroker = internal::ZoneRegistryBroker<ZoneInfo>;
 
+/** Storage object that returns a ZoneInfoBroker from a ZoneInfo pointer. */
 using ZoneInfoStore = internal::ZoneInfoStore<
-    ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
+    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 } // extended
 

@@ -69,9 +69,9 @@ class ExtendedZone {
     /** Return the name as a KString. */
     ace_common::KString kname() const {
       const auto* name = isNull() ? nullptr : mZoneInfoBroker.name();
-      const internal::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
+      extended::ZoneContextBroker zoneContext = mZoneInfoBroker.zoneContext();
       return ace_common::KString(
-          name, zoneContext->fragments, zoneContext->numFragments);
+          name, zoneContext.fragments(), zoneContext.numFragments());
     }
 
   private:

@@ -4,6 +4,14 @@
     * Rename `BrokerFactory` to `ZoneInfoStore` for better self-documentation.
         * This is an internal implementation detail. Downstream clients should
           not be affected.
+    * Simplify zoneinfo classes and related brokers.
+        * Merge `zoneinfo/ZonePolicy.h` into `zoneinfo/ZoneInfo.h`.
+        * Convert structs in `zoneinfo/ZoneInfo.inc` into templates, with
+          synthetic `typename S` selector. Merge `ZoneInfo.inc` into
+          `ZoneInfo.h`.
+        * Create `ZoneContextBroker` around `ZoneContext`, for consistency
+          with all other zoneinfo data structures. Merge `ZoneContext.h` into
+          `ZoneInfo.h`.
     * Update `BasicZoneManager` to detect gaps.
         * Allows `AceTimeValidation/validation` tests to pass.
         * Still not able to distinguish between exact and overlap though.
