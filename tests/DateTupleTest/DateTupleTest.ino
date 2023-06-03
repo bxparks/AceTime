@@ -9,7 +9,7 @@
 
 using namespace ace_time;
 using namespace ace_time::extended;
-using ace_time::internal::ZoneContext;
+using ace_time::extended::ZoneContext;
 
 test(DateTuple, dateTupleOperatorLessThan) {
   assertTrue((

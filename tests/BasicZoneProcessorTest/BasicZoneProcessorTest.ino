@@ -9,7 +9,7 @@
 
 using ace_common::PrintStr;
 using namespace ace_time;
-using ace_time::internal::ZoneContext;
+using ace_time::basic::ZoneContext;
 using ace_time::basic::compareYearMonth;
 using ace_time::basic::ZoneInfo;
 using ace_time::basic::ZoneEra;

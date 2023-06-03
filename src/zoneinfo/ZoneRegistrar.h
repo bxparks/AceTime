@@ -92,8 +92,8 @@ class ZoneRegistrarTemplate {
       ZIB zoneInfoBroker(ZRGB(mZoneRegistry).zoneInfo(index));
       ace_common::KString kname(
         zoneInfoBroker.name(),
-        zoneInfoBroker.zoneContext()->fragments,
-        zoneInfoBroker.zoneContext()->numFragments
+        zoneInfoBroker.zoneContext().fragments(),
+        zoneInfoBroker.zoneContext().numFragments()
       );
       return (kname.compareTo(name) == 0) ? index : kInvalidIndex;
     }

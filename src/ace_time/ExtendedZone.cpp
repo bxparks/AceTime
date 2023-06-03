@@ -11,7 +11,7 @@
 using ace_common::KString;
 using ace_common::printReplaceCharTo;
 using ace_time::internal::findShortName;
-using ace_time::internal::ZoneContext;
+using ace_time::extended::ZoneContextBroker;
 
 namespace ace_time {
 
@@ -19,8 +19,8 @@ namespace ace_time {
 
 void ExtendedZone::printNameTo(Print& printer) const {
   const __FlashStringHelper* name = mZoneInfoBroker.name();
-  const ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
-  KString kname(name, zoneContext->fragments, zoneContext->numFragments);
+  ZoneContextBroker zoneContext = mZoneInfoBroker.zoneContext();
+  KString kname(name, zoneContext.fragments(), zoneContext.numFragments());
   kname.printTo(printer);
 }
 
@@ -35,7 +35,7 @@ void ExtendedZone::printShortNameTo(Print& printer) const {
 void ExtendedZone::printNameTo(Print& printer) const {
   const char* name = mZoneInfoBroker.name();
   const ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
-  KString kname(name, zoneContext->fragments, zoneContext->numFragments);
+  KString kname(name, zoneContext.fragments(), zoneContext.numFragments());
   kname.printTo(printer);
 }
 

@@ -5,7 +5,7 @@
 #include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
-using ace_time::internal::ZoneContext;
+using ace_time::basic::ZoneContext;
 
 //---------------------------------------------------------------------------
 // LocalDate

@@ -473,8 +473,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mEpochYear = Epoch::currentEpochYear();
       mNumTransitions = 0; // clear cache
 
-      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
-          || mZoneInfoBroker.zoneContext()->untilYear < year) {
+      if (year < mZoneInfoBroker.zoneContext().startYear() - 1
+          || mZoneInfoBroker.zoneContext().untilYear() < year) {
         return false;
       }
 
@@ -864,9 +864,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      */
     static int16_t calcRuleOffsetMinutes(int16_t prevEffectiveOffsetMinutes,
         int16_t currentBaseOffsetMinutes, uint8_t atSuffix) {
-      if (atSuffix == internal::ZoneContext::kSuffixW) {
+      if (atSuffix == basic::ZoneContext::kSuffixW) {
         return prevEffectiveOffsetMinutes;
-      } else if (atSuffix == internal::ZoneContext::kSuffixS) {
+      } else if (atSuffix == basic::ZoneContext::kSuffixS) {
         return currentBaseOffsetMinutes;
       } else { // 'u', 'g' or 'z'
         return 0;

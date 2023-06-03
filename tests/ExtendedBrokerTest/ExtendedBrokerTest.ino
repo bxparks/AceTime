@@ -8,7 +8,7 @@
 #include <tzonedbx/zone_registry.h>
 
 using namespace ace_time;
-using ace_time::internal::ZoneContext;
+using ace_time::extended::ZoneContext;
 using ace_time::extended::ZoneInfoBroker;
 using ace_time::extended::ZoneEraBroker;
 using ace_time::extended::ZoneRuleBroker;
@@ -76,11 +76,11 @@ test(ExtendedBrokerTest, ZoneEraBroker) {
 
 test(ExtendedBrokerTest, ZoneInfoBroker) {
   ZoneInfoBroker info(&kZoneAmerica_Los_Angeles);
-  assertEqual(&kZoneContext, info.zoneContext());
+  assertEqual(&kZoneContext, info.zoneContext().raw());
   assertEqual("America/Los_Angeles", info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
-  assertEqual(1980, info.zoneContext()->startYear);
-  assertEqual(10000, info.zoneContext()->untilYear);
+  assertEqual(1980, info.zoneContext().startYear());
+  assertEqual(10000, info.zoneContext().untilYear());
   assertEqual(1, info.numEras());
 }
 

@@ -25,7 +25,6 @@
 #endif
 
 #include "zoneinfo/compat.h"
-#include "zoneinfo/ZoneContext.h"
 #include "zoneinfo/ZoneInfo.h"
 #include "zoneinfo/ZoneRegistrar.h"
 #include "ace_time/common/common.h"
