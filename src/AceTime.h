@@ -26,7 +26,6 @@
 
 #include "zoneinfo/compat.h"
 #include "zoneinfo/ZoneInfo.h"
-#include "zoneinfo/ZoneRegistrar.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/EpochConverterJulian.h"
@@ -44,6 +43,7 @@
 #include "ace_time/BasicZoneProcessor.h"
 #include "ace_time/ExtendedZoneProcessor.h"
 #include "ace_time/ZoneProcessorCache.h"
+#include "ace_time/ZoneRegistrar.h"
 #include "ace_time/ZoneManager.h"
 #include "ace_time/ZoneSorterByName.h"
 #include "ace_time/ZoneSorterByOffsetAndName.h"

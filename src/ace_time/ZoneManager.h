@@ -9,7 +9,7 @@
 #include <AceCommon.h>
 #include <AceSorting.h>
 #include "../zoneinfo/ZoneInfo.h"
-#include "../zoneinfo/ZoneRegistrar.h"
+#include "ZoneRegistrar.h"
 #include "ZoneProcessorCache.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
