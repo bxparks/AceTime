@@ -5,7 +5,7 @@
 #include <AceTime.h>
 
 using ace_time::internal::findShortName;
-using ace_time::internal::timeCodeToMinutes;
+using ace_time::zoneinfo::timeCodeToMinutes;
 
 test(timeCodeToMinutes) {
   uint8_t code = 1;

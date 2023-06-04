@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 namespace ace_time{
-namespace internal {
+namespace zoneinfo {
 
 /**
  * Metadata about the zone database. A ZoneInfo struct will contain a pointer
@@ -327,11 +327,11 @@ struct ZoneInfo {
 namespace basic {
 
 class Basic {};
-using ZoneContext = internal::ZoneContext<Basic>;
-using ZoneRule = internal::ZoneRule<Basic>;
-using ZonePolicy = internal::ZonePolicy<Basic>;
-using ZoneEra = internal::ZoneEra<Basic>;
-using ZoneInfo = internal::ZoneInfo<Basic, ZoneContext>;
+using ZoneContext = zoneinfo::ZoneContext<Basic>;
+using ZoneRule = zoneinfo::ZoneRule<Basic>;
+using ZonePolicy = zoneinfo::ZonePolicy<Basic>;
+using ZoneEra = zoneinfo::ZoneEra<Basic>;
+using ZoneInfo = zoneinfo::ZoneInfo<Basic, ZoneContext>;
 
 }
 
@@ -339,11 +339,11 @@ using ZoneInfo = internal::ZoneInfo<Basic, ZoneContext>;
 namespace extended {
 
 class Extended {};
-using ZoneContext = internal::ZoneContext<Extended>;
-using ZoneRule = internal::ZoneRule<Extended>;
-using ZonePolicy = internal::ZonePolicy<Extended>;
-using ZoneEra = internal::ZoneEra<Extended>;
-using ZoneInfo = internal::ZoneInfo<Extended, ZoneContext>;
+using ZoneContext = zoneinfo::ZoneContext<Extended>;
+using ZoneRule = zoneinfo::ZoneRule<Extended>;
+using ZonePolicy = zoneinfo::ZonePolicy<Extended>;
+using ZoneEra = zoneinfo::ZoneEra<Extended>;
+using ZoneInfo = zoneinfo::ZoneInfo<Extended, ZoneContext>;
 
 }
 

@@ -36,7 +36,54 @@ class __FlashStringHelper;
 class Print;
 
 namespace ace_time {
-namespace internal {
+namespace zoneinfo {
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Convert the `deltaCode` in the ZoneInfo or the ZoneRule struct to the actual
+ * deltaMinutes. The lower 4-bits stores minutes in units of 15-minutes, shifted
+ * by 1h, so can represent the interval [-01:00 to 02:45].
+ *
+ * @code
+ * deltaMinutes = deltaCode * 15m - 1h
+ * @endcode
+ */
+inline int16_t toDeltaMinutes(uint8_t deltaCode) {
+  return ((int16_t)(deltaCode & 0x0f) - 4) * 15;
+}
+
+/**
+ * Convert the `offsetCode` and `deltaCode` into a signed 16-bit integer that
+ * represents the UTCOFF of the ZoneEra in minutes. The `offsetCode` is rounded
+ * towards -infinity in 15-minute multiples. The upper 4-bits of `deltaCode`
+ * holds the (unsigned) remainder in one-minute increments.
+ */
+inline int16_t toOffsetMinutes(int8_t offsetCode, uint8_t deltaCode) {
+  return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
+}
+
+
+/**
+ * Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT
+ * time in ZoneRule in one minute resolution. The `code` parameter holds the AT
+ * or UNTIL time in minutes component in units of 15 minutes. The lower 4-bits
+ * of `modifier` holds the remainder minutes.
+ */
+inline uint16_t timeCodeToMinutes(uint8_t code, uint8_t modifier) {
+  return code * (uint16_t) 15 + (modifier & 0x0f);
+}
+
+/**
+ * Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can
+ * be compared against kSuffixW, kSuffixS and kSuffixU. Used for Zone.UNTIL and
+ * Rule.AT  fields.
+ */
+inline uint8_t toSuffix(uint8_t modifier) {
+  return modifier & 0xf0;
+}
+
+//-----------------------------------------------------------------------------
 
 /**
  * Data broker for accessing a ZoneContext. Currently, this assumes that the
@@ -96,6 +143,8 @@ class ZoneContextBroker {
   private:
     const ZC* mZoneContext;
 };
+
+//-----------------------------------------------------------------------------
 
 /**
  * Data broker for accessing ZoneRule.
@@ -373,7 +422,8 @@ void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printNameTo(Print& printer) const {
 template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer)
     const {
-  ace_common::printReplaceCharTo(printer, findShortName(name()), '_', ' ');
+  ace_common::printReplaceCharTo(
+      printer, internal::findShortName(name()), '_', ' ');
 }
 
 //-----------------------------------------------------------------------------
@@ -430,38 +480,38 @@ class ZoneInfoStore {
     }
 };
 
-} // internal
+} // zoneinfo
 
 //-----------------------------------------------------------------------------
 
 namespace basic {
 
 /** Data broker for accessing ZoneContext. */
-using ZoneContextBroker = internal::ZoneContextBroker<ZoneContext>;
+using ZoneContextBroker = zoneinfo::ZoneContextBroker<ZoneContext>;
 
 /** Data broker for accessing ZoneRule. */
-using ZoneRuleBroker = internal::ZoneRuleBroker<ZoneContext, ZoneRule>;
+using ZoneRuleBroker = zoneinfo::ZoneRuleBroker<ZoneContext, ZoneRule>;
 
 /** Data broker for accessing ZonePolicy. */
-using ZonePolicyBroker = internal::ZonePolicyBroker<
+using ZonePolicyBroker = zoneinfo::ZonePolicyBroker<
     ZoneContext, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneEra. */
-using ZoneEraBroker = internal::ZoneEraBroker<
+using ZoneEraBroker = zoneinfo::ZoneEraBroker<
     ZoneContext, ZoneEra, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneInfo. */
-using ZoneInfoBroker = internal::ZoneInfoBroker<
+using ZoneInfoBroker = zoneinfo::ZoneInfoBroker<
     ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 /**
  * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
  * array of (const ZoneInfo*) in the zone_registry.cpp file.
  */
-using ZoneRegistryBroker = internal::ZoneRegistryBroker<ZoneInfo>;
+using ZoneRegistryBroker = zoneinfo::ZoneRegistryBroker<ZoneInfo>;
 
 /** Storage object that returns a ZoneInfoBroker from a ZoneInfo pointer. */
-using ZoneInfoStore = internal::ZoneInfoStore<
+using ZoneInfoStore = zoneinfo::ZoneInfoStore<
     ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 } // basic
@@ -471,31 +521,31 @@ using ZoneInfoStore = internal::ZoneInfoStore<
 namespace extended {
 
 /** Data broker for accessing ZoneContext. */
-using ZoneContextBroker = internal::ZoneContextBroker<ZoneContext>;
+using ZoneContextBroker = zoneinfo::ZoneContextBroker<ZoneContext>;
 
 /** Data broker for accessing ZoneRule. */
-using ZoneRuleBroker = internal::ZoneRuleBroker<ZoneContext, ZoneRule>;
+using ZoneRuleBroker = zoneinfo::ZoneRuleBroker<ZoneContext, ZoneRule>;
 
 /** Data broker for accessing ZonePolicy. */
-using ZonePolicyBroker = internal::ZonePolicyBroker<
+using ZonePolicyBroker = zoneinfo::ZonePolicyBroker<
     ZoneContext, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneEra. */
-using ZoneEraBroker = internal::ZoneEraBroker<
+using ZoneEraBroker = zoneinfo::ZoneEraBroker<
     ZoneContext, ZoneEra, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneInfo. */
-using ZoneInfoBroker = internal::ZoneInfoBroker<
+using ZoneInfoBroker = zoneinfo::ZoneInfoBroker<
     ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 /**
  * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
  * array of (const ZoneInfo*) in the zone_registry.cpp file.
  */
-using ZoneRegistryBroker = internal::ZoneRegistryBroker<ZoneInfo>;
+using ZoneRegistryBroker = zoneinfo::ZoneRegistryBroker<ZoneInfo>;
 
 /** Storage object that returns a ZoneInfoBroker from a ZoneInfo pointer. */
-using ZoneInfoStore = internal::ZoneInfoStore<
+using ZoneInfoStore = zoneinfo::ZoneInfoStore<
     ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 } // extended
