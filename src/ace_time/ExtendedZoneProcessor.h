@@ -42,6 +42,7 @@ class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
 class ExtendedZoneProcessorTest_createAbbreviation;
 class ExtendedZoneProcessorTest_setZoneKey;
 class ExtendedTransitionValidation;
+class CompleteTransitionValidation;
 
 class Print;
 
@@ -425,6 +426,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneKey;
     friend class ::ExtendedTransitionValidation;
+    friend class ::CompleteTransitionValidation;
 
     // Disable copy constructor and assignment operator.
     ExtendedZoneProcessorTemplate(

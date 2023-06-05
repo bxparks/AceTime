@@ -1,33 +1,32 @@
-#line 2 "ExtendedTransitionValidationTest.ino"
+#line 2 "CompleteTransitionValidationTest.ino"
 
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <tzonedbx/zone_infos.h>
 
 using namespace ace_time;
 
 //----------------------------------------------------------------------------
 
-// This could go inside ExtendedTransitionValidation class, but it consumes a
+// This could go inside CompleteTransitionValidation class, but it consumes a
 // fair bit of memory, so let's extract it outside.
-ExtendedZoneProcessor zoneProcessor;
+CompleteZoneProcessor zoneProcessor;
 
 //----------------------------------------------------------------------------
 
 /**
  * Check that all Transitions for all years, for all zones in the
- * zonedbx database are:
+ * zonedbc database are:
  *  * sorted with respect to startEpochSeconds
  *  * unique with respect to startEpochSeconds
  *
- * This must use the real zonedbx database, not the tzonedbx database,
- * because we are validating every zone in the IANA TZ database.
+ * This must use the real zonedbc database, not the tzonedbc database, because
+ * we are validating every zone in the IANA TZ database.
  */
-class ExtendedTransitionValidation : public aunit::TestOnce {
+class CompleteTransitionValidation : public aunit::TestOnce {
   public:
-    void validateZone(const extended::ZoneInfo* zoneInfo) {
+    void validateZone(const complete::ZoneInfo* zoneInfo) {
       zoneProcessor.setZoneKey((uintptr_t) zoneInfo);
 
       // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100
@@ -36,8 +35,8 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
       // epoch year that is in the middle of each 100-year chunk.
     #if defined(EPOXY_DUINO)
       // On desktop machines, we can cover 2000 to year 10000.
-      for (int16_t startYear = zonedbx::kZoneContext.startYear;
-          startYear < zonedbx::kZoneContext.untilYear;
+      for (int16_t startYear = zonedbc::kZoneContext.startYear;
+          startYear < zonedbc::kZoneContext.untilYear;
           startYear += 100) {
     #else
       // On slow microcontrollers, let's check only 2000 to 2100.
@@ -47,7 +46,7 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
         int16_t epochYear = startYear + 50;
         int16_t untilYear = min(
             (int16_t) (epochYear + 50),
-            zonedbx::kZoneContext.untilYear);
+            zonedbc::kZoneContext.untilYear);
 
         testing::EpochYearContext context(epochYear);
         assertNoFatalFailure(validateZone(startYear, untilYear));
@@ -64,9 +63,9 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
           assertNoFatalFailure(failWithMessage(year, "initForYear() failed"));
         }
 
-        ExtendedZoneProcessor::Transition** start =
+        CompleteZoneProcessor::Transition** start =
             zoneProcessor.mTransitionStorage.getActivePoolBegin();
-        ExtendedZoneProcessor::Transition** end =
+        CompleteZoneProcessor::Transition** end =
             zoneProcessor.mTransitionStorage.getActivePoolEnd();
 
         // Verify at least one Transition is created for each zone.
@@ -82,14 +81,14 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
   private:
     void checkSortedTransitions(
         int16_t year,
-        ExtendedZoneProcessor::Transition** start,
-        ExtendedZoneProcessor::Transition** end) {
+        CompleteZoneProcessor::Transition** start,
+        CompleteZoneProcessor::Transition** end) {
 
-      ExtendedZoneProcessor::Transition* prev = nullptr;
-      for (ExtendedZoneProcessor::Transition** iter = start;
+      CompleteZoneProcessor::Transition* prev = nullptr;
+      for (CompleteZoneProcessor::Transition** iter = start;
           iter != end;
           iter++) {
-        ExtendedZoneProcessor::Transition* t = *iter;
+        CompleteZoneProcessor::Transition* t = *iter;
         if (prev) {
           if (prev->startEpochSeconds > t->startEpochSeconds) {
             assertNoFatalFailure(failWithMessage(
@@ -102,14 +101,14 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
 
     void checkUniqueTransitions(
         int16_t year,
-        ExtendedZoneProcessor::Transition** start,
-        ExtendedZoneProcessor::Transition** end) {
+        CompleteZoneProcessor::Transition** start,
+        CompleteZoneProcessor::Transition** end) {
 
-      ExtendedZoneProcessor::Transition* prev = nullptr;
-      for (ExtendedZoneProcessor::Transition** iter = start;
+      CompleteZoneProcessor::Transition* prev = nullptr;
+      for (CompleteZoneProcessor::Transition** iter = start;
           iter != end;
           iter++) {
-        ExtendedZoneProcessor::Transition* t = *iter;
+        CompleteZoneProcessor::Transition* t = *iter;
         if (prev) {
           if (prev->startEpochSeconds == t->startEpochSeconds) {
             assertNoFatalFailure(failWithMessage(
@@ -133,15 +132,15 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
 
 //----------------------------------------------------------------------------
 
-// Verify transitions for all zones in the zonedbx::kZoneRegistry.
-testF(ExtendedTransitionValidation, allZones) {
-  extended::ZoneRegistrar zoneRegistrar(
-      zonedbx::kZoneRegistrySize,
-      zonedbx::kZoneRegistry);
+// Verify transitions for all zones in the zonedbc::kZoneRegistry.
+testF(CompleteTransitionValidation, allZones) {
+  complete::ZoneRegistrar zoneRegistrar(
+      zonedbc::kZoneRegistrySize,
+      zonedbc::kZoneRegistry);
 
   SERIAL_PORT_MONITOR.print("Validating zones (one per dot): ");
-  for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
-    const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(i);
+  for (uint16_t i = 0; i < zonedbc::kZoneRegistrySize; i++) {
+    const complete::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(i);
     SERIAL_PORT_MONITOR.print(".");
     validateZone(zoneInfo);
   }
@@ -149,15 +148,15 @@ testF(ExtendedTransitionValidation, allZones) {
 }
 
 // Verify Transitions for Europe/Lisbon in 1992 using the
-// tzonedbx::kZoneEurope_Lisbon entry which contains entries from 1980 to 10000.
-// Lisbon in 1992 was the only combo where the previous ExtendedZoneProcessor
+// tzonedbc::kZoneEurope_Lisbon entry which contains entries from 1980 to 10000.
+// Lisbon in 1992 was the only combo where the previous CompleteZoneProcessor
 // algorithm failed, with a duplicate Transition.
 //
-// This uses the tzonedbx database, instead of the production zonedbx database,
-// because we need to test year 1992 and the production zonedbx starts at year
-// 2000.
-testF(ExtendedTransitionValidation, lisbon1992) {
-  assertNoFatalFailure(validateZone(&tzonedbx::kZoneEurope_Lisbon));
+// This uses the testing/tzonedbc database, instead of the production zonedbc
+// database, because we need to test year 1992 and the production zonedbc starts
+// at year 2000.
+testF(CompleteTransitionValidation, lisbon1992) {
+  assertNoFatalFailure(validateZone(&zonedbc::kZoneEurope_Lisbon));
 }
 
 //----------------------------------------------------------------------------
