@@ -31,9 +31,6 @@ class ExtendedZoneProcessorTest_findCandidateTransitions;
 class ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
 class ExtendedZoneProcessorTest_getTransitionTime;
 class ExtendedZoneProcessorTest_createTransitionForYear;
-class ExtendedZoneProcessorTest_normalizeDateTuple;
-class ExtendedZoneProcessorTest_expandDateTuple;
-class ExtendedZoneProcessorTest_expandDateTuple_largeOffset;
 class ExtendedZoneProcessorTest_calcInteriorYears;
 class ExtendedZoneProcessorTest_getMostRecentPriorYear;
 class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
@@ -416,9 +413,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
     friend class ::ExtendedZoneProcessorTest_getTransitionTime;
     friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
-    friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
-    friend class ::ExtendedZoneProcessorTest_expandDateTuple;
-    friend class ::ExtendedZoneProcessorTest_expandDateTuple_largeOffset;
     friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
     friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
@@ -933,52 +927,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         Transition::printTransitions("  ", begin, end);
         logging::printf("fixTransitionTimes(): END\n");
       }
-    }
-
-    /**
-     * Convert the given 'tt', offsetSeconds, and deltaSeconds into the 'w', 's'
-     * and 'u' versions of the DateTuple. It is allowed for 'ttw' to be an alias
-     * of 'tt'.
-     */
-    static void expandDateTuple(
-        const extended::DateTuple* tt,
-        int32_t offsetSeconds,
-        int32_t deltaSeconds,
-        extended::DateTuple* ttw,
-        extended::DateTuple* tts,
-        extended::DateTuple* ttu) {
-
-      if (tt->suffix == extended::ZoneContext::kSuffixS) {
-        *tts = *tt;
-        *ttu = {tt->year, tt->month, tt->day,
-            tt->seconds - offsetSeconds,
-            extended::ZoneContext::kSuffixU};
-        *ttw = {tt->year, tt->month, tt->day,
-            tt->seconds + deltaSeconds,
-            extended::ZoneContext::kSuffixW};
-      } else if (tt->suffix == extended::ZoneContext::kSuffixU) {
-        *ttu = *tt;
-        *tts = {tt->year, tt->month, tt->day,
-            tt->seconds + offsetSeconds,
-            extended::ZoneContext::kSuffixS};
-        *ttw = {tt->year, tt->month, tt->day,
-            tt->seconds + (offsetSeconds + deltaSeconds),
-            extended::ZoneContext::kSuffixW};
-      } else {
-        // Explicit set the suffix to 'w' in case it was something else.
-        *ttw = *tt;
-        ttw->suffix = extended::ZoneContext::kSuffixW;
-        *tts = {tt->year, tt->month, tt->day,
-            tt->seconds - deltaSeconds,
-            extended::ZoneContext::kSuffixS};
-        *ttu = {tt->year, tt->month, tt->day,
-            tt->seconds - (deltaSeconds + offsetSeconds),
-            extended::ZoneContext::kSuffixU};
-      }
-
-      extended::normalizeDateTuple(ttw);
-      extended::normalizeDateTuple(tts);
-      extended::normalizeDateTuple(ttu);
     }
 
     /**

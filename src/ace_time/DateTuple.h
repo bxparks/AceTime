@@ -131,6 +131,52 @@ inline void normalizeDateTuple(DateTuple* dt) {
 }
 
 /**
+  * Convert the given 'tt', offsetSeconds, and deltaSeconds into the 'w', 's'
+  * and 'u' versions of the DateTuple. It is allowed for 'ttw' to be an alias
+  * of 'tt'.
+  */
+inline void expandDateTuple(
+    const DateTuple* tt,
+    int32_t offsetSeconds,
+    int32_t deltaSeconds,
+    DateTuple* ttw,
+    DateTuple* tts,
+    DateTuple* ttu) {
+
+  if (tt->suffix == ZoneContext::kSuffixS) {
+    *tts = *tt;
+    *ttu = {tt->year, tt->month, tt->day,
+        tt->seconds - offsetSeconds,
+        ZoneContext::kSuffixU};
+    *ttw = {tt->year, tt->month, tt->day,
+        tt->seconds + deltaSeconds,
+        ZoneContext::kSuffixW};
+  } else if (tt->suffix == ZoneContext::kSuffixU) {
+    *ttu = *tt;
+    *tts = {tt->year, tt->month, tt->day,
+        tt->seconds + offsetSeconds,
+        ZoneContext::kSuffixS};
+    *ttw = {tt->year, tt->month, tt->day,
+        tt->seconds + (offsetSeconds + deltaSeconds),
+        ZoneContext::kSuffixW};
+  } else {
+    // Explicit set the suffix to 'w' in case it was something else.
+    *ttw = *tt;
+    ttw->suffix = ZoneContext::kSuffixW;
+    *tts = {tt->year, tt->month, tt->day,
+        tt->seconds - deltaSeconds,
+        ZoneContext::kSuffixS};
+    *ttu = {tt->year, tt->month, tt->day,
+        tt->seconds - (deltaSeconds + offsetSeconds),
+        ZoneContext::kSuffixU};
+  }
+
+  normalizeDateTuple(ttw);
+  normalizeDateTuple(tts);
+  normalizeDateTuple(ttu);
+}
+
+/**
  * Return the number of seconds in (a - b), ignoring suffix. This function is
  * valid for all years [1, 10000), regardless of the Epoch::currentEpochYear(),
  * as long as the difference between the two DateTuples fits inside an
