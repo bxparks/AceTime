@@ -11,6 +11,7 @@
 #include "ZoneProcessor.h"
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"
+#include "CompleteZoneProcessor.h"
 #include "TimeZoneData.h"
 #include "ZonedExtra.h"
 
@@ -192,6 +193,25 @@ class TimeZone {
     static TimeZone forZoneInfo(
         const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor
+    ) {
+      return TimeZone(
+          zoneProcessor->getType(),
+          (uintptr_t) zoneInfo,
+          zoneProcessor
+      );
+    }
+
+    /**
+     * Convenience factory method to create from a zoneInfo and an associated
+     * ExtendedZoneProcessor. The ZoneInfo previously associated with the
+     * given zoneProcessor is overridden.
+     *
+     * @param zoneInfo an extended::ZoneInfo that identifies the zone
+     * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
+     */
+    static TimeZone forZoneInfo(
+        const complete::ZoneInfo* zoneInfo,
+        CompleteZoneProcessor* zoneProcessor
     ) {
       return TimeZone(
           zoneProcessor->getType(),

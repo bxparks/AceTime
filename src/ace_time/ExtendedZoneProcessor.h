@@ -1265,10 +1265,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     mutable TransitionStorage mTransitionStorage;
 };
 
-
 /**
- * A specific implementation of ExtendedZoneProcessorTemplate that uses
- * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
+ * A specific implementation of ExtendedZoneProcessorTemplate that uses the
+ * extended::ZoneXxxBrokers classes which read from 'zonedbx' files in PROGMEM
+ * flash memory.
  */
 class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
     extended::ZoneInfoStore,
