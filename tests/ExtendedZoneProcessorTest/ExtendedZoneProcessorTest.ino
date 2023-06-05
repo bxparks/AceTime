@@ -456,6 +456,54 @@ test(ExtendedZoneProcessorTest, expandDateTuple) {
   assertTrue((ttu == DateTuple{2000, 1, 30, 1*60*60, ZoneContext::kSuffixU}));
 }
 
+// Validate fix for bug that performed a cast to (int16_t) minutes, instead of
+// (int32_t) seconds.
+test(ExtendedZoneProcessorTest, expandDateTuple_largeOffset) {
+  DateTuple ttw;
+  DateTuple tts;
+  DateTuple ttu;
+
+  int32_t offsetSeconds = 23*60*60; // 82800
+  int32_t deltaSeconds = 23*60*60; // 82800
+  DateTuple tt = {2000, 1, 30, 23*60*60, ZoneContext::kSuffixS}; // 23:00s
+  ExtendedZoneProcessor::expandDateTuple(
+      &tt, offsetSeconds, deltaSeconds,
+      &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, 22*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 30, 23*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 30, 0*60*60, ZoneContext::kSuffixU}));
+
+  offsetSeconds = -23*60*60; // 82800
+  deltaSeconds = -23*60*60; // 7200
+  tt = {2000, 1, 31, 1*60*60, ZoneContext::kSuffixS}; // 01:00s
+  ExtendedZoneProcessor::expandDateTuple(
+      &tt, offsetSeconds, deltaSeconds,
+      &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, -22*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 31, 1*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 2, 1, 0*60*60, ZoneContext::kSuffixU}));
+
+  offsetSeconds = 23*60*60; // 82800
+  deltaSeconds = 1*60*60; // 82800
+  tt = {2000, 1, 30, 23*60*60, ZoneContext::kSuffixU}; // 23:00u
+  ExtendedZoneProcessor::expandDateTuple(
+      &tt, offsetSeconds, deltaSeconds,
+      &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, 23*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 31, 22*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 30, 23*60*60, ZoneContext::kSuffixU}));
+
+  offsetSeconds = -23*60*60; // 82800
+  deltaSeconds = -1*60*60; // 7200
+  tt = {2000, 1, 31, 1*60*60, ZoneContext::kSuffixU}; // 01:00u
+  ExtendedZoneProcessor::expandDateTuple(
+      &tt, offsetSeconds, deltaSeconds,
+      &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, -23*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 31, -22*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 31, 1*60*60, ZoneContext::kSuffixU}));
+}
+
 //---------------------------------------------------------------------------
 // Step 2B: Pass 3
 //---------------------------------------------------------------------------

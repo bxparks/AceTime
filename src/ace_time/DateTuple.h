@@ -99,7 +99,16 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
       && a.suffix == b.suffix;
 }
 
-/** Normalize DateTuple::seconds if its magnitude is more than 24 hours. */
+/**
+ * Normalize DateTuple::seconds if abs(seconds) >= 24 hours. In other words,
+ * we want `-24h < seconds < 24h`, and small negative seconds are allowed.
+ *
+ * For reasons that I don't fully remember, if the `seconds` field is normalized
+ * to enforce `0 <= seconds < 24h`, then the ExtendedZoneProcessor algorithm no
+ * longe works. I think it has something to do with the DateTuple class
+ * representing dates with a `+/-hh:mm` UTC offset, which means that it needs to
+ * accept negative seconds.
+ */
 inline void normalizeDateTuple(DateTuple* dt) {
   const int32_t kOneDayAsSeconds = int32_t(60) * 60 * 24;
   if (dt->seconds <= -kOneDayAsSeconds) {

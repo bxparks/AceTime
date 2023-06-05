@@ -33,6 +33,7 @@ class ExtendedZoneProcessorTest_getTransitionTime;
 class ExtendedZoneProcessorTest_createTransitionForYear;
 class ExtendedZoneProcessorTest_normalizeDateTuple;
 class ExtendedZoneProcessorTest_expandDateTuple;
+class ExtendedZoneProcessorTest_expandDateTuple_largeOffset;
 class ExtendedZoneProcessorTest_calcInteriorYears;
 class ExtendedZoneProcessorTest_getMostRecentPriorYear;
 class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
@@ -417,6 +418,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
     friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
     friend class ::ExtendedZoneProcessorTest_expandDateTuple;
+    friend class ::ExtendedZoneProcessorTest_expandDateTuple_largeOffset;
     friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
     friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
@@ -949,15 +951,15 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (tt->suffix == extended::ZoneContext::kSuffixS) {
         *tts = *tt;
         *ttu = {tt->year, tt->month, tt->day,
-            (tt->seconds - offsetSeconds),
+            tt->seconds - offsetSeconds,
             extended::ZoneContext::kSuffixU};
         *ttw = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->seconds + deltaSeconds),
+            tt->seconds + deltaSeconds,
             extended::ZoneContext::kSuffixW};
       } else if (tt->suffix == extended::ZoneContext::kSuffixU) {
         *ttu = *tt;
         *tts = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->seconds + offsetSeconds),
+            tt->seconds + offsetSeconds,
             extended::ZoneContext::kSuffixS};
         *ttw = {tt->year, tt->month, tt->day,
             tt->seconds + (offsetSeconds + deltaSeconds),
