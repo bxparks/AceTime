@@ -2,10 +2,9 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <tzonedb/zone_policies.h>
 #include <tzonedb/zone_infos.h>
-#include <tzonedbx/zone_policies.h>
 #include <tzonedbx/zone_infos.h>
+#include <tzonedbc/zone_infos.h>
 
 using namespace ace_time;
 
@@ -54,6 +53,30 @@ test(ExtendedZoneProcessorCacheTest, getZoneProcessor) {
   // The 3rd unique ZoneInfo reuses zpec1
   ZoneProcessor* zoneProcessor4 = cache.getZoneProcessor(
       (uintptr_t) &tzonedbx::kZoneAmerica_Denver);
+  assertEqual(zoneProcessor1, zoneProcessor4);
+}
+
+//---------------------------------------------------------------------------
+// CompleteZoneProcessorCache
+//---------------------------------------------------------------------------
+
+test(CompleteZoneProcessorCacheTest, getZoneProcessor) {
+  CompleteZoneProcessorCache<2> cache;
+
+  ZoneProcessor* zoneProcessor1 = cache.getZoneProcessor(
+      (uintptr_t) &tzonedbc::kZoneAmerica_Los_Angeles);
+
+  ZoneProcessor* zoneProcessor2 = cache.getZoneProcessor(
+      (uintptr_t) &tzonedbc::kZoneAmerica_Los_Angeles);
+  assertEqual(zoneProcessor1, zoneProcessor2);
+
+  ZoneProcessor* zoneProcessor3 = cache.getZoneProcessor(
+      (uintptr_t) &tzonedbc::kZoneAmerica_New_York);
+  assertNotEqual(zoneProcessor1, zoneProcessor3);
+
+  // The 3rd unique ZoneInfo reuses zpec1
+  ZoneProcessor* zoneProcessor4 = cache.getZoneProcessor(
+      (uintptr_t) &tzonedbc::kZoneAmerica_Denver);
   assertEqual(zoneProcessor1, zoneProcessor4);
 }
 
