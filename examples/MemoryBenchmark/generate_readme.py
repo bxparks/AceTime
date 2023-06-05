@@ -266,17 +266,28 @@ ASCII table.
 * Implement 1-second resolution in ExtendedZoneProcessor.
     * Increases flash usage by ~1kB on 8-bit processors, but only 0-100 bytes
       on 32-bit processors.
+* Implement CompleteZoneProcessor as a specialization of ExtendedZoneProcessor.
+    * Enables the creation of `zonedbc` database which contains all TZDB
+      timezones, for all years going back to 1844, the earliest transition in
+      the TZDB.
+    * The flash consumption of zonedbc is roughly 2X of zonedbx.
 
 # Legend
 
-* [1] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [1] Delta flash and ram consumption for `Basic ZoneSorterByName` and
+  `Basic ZoneSorterByOffsetAndName` are calculated by subtracting the
   `BasicZoneManager (1 zone)` numbers, to isolate the memory consumption
   of just the sorter classes.
-* [2] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [2] Delta flash and ram consumption for `Extended ZoneSorterByName` and
+  `Extended ZoneSorterByOffsetAndName` are calculated by subtracting the
   `ExtendedZoneManager (1 zone)` numbers, to isolate the memory
   consumption of just the sorter classes.
+* [3] Delta flash and ram consumption for `Complete ZoneSorterByName` and
+  `Complete ZoneSorterByOffsetAndName` are calculated by subtracting the
+  `CompleteZoneManager (1 zone)` numbers, to isolate the memory
+  consumption of just the sorter classes.
+* An entry of `-1` indicates that the memory usage exceeded the maximum of the
+  microcontroller and the compiler did not generate the desired information.
 
 ## Arduino Nano
 
@@ -317,9 +328,6 @@ ASCII table.
 ```
 {stm32_results}
 ```
-
-An entry of `-1` indicates that the memory usage exceeded the maximum of the
-microcontroller and the compiler did not generate the desired information.
 
 ## SAMD51 (Adafruit ItsyBitsy M4)
 

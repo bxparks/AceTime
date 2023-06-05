@@ -8,7 +8,7 @@
 set -eu
 
 PROGRAM_NAME='MemoryBenchmark.ino'
-NUM_FEATURES=17  # excluding FEATURE_BASELINE
+NUM_FEATURES=24  # excluding FEATURE_BASELINE
 temp_out_file=
 
 function cleanup() {

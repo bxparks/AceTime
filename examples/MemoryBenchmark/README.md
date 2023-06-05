@@ -245,14 +245,20 @@ ASCII table.
 
 # Legend
 
-* [1] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [1] Delta flash and ram consumption for `Basic ZoneSorterByName` and
+  `Basic ZoneSorterByOffsetAndName` are calculated by subtracting the
   `BasicZoneManager (1 zone)` numbers, to isolate the memory consumption
   of just the sorter classes.
-* [2] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [2] Delta flash and ram consumption for `Extended ZoneSorterByName` and
+  `Extended ZoneSorterByOffsetAndName` are calculated by subtracting the
   `ExtendedZoneManager (1 zone)` numbers, to isolate the memory
   consumption of just the sorter classes.
+* [3] Delta flash and ram consumption for `Complete ZoneSorterByName` and
+  `Complete ZoneSorterByOffsetAndName` are calculated by subtracting the
+  `CompleteZoneManager (1 zone)` numbers, to isolate the memory
+  consumption of just the sorter classes.
+* An entry of `-1` indicates that the memory usage exceeded the maximum of the
+  microcontroller and the compiler did not generate the desired information.
 
 ## Arduino Nano
 
@@ -279,14 +285,23 @@ ASCII table.
 | Basic ZoneSorterByName [1]             |   8254/  369 |   720/    2 |
 | Basic ZoneSorterByOffsetAndName [1]    |   8386/  369 |   852/    2 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  11102/  855 | 10628/  844 |
-| Extended TimeZone (2 zones)            |  11706/ 1433 | 11232/ 1422 |
-| ExtendedZoneManager (1 zone)           |  11282/  861 | 10808/  850 |
-| ExtendedZoneManager (all zones)        |  36364/ 1321 | 35890/ 1310 |
-| ExtendedZoneManager (all zones+links)  |  42396/ 1321 | 41922/ 1310 |
+| Extended TimeZone (1 zone)             |  11110/  855 | 10636/  844 |
+| Extended TimeZone (2 zones)            |  11714/ 1433 | 11240/ 1422 |
+| ExtendedZoneManager (1 zone)           |  11290/  861 | 10816/  850 |
+| ExtendedZoneManager (all zones)        |  36372/ 1321 | 35898/ 1310 |
+| ExtendedZoneManager (all zones+links)  |  42404/ 1321 | 41930/ 1310 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  12028/  863 |   746/    2 |
-| Extended ZoneSorterByOffsetAndName [2] |  12118/  863 |   836/    2 |
+| Extended ZoneSorterByName [2]          |  12036/  863 |   746/    2 |
+| Extended ZoneSorterByOffsetAndName [2] |  12126/  863 |   836/    2 |
+|----------------------------------------+--------------+-------------|
+| Complete TimeZone (1 zone)             |     -1/   -1 |    -1/   -1 |
+| Complete TimeZone (2 zones)            |     -1/   -1 |    -1/   -1 |
+| CompleteZoneManager (1 zone)           |     -1/   -1 |    -1/   -1 |
+| CompleteZoneManager (all zones)        |     -1/   -1 |    -1/   -1 |
+| CompleteZoneManager (all zones+links)  |     -1/   -1 |    -1/   -1 |
+|----------------------------------------+--------------+-------------|
+| Complete ZoneSorterByName [3]          |     -1/   -1 |     0/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |     -1/   -1 |     0/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -316,14 +331,23 @@ ASCII table.
 | Basic ZoneSorterByName [1]             |  11226/  509 |   720/    2 |
 | Basic ZoneSorterByOffsetAndName [1]    |  11358/  509 |   852/    2 |
 |----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  14056/  993 | 10586/  840 |
-| Extended TimeZone (2 zones)            |  14662/ 1573 | 11192/ 1420 |
-| ExtendedZoneManager (1 zone)           |  14236/  999 | 10766/  846 |
-| ExtendedZoneManager (all zones)        |  39336/ 1461 | 35866/ 1308 |
-| ExtendedZoneManager (all zones+links)  |  45368/ 1461 | 41898/ 1308 |
+| Extended TimeZone (1 zone)             |  14064/  993 | 10594/  840 |
+| Extended TimeZone (2 zones)            |  14670/ 1573 | 11200/ 1420 |
+| ExtendedZoneManager (1 zone)           |  14244/  999 | 10774/  846 |
+| ExtendedZoneManager (all zones)        |  39344/ 1461 | 35874/ 1308 |
+| ExtendedZoneManager (all zones+links)  |  45376/ 1461 | 41906/ 1308 |
 |----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  14982/ 1001 |   746/    2 |
-| Extended ZoneSorterByOffsetAndName [2] |  15072/ 1001 |   836/    2 |
+| Extended ZoneSorterByName [2]          |  14990/ 1001 |   746/    2 |
+| Extended ZoneSorterByOffsetAndName [2] |  15080/ 1001 |   836/    2 |
+|----------------------------------------+--------------+-------------|
+| Complete TimeZone (1 zone)             |     -1/   -1 |    -1/   -1 |
+| Complete TimeZone (2 zones)            |     -1/   -1 |    -1/   -1 |
+| CompleteZoneManager (1 zone)           |     -1/   -1 |    -1/   -1 |
+| CompleteZoneManager (all zones)        |     -1/   -1 |    -1/   -1 |
+| CompleteZoneManager (all zones+links)  |     -1/   -1 |    -1/   -1 |
+|----------------------------------------+--------------+-------------|
+| Complete ZoneSorterByName [3]          |     -1/   -1 |     0/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |     -1/   -1 |     0/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -361,6 +385,15 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          |  41348/    0 |   472/    0 |
 | Extended ZoneSorterByOffsetAndName [2] |  41404/    0 |   528/    0 |
+|----------------------------------------+--------------+-------------|
+| Complete TimeZone (1 zone)             |  41436/    0 |  7368/    0 |
+| Complete TimeZone (2 zones)            |  42668/    0 |  8600/    0 |
+| CompleteZoneManager (1 zone)           |  41540/    0 |  7472/    0 |
+| CompleteZoneManager (all zones)        | 121236/    0 | 87168/    0 |
+| CompleteZoneManager (all zones+links)  | 130468/    0 | 96400/    0 |
+|----------------------------------------+--------------+-------------|
+| Complete ZoneSorterByName [3]          |  42012/    0 |   472/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |  42068/    0 |   528/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -398,12 +431,18 @@ ASCII table.
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          |  28480/ 4656 |   444/    4 |
 | Extended ZoneSorterByOffsetAndName [2] |  28556/ 4656 |   520/    4 |
+|----------------------------------------+--------------+-------------|
+| Complete TimeZone (1 zone)             |  28576/ 4644 |  7084/  804 |
+| Complete TimeZone (2 zones)            |  29812/ 5440 |  8320/ 1600 |
+| CompleteZoneManager (1 zone)           |  28692/ 4652 |  7200/  812 |
+| CompleteZoneManager (all zones)        | 108828/ 4652 | 87336/  812 |
+| CompleteZoneManager (all zones+links)  | 118400/ 4652 | 96908/  812 |
+|----------------------------------------+--------------+-------------|
+| Complete ZoneSorterByName [3]          |  29136/ 4656 |   444/    4 |
+| Complete ZoneSorterByOffsetAndName [3] |  29208/ 4656 |   516/    4 |
 +---------------------------------------------------------------------+
 
 ```
-
-An entry of `-1` indicates that the memory usage exceeded the maximum of the
-microcontroller and the compiler did not generate the desired information.
 
 ## SAMD51 (Adafruit ItsyBitsy M4)
 
@@ -438,6 +477,15 @@ microcontroller and the compiler did not generate the desired information.
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          |  17620/    0 |   464/    0 |
 | Extended ZoneSorterByOffsetAndName [2] |  17668/    0 |   512/    0 |
+|----------------------------------------+--------------+-------------|
+| Complete TimeZone (1 zone)             |  17680/    0 |  7100/    0 |
+| Complete TimeZone (2 zones)            |  18916/    0 |  8336/    0 |
+| CompleteZoneManager (1 zone)           |  17796/    0 |  7216/    0 |
+| CompleteZoneManager (all zones)        |  97496/    0 | 86916/    0 |
+| CompleteZoneManager (all zones+links)  | 106724/    0 | 96144/    0 |
+|----------------------------------------+--------------+-------------|
+| Complete ZoneSorterByName [3]          |  18260/    0 |   464/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |  18304/    0 |   508/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -474,6 +522,15 @@ microcontroller and the compiler did not generate the desired information.
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          | 270049/29484 |   672/    0 |
 | Extended ZoneSorterByOffsetAndName [2] | 270097/29484 |   720/    0 |
+|----------------------------------------+--------------+-------------|
+| Complete TimeZone (1 zone)             | 269897/29924 |  9808/ 2032 |
+| Complete TimeZone (2 zones)            | 271177/30716 | 11088/ 2824 |
+| CompleteZoneManager (1 zone)           | 270041/29932 |  9952/ 2040 |
+| CompleteZoneManager (all zones)        | 350217/29932 | 90128/ 2040 |
+| CompleteZoneManager (all zones+links)  | 359785/29932 | 99696/ 2040 |
+|----------------------------------------+--------------+-------------|
+| Complete ZoneSorterByName [3]          | 270713/29932 |   672/    0 |
+| Complete ZoneSorterByOffsetAndName [3] | 270761/29932 |   720/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -511,6 +568,15 @@ microcontroller and the compiler did not generate the desired information.
 |----------------------------------------+--------------+-------------|
 | Extended ZoneSorterByName [2]          | 238553/22784 |   548/    0 |
 | Extended ZoneSorterByOffsetAndName [2] | 238629/22784 |   624/    0 |
+|----------------------------------------+--------------+-------------|
+| Complete TimeZone (1 zone)             | 238481/22776 | 10136/  800 |
+| Complete TimeZone (2 zones)            | 239749/23568 | 11404/ 1592 |
+| CompleteZoneManager (1 zone)           | 238613/22784 | 10268/  808 |
+| CompleteZoneManager (all zones)        | 318741/22784 | 90396/  808 |
+| CompleteZoneManager (all zones+links)  | 328309/22784 | 99964/  808 |
+|----------------------------------------+--------------+-------------|
+| Complete ZoneSorterByName [3]          | 239161/22784 |   548/    0 |
+| Complete ZoneSorterByOffsetAndName [3] | 239229/22784 |   616/    0 |
 +---------------------------------------------------------------------+
 
 ```
