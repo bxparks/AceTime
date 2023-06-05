@@ -101,7 +101,7 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
 
 /** Normalize DateTuple::seconds if its magnitude is more than 24 hours. */
 inline void normalizeDateTuple(DateTuple* dt) {
-  const int32_t kOneDayAsSeconds = 60 * 60 * 24;
+  const int32_t kOneDayAsSeconds = int32_t(60) * 60 * 24;
   if (dt->seconds <= -kOneDayAsSeconds) {
     LocalDate ld = LocalDate::forComponents(dt->year, dt->month, dt->day);
     local_date_mutation::decrementOneDay(ld);
