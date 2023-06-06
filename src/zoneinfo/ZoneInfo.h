@@ -53,28 +53,28 @@ struct ZoneContext {
   static const uint8_t kSuffixU = 0x20;
 
   /** Start year of the zone files. */
-  int16_t startYear;
+  int16_t const startYear;
 
   /** Until year of the zone files. */
-  int16_t untilYear;
+  int16_t const untilYear;
 
   /** Max number of transitions required in TransitionStorage. */
-  int16_t maxTransitions;
+  int16_t const maxTransitions;
 
   /** TZ Database version which generated the zone info. */
-  const char* tzVersion;
+  const char* const tzVersion;
 
   /** Number of fragments. */
-  uint8_t numFragments;
+  uint8_t const numFragments;
 
   /** Number of fragments. */
-  uint8_t numLetters;;
+  uint8_t const numLetters;;
 
   /** Zone Name fragment list. */
-  const char* const* fragments;
+  const char* const* const fragments;
 
   /** Zone Rule letters list. */
-  const char* const* letters;
+  const char* const* const letters;
 };
 
 /**
