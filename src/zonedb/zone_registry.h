@@ -7,7 +7,7 @@
 //     --action zonedb
 //     --language arduino
 //     --scope basic
-//     --generate_int16_years
+//     --db_namespace zonedb
 //     --start_year 2000
 //     --until_year 10000
 //

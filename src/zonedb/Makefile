@@ -13,7 +13,7 @@ all:
 		--action zonedb \
 		--language arduino \
 		--scope basic \
-		--generate_int16_years \
+		--db_namespace zonedb \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
@@ -24,7 +24,7 @@ zonedb.json:
 		--action zonedb \
 		--language json \
 		--scope basic \
-		--generate_int16_years \
+		--db_namespace zonedb \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 

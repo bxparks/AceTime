@@ -8,11 +8,6 @@
 //     --language arduino
 //     --scope complete
 //     --db_namespace tzonedbc
-//     --offset_granularity 1
-//     --delta_granularity 60
-//     --until_at_granularity 1
-//     --generate_int16_years
-//     --generate_hires
 //     --include_list include_list.txt
 //     --nocompress
 //     --start_year 1980

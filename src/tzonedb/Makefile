@@ -14,7 +14,6 @@ all:
 		--language arduino \
 		--scope basic \
 		--db_namespace tzonedb \
-		--generate_int16_years \
 		--include_list include_list.txt \
 		--nocompress \
 		--start_year $(START_YEAR) \

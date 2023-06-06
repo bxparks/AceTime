@@ -7,11 +7,7 @@
 //     --action zonedb
 //     --language arduino
 //     --scope complete
-//     --offset_granularity 1
-//     --delta_granularity 60
-//     --until_at_granularity 1
-//     --generate_int16_years
-//     --generate_hires
+//     --db_namespace zonedbc
 //     --start_year 1800
 //     --until_year 10000
 //
