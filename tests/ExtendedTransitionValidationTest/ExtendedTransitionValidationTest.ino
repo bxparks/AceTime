@@ -4,7 +4,7 @@
 #include <AUnit.h>
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <tzonedbx/zone_infos.h>
+#include <zonedbxtesting/zone_infos.h>
 
 using namespace ace_time;
 
@@ -22,7 +22,7 @@ ExtendedZoneProcessor zoneProcessor;
  *  * sorted with respect to startEpochSeconds
  *  * unique with respect to startEpochSeconds
  *
- * This must use the real zonedbx database, not the tzonedbx database,
+ * This must use the real zonedbx database, not the zonedbxtesting database,
  * because we are validating every zone in the IANA TZ database.
  */
 class ExtendedTransitionValidation : public aunit::TestOnce {
@@ -149,15 +149,15 @@ testF(ExtendedTransitionValidation, allZones) {
 }
 
 // Verify Transitions for Europe/Lisbon in 1992 using the
-// tzonedbx::kZoneEurope_Lisbon entry which contains entries from 1980 to 10000.
-// Lisbon in 1992 was the only combo where the previous ExtendedZoneProcessor
-// algorithm failed, with a duplicate Transition.
+// zonedbxtesting::kZoneEurope_Lisbon entry which contains entries from 1980 to
+// 10000. Lisbon in 1992 was the only combo where the previous
+// ExtendedZoneProcessor algorithm failed, with a duplicate Transition.
 //
-// This uses the tzonedbx database, instead of the production zonedbx database,
-// because we need to test year 1992 and the production zonedbx starts at year
-// 2000.
+// This uses the zonedbxtesting database, instead of the production zonedbx
+// database, because we need to test year 1992 and the production zonedbx starts
+// at year 2000.
 testF(ExtendedTransitionValidation, lisbon1992) {
-  assertNoFatalFailure(validateZone(&tzonedbx::kZoneEurope_Lisbon));
+  assertNoFatalFailure(validateZone(&zonedbxtesting::kZoneEurope_Lisbon));
 }
 
 //----------------------------------------------------------------------------

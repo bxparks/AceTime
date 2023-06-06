@@ -8,22 +8,22 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <tzonedb/zone_policies.h>
-#include <tzonedb/zone_infos.h>
-#include <tzonedb/zone_registry.h>
+#include <zonedbtesting/zone_policies.h>
+#include <zonedbtesting/zone_infos.h>
+#include <zonedbtesting/zone_registry.h>
 
 using namespace ace_time;
 using ace_time::basic::ZoneRegistrar;
-using ace_time::tzonedb::kZoneAmerica_Chicago;
-using ace_time::tzonedb::kZoneAmerica_Denver;
-using ace_time::tzonedb::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedb::kZoneAmerica_New_York;
-using ace_time::tzonedb::kZoneIdAmerica_Chicago;
-using ace_time::tzonedb::kZoneIdAmerica_Denver;
-using ace_time::tzonedb::kZoneIdAmerica_Los_Angeles;
-using ace_time::tzonedb::kZoneIdAmerica_New_York;
-using ace_time::tzonedb::kZoneRegistrySize;
-using ace_time::tzonedb::kZoneRegistry;
+using ace_time::zonedbtesting::kZoneAmerica_Chicago;
+using ace_time::zonedbtesting::kZoneAmerica_Denver;
+using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbtesting::kZoneAmerica_New_York;
+using ace_time::zonedbtesting::kZoneIdAmerica_Chicago;
+using ace_time::zonedbtesting::kZoneIdAmerica_Denver;
+using ace_time::zonedbtesting::kZoneIdAmerica_Los_Angeles;
+using ace_time::zonedbtesting::kZoneIdAmerica_New_York;
+using ace_time::zonedbtesting::kZoneRegistrySize;
+using ace_time::zonedbtesting::kZoneRegistry;
 
 //---------------------------------------------------------------------------
 // Define some registries used later on.

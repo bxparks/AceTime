@@ -12,8 +12,8 @@ all:
 		--tag $(TZ_VERSION) \
 		--action zonedb \
 		--language arduino \
-		--scope complete \
-		--db_namespace tzonedbc \
+		--scope extended \
+		--db_namespace zonedbxtesting \
 		--include_list include_list.txt \
 		--nocompress \
 		--start_year $(START_YEAR) \

@@ -1,4 +1,4 @@
-TARGETS := zonedb zonedbx zonedbc tzonedb tzonedbx tzonedbc
+TARGETS := zonedb zonedbx zonedbc zonedbtesting zonedbxtesting zonedbctesting
 
 .PHONY: $(TARGETS) zonedbs
 
@@ -13,11 +13,11 @@ zonedbx:
 zonedbc:
 	$(MAKE) -C $@
 
-tzonedb:
+zonedbtesting:
 	$(MAKE) -C $@
 
-tzonedbx:
+zonedbxtesting:
 	$(MAKE) -C $@
 
-tzonedbc:
+zonedbctesting:
 	$(MAKE) -C $@

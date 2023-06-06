@@ -2,25 +2,25 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <tzonedbc/zone_infos.h>
+#include <zonedbctesting/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::tzonedbc::kZoneAmerica_Chicago;
-using ace_time::tzonedbc::kZoneAmerica_Denver;
-using ace_time::tzonedbc::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedbc::kZoneAmerica_New_York;
-using ace_time::tzonedbc::kZoneAmerica_Toronto;
-using ace_time::tzonedbc::kZoneAmerica_Vancouver;
-using ace_time::tzonedbc::kZoneAmerica_Edmonton;
-using ace_time::tzonedbc::kZoneAmerica_Winnipeg;
-using ace_time::tzonedbc::kZoneIdAmerica_Chicago;
-using ace_time::tzonedbc::kZoneIdAmerica_Denver;
-using ace_time::tzonedbc::kZoneIdAmerica_Los_Angeles;
-using ace_time::tzonedbc::kZoneIdAmerica_New_York;
-using ace_time::tzonedbc::kZoneIdAmerica_Toronto;
-using ace_time::tzonedbc::kZoneIdAmerica_Vancouver;
-using ace_time::tzonedbc::kZoneIdAmerica_Edmonton;
-using ace_time::tzonedbc::kZoneIdAmerica_Winnipeg;
+using ace_time::zonedbctesting::kZoneAmerica_Chicago;
+using ace_time::zonedbctesting::kZoneAmerica_Denver;
+using ace_time::zonedbctesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbctesting::kZoneAmerica_New_York;
+using ace_time::zonedbctesting::kZoneAmerica_Toronto;
+using ace_time::zonedbctesting::kZoneAmerica_Vancouver;
+using ace_time::zonedbctesting::kZoneAmerica_Edmonton;
+using ace_time::zonedbctesting::kZoneAmerica_Winnipeg;
+using ace_time::zonedbctesting::kZoneIdAmerica_Chicago;
+using ace_time::zonedbctesting::kZoneIdAmerica_Denver;
+using ace_time::zonedbctesting::kZoneIdAmerica_Los_Angeles;
+using ace_time::zonedbctesting::kZoneIdAmerica_New_York;
+using ace_time::zonedbctesting::kZoneIdAmerica_Toronto;
+using ace_time::zonedbctesting::kZoneIdAmerica_Vancouver;
+using ace_time::zonedbctesting::kZoneIdAmerica_Edmonton;
+using ace_time::zonedbctesting::kZoneIdAmerica_Winnipeg;
 
 //---------------------------------------------------------------------------
 // Set up a CompleteZoneManager with a handful of zones.

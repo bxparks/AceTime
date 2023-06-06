@@ -34,6 +34,8 @@
         * Add `zonedbc` database which is valid from `[1800,10000)`, which
           includes all transitions in the TZDB.
         * Add `--scope complete` to access the `zonedbc` database.
+    * Rename `src/tzonedb*` directories to `src/zonedb*testing` for consistency
+      with other acetime libraries.
 * 2.2.3 (2023-05-31, TZDB version 2023c)
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.

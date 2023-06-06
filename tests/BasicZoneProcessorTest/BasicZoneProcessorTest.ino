@@ -4,8 +4,8 @@
 #include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <tzonedb/zone_policies.h>
-#include <tzonedb/zone_infos.h>
+#include <zonedbtesting/zone_policies.h>
+#include <zonedbtesting/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
@@ -20,12 +20,12 @@ using ace_time::basic::ZoneEraBroker;
 using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
 using ace_time::testing::EpochYearContext;
-using ace_time::tzonedb::kZoneContext;
-using ace_time::tzonedb::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedb::kZoneAustralia_Darwin;
-using ace_time::tzonedb::kZonePacific_Galapagos;
-using ace_time::tzonedb::kZonePolicyEcuador;
-using ace_time::tzonedb::kZoneAfrica_Johannesburg;
+using ace_time::zonedbtesting::kZoneContext;
+using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbtesting::kZoneAustralia_Darwin;
+using ace_time::zonedbtesting::kZonePacific_Galapagos;
+using ace_time::zonedbtesting::kZonePolicyEcuador;
+using ace_time::zonedbtesting::kZoneAfrica_Johannesburg;
 
 //---------------------------------------------------------------------------
 // BasicZoneProcessor: test private methods

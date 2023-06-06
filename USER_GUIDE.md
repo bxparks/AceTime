@@ -75,6 +75,7 @@ TZ database.
     * [ZoneDB](#ZoneDB)
         * [Basic zonedb](#BasicZonedb)
         * [Extended zonedbx](#ExtendedZonedbx)
+        * [Complete zonedbc](#CompleteZonedbc)
         * [BasicZone and ExtendedZone](#BasicZoneAndExtendedZone)
         * [TZ Database Version](#TzDatabaseVersion)
         * [Zone Info Year Range](#ZoneInfoYearRange)
@@ -2292,23 +2293,31 @@ The separate namespaces allows compile-time verification that the correct
 <a name="ZoneDB"></a>
 ### ZoneDB
 
-There are 4 zonedb databases provided by default:
+There are 6 zonedb databases provided by default:
 
 * `zonedb`: for `BasicZoneProcessor`
 * `zonedbx`: for `ExtendedZoneProcessor`
-* `tzonedb`: for unit tests
-* `tzonedbx`: for unit tests
+* `zonedbc`: for `CompleteZoneProcessor`
+* `zonedbtesting`: for unit tests of BasicZoneProcessor
+* `zonedbxtesting`: for unit tests of ExtendedZoneProcessor
+* `zonedbctesting`: for unit tests of CompleteZoneProcessor
 
 <a name="BasicZonedb"></a>
 #### Basic zonedb
 
-The `zonedb/` entries do not support all the timezones in the IANA TZ Database.
-If a zone is excluded, the reason for the exclusion can be found at the
-bottom of the [zonedb/zone_infos.h](src/zonedb/zone_infos.h) file.
-The criteria for selecting the Basic `zonedb` entries are embedded
-in the `transformer.py` script and summarized in
-[BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
+The `zonedb/` database is intended to contain timezones which are compatible
+with the `BasicZoneProcessor` and `BasicZoneManager` classes. The database
+format is optimized for small size, at the expense of excluding some timezones
+with complex DST saving rules. If a zone is excluded, the reason for the
+exclusion can be found at the bottom of the
+[zonedb/zone_infos.h](src/zonedb/zone_infos.h) file. The criteria for selecting
+the Basic `zonedb` entries are embedded in the `transformer.py` script and
+summarized in [BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
 
+* the year fields are stores as 8-bit integer offsets (from a base year of 2100)
+  instead of using the full 16-bit integer
+    * this limits the year range from 1974 to 2225 inclusive,
+    * for most embedded applications, this should not be severely limiting
 * the DST offset is a multiple of 15-minutes (all current timezones satisfy
   this)
 * the STDOFF offset is a multiple of 1-minute (all current timezones
@@ -2319,25 +2328,42 @@ in the `transformer.py` script and summarized in
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-As of version v1.11.4 (with TZDB 2022b), this database contains 237 Zone entries
-and 215 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v2.3 (with TZDB 2022c), the `zonedb` database contains 446 Zones
+and Links (out of a total of 596), supporting the years roughly `[2000,2200]`.
 
 <a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
 
-The goal of the `zonedbx/` entries is to support all zones listed in the TZ
-Database. Currently, as of version 2021a of the IANA TZ Database, this goal is
-met from the year 2000 to 2049 inclusive. Some restrictions of this database
-are:
+The goal of the `zonedbx/` database is to support all zones listed in the TZ
+Database for modern years using the `ExtendedZoneProcessor` and
+`ExtendedZoneManager` classes. The year range is restricted to be or after the
+year 2000 to the year 32766.
 
 * the DST offset is a multiple of 15-minutes ranging from -1:00 to 2:45
   (all timezones from about 1972 support this)
 * the STDOFF offset is a multiple of 1-minute
 * the AT and UNTIL fields are multiples of 1-minute
-* the LETTER field can be arbitrary strings
+* the LETTER field can be an arbitrary string
 
-As of version v1.11.4 (with TZDB 2022b), this database contains all 356 Zone
-entries and 239 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v2.3 (with TZDB 2022c), the `zonedbx` database contains all 596
+Zones and Links, over all years in the range of `[2000,32766]`.
+
+<a name="CompleteZonedbc"></a>
+#### Complete zonedbc
+
+The goal of the `zonedbc/` database is to support all zones listed in the TZ
+Database, for all years in that database, from 1844 onwards without limit,
+using the `CompleteZoneProcessor` and the `CompleteZoneManager` classes. This is
+the largest of the 3 zonedb databases. Its features are:
+
+* the DST offset can be a multiple of 1-minute, which is satisfied by all
+  timezones across all years
+* the STDOFF ofset can be an arbitrary multiple of 1-second
+* the AT and UNTIL fields can be an arbitrary multiple of 1-second
+* the LETTER field can be an arbitrary string
+
+As of version v2.3 (with TZDB 2022c), the `zonedbc` database contains all 596
+Zone and Link entries, supporting all years in the range of `[1, 32766]`.
 
 <a name="TzDatabaseVersion"></a>
 #### TZ Database Version

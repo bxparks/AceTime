@@ -4,16 +4,16 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <tzonedbx/zone_policies.h>
-#include <tzonedbx/zone_infos.h>
+#include <zonedbxtesting/zone_policies.h>
+#include <zonedbxtesting/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::tzonedbx::kZoneAmerica_Chicago;
-using ace_time::tzonedbx::kZoneAmerica_Denver;
-using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedbx::kZoneAmerica_New_York;
-using ace_time::tzonedbx::kZoneAfrica_Casablanca;
-using ace_time::tzonedbx::kZonePacific_Apia;
+using ace_time::zonedbxtesting::kZoneAmerica_Chicago;
+using ace_time::zonedbxtesting::kZoneAmerica_Denver;
+using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbxtesting::kZoneAmerica_New_York;
+using ace_time::zonedbxtesting::kZoneAfrica_Casablanca;
+using ace_time::zonedbxtesting::kZonePacific_Apia;
 
 // --------------------------------------------------------------------------
 

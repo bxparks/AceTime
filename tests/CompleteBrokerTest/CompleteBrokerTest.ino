@@ -3,9 +3,9 @@
 #include <Arduino.h>
 #include <AUnit.h>
 #include <AceTime.h>
-#include <tzonedbc/zone_policies.h>
-#include <tzonedbc/zone_infos.h>
-#include <tzonedbc/zone_registry.h>
+#include <zonedbctesting/zone_policies.h>
+#include <zonedbctesting/zone_infos.h>
+#include <zonedbctesting/zone_registry.h>
 
 using namespace ace_time;
 using ace_time::complete::ZoneContext;
@@ -14,12 +14,12 @@ using ace_time::complete::ZoneEraBroker;
 using ace_time::complete::ZoneRuleBroker;
 using ace_time::complete::ZonePolicyBroker;
 using ace_time::complete::ZoneEra;
-using ace_time::tzonedbc::kZoneContext;
-using ace_time::tzonedbc::kZonePolicyUS;
-using ace_time::tzonedbc::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedbc::kZonePolicyNamibia;
-using ace_time::tzonedbc::kZoneIdUS_Pacific;
-using ace_time::tzonedbc::kZoneIdAmerica_Los_Angeles;
+using ace_time::zonedbctesting::kZoneContext;
+using ace_time::zonedbctesting::kZonePolicyUS;
+using ace_time::zonedbctesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbctesting::kZonePolicyNamibia;
+using ace_time::zonedbctesting::kZoneIdUS_Pacific;
+using ace_time::zonedbctesting::kZoneIdAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
 

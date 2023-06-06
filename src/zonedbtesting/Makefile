@@ -4,7 +4,7 @@ TOOLS := $(abspath ../../../AceTimeTools)
 TZ_REPO := $(abspath $(TOOLS)/../tz)
 TZ_VERSION := 2023c
 START_YEAR := 1980
-UNTIL_YEAR := 10000
+UNTIL_YEAR := 2200
 
 all:
 	$(TOOLS)/tzcompiler.sh \
@@ -12,8 +12,8 @@ all:
 		--tag $(TZ_VERSION) \
 		--action zonedb \
 		--language arduino \
-		--scope extended \
-		--db_namespace tzonedbx \
+		--scope basic \
+		--db_namespace zonedbtesting \
 		--include_list include_list.txt \
 		--nocompress \
 		--start_year $(START_YEAR) \

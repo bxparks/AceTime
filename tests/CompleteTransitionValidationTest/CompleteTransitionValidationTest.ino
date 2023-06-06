@@ -21,8 +21,8 @@ CompleteZoneProcessor zoneProcessor;
  *  * sorted with respect to startEpochSeconds
  *  * unique with respect to startEpochSeconds
  *
- * This must use the real zonedbc database, not the tzonedbc database, because
- * we are validating every zone in the IANA TZ database.
+ * This must use the real zonedbc database, not the zonedbctesting database,
+ * because we are validating every zone in the IANA TZ database.
  */
 class CompleteTransitionValidation : public aunit::TestOnce {
   public:
@@ -148,13 +148,13 @@ testF(CompleteTransitionValidation, allZones) {
 }
 
 // Verify Transitions for Europe/Lisbon in 1992 using the
-// tzonedbc::kZoneEurope_Lisbon entry which contains entries from 1980 to 10000.
-// Lisbon in 1992 was the only combo where the previous CompleteZoneProcessor
-// algorithm failed, with a duplicate Transition.
+// zonedbctesting::kZoneEurope_Lisbon entry which contains entries from 1980 to
+// 10000. Lisbon in 1992 was the only combo where the previous
+// CompleteZoneProcessor algorithm failed, with a duplicate Transition.
 //
-// This uses the testing/tzonedbc database, instead of the production zonedbc
-// database, because we need to test year 1992 and the production zonedbc starts
-// at year 2000.
+// This uses the testing/zonedbctesting database, instead of the production
+// zonedbc database, because we need to test year 1992 and the production
+// zonedbc starts at year 2000.
 testF(CompleteTransitionValidation, lisbon1992) {
   assertNoFatalFailure(validateZone(&zonedbc::kZoneEurope_Lisbon));
 }

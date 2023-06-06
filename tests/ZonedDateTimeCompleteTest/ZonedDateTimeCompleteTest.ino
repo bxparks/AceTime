@@ -7,15 +7,15 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <tzonedbc/zone_infos.h>
+#include <zonedbctesting/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::tzonedbc::kZoneAmerica_Chicago;
-using ace_time::tzonedbc::kZoneAmerica_Denver;
-using ace_time::tzonedbc::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedbc::kZoneAmerica_New_York;
-using ace_time::tzonedbc::kZoneAfrica_Casablanca;
-using ace_time::tzonedbc::kZonePacific_Apia;
+using ace_time::zonedbctesting::kZoneAmerica_Chicago;
+using ace_time::zonedbctesting::kZoneAmerica_Denver;
+using ace_time::zonedbctesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbctesting::kZoneAmerica_New_York;
+using ace_time::zonedbctesting::kZoneAfrica_Casablanca;
+using ace_time::zonedbctesting::kZonePacific_Apia;
 
 // --------------------------------------------------------------------------
 

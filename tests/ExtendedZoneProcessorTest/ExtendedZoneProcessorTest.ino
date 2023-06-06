@@ -4,8 +4,8 @@
 #include <AceCommon.h> // PrintStr<>
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <tzonedbx/zone_policies.h>
-#include <tzonedbx/zone_infos.h>
+#include <zonedbxtesting/zone_policies.h>
+#include <zonedbxtesting/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
@@ -24,11 +24,11 @@ using ace_time::extended::ZoneRuleBroker;
 using ace_time::extended::normalizeDateTuple;
 using ace_time::extended::subtractDateTuple;
 using ace_time::testing::EpochYearContext;
-using ace_time::tzonedbx::kZoneContext;
-using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedbx::kZonePolicyUS;
-using ace_time::tzonedbx::kZoneAustralia_Darwin;
-using ace_time::tzonedbx::kZoneAmerica_Caracas;
+using ace_time::zonedbxtesting::kZoneContext;
+using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbxtesting::kZonePolicyUS;
+using ace_time::zonedbxtesting::kZoneAustralia_Darwin;
+using ace_time::zonedbxtesting::kZoneAmerica_Caracas;
 
 //---------------------------------------------------------------------------
 // Step 1
