@@ -1,15 +1,15 @@
 /*
  * MIT License
- * Copyright (c) 2023 Brian T. Park
+ * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_ZONE_INFO_HIRES_H
-#define ACE_TIME_ZONE_INFO_HIRES_H
+#ifndef ACE_TIME_ZONE_INFO_H
+#define ACE_TIME_ZONE_INFO_H
 
 #include <stdint.h>
 
 namespace ace_time{
-namespace zoneinfohires {
+namespace zoneinfomid {
 
 /**
  * Metadata about the zone database. A ZoneInfo struct will contain a pointer
@@ -112,35 +112,41 @@ struct ZoneRule {
   int8_t const onDayOfMonth;
 
   /**
+   * Determined by the AT column in units of 15-minutes from 00:00. The range
+   * is (0 - 100) corresponding to 00:00 to 25:00.
+   */
+  uint8_t const atTimeCode;
+
+  /**
    * The atTimeModifier is a packed field containing 2 pieces of info:
    *
    *    * The upper 4 bits represent the AT time suffix: 'w', 's' or 'u',
    *    represented by kSuffixW, kSuffixS and kSuffixU.
-   *    * The lower 4 bits represent the remaining 0-14 seconds of the AT field
+   *    * The lower 4 bits represent the remaining 0-14 minutes of the AT field
    *    after truncation into atTimeCode. In other words, the full AT field in
-   *    one-second resolution is (15 * atTimeCode + (atTimeModifier & 0x0f)).
+   *    one-minute resolution is (15 * atTimeCode + (atTimeModifier & 0x0f)).
    */
   uint8_t const atTimeModifier;
 
   /**
-   * Determined by the AT column in units of 15-seconds from 00:00. The range
-   * is [0,6000] or [0h,25h] in 15-second increments.
+   * Determined by the SAVE column and contains the offset from UTC, in 15-min
+   * increments. The deltaCode is equal to (originalDeltaCode + 4). Only the
+   * lower 4-bits is used, for consistency with the ZoneEra::deltaCode field.
+   * This allows the 4-bits to represent DST offsets from -1:00 to 2:45 in
+   * 15-minute increments.
+   *
+   * The ZonePolicyBroker::deltaMinutes() method knows how to convert this
+   * field into minutes.
    */
-  uint16_t const atTimeCode;
-
-  /**
-   * Determined by the SAVE column and contains the offset from UTC in minutes.
-   * The range is [-128,+127] which allows it to represent DST offset in the
-   * range of [-02:00,02:00].
-   */
-  int8_t const deltaMinutes;
+  uint8_t const deltaCode;
 
   /**
    * Determined by the LETTER column. Determines the substitution into the '%s'
    * field (implemented here by just a '%') of the ZoneInfo::format field. This
    * is an index offset into the global kLetters array. Most LETTER string is a
    * single character, e.g. "D", "S", or "". But a small number have LETTER
-   * fields which are longer than one character. For example:
+   * fields which are longer than one character. As of TZDB version 2018i,
+   * these are:
    *
    *  - Belize ('CST'; used by America/Belize)
    *  - Namibia ('WAT', 'CAT'; used by Africa/Windhoek)
@@ -213,22 +219,27 @@ struct ZoneEra {
    */
   const char* const format;
 
-  /**
-   * UTC offset in 15-second increments. Determined by the STDOFF column.
-   * The remainder goes into the offsetsRemainder field.
-   */
-  int16_t const offsetCode;
-
-  /** The remainder seconds from offsetCode. */
-  uint8_t const offsetRemainder;
+  /** UTC offset in 15 min increments. Determined by the STDOFF column. */
+  int8_t const offsetCode;
 
   /**
-   * If zonePolicy is nullptr, this is the DST offset in minutes as defined by
-   * the RULES column in 'hh:mm' format. An 8-bit integer can handle DST
-   * offsets of [-128,127] minutes which allows it to handle DST offsets of
-   * [-02:00,02:00].
+   * This is a composite of two 4-bit fields:
+   *
+   * * The upper 4-bits is an unsigned integer from 0 to 14 that represents
+   *   the one-minute remainder from the offsetCode. This allows us to capture
+   *   STDOFF offsets in 1-minute resolution.
+   * * The lower 4-bits is an unsigned integer that holds (originalDeltaCode
+   *   + 4). The originalDeltaCode is defined if zonePolicy is nullptr, which
+   *   indicates that the DST offset is defined by the RULES column in 'hh:mm'
+   *   format. If the 'RULES' column is '-', then the originalDeltaCode is 0.
+   *   With 4-bits of information, and the 1h shift, this allows us to
+   *   represent DST offsets from -1:00 to +2:45, in 15-minute increments.
+   *
+   * The ZoneEraBroker::deltaMinutes() and ZoneEraBroker::offsetMinutes()
+   * methods know how to convert offsetCode and deltaCode into the appropriate
+   * minutes.
    */
-  int8_t const deltaMinutes;
+  uint8_t const deltaCode;
 
   /**
    * Era is valid until currentTime < untilYear. Comes from the UNTIL column.
@@ -246,19 +257,19 @@ struct ZoneEra {
   uint8_t const untilDay;
 
   /**
-   * The time field of UNTIL field in 15-second increments. A range is [0,6000]
-   * corresponds to [0h,25h].
+   * The time field of UNTIL field in 15-minute increments. A range of 00:00 to
+   * 25:00 corresponds to 0-100.
    */
-  uint16_t const untilTimeCode;
+  uint8_t const untilTimeCode;
 
   /**
    * The untilTimeModifier is a packed field containing 2 pieces of info:
    *
    *    * The upper 4 bits represent the UNTIL time suffix: 'w', 's' or 'u',
    *    represented by kSuffixW, kSuffixS and kSuffixU.
-   *    * The lower 4 bits represent the remaining 0-14 seconds of the UNTIL
+   *    * The lower 4 bits represent the remaining 0-14 minutes of the UNTIL
    *    field after truncation into untilTimeCode. In other words, the full
-   *    UNTIL field in one-second resolution is (15 * untilTimeCode +
+   *    UNTIL field in one-minute resolution is (15 * untilTimeCode +
    *    (untilTimeModifier & 0x0f)).
    */
   uint8_t const untilTimeModifier;
@@ -310,20 +321,7 @@ struct ZoneInfo {
   const ZoneInfo* const targetInfo;
 };
 
-} // zoneinfohires
-
-// Data structures for CompleteZoneProcessor
-namespace complete {
-
-class Complete {};
-using ZoneContext = zoneinfohires::ZoneContext<Complete>;
-using ZoneRule = zoneinfohires::ZoneRule<Complete>;
-using ZonePolicy = zoneinfohires::ZonePolicy<Complete>;
-using ZoneEra = zoneinfohires::ZoneEra<Complete>;
-using ZoneInfo = zoneinfohires::ZoneInfo<Complete, ZoneContext>;
-
 }
-
-} // ace_time
+}
 
 #endif

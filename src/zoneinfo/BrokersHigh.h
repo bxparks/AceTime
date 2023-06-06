@@ -1,16 +1,16 @@
 /*
  * MIT License
- * Copyright (c) 2019 Brian T. Park
+ * Copyright (c) 2023 Brian T. Park
  */
 
-#ifndef ACE_TIME_BROKERS_H
-#define ACE_TIME_BROKERS_H
+#ifndef ACE_TIME_BROKERS_HIGH_H
+#define ACE_TIME_BROKERS_HIGH_H
 
 /**
- * @file Brokers.h
+ * @file BrokersHigh.h
  *
  * These classes provide a thin layer of indirection for accessing the
- * zoneinfo files stored in the zonedb/ and zonedbx/ directories.
+ * high resolution zoneinfo files defined by the ZoneInfoHigh.h file.
  *
  * The zoneinfo files are stored in flash memory (using the PROGMEM keyword),
  * and cannot be accessed directly on microcontrollers using the Harvard
@@ -19,59 +19,30 @@
  * <pgmspace.h>. These classes abstract away this difference so that the code
  * BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly)
  * agnostic to how the zoneinfo files are stored.
- *
- * The brokers in the basic:: and extended:: namespaces are identical in code.
- * The purpose for having separate class hierarchies is to provide compile-time
- * assurance that the BasicZoneProcessor and ExtendedZoneProcessor are given the
- * correct zoneinfo files from the appropriate zonedb database.
  */
 
 #include <stdint.h> // uintptr_t, uint32_t, etc
 #include <AceCommon.h> // KString
 #include "compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
-#include "ZoneInfo.h"
+#include "ZoneInfoHigh.h"
 
 class __FlashStringHelper;
 class Print;
 
 namespace ace_time {
-namespace zoneinfo {
+namespace zoneinfohigh {
 
 //-----------------------------------------------------------------------------
 
 /**
- * Convert the `deltaCode` in the ZoneInfo or the ZoneRule struct to the actual
- * deltaMinutes. The lower 4-bits stores minutes in units of 15-minutes, shifted
- * by 1h, so can represent the interval [-01:00 to 02:45].
- *
- * @code
- * deltaMinutes = deltaCode * 15m - 1h
- * @endcode
- */
-inline int16_t toDeltaMinutes(uint8_t deltaCode) {
-  return ((int16_t)(deltaCode & 0x0f) - 4) * 15;
-}
-
-/**
- * Convert the `offsetCode` and `deltaCode` into a signed 16-bit integer that
- * represents the UTCOFF of the ZoneEra in minutes. The `offsetCode` is rounded
- * towards -infinity in 15-minute multiples. The upper 4-bits of `deltaCode`
- * holds the (unsigned) remainder in one-minute increments.
- */
-inline int16_t toOffsetMinutes(int8_t offsetCode, uint8_t deltaCode) {
-  return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
-}
-
-
-/**
  * Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT
- * time in ZoneRule in one minute resolution. The `code` parameter holds the AT
- * or UNTIL time in minutes component in units of 15 minutes. The lower 4-bits
- * of `modifier` holds the remainder minutes.
+ * time in ZoneRule in one second resolution. The `code` parameter holds the AT
+ * or UNTIL time in minutes component in units of 15 seconds. The lower 4-bits
+ * of `modifier` holds the remainder seconds.
  */
-inline uint16_t timeCodeToMinutes(uint8_t code, uint8_t modifier) {
-  return code * (uint16_t) 15 + (modifier & 0x0f);
+inline uint32_t timeCodeToSeconds(uint16_t code, uint8_t modifier) {
+  return code * (uint32_t) 15 + (modifier & 0x0f);
 }
 
 /**
@@ -191,8 +162,8 @@ class ZoneRuleBroker {
     }
 
     uint32_t atTimeSeconds() const {
-      return 60 * timeCodeToMinutes(
-          pgm_read_byte(&mZoneRule->atTimeCode),
+      return timeCodeToSeconds(
+          pgm_read_word(&mZoneRule->atTimeCode),
           pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
@@ -201,7 +172,7 @@ class ZoneRuleBroker {
     }
 
     int32_t deltaSeconds() const {
-      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
+      return int32_t(60) * (int8_t) pgm_read_byte(&mZoneRule->deltaMinutes);
     }
 
     const char* letter() const {
@@ -292,13 +263,12 @@ class ZoneEraBroker {
     }
 
     int32_t offsetSeconds() const {
-      return 60 * toOffsetMinutes(
-        pgm_read_byte(&mZoneEra->offsetCode),
-        pgm_read_byte(&mZoneEra->deltaCode));
+      return int32_t(15) * (int16_t) pgm_read_word(&mZoneEra->offsetCode)
+        + (int32_t) pgm_read_byte(&mZoneEra->offsetRemainder);
     }
 
     int32_t deltaSeconds() const {
-      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
+      return int32_t(60) * (int8_t) pgm_read_byte(&mZoneEra->deltaMinutes);
     }
 
     const char* format() const {
@@ -318,8 +288,8 @@ class ZoneEraBroker {
     }
 
     uint32_t untilTimeSeconds() const {
-      return 60 * timeCodeToMinutes(
-        pgm_read_byte(&mZoneEra->untilTimeCode),
+      return timeCodeToSeconds(
+        pgm_read_word(&mZoneEra->untilTimeCode),
         pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
@@ -423,7 +393,7 @@ template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer)
     const {
   ace_common::printReplaceCharTo(
-      printer, internal::findShortName(name()), '_', ' ');
+      printer, internal:: findShortName(name()), '_', ' ');
 }
 
 //-----------------------------------------------------------------------------
@@ -480,75 +450,7 @@ class ZoneInfoStore {
     }
 };
 
-} // zoneinfo
-
-//-----------------------------------------------------------------------------
-
-namespace basic {
-
-/** Data broker for accessing ZoneContext. */
-using ZoneContextBroker = zoneinfo::ZoneContextBroker<ZoneContext>;
-
-/** Data broker for accessing ZoneRule. */
-using ZoneRuleBroker = zoneinfo::ZoneRuleBroker<ZoneContext, ZoneRule>;
-
-/** Data broker for accessing ZonePolicy. */
-using ZonePolicyBroker = zoneinfo::ZonePolicyBroker<
-    ZoneContext, ZonePolicy, ZoneRule>;
-
-/** Data broker for accessing ZoneEra. */
-using ZoneEraBroker = zoneinfo::ZoneEraBroker<
-    ZoneContext, ZoneEra, ZonePolicy, ZoneRule>;
-
-/** Data broker for accessing ZoneInfo. */
-using ZoneInfoBroker = zoneinfo::ZoneInfoBroker<
-    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
-
-/**
- * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
- * array of (const ZoneInfo*) in the zone_registry.cpp file.
- */
-using ZoneRegistryBroker = zoneinfo::ZoneRegistryBroker<ZoneInfo>;
-
-/** Storage object that returns a ZoneInfoBroker from a ZoneInfo pointer. */
-using ZoneInfoStore = zoneinfo::ZoneInfoStore<
-    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
-
-} // basic
-
-//-----------------------------------------------------------------------------
-
-namespace extended {
-
-/** Data broker for accessing ZoneContext. */
-using ZoneContextBroker = zoneinfo::ZoneContextBroker<ZoneContext>;
-
-/** Data broker for accessing ZoneRule. */
-using ZoneRuleBroker = zoneinfo::ZoneRuleBroker<ZoneContext, ZoneRule>;
-
-/** Data broker for accessing ZonePolicy. */
-using ZonePolicyBroker = zoneinfo::ZonePolicyBroker<
-    ZoneContext, ZonePolicy, ZoneRule>;
-
-/** Data broker for accessing ZoneEra. */
-using ZoneEraBroker = zoneinfo::ZoneEraBroker<
-    ZoneContext, ZoneEra, ZonePolicy, ZoneRule>;
-
-/** Data broker for accessing ZoneInfo. */
-using ZoneInfoBroker = zoneinfo::ZoneInfoBroker<
-    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
-
-/**
- * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
- * array of (const ZoneInfo*) in the zone_registry.cpp file.
- */
-using ZoneRegistryBroker = zoneinfo::ZoneRegistryBroker<ZoneInfo>;
-
-/** Storage object that returns a ZoneInfoBroker from a ZoneInfo pointer. */
-using ZoneInfoStore = zoneinfo::ZoneInfoStore<
-    ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
-
-} // extended
+} // zoneinfohigh
 
 } // ace_time
 

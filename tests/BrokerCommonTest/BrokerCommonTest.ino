@@ -5,13 +5,7 @@
 #include <AceTime.h>
 
 using ace_time::internal::findShortName;
-using ace_time::zoneinfo::timeCodeToMinutes;
-
-test(timeCodeToMinutes) {
-  uint8_t code = 1;
-  uint8_t modifier = 0x01;
-  assertEqual((uint16_t)16, timeCodeToMinutes(code, modifier));
-}
+using ace_time::zoneinfomid::timeCodeToMinutes;
 
 test(findShortStringTest_cstring) {
   assertEqual("", findShortName(""));

@@ -7,8 +7,7 @@
 #define ACE_TIME_COMPLETE_ZONE_PROCESSOR_H
 
 #include <stdint.h> // uintptr_t
-#include "../zoneinfo/ZoneInfoHires.h"
-#include "../zoneinfo/BrokersHires.h"
+#include "../zoneinfo/BrokersHigh.h"
 #include "ExtendedZoneProcessor.h"
 
 namespace ace_time {

@@ -7,8 +7,8 @@
 #define ACE_TIME_COMPLETE_ZONE_H
 
 #include <AceCommon.h> // KString
-#include "../zoneinfo/ZoneInfoHires.h"
-#include "../zoneinfo/BrokersHires.h"
+#include "../zoneinfo/infos.h"
+#include "../zoneinfo/brokers.h"
 #include "TimeOffset.h"
 
 class Print;

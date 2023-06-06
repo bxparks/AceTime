@@ -8,7 +8,7 @@
 
 #include <AceCommon.h>
 #include <AceSorting.h>
-#include "../zoneinfo/ZoneInfo.h"
+#include "../zoneinfo/infos.h"
 #include "ZoneRegistrar.h"
 #include "TimeOffset.h"
 #include "ZoneProcessorCache.h"

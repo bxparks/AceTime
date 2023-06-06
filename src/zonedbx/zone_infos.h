@@ -70,7 +70,7 @@
 #ifndef ACE_TIME_ZONEDBX_ZONE_INFOS_H
 #define ACE_TIME_ZONEDBX_ZONE_INFOS_H
 
-#include <zoneinfo/ZoneInfo.h>
+#include <zoneinfo/infos.h>
 
 namespace ace_time {
 namespace zonedbx {

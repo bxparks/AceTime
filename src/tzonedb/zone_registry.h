@@ -72,7 +72,7 @@
 #ifndef ACE_TIME_TZONEDB_ZONE_REGISTRY_H
 #define ACE_TIME_TZONEDB_ZONE_REGISTRY_H
 
-#include <zoneinfo/ZoneInfo.h>
+#include <zoneinfo/infos.h>
 
 namespace ace_time {
 namespace tzonedb {

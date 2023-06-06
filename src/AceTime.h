@@ -25,7 +25,8 @@
 #endif
 
 #include "zoneinfo/compat.h"
-#include "zoneinfo/ZoneInfo.h"
+#include "zoneinfo/infos.h"
+#include "zoneinfo/brokers.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/EpochConverterJulian.h"

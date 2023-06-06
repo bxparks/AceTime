@@ -9,8 +9,8 @@
 #include <string.h> // strchr()
 #include <stdint.h>
 #include <AceCommon.h> // copyReplaceChar()
-#include "../zoneinfo/ZoneInfo.h"
-#include "../zoneinfo/Brokers.h"
+#include "../zoneinfo/infos.h"
+#include "../zoneinfo/brokers.h"
 #include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
 #include "TimeOffset.h"
