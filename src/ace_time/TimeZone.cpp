@@ -5,6 +5,7 @@
 
 #include <Print.h>
 #include "TimeZone.h"
+#include "TimeOffset.h"
 
 namespace ace_time {
 

@@ -27,12 +27,12 @@ test(ZonedExtra, accessors) {
   ZonedExtra ze(1, 2, 3, 4, 5, s);
 
   assertEqual(ze.type(), 1);
-  assertEqual(ze.stdOffset().toMinutes(), 2);
-  assertEqual(ze.dstOffset().toMinutes(), 3);
-  assertEqual(ze.timeOffset().toMinutes(), 2+3);
-  assertEqual(ze.reqStdOffset().toMinutes(), 4);
-  assertEqual(ze.reqDstOffset().toMinutes(), 5);
-  assertEqual(ze.reqTimeOffset().toMinutes(), 4+5);
+  assertEqual(ze.stdOffset().toSeconds(), 2);
+  assertEqual(ze.dstOffset().toSeconds(), 3);
+  assertEqual(ze.timeOffset().toSeconds(), 2+3);
+  assertEqual(ze.reqStdOffset().toSeconds(), 4);
+  assertEqual(ze.reqDstOffset().toSeconds(), 5);
+  assertEqual(ze.reqTimeOffset().toSeconds(), 4+5);
   assertEqual(ze.abbrev(), "test");
 }
 

@@ -10,11 +10,13 @@
 #include <AceSorting.h>
 #include "../zoneinfo/ZoneInfo.h"
 #include "ZoneRegistrar.h"
+#include "TimeOffset.h"
 #include "ZoneProcessorCache.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
 #include "BasicZone.h"
 #include "ExtendedZone.h"
+#include "CompleteZone.h"
 
 namespace ace_time {
 
@@ -81,12 +83,24 @@ class ManualZoneManager {
  *    ExtendedZoneProcessor)
  * @tparam Z zone wrapper class, either BasicZone or ExtendedZone
  */
-template <
-    typename ZI, typename ZRR,
-    typename ZP, typename Z
->
+template <typename ZI, typename ZRR, typename ZP, typename Z>
 class ZoneManagerTemplate : public ZoneManager {
   public:
+    /**
+     * Constructor.
+     *
+     * @param zoneRegistrySize number of ZoneInfo entries in zoneRegistry
+     * @param zoneRegistry an array of ZoneInfo entries
+     */
+    ZoneManagerTemplate(
+        uint16_t zoneRegistrySize,
+        const ZI* const* zoneRegistry,
+        ZoneProcessorCacheBaseTemplate<ZP>& zoneProcessorCache
+    ):
+        mZoneRegistrar(zoneRegistrySize, zoneRegistry),
+        mZoneProcessorCache(zoneProcessorCache)
+    {}
+
     /**
      * Create a TimeZone for the given zone name (e.g. "America/Los_Angeles").
      */
@@ -184,102 +198,20 @@ class ZoneManagerTemplate : public ZoneManager {
       return Z(zoneInfo);
     }
 
-  protected:
-    /**
-     * Constructor.
-     *
-     * @param zoneRegistrySize number of ZoneInfo entries in zoneRegistry
-     * @param zoneRegistry an array of ZoneInfo entries
-     */
-    ZoneManagerTemplate(
-        uint16_t zoneRegistrySize,
-        const ZI* const* zoneRegistry,
-        ZoneProcessorCacheBaseTemplate<ZP>& zoneProcessorCache
-    ):
-        mZoneRegistrar(zoneRegistrySize, zoneRegistry),
-        mZoneProcessorCache(zoneProcessorCache)
-    {}
-
+  private:
     // disable copy constructor and assignment operator
     ZoneManagerTemplate(const ZoneManagerTemplate&) = delete;
     ZoneManagerTemplate& operator=(const ZoneManagerTemplate&) = delete;
 
-  protected:
+  private:
     const ZRR mZoneRegistrar;
     ZoneProcessorCacheBaseTemplate<ZP>& mZoneProcessorCache;
 };
 
-#if 1
 /**
  * An implementation of the ZoneManager which uses a registry of basic::ZoneInfo
  * records.
  */
-class BasicZoneManager: public ZoneManagerTemplate<
-    basic::ZoneInfo,
-    basic::ZoneRegistrar,
-    BasicZoneProcessor,
-    BasicZone
-> {
-
-  public:
-    BasicZoneManager(
-        uint16_t zoneRegistrySize,
-        const basic::ZoneInfo* const* zoneRegistry,
-        BasicZoneProcessorCacheBase& zoneProcessorCache
-    ):
-        ZoneManagerTemplate<
-            basic::ZoneInfo,
-            basic::ZoneRegistrar,
-            BasicZoneProcessor,
-            BasicZone
-        >(
-            zoneRegistrySize,
-            zoneRegistry,
-            zoneProcessorCache
-        )
-    {}
-};
-
-/**
- * An implementation of the ZoneManager which uses a registry of
- * extended::ZoneInfo records.
- */
-class ExtendedZoneManager: public ZoneManagerTemplate<
-    extended::ZoneInfo,
-    extended::ZoneRegistrar,
-    ExtendedZoneProcessor,
-    ExtendedZone
-> {
-
-  public:
-    ExtendedZoneManager(
-        uint16_t zoneRegistrySize,
-        const extended::ZoneInfo* const* zoneRegistry,
-        ExtendedZoneProcessorCacheBase& zoneProcessorCache
-    ):
-        ZoneManagerTemplate<
-            extended::ZoneInfo,
-            extended::ZoneRegistrar,
-            ExtendedZoneProcessor,
-            ExtendedZone
-        >(
-            zoneRegistrySize,
-            zoneRegistry,
-            zoneProcessorCache
-        )
-    {}
-};
-
-#else
-
-// NOTE: The following typedefs seem shorter and easier to maintain. The
-// problem is that they make error messages basically impossible to decipher
-// because the template class names are far too long for human comprehension.
-// Fortunately, there seems to be no difference in code size between the above
-// solution using subclasses and this solution using typedefs. The compiler
-// seems to optimize away the vtables of the parent and child classes. So we'll
-// use the above subclassing solution to get better error messages.
-
 using BasicZoneManager = ZoneManagerTemplate<
     basic::ZoneInfo,
     basic::ZoneRegistrar,
@@ -287,6 +219,10 @@ using BasicZoneManager = ZoneManagerTemplate<
     BasicZone
 >;
 
+/**
+ * An implementation of the ZoneManager which uses a registry of
+ * extended::ZoneInfo records.
+ */
 using ExtendedZoneManager = ZoneManagerTemplate<
     extended::ZoneInfo,
     extended::ZoneRegistrar,
@@ -294,7 +230,16 @@ using ExtendedZoneManager = ZoneManagerTemplate<
     ExtendedZone
 >;
 
-#endif
+/**
+ * An implementation of the ZoneManager which uses a registry of
+ * complete::ZoneInfo records.
+ */
+using CompleteZoneManager = ZoneManagerTemplate<
+    complete::ZoneInfo,
+    complete::ZoneRegistrar,
+    CompleteZoneProcessor,
+    CompleteZone
+>;
 
 }
 

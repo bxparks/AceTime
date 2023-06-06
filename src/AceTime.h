@@ -42,6 +42,7 @@
 #include "ace_time/ZoneProcessor.h"
 #include "ace_time/BasicZoneProcessor.h"
 #include "ace_time/ExtendedZoneProcessor.h"
+#include "ace_time/CompleteZoneProcessor.h"
 #include "ace_time/ZoneProcessorCache.h"
 #include "ace_time/ZoneRegistrar.h"
 #include "ace_time/ZoneManager.h"
@@ -62,6 +63,9 @@
 #include "zonedbx/zone_policies.h"
 #include "zonedbx/zone_infos.h"
 #include "zonedbx/zone_registry.h"
+#include "zonedbc/zone_policies.h"
+#include "zonedbc/zone_infos.h"
+#include "zonedbc/zone_registry.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
 #define ACE_TIME_VERSION 20203

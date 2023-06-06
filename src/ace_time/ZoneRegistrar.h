@@ -10,6 +10,8 @@
 #include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
 #include "../zoneinfo/ZoneInfo.h"
 #include "../zoneinfo/Brokers.h"
+#include "../zoneinfo/ZoneInfoHires.h"
+#include "../zoneinfo/BrokersHires.h"
 
 // AutoBenchmark.ino
 void runIndexForZoneIdBinary();
@@ -205,89 +207,45 @@ class ZoneRegistrarTemplate {
 
 namespace basic {
 
-#if 1
-
 /**
  * Concrete template instantiation of ZoneRegistrarTemplate for
  * basic::ZoneInfo, which can be used with BasicZoneProcessor.
  */
-class ZoneRegistrar: public internal::ZoneRegistrarTemplate<
+using ZoneRegistrar = internal::ZoneRegistrarTemplate<
     basic::ZoneInfo,
     basic::ZoneInfoBroker,
     basic::ZoneRegistryBroker
-> {
-  public:
-    ZoneRegistrar(
-        uint16_t zoneRegistrySize,
-        const basic::ZoneInfo* const* zoneRegistry
-    ) :
-        internal::ZoneRegistrarTemplate<
-            basic::ZoneInfo,
-            basic::ZoneInfoBroker,
-            basic::ZoneRegistryBroker
-        >(zoneRegistrySize, zoneRegistry)
-    {}
-};
-
-#else
-
-namespace basic {
-
-// Use subclassing instead of template typedef so that error messages are
-// understandable. The compiler seems to optimize away the subclass overhead.
-
-typedef internal::ZoneRegistrarTemplate<
-    basic::ZoneInfo,
-    basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker
->
-    ZoneRegistrar;
-
-#endif
+>;
 
 } // basic
 
 namespace extended {
 
-#if 1
+/**
+ * Concrete template instantiation of ZoneRegistrarTemplate for
+ * extended::ZoneInfo, which can be used with ExtendedZoneProcessor.
+ */
+using ZoneRegistrar = internal::ZoneRegistrarTemplate<
+    extended::ZoneInfo,
+    extended::ZoneInfoBroker,
+    extended::ZoneRegistryBroker
+>;
+
+} // extended
+
+namespace complete {
 
 /**
  * Concrete template instantiation of ZoneRegistrarTemplate for
  * extended::ZoneInfo, which can be used with ExtendedZoneProcessor.
  */
-class ZoneRegistrar: public internal::ZoneRegistrarTemplate<
-    extended::ZoneInfo,
-    extended::ZoneInfoBroker,
-    extended::ZoneRegistryBroker
-> {
-  public:
-    ZoneRegistrar(
-        uint16_t zoneRegistrySize,
-        const extended::ZoneInfo* const* zoneRegistry
-    ) :
-        internal::ZoneRegistrarTemplate<
-            extended::ZoneInfo,
-            extended::ZoneInfoBroker,
-            extended::ZoneRegistryBroker
-        >(zoneRegistrySize, zoneRegistry)
-    {}
-};
+using ZoneRegistrar = internal::ZoneRegistrarTemplate<
+    complete::ZoneInfo,
+    complete::ZoneInfoBroker,
+    complete::ZoneRegistryBroker
+>;
 
-#else
-
-// Use subclassing instead of template typedef so that error messages are
-// understandable. The compiler seems to optimize away the subclass overhead.
-
-typedef internal::ZoneRegistrarTemplate<
-    extended::ZoneInfo,
-    extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker
->
-    ZoneRegistrar;
-
-#endif
-
-} // extended
+} // complete
 
 } // ace_time
 

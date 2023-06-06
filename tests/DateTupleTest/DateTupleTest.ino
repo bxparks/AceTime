@@ -55,30 +55,97 @@ test(DateTuple, normalizeDateTuple) {
   normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{2000, 1, 1, 0, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, 15*95, ZoneContext::kSuffixW}; // 23:45
+  dtp = {2000, 1, 1, (23*60+45)*60, ZoneContext::kSuffixW}; // 23:45
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{2000, 1, 1, 15*95, ZoneContext::kSuffixW}));
+  assertTrue((dtp
+      == DateTuple{2000, 1, 1, (23*60+45)*60, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, 15*96, ZoneContext::kSuffixW}; // 24:00
+  dtp = {2000, 1, 1, 24*60*60, ZoneContext::kSuffixW}; // 24:00
   normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{2000, 1, 2, 0, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, 15*97, ZoneContext::kSuffixW}; // 24:15
+  dtp = {2000, 1, 1, (24*60+15)*60, ZoneContext::kSuffixW}; // 24:15
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{2000, 1, 2, 15, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{2000, 1, 2, 15*60, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, -15*96, ZoneContext::kSuffixW}; // -24:00
+  dtp = {2000, 1, 1, -24*60*60, ZoneContext::kSuffixW}; // -24:00
   normalizeDateTuple(&dtp);
   assertTrue((dtp == DateTuple{1999, 12, 31, 0, ZoneContext::kSuffixW}));
 
-  dtp = {2000, 1, 1, -15*97, ZoneContext::kSuffixW}; // -24:15
+  dtp = {2000, 1, 1, -(24*60+15)*60, ZoneContext::kSuffixW}; // -24:15
   normalizeDateTuple(&dtp);
-  assertTrue((dtp == DateTuple{1999, 12, 31, -15, ZoneContext::kSuffixW}));
+  assertTrue((dtp == DateTuple{1999, 12, 31, -15*60, ZoneContext::kSuffixW}));
+}
+
+test(DateTuple, expandDateTuple) {
+  DateTuple ttw;
+  DateTuple tts;
+  DateTuple ttu;
+  int32_t offsetSeconds = 2*60*60;
+  int32_t deltaSeconds = 1*60*60;
+
+  DateTuple tt = {2000, 1, 30, 4*60*60, ZoneContext::kSuffixW}; // 04:00
+  expandDateTuple(&tt, offsetSeconds, deltaSeconds, &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 30, 4*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 30, 3*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 30, 1*60*60, ZoneContext::kSuffixU}));
+
+  tt = {2000, 1, 30, 3*60*60, ZoneContext::kSuffixS};
+  expandDateTuple(&tt, offsetSeconds, deltaSeconds, &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 30, 4*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 30, 3*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 30, 1*60*60, ZoneContext::kSuffixU}));
+
+  tt = {2000, 1, 30, 1*60*60, ZoneContext::kSuffixU};
+  expandDateTuple(&tt, offsetSeconds, deltaSeconds, &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 30, 4*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 30, 3*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 30, 1*60*60, ZoneContext::kSuffixU}));
+}
+
+// Validate fix for bug that performed a cast to (int16_t) minutes, instead of
+// (int32_t) seconds.
+test(DateTuple, expandDateTuple_largeOffset) {
+  DateTuple ttw;
+  DateTuple tts;
+  DateTuple ttu;
+
+  int32_t offsetSeconds = 23*60*60; // 82800
+  int32_t deltaSeconds = 23*60*60; // 82800
+  DateTuple tt = {2000, 1, 30, 23*60*60, ZoneContext::kSuffixS}; // 23:00s
+  expandDateTuple(&tt, offsetSeconds, deltaSeconds, &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, 22*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 30, 23*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 30, 0*60*60, ZoneContext::kSuffixU}));
+
+  offsetSeconds = -23*60*60; // 82800
+  deltaSeconds = -23*60*60; // 7200
+  tt = {2000, 1, 31, 1*60*60, ZoneContext::kSuffixS}; // 01:00s
+  expandDateTuple(&tt, offsetSeconds, deltaSeconds, &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, -22*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 31, 1*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 2, 1, 0*60*60, ZoneContext::kSuffixU}));
+
+  offsetSeconds = 23*60*60; // 82800
+  deltaSeconds = 1*60*60; // 82800
+  tt = {2000, 1, 30, 23*60*60, ZoneContext::kSuffixU}; // 23:00u
+  expandDateTuple(&tt, offsetSeconds, deltaSeconds, &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, 23*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 31, 22*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 30, 23*60*60, ZoneContext::kSuffixU}));
+
+  offsetSeconds = -23*60*60; // 82800
+  deltaSeconds = -1*60*60; // 7200
+  tt = {2000, 1, 31, 1*60*60, ZoneContext::kSuffixU}; // 01:00u
+  expandDateTuple(&tt, offsetSeconds, deltaSeconds, &ttw, &tts, &ttu);
+  assertTrue((ttw == DateTuple{2000, 1, 31, -23*60*60, ZoneContext::kSuffixW}));
+  assertTrue((tts == DateTuple{2000, 1, 31, -22*60*60, ZoneContext::kSuffixS}));
+  assertTrue((ttu == DateTuple{2000, 1, 31, 1*60*60, ZoneContext::kSuffixU}));
 }
 
 test(DateTuple, substractDateTuple) {
   DateTuple dta = {2000, 1, 1, 0, ZoneContext::kSuffixW}; // 2000-01-01 00:00
-  DateTuple dtb = {2000, 1, 1, 1, ZoneContext::kSuffixW}; // 2000-01-01 00:01
+  DateTuple dtb = {2000, 1, 1, 60, ZoneContext::kSuffixW}; // 2000-01-01 00:01
   acetime_t diff = subtractDateTuple(dta, dtb);
   assertEqual((acetime_t) -60, diff);
 
@@ -105,7 +172,7 @@ test(DateTuple, substractDateTuple) {
 // should be identical to the year 2000, in particular, the leap years.
 test(DateTuple, substractDateTuple_no_overflow) {
   DateTuple dta = {6000, 1, 1, 0, ZoneContext::kSuffixW}; // 6000-01-01 00:00
-  DateTuple dtb = {6000, 1, 1, 1, ZoneContext::kSuffixW}; // 6000-01-01 00:01
+  DateTuple dtb = {6000, 1, 1, 60, ZoneContext::kSuffixW}; // 6000-01-01 00:01
   acetime_t diff = subtractDateTuple(dta, dtb);
   assertEqual((acetime_t) -60, diff);
 

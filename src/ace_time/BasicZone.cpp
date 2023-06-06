@@ -15,8 +15,6 @@ using ace_time::basic::ZoneContextBroker;
 
 namespace ace_time {
 
-#if ACE_TIME_USE_PROGMEM
-
 void BasicZone::printNameTo(Print& printer) const {
   const __FlashStringHelper* name = mZoneInfoBroker.name();
   ZoneContextBroker zoneContext = mZoneInfoBroker.zoneContext();
@@ -29,22 +27,5 @@ void BasicZone::printShortNameTo(Print& printer) const {
   const __FlashStringHelper* shortName = findShortName(name);
   printReplaceCharTo(printer, shortName, '_', ' ');
 }
-
-#else
-
-void BasicZone::printNameTo(Print& printer) const {
-  const char* name = mZoneInfoBroker.name();
-  ZoneContextBroker zoneContext = mZoneInfoBroker.zoneContext();
-  KString kname(name, zoneContext.fragments(), zoneContext.numFragments());
-  kname.printTo(printer);
-}
-
-void BasicZone::printShortNameTo(Print& printer) const {
-  const char* name = mZoneInfoBroker.name();
-  const char* shortName = findShortName(name);
-  printReplaceCharTo(printer, shortName, '_', ' ');
-}
-
-#endif // ACE_TIME_USE_PROGMEM
 
 } // ace_time

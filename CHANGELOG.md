@@ -15,6 +15,25 @@
     * Update `BasicZoneManager` to detect gaps.
         * Allows `AceTimeValidation/validation` tests to pass.
         * Still not able to distinguish between exact and overlap though.
+    * Support timezones before 1972.
+        * Before standardizing on UTC, many timezones had local times offsets
+          from UTC which require one-second resolution instead of one-minute
+          resolution. This requires changing many internal variables from
+          `int16_t` to `int32_t`.
+        * Change `TimeOffset` to support one-second resolution using `int32_t`.
+        * Rename `BasicZone::stdOffseMinutes()` to `BasicZone::stdOffset()`
+          which returns a `TimeOffset` object.
+        * Rename `ExtendedZone::stdOffseMinutes()` to
+          `ExtendedZone::stdOffset()` which returns a `TimeOffset` object.
+        * Leave `BasicZoneProcessor` using one-minute resolution because its
+          algorithm has an inherent limitations which cannot handle many
+          timezones before 1972, so no need to convert `int16_t` to `int32_t`
+          fields.
+        * Add `CompleteZoneManager`, `CompleteZoneProcessor`,
+          `CompleteZoneProcessorCache`, `CompleteZone`
+        * Add `zonedbc` database which is valid from `[1800,10000)`, which
+          includes all transitions in the TZDB.
+        * Add `--scope complete` to access the `zonedbc` database.
 * 2.2.3 (2023-05-31, TZDB version 2023c)
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.

@@ -86,15 +86,15 @@ class ZonedExtra {
     /** Consructor */
     explicit ZonedExtra(
         uint8_t type,
-        int16_t stdOffsetMinutes,
-        int16_t dstOffsetMinutes,
-        int16_t reqStdOffsetMinutes,
-        int16_t reqDstOffsetMinutes,
+        int32_t stdOffsetSeconds,
+        int32_t dstOffsetSeconds,
+        int32_t reqStdOffsetSeconds,
+        int32_t reqDstOffsetSeconds,
         const char* abbrev)
-      : mStdOffsetMinutes(stdOffsetMinutes)
-      , mDstOffsetMinutes(dstOffsetMinutes)
-      , mReqStdOffsetMinutes(reqStdOffsetMinutes)
-      , mReqDstOffsetMinutes(reqDstOffsetMinutes)
+      : mStdOffsetSeconds(stdOffsetSeconds)
+      , mDstOffsetSeconds(dstOffsetSeconds)
+      , mReqStdOffsetSeconds(reqStdOffsetSeconds)
+      , mReqDstOffsetSeconds(reqDstOffsetSeconds)
       , mType(type)
     {
       memcpy(mAbbrev, abbrev, internal::kAbbrevSize);
@@ -103,19 +103,19 @@ class ZonedExtra {
 
     /** Indicates that the LocalDateTime or epochSeconds was not found. */
     bool isError() const {
-      return mStdOffsetMinutes == kInvalidMinutes;
+      return mStdOffsetSeconds == kInvalidSeconds;
     }
 
     uint8_t type() const { return mType; }
 
     /** STD offset of the resulting OffsetDateTime. */
     TimeOffset stdOffset() const {
-      return TimeOffset::forMinutes(mStdOffsetMinutes);
+      return TimeOffset::forSeconds(mStdOffsetSeconds);
     }
 
     /** DST offset of the resulting OffsetDateTime. */
     TimeOffset dstOffset() const {
-      return TimeOffset::forMinutes(mDstOffsetMinutes);
+      return TimeOffset::forSeconds(mDstOffsetSeconds);
     }
 
     /**
@@ -125,7 +125,7 @@ class ZonedExtra {
      * `ZonedDateTime::forEpochSeconds()`.
      */
     TimeOffset timeOffset() const {
-      return TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes);
+      return TimeOffset::forSeconds(mStdOffsetSeconds + mDstOffsetSeconds);
     }
 
     /**
@@ -133,7 +133,7 @@ class ZonedExtra {
      * This will be different from stdOffset only for kTypeGap.
      */
     TimeOffset reqStdOffset() const {
-      return TimeOffset::forMinutes(mReqStdOffsetMinutes);
+      return TimeOffset::forSeconds(mReqStdOffsetSeconds);
     }
 
     /**
@@ -141,7 +141,7 @@ class ZonedExtra {
      * This will be different from stdOffset only for kTypeGap.
      */
     TimeOffset reqDstOffset() const {
-      return TimeOffset::forMinutes(mReqDstOffsetMinutes);
+      return TimeOffset::forSeconds(mReqDstOffsetSeconds);
     }
 
     /**
@@ -153,8 +153,8 @@ class ZonedExtra {
      * ZonedDateTime. The ZonedExtra object provided access to this UTC offset.
      */
     TimeOffset reqTimeOffset() const {
-      return TimeOffset::forMinutes(
-          mReqStdOffsetMinutes + mReqDstOffsetMinutes);
+      return TimeOffset::forSeconds(
+          mReqStdOffsetSeconds + mReqDstOffsetSeconds);
     }
 
     /**
@@ -166,12 +166,12 @@ class ZonedExtra {
     const char* abbrev() const { return mAbbrev; }
 
   private:
-    static const int16_t kInvalidMinutes = INT16_MIN;
+    static const int32_t kInvalidSeconds = INT32_MIN;
 
-    int16_t mStdOffsetMinutes = kInvalidMinutes;
-    int16_t mDstOffsetMinutes = kInvalidMinutes;
-    int16_t mReqStdOffsetMinutes = kInvalidMinutes;
-    int16_t mReqDstOffsetMinutes = kInvalidMinutes;
+    int32_t mStdOffsetSeconds = kInvalidSeconds;
+    int32_t mDstOffsetSeconds = kInvalidSeconds;
+    int32_t mReqStdOffsetSeconds = kInvalidSeconds;
+    int32_t mReqDstOffsetSeconds = kInvalidSeconds;
     uint8_t mType = kTypeNotFound;
     char mAbbrev[internal::kAbbrevSize] = "";
 };

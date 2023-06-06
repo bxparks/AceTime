@@ -61,10 +61,10 @@ struct MatchingEraTemplate {
   MatchingEraTemplate* prevMatch;
 
   /** The STD offset of the last Transition in this MatchingEra. */
-  int16_t lastOffsetMinutes;
+  int32_t lastOffsetSeconds;
 
   /** The DST offset of the last Transition in this MatchingEra. */
-  int16_t lastDeltaMinutes;
+  int32_t lastDeltaSeconds;
 
   void log() const {
     logging::printf("MatchingEra(");
@@ -86,20 +86,20 @@ struct MatchingEraTemplate {
  * 'untilDateTime'.
  *
  * There are 2 types of Transition instances:
- *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetMinutes is
- *  given by match->offsetMinutes. The additional DST delta is given by
- *  match->deltaMinutes.
- *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetMinutes is
- *  given by match->offsetMinutes. The additional DST delta is given by
- *  rule->deltaMinutes.
+ *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetSeconds is
+ *  given by match->offsetSeconds. The additional DST delta is given by
+ *  match->deltaSeconds.
+ *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetSeconds is
+ *  given by match->offsetSeconds. The additional DST delta is given by
+ *  rule->deltaSeconds.
  *
  * Some of the instance variables (e.g. 'isValidPrior', 'compareStatus',
  * 'transitionTime', 'transitionTimeS', 'transitionTimeU', 'letter()' and
  * 'format()') are transient parameters which are in the implementation of the
  * TransitionStorage::init() method.
  *
- * Other variables (e.g. 'startDateTime', 'startEpochSeconds', 'offsetMinutes',
- * 'deltaMinutes', 'abbrev', 'letterBuf') are essential parameters which are
+ * Other variables (e.g. 'startDateTime', 'startEpochSeconds', 'offsetSeconds',
+ * 'deltaSeconds', 'abbrev', 'letterBuf') are essential parameters which are
  * required to find a matching Transition and construct the corresponding
  * ZonedDateTime.
  *
@@ -177,15 +177,15 @@ struct TransitionTemplate {
 
   /**
    * The base offset minutes, not the total effective UTC offset. Note that
-   * this is different than basic::Transition::offsetMinutes used by
-   * BasicZoneProcessor which is the total effective offsetMinutes. (It may be
-   * possible to make this into an effective offsetMinutes (i.e. offsetMinutes
-   * + deltaMinutes) but it does not seem worth making that change right now.)
+   * this is different than basic::Transition::offsetSeconds used by
+   * BasicZoneProcessor which is the total effective offsetSeconds. (It may be
+   * possible to make this into an effective offsetSeconds (i.e. offsetSeconds
+   * + deltaSeconds) but it does not seem worth making that change right now.)
    */
-  int16_t offsetMinutes;
+  int32_t offsetSeconds;
 
-  /** The DST delta minutes. */
-  int16_t deltaMinutes;
+  /** The DST delta seconds. */
+  int32_t deltaSeconds;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[internal::kAbbrevSize];
@@ -223,8 +223,8 @@ struct TransitionTemplate {
     }
     logging::printf("; status=%d", compareStatus);
     logging::printf("; UTC");
-    logHourMinute(offsetMinutes);
-    logHourMinute(deltaMinutes);
+    logHourMinuteSecond(offsetSeconds);
+    logHourMinuteSecond(deltaSeconds);
     logging::printf("; tt="); transitionTime.log();
     logging::printf("; tts="); transitionTimeS.log();
     logging::printf("; ttu="); transitionTimeU.log();
@@ -238,18 +238,25 @@ struct TransitionTemplate {
   #endif
   }
 
-  /** Print minutes as [+/-]hh:mm. */
-  static void logHourMinute(int16_t minutes) {
+  /** Print seconds as [+/-]hh:mm[:ss]. */
+  static void logHourMinuteSecond(int32_t seconds) {
     char sign;
-    if (minutes < 0) {
+    if (seconds < 0) {
       sign = '-';
-      minutes = -minutes;
+      seconds = -seconds;
     } else {
       sign = '+';
     }
+    uint16_t minutes = seconds / 60;
+    uint8_t second = seconds - minutes * int32_t(60);
     uint8_t hour = minutes / 60;
     uint8_t minute = minutes - hour * 60;
-    logging::printf("%c%02u:%02u", sign, (unsigned) hour, (unsigned) minute);
+    if (second == 0) {
+      logging::printf("%c%02u:%02u", sign, (unsigned) hour, (unsigned) minute);
+    } else {
+      logging::printf("%c%02u:%02u:%02u",
+          sign, (unsigned) hour, (unsigned) minute, (unsigned) second);
+    }
   }
 
 #ifdef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
@@ -664,7 +671,7 @@ class TransitionStorageTemplate {
           ldt.year(),
           ldt.month(),
           ldt.day(),
-          (int16_t) (ldt.hour() * 60 + ldt.minute()),
+          ((ldt.hour() * int32_t(60) + ldt.minute()) * 60 + ldt.second()),
           extended::ZoneContext::kSuffixW,
       };
 

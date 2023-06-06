@@ -158,7 +158,7 @@ test(BasicZoneProcessorTest, init_primitives) {
   ZoneEraBroker priorEra = zoneProcessor.addTransitionPriorToYear(
       2001);
   assertEqual(1, zoneProcessor.mNumTransitions);
-  assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
+  assertEqual(-8*60*60, zoneProcessor.mTransitions[0].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
   assertEqual(1967, zoneProcessor.mTransitions[0].rule.fromYear());
   assertEqual(2006, zoneProcessor.mTransitions[0].rule.toYear());
@@ -168,13 +168,13 @@ test(BasicZoneProcessorTest, init_primitives) {
       2001, priorEra);
   assertEqual(3, zoneProcessor.mNumTransitions);
 
-  assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
+  assertEqual(-8*60*60, zoneProcessor.mTransitions[1].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
   assertEqual(1987, zoneProcessor.mTransitions[1].rule.fromYear());
   assertEqual(2006, zoneProcessor.mTransitions[1].rule.toYear());
   assertEqual(4, zoneProcessor.mTransitions[1].rule.inMonth());
 
-  assertEqual(-8*60, zoneProcessor.mTransitions[2].era.offsetMinutes());
+  assertEqual(-8*60*60, zoneProcessor.mTransitions[2].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
   assertEqual(1967, zoneProcessor.mTransitions[2].rule.fromYear());
   assertEqual(2006, zoneProcessor.mTransitions[2].rule.toYear());
@@ -214,21 +214,21 @@ test(BasicZoneProcessorTest, initForLocalDate) {
   assertTrue(ok);
   assertEqual(3, zoneProcessor.mNumTransitions);
 
-  assertEqual(-8*60, zoneProcessor.mTransitions[0].era.offsetMinutes());
+  assertEqual(-8*60*60, zoneProcessor.mTransitions[0].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
   assertEqual(2007, zoneProcessor.mTransitions[0].rule.fromYear());
   assertEqual(ZoneContext::kMaxYear,
       zoneProcessor.mTransitions[0].rule.toYear());
   assertEqual(11, zoneProcessor.mTransitions[0].rule.inMonth());
 
-  assertEqual(-8*60, zoneProcessor.mTransitions[1].era.offsetMinutes());
+  assertEqual(-8*60*60, zoneProcessor.mTransitions[1].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[1].era.format());
   assertEqual(2007, zoneProcessor.mTransitions[1].rule.fromYear());
   assertEqual(ZoneContext::kMaxYear,
       zoneProcessor.mTransitions[1].rule.toYear());
   assertEqual(3, zoneProcessor.mTransitions[1].rule.inMonth());
 
-  assertEqual(-8*60, zoneProcessor.mTransitions[2].era.offsetMinutes());
+  assertEqual(-8*60*60, zoneProcessor.mTransitions[2].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
   assertEqual(2007, zoneProcessor.mTransitions[2].rule.fromYear());
   assertEqual(ZoneContext::kMaxYear,
@@ -339,10 +339,10 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("PST", result.abbrev);
 
   // spring forward, into the gap, but BasicZoneProcessor cannot detect it
@@ -351,10 +351,10 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(1*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(1*60*60, result.reqDstOffsetSeconds);
   assertEqual("PDT", result.abbrev);
 
   // before fall back
@@ -363,10 +363,10 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(1*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(1*60*60, result.reqDstOffsetSeconds);
   assertEqual("PDT", result.abbrev);
 
   // just before fall back
@@ -375,10 +375,10 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(1*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(1*60*60, result.reqDstOffsetSeconds);
   assertEqual("PDT", result.abbrev);
 
   // fall back, so there is an overlap, but BasicZoneProcessor cannot detect it
@@ -388,10 +388,10 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("PST", result.abbrev);
 
   // two hours after fall back, no overlap
@@ -400,10 +400,10 @@ test(BasicZoneProcessorTest, findByEpochSeconds) {
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("PST", result.abbrev);
 }
 
@@ -420,10 +420,10 @@ test(BasicZoneProcessorTest, kZoneAfrica_Johannesburg) {
   epochSeconds = dt.toEpochSeconds();
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(2*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(2*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(2*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(2*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("SAST", result.abbrev);
 }
 
@@ -440,10 +440,10 @@ test(BasicZoneProcessorTest, kZoneAustralia_Darwin) {
   epochSeconds = dt.toEpochSeconds();
   FindResult result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(9*60+30, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(9*60+30, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual((9*60+30)*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual((9*60+30)*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("ACST", result.abbrev);
 }
 
@@ -495,50 +495,50 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   auto ldt = LocalDateTime::forComponents(2018, 3, 10, 1, 0, 0);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("PST", result.abbrev);
 
   // just before spring forward
   ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("PST", result.abbrev);
 
   // spring forward in the gap
   ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 1);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::kTypeGap);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(1*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(1*60*60, result.reqDstOffsetSeconds);
   assertEqual("PDT", result.abbrev);
 
   // before fall back
   ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(1*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(1*60*60, result.reqDstOffsetSeconds);
   assertEqual("PDT", result.abbrev);
 
   // just before fall back
   ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 59, 59);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(1*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(1*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(1*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(1*60*60, result.reqDstOffsetSeconds);
   assertEqual("PDT", result.abbrev);
 
   // fall back, so there is an overlap, but BasicZoneProcessor cannot detect it
@@ -546,20 +546,20 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   ldt = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 1);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("PST", result.abbrev);
 
   // two hours after fall back, no overlap
   ldt = LocalDateTime::forComponents(2018, 11, 4, 3, 0, 0);
   result = zoneProcessor.findByLocalDateTime(ldt);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
-  assertEqual(-8*60, result.stdOffsetMinutes);
-  assertEqual(0*60, result.dstOffsetMinutes);
-  assertEqual(-8*60, result.reqStdOffsetMinutes);
-  assertEqual(0*60, result.reqDstOffsetMinutes);
+  assertEqual(-8*60*60, result.stdOffsetSeconds);
+  assertEqual(0*60*60, result.dstOffsetSeconds);
+  assertEqual(-8*60*60, result.reqStdOffsetSeconds);
+  assertEqual(0*60*60, result.reqDstOffsetSeconds);
   assertEqual("PST", result.abbrev);
 }
 

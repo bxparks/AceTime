@@ -45,7 +45,7 @@ namespace basic {
  *
  * The 'era' and 'rule' variables' intermediate values calculated during the
  * init() phase. They are used to calculate the 'year', 'startEpochSeconds',
- * 'offsetMinutes', 'deltaMinutes', and 'abbrev' parameters which are used
+ * 'offsetSeconds', 'deltaSeconds', and 'abbrev' parameters which are used
  * during findMatch() lookup. This separation helps in moving the ZoneInfo and
  * ZonePolicy data structures into PROGMEM.
  *
@@ -252,24 +252,24 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       acetime_t epochSeconds0 = ldt.toEpochSeconds();
       auto result0 = findByEpochSeconds(epochSeconds0);
       if (result0.type == FindResult::kTypeNotFound) return result;
-      auto offset0 = TimeOffset::forMinutes(
-          result0.reqStdOffsetMinutes + result0.reqDstOffsetMinutes);
+      auto offset0 = TimeOffset::forSeconds(
+          result0.reqStdOffsetSeconds + result0.reqDstOffsetSeconds);
 
       // 1) Use offset0 to get the next epochSeconds and offset.
       auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
       acetime_t epochSeconds1 = odt.toEpochSeconds();
       auto result1 = findByEpochSeconds(epochSeconds1);
       if (result1.type == FindResult::kTypeNotFound) return result;
-      auto offset1 = TimeOffset::forMinutes(
-          result1.reqStdOffsetMinutes + result1.reqDstOffsetMinutes);
+      auto offset1 = TimeOffset::forSeconds(
+          result1.reqStdOffsetSeconds + result1.reqDstOffsetSeconds);
 
       // 2) Use offset1 to get the next epochSeconds and offset.
       odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
       acetime_t epochSeconds2 = odt.toEpochSeconds();
       auto result2 = findByEpochSeconds(epochSeconds2);
       if (result2.type == FindResult::kTypeNotFound) return result;
-      auto offset2 = TimeOffset::forMinutes(
-          result2.reqStdOffsetMinutes + result2.reqDstOffsetMinutes);
+      auto offset2 = TimeOffset::forSeconds(
+          result2.reqStdOffsetSeconds + result2.reqDstOffsetSeconds);
 
       // If offset1 and offset2 are equal, then we have an equilibrium
       // and odt(1) must equal odt(2).
@@ -280,9 +280,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         result = result1;
       } else {
         // If the offsets don't match, then I think we have a kTypeGap.
-        // Pick the req{Std,Dst}OffsetMinute that generates the later
-        // epochSeconds (the earlier transition), but convert into the
-        // LocalDateTime of the earlier epochSeconds (the later transition).
+        // Pick the stdOffset and dstOffset that generate the later epochSeconds
+        // (the earlier transition), but convert into the LocalDateTime of the
+        // earlier epochSeconds (the later transition).
         if (epochSeconds1 > epochSeconds2) {
           result = result1;
         } else {
@@ -299,11 +299,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       const Transition* transition = getTransition(epochSeconds);
       if (!transition) return result;
 
-      result.dstOffsetMinutes = transition->deltaMinutes;
-      result.stdOffsetMinutes = transition->offsetMinutes
-          - transition->deltaMinutes;
-      result.reqStdOffsetMinutes = result.stdOffsetMinutes;
-      result.reqDstOffsetMinutes = result.dstOffsetMinutes;
+      result.dstOffsetSeconds = transition->deltaMinutes * kMinToSec;
+      result.stdOffsetSeconds = (transition->offsetMinutes
+          - transition->deltaMinutes) * kMinToSec;
+      result.reqStdOffsetSeconds = result.stdOffsetSeconds;
+      result.reqDstOffsetSeconds = result.dstOffsetSeconds;
       result.type = FindResult::kTypeExact;
       result.abbrev = transition->abbrev;
 
@@ -691,9 +691,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      *    month from the rule using the expression ((rule) ? rule.inMonth() :
      *    1).
      * @param era the ZoneEra which defined this transition, used to extract
-     *    the offsetMinutes() and deltaMinutes()
+     *    the offsetSeconds() and deltaSeconds()
      * @param rule the ZoneRule which defined this transition, used to
-     *    extract deltaMinutes(), letter()
+     *    extract deltaSeconds(), letter()
      */
     void addTransition(int16_t year, uint8_t month, const ZEB& era,
           const ZRB& rule) const {
@@ -735,7 +735,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Create a Transition with the 'deltaMinutes' and 'offsetMInutes' filled
+     * Create a Transition with the 'deltaSeconds' and 'offsetSeconds' filled
      * in so that subsequent processing does not need to retrieve those again
      * (potentially from PROGMEM).
      */
@@ -747,18 +747,18 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       uint8_t mon;
       if (rule.isNull()) {
         mon = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
-        deltaMinutes = era.deltaMinutes();
+        deltaMinutes = era.deltaSeconds() / kMinToSec;
         letter = "";
       } else {
         mon = rule.inMonth();
-        deltaMinutes = rule.deltaMinutes();
+        deltaMinutes = rule.deltaSeconds() / kMinToSec;
         letter = rule.letter();
       }
       // Clobber the month if specified.
       if (month != 0) {
         mon = month;
       }
-      int16_t offsetMinutes = era.offsetMinutes() + deltaMinutes;
+      int16_t offsetMinutes = era.offsetSeconds() / kMinToSec + deltaMinutes;
 
       return {
         era,
@@ -788,7 +788,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Calculate the startEpochSeconds of each Transition. (previous, this also
-     * calculated the offsetMinutes and deltaMinutes as well, but it turned out
+     * calculated the offsetSeconds and deltaSeconds as well, but it turned out
      * that they could be calculated early in createTransition()). The start
      * time of a given transition is defined as the "wall clock", which means
      * that it is defined in terms of the *previous* Transition.
@@ -838,11 +838,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           // requires the offset of the previous transition.
           const int16_t prevOffsetMinutes = calcRuleOffsetMinutes(
               prevTransition->offsetMinutes,
-              transition.era.offsetMinutes(),
+              transition.era.offsetSeconds() / kMinToSec,
               transition.rule.atTimeSuffix());
 
           // startDateTime
-          const uint16_t minutes = transition.rule.atTimeMinutes();
+          const uint16_t minutes = transition.rule.atTimeSeconds() / 60;
           const uint8_t atHour = minutes / 60;
           const uint8_t atMinute = minutes % 60;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
@@ -975,6 +975,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
       return closestMatch;
     }
+
+  private:
+    static const int32_t kMinToSec = 60;
 
     const BF* mZoneInfoStore; // nullable
     ZIB mZoneInfoBroker;

@@ -7,10 +7,10 @@
 #define ACE_TIME_ZONE_PROCESSOR_CACHE_H
 
 #include "common/common.h"
-#include "TimeOffset.h"
 #include "OffsetDateTime.h"
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"
+#include "CompleteZoneProcessor.h"
 
 namespace ace_time {
 
@@ -100,7 +100,13 @@ using BasicZoneProcessorCacheBase =
 using ExtendedZoneProcessorCacheBase =
     ZoneProcessorCacheBaseTemplate<ExtendedZoneProcessor>;
 
-#if 1
+/**
+ * Base class for all ZoneProcessorCache implementations that use an
+ * CompleteZoneProcessor.
+ */
+using CompleteZoneProcessorCacheBase =
+    ZoneProcessorCacheBaseTemplate<CompleteZoneProcessor>;
+
 /**
  * An implementation of a BasicZoneProcessorCacheBase where the cache of size
  * SIZE is embedded into the class itself. This is expected to be created as a
@@ -153,22 +159,33 @@ class ExtendedZoneProcessorCache: public ExtendedZoneProcessorCacheBase {
   private:
     ExtendedZoneProcessor mZoneProcessors[SIZE];
 };
-#else
 
-// NOTE: The following typedef seems shorter and easier to maintain. The
-// problem is that it makes error messages basically impossible to decipher
-// because the immensely long full template class name is printed out. There
-// seems to be no difference in code size between the two. The compiler seems
-// to optimize away the vtables of the parent and child classes.
-
+/**
+ * An implementation of an CompleteZoneProcessorCacheBase where the cache of
+ * size SIZE is embedded into the class itself. This is expected to be created
+ * as a global object and passed into the CompleteZoneManager.
+ *
+ * @tparam SIZE number of zone processors, should be approximate the number
+ *    zones *concurrently* used in the app. It is expected that this will be
+ *    small. It can be 1 if the app never changes the TimeZone. It should be 2
+ *    if the user is able to select different timezones from a menu.
+ */
 template <uint8_t SIZE>
-using BasicZoneProcessorCache = ZoneProcessorCacheTemplate<
-    SIZE, BasicZoneProcessor>;
+class CompleteZoneProcessorCache: public CompleteZoneProcessorCacheBase {
+  public:
+    CompleteZoneProcessorCache() :
+      CompleteZoneProcessorCacheBase(mZoneProcessors, SIZE)
+    {}
 
-template <uint8_t SIZE>
-using ExtendedZoneProcessorCache  = ZoneProcessorCacheTemplate<
-    SIZE, ExtendedZoneProcessor>;
-#endif
+  private:
+    // disable copy constructor and assignment operator
+    CompleteZoneProcessorCache(const CompleteZoneProcessorCache&) = delete;
+    CompleteZoneProcessorCache& operator=(const CompleteZoneProcessorCache&)
+        = delete;
+
+  private:
+    CompleteZoneProcessor mZoneProcessors[SIZE];
+};
 
 }
 
