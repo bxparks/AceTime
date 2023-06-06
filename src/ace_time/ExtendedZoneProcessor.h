@@ -78,7 +78,7 @@ struct YearMonthTuple {
  *
  * Not thread-safe.
  *
- * @tparam BF type of ZoneInfoStore, needed for implementations that require
+ * @tparam ZIS type of ZoneInfoStore, needed for implementations that require
  *    more complex brokers, and allows this template class to be independent
  *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
@@ -86,7 +86,7 @@ struct YearMonthTuple {
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZIS, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
@@ -293,7 +293,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * info store at compile time, so it must be set at runtime through this
      * method.
      */
-    void setZoneInfoStore(const BF* zoneInfoStore) {
+    void setZoneInfoStore(const ZIS* zoneInfoStore) {
       mZoneInfoStore = zoneInfoStore;
     }
 
@@ -393,7 +393,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     explicit ExtendedZoneProcessorTemplate(
         uint8_t type,
-        const BF* zoneInfoStore /*nullable*/,
+        const ZIS* zoneInfoStore /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
@@ -1207,7 +1207,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
   private:
-    const BF* mZoneInfoStore; // nullable
+    const ZIS* mZoneInfoStore; // nullable
     ZIB mZoneInfoBroker;
 
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.

@@ -192,7 +192,7 @@ inline int8_t compareYearMonth(int16_t aYear, uint8_t aMonth,
  *
  * Not thread-safe.
  *
- * @tparam BF type of ZoneInfoStore, needed for implementations that require
+ * @tparam ZIS type of ZoneInfoStore, needed for implementations that require
  *    more complex brokers, and allows this template class to be independent
  *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
@@ -200,7 +200,7 @@ inline int8_t compareYearMonth(int16_t aYear, uint8_t aMonth,
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZIS, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class BasicZoneProcessorTemplate: public ZoneProcessor {
   public:
     /** Exposed only for testing purposes. */
@@ -357,7 +357,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * info store at compile time, so it must be set at runtime through this
      * method.
      */
-    void setZoneInfoStore(const BF* zoneInfoStore) {
+    void setZoneInfoStore(const ZIS* zoneInfoStore) {
       mZoneInfoStore = zoneInfoStore;
     }
 
@@ -375,7 +375,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      */
     explicit BasicZoneProcessorTemplate(
         uint8_t type,
-        const BF* zoneInfoStore /*nullable*/,
+        const ZIS* zoneInfoStore /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
@@ -979,7 +979,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
   private:
     static const int32_t kMinToSec = 60;
 
-    const BF* mZoneInfoStore; // nullable
+    const ZIS* mZoneInfoStore; // nullable
     ZIB mZoneInfoBroker;
 
     mutable uint8_t mNumTransitions = 0;
