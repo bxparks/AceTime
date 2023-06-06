@@ -115,6 +115,7 @@ const char* const kLetters[] = {
 const extended::ZoneContext kZoneContext = {
   2000 /*startYear*/,
   10000 /*untilYear*/,
+  2100 /*baseYear*/,
   7 /*maxTransitions*/,
   kTzDatabaseVersion /*tzVersion*/,
   15 /*numFragments*/,

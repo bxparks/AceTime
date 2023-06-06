@@ -8,10 +8,8 @@
 
 #include <stdint.h>
 #include <AceCommon.h> // KString, binarySearchByKey(), isSortedByKey()
-#include "../zoneinfo/ZoneInfo.h"
-#include "../zoneinfo/Brokers.h"
-#include "../zoneinfo/ZoneInfoHires.h"
-#include "../zoneinfo/BrokersHires.h"
+#include "../zoneinfo/infos.h"
+#include "../zoneinfo/brokers.h"
 
 // AutoBenchmark.ino
 void runIndexForZoneIdBinary();

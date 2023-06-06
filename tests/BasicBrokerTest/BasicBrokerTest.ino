@@ -21,10 +21,23 @@ using ace_time::tzonedb::kZoneIdAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
 
+test(BasicBrokerTest, ZoneRuleBroker_toYearFromTiny) {
+  ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);
+  assertEqual(-32768, rule.toYearFromTiny(-128, 2100));
+  assertEqual(-32767, rule.toYearFromTiny(-127, 2100));
+  assertEqual(2100-126, rule.toYearFromTiny(-126, 2100));
+  assertEqual(2100, rule.toYearFromTiny(0, 2100));
+  assertEqual(2100+125, rule.toYearFromTiny(125, 2100));
+  assertEqual(32766, rule.toYearFromTiny(126, 2100));
+  // int16 toYear is limited to 32766 (one less than the maximum untilYear),
+  // so toYearTiny should never be 127. But if it is, let's peg it to 32766.
+  assertEqual(32766, rule.toYearFromTiny(127, 2100));
+}
+
 test(BasicBrokerTest, ZoneRuleBroker) {
   ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);
   assertFalse(rule.isNull());
-  assertEqual(1967, rule.fromYear());
+  assertEqual(-32767, rule.fromYear());
   assertEqual(2006, rule.toYear());
   assertEqual(10, rule.inMonth());
   assertEqual(7, rule.onDayOfWeek());
@@ -39,6 +52,18 @@ test(BasicBrokerTest, ZonePolicyBroker) {
   ZonePolicyBroker policy(&kZoneContext, &kZonePolicyUS);
   assertFalse(policy.isNull());
   assertEqual(7, policy.numRules());
+}
+
+test(BasicBrokerTest, ZoneEraBroker_toUntilYearFromTiny) {
+  const basic::ZoneEra* eras = kZoneAmerica_Los_Angeles.eras;
+  ZoneEraBroker era(&kZoneContext, &eras[0]);
+  assertEqual(-32768, era.toUntilYearFromTiny(-128, 2100));
+  assertEqual(-32767, era.toUntilYearFromTiny(-127, 2100));
+  assertEqual(2100-126, era.toUntilYearFromTiny(-126, 2100));
+  assertEqual(2100, era.toUntilYearFromTiny(0, 2100));
+  assertEqual(2100+125, era.toUntilYearFromTiny(125, 2100));
+  assertEqual(2100+126, era.toUntilYearFromTiny(126, 2100));
+  assertEqual(32767, era.toUntilYearFromTiny(127, 2100));
 }
 
 test(BasicBrokerTest, ZoneEraBroker) {
@@ -65,7 +90,7 @@ test(BasicBrokerTest, ZoneInfoBroker) {
   assertEqual("America/Los_Angeles", info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
   assertEqual(1980, info.zoneContext().startYear());
-  assertEqual(10000, info.zoneContext().untilYear());
+  assertEqual(2200, info.zoneContext().untilYear());
   assertEqual(1, info.numEras());
 }
 

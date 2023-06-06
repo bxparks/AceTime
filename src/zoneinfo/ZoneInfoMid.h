@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 namespace ace_time{
-namespace zoneinfo {
+namespace zoneinfomid {
 
 /**
  * Metadata about the zone database. A ZoneInfo struct will contain a pointer
@@ -57,6 +57,9 @@ struct ZoneContext {
 
   /** Until year of the zone files. */
   int16_t const untilYear;
+
+  /** Base year for tiny years. Unused. */
+  int16_t const baseYear;
 
   /** Max number of transitions required in TransitionStorage. */
   int16_t const maxTransitions;
@@ -322,31 +325,6 @@ struct ZoneInfo {
 };
 
 }
-
-// Data structures for BasicZoneProcessor
-namespace basic {
-
-class Basic {};
-using ZoneContext = zoneinfo::ZoneContext<Basic>;
-using ZoneRule = zoneinfo::ZoneRule<Basic>;
-using ZonePolicy = zoneinfo::ZonePolicy<Basic>;
-using ZoneEra = zoneinfo::ZoneEra<Basic>;
-using ZoneInfo = zoneinfo::ZoneInfo<Basic, ZoneContext>;
-
-}
-
-// Data structures for ExtendedZoneProcessor
-namespace extended {
-
-class Extended {};
-using ZoneContext = zoneinfo::ZoneContext<Extended>;
-using ZoneRule = zoneinfo::ZoneRule<Extended>;
-using ZonePolicy = zoneinfo::ZonePolicy<Extended>;
-using ZoneEra = zoneinfo::ZoneEra<Extended>;
-using ZoneInfo = zoneinfo::ZoneInfo<Extended, ZoneContext>;
-
-}
-
 }
 
 #endif

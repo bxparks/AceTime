@@ -9,7 +9,7 @@
 //     --scope basic
 //     --db_namespace zonedb
 //     --start_year 2000
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -40,9 +40,9 @@
 //   Rules: 362
 //
 // Memory (8-bits):
-//   Rules: 3982
+//   Rules: 3258
 //   Policies: 189
-//   Eras: 2856
+//   Eras: 2618
 //   Zones: 2938
 //   Links: 2860
 //   Registry: 892
@@ -50,7 +50,7 @@
 //   Letters: 11
 //   Fragments: 116
 //   Names: 4144 (original: 6503)
-//   TOTAL: 18453
+//   TOTAL: 17491
 //
 // Memory (32-bits):
 //   Rules: 4344
@@ -70,7 +70,7 @@
 #ifndef ACE_TIME_ZONEDB_ZONE_REGISTRY_H
 #define ACE_TIME_ZONEDB_ZONE_REGISTRY_H
 
-#include <zoneinfo/ZoneInfo.h>
+#include <zoneinfo/infos.h>
 
 namespace ace_time {
 namespace zonedb {

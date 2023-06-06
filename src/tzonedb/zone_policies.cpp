@@ -11,7 +11,7 @@
 //     --include_list include_list.txt
 //     --nocompress
 //     --start_year 1980
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -42,9 +42,9 @@
 //   Rules: 32
 //
 // Memory (8-bits):
-//   Rules: 352
+//   Rules: 288
 //   Policies: 24
-//   Eras: 180
+//   Eras: 165
 //   Zones: 143
 //   Links: 13
 //   Registry: 24
@@ -52,7 +52,7 @@
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 987
+//   TOTAL: 908
 //
 // Memory (32-bits):
 //   Rules: 384
@@ -88,8 +88,8 @@ namespace tzonedb {
 static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -114,8 +114,8 @@ const basic::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Canada    1945    only    -    Sep    30    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -126,8 +126,8 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1945    only    -    Sep    30    2:00    0    S
   {
-    1945 /*fromYear*/,
-    1945 /*toYear*/,
+    -127 /*fromYearTiny (1945)*/,
+    -127 /*toYearTiny (1945)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -138,8 +138,8 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1974 /*fromYear*/,
-    1986 /*toYear*/,
+    -126 /*fromYearTiny (1974)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -150,8 +150,8 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
   {
-    1974 /*fromYear*/,
-    2006 /*toYear*/,
+    -126 /*fromYearTiny (1974)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -162,8 +162,8 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    1987 /*fromYear*/,
-    2006 /*toYear*/,
+    -113 /*fromYearTiny (1987)*/,
+    -94 /*toYearTiny (2006)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -174,8 +174,8 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -186,8 +186,8 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -212,8 +212,8 @@ const basic::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -224,8 +224,8 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   },
   // Rule    Ecuador    1992    only    -    Nov    28    0:00    1:00    -
   {
-    1992 /*fromYear*/,
-    1992 /*toYear*/,
+    -108 /*fromYearTiny (1992)*/,
+    -108 /*toYearTiny (1992)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -236,8 +236,8 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   },
   // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
-    1993 /*fromYear*/,
-    1993 /*toYear*/,
+    -107 /*fromYearTiny (1993)*/,
+    -107 /*toYearTiny (1993)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -262,8 +262,8 @@ const basic::ZonePolicy kZonePolicyEcuador ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -274,8 +274,8 @@ static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   },
   // Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
   {
-    1947 /*fromYear*/,
-    1947 /*toYear*/,
+    -127 /*fromYearTiny (1947)*/,
+    -127 /*toYearTiny (1947)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -286,8 +286,8 @@ static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   },
   // Rule    Edm    1972    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1972 /*fromYear*/,
-    1986 /*toYear*/,
+    -127 /*fromYearTiny (1972)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -298,8 +298,8 @@ static const basic::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   },
   // Rule    Edm    1972    2006    -    Oct    lastSun    2:00    0    S
   {
-    1972 /*fromYear*/,
-    2006 /*toYear*/,
+    -127 /*fromYearTiny (1972)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -324,8 +324,8 @@ const basic::ZonePolicy kZonePolicyEdm ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -350,8 +350,8 @@ const basic::ZonePolicy kZonePolicySA ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -362,8 +362,8 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
-    1967 /*fromYear*/,
-    2006 /*toYear*/,
+    -127 /*fromYearTiny (1967)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -374,8 +374,8 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1975    only    -    Feb    lastSun    2:00    1:00    D
   {
-    1975 /*fromYear*/,
-    1975 /*toYear*/,
+    -125 /*fromYearTiny (1975)*/,
+    -125 /*toYearTiny (1975)*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -386,8 +386,8 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1976 /*fromYear*/,
-    1986 /*toYear*/,
+    -124 /*fromYearTiny (1976)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -398,8 +398,8 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    1987 /*fromYear*/,
-    2006 /*toYear*/,
+    -113 /*fromYearTiny (1987)*/,
+    -94 /*toYearTiny (2006)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -410,8 +410,8 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -422,8 +422,8 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -448,8 +448,8 @@ const basic::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -460,8 +460,8 @@ static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   },
   // Rule    Vanc    1946    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1946 /*fromYear*/,
-    1986 /*toYear*/,
+    -127 /*fromYearTiny (1946)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -472,8 +472,8 @@ static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   },
   // Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
   {
-    1947 /*fromYear*/,
-    1961 /*toYear*/,
+    -127 /*fromYearTiny (1947)*/,
+    -127 /*toYearTiny (1961)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -484,8 +484,8 @@ static const basic::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   },
   // Rule    Vanc    1962    2006    -    Oct    lastSun    2:00    0    S
   {
-    1962 /*fromYear*/,
-    2006 /*toYear*/,
+    -127 /*fromYearTiny (1962)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -510,8 +510,8 @@ const basic::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
 static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Winn    1963    only    -    Sep    22    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -522,8 +522,8 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1963    only    -    Sep    22    2:00    0    S
   {
-    1963 /*fromYear*/,
-    1963 /*toYear*/,
+    -127 /*fromYearTiny (1963)*/,
+    -127 /*toYearTiny (1963)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -534,8 +534,8 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
   {
-    1966 /*fromYear*/,
-    1986 /*toYear*/,
+    -127 /*fromYearTiny (1966)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -546,8 +546,8 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
   {
-    1966 /*fromYear*/,
-    2005 /*toYear*/,
+    -127 /*fromYearTiny (1966)*/,
+    -95 /*toYearTiny (2005)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -558,8 +558,8 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
   {
-    1987 /*fromYear*/,
-    2005 /*toYear*/,
+    -113 /*fromYearTiny (1987)*/,
+    -95 /*toYearTiny (2005)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,

@@ -11,7 +11,7 @@
 //     --include_list include_list.txt
 //     --nocompress
 //     --start_year 1980
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -42,9 +42,9 @@
 //   Rules: 32
 //
 // Memory (8-bits):
-//   Rules: 352
+//   Rules: 288
 //   Policies: 24
-//   Eras: 180
+//   Eras: 165
 //   Zones: 143
 //   Links: 13
 //   Registry: 24
@@ -52,7 +52,7 @@
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 987
+//   TOTAL: 908
 //
 // Memory (32-bits):
 //   Rules: 384
@@ -72,7 +72,7 @@
 #ifndef ACE_TIME_TZONEDB_ZONE_INFOS_H
 #define ACE_TIME_TZONEDB_ZONE_INFOS_H
 
-#include <zoneinfo/ZoneInfo.h>
+#include <zoneinfo/infos.h>
 
 namespace ace_time {
 namespace tzonedb {

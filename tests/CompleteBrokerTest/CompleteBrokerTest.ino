@@ -27,7 +27,7 @@ test(timeCodeToSeconds) {
   uint16_t code = 1;
   uint8_t modifier = 0x01;
   assertEqual((uint32_t)16,
-      ace_time::zoneinfohires::timeCodeToSeconds(code, modifier));
+      ace_time::zoneinfohigh::timeCodeToSeconds(code, modifier));
 }
 
 //---------------------------------------------------------------------------

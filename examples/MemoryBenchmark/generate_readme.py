@@ -271,6 +271,11 @@ ASCII table.
       timezones, for all years going back to 1844, the earliest transition in
       the TZDB.
     * The flash consumption of zonedbc is roughly 2X of zonedbx.
+* Revert `zonedb` to use 8-bit year fields.
+    * Increases memory consumption for BasicZoneManager w/ 1 zone by around
+      150 bytes.
+    * Decreases memory cosumption for BasicZoneManager w/ all timezones by
+      800-900 bytes.
 
 # Legend
 
