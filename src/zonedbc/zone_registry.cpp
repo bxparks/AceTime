@@ -34,12 +34,13 @@
 // Max Buffer Size: 8
 //
 // Records:
-//   Infos: 596
-//   Eras: 1949
-//   Policies: 134
 //   Rules: 2238
+//   Policies: 134
+//   Eras: 1949
+//   Infos: 596
 //
 // Memory (8-bits):
+//   Rules: 16
 //   Rules: 26856
 //   Policies: 402
 //   Eras: 29235
@@ -50,9 +51,10 @@
 //   Letters: 160
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 72424
+//   TOTAL: 72440
 //
 // Memory (32-bits):
+//   Rules: 24
 //   Rules: 26856
 //   Policies: 1072
 //   Eras: 38980
@@ -63,7 +65,7 @@
 //   Letters: 216
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 90671
+//   TOTAL: 90695
 //
 // DO NOT EDIT
 

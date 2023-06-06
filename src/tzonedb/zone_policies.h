@@ -36,12 +36,13 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 12
-//   Eras: 15
-//   Policies: 8
 //   Rules: 32
+//   Policies: 8
+//   Eras: 15
+//   Infos: 12
 //
 // Memory (8-bits):
+//   Rules: 16
 //   Rules: 288
 //   Policies: 24
 //   Eras: 165
@@ -52,9 +53,10 @@
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 908
+//   TOTAL: 924
 //
 // Memory (32-bits):
+//   Rules: 24
 //   Rules: 384
 //   Policies: 64
 //   Eras: 240
@@ -65,7 +67,7 @@
 //   Letters: 17
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 1281
+//   TOTAL: 1305
 //
 // DO NOT EDIT
 
