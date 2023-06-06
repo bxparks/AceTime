@@ -10,7 +10,7 @@
  * @file BrokersMid.h
  *
  * These classes provide a thin layer of indirection for accessing the
- * middle resolution zoneinfo files defined by ZoneInfoMid.h file.
+ * data structures defined by `ZoneInfoMid.h`.
  *
  * The zoneinfo files are stored in flash memory (using the PROGMEM keyword),
  * and cannot be accessed directly on microcontrollers using the Harvard
@@ -109,6 +109,10 @@ class ZoneContextBroker {
 
     int16_t untilYear() const {
       return mZoneContext->untilYear;
+    }
+
+    int16_t baseYear() const {
+      return mZoneContext->baseYear;
     }
 
     int16_t maxTransitions() const {

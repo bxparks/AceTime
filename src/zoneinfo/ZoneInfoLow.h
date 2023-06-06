@@ -1,15 +1,15 @@
 /*
  * MIT License
- * Copyright (c) 2018 Brian T. Park
+ * Copyright (c) 2023 Brian T. Park
  */
 
-#ifndef ACE_TIME_ZONE_INFO_H
-#define ACE_TIME_ZONE_INFO_H
+#ifndef ACE_TIME_ZONE_INFO_LOW_H
+#define ACE_TIME_ZONE_INFO_LOW_H
 
 #include <stdint.h>
 
 namespace ace_time{
-namespace zoneinfomid {
+namespace zoneinfolow {
 
 /**
  * Metadata about the zone database. A ZoneInfo struct will contain a pointer
@@ -17,6 +17,12 @@ namespace zoneinfomid {
  */
 template<typename S>
 struct ZoneContext {
+  /** Sentinel value for an invalid 16-bit year field. */
+  static const int16_t kInvalidYear = -32768;
+
+  /** Sentinel value for an invalid 8-bit year field. */
+  static const int8_t kInvalidYearTiny = -128;
+
   /**
    * The maximum value of untilYear. This value is used to represent the
    * sentinel value "-" in the UNTIL column of the TZDB files which means
@@ -25,6 +31,9 @@ struct ZoneContext {
    */
   static const int16_t kMaxUntilYear = 32767;
 
+  /** Maximum value of untilYearTiny. */
+  static const int8_t kMaxUntilYearTiny = 127;
+
   /**
    * The maximum value fromYear and toYear. This value is used to represent the
    * sentinel value "max" in the TZDB database files. Must be less than
@@ -32,6 +41,9 @@ struct ZoneContext {
    * UNTIL column of the TZDB files.
    */
   static const int16_t kMaxYear = kMaxUntilYear - 1;
+
+  /** Maximum value of fromYearTiny or toYearTiny. */
+  static const int8_t kMaxYearTiny = kMaxUntilYearTiny - 1;
 
   /**
    * The minimum value of fromYear and toYear. This value is used for ZoneRule
@@ -42,6 +54,9 @@ struct ZoneContext {
    * zones have at least one transition.
    */
   static const int16_t kMinYear = -32767;
+
+  /** The smallest value of a tiny year field. */
+  static const int8_t kMinYearTiny = -127;
 
   /** Represents 'w' or wall time. */
   static const uint8_t kSuffixW = 0x00;
@@ -58,7 +73,7 @@ struct ZoneContext {
   /** Until year of the zone files. */
   int16_t const untilYear;
 
-  /** Base year for tiny years. Unused. */
+  /** Base year for tiny years. */
   int16_t const baseYear;
 
   /** Max number of transitions required in TransitionStorage. */
@@ -88,10 +103,10 @@ struct ZoneContext {
 template<typename S>
 struct ZoneRule {
   /** FROM year */
-  int16_t const fromYear;
+  int8_t const fromYear;
 
   /** TO year */
-  int16_t const toYear;
+  int8_t const toYear;
 
   /** Determined by the IN column. 1=Jan, 12=Dec. */
   uint8_t const inMonth;
@@ -247,7 +262,7 @@ struct ZoneEra {
   /**
    * Era is valid until currentTime < untilYear. Comes from the UNTIL column.
    */
-  int16_t const untilYear;
+  int8_t const untilYear;
 
   /** The month field in UNTIL (1-12). Will never be 0. */
   uint8_t const untilMonth;

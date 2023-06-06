@@ -160,7 +160,7 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(1, zoneProcessor.mNumTransitions);
   assertEqual(-8*60*60, zoneProcessor.mTransitions[0].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[0].era.format());
-  assertEqual(1967, zoneProcessor.mTransitions[0].rule.fromYear());
+  assertEqual(-32767, zoneProcessor.mTransitions[0].rule.fromYear());
   assertEqual(2006, zoneProcessor.mTransitions[0].rule.toYear());
   assertEqual(10, zoneProcessor.mTransitions[0].rule.inMonth());
 
@@ -176,7 +176,7 @@ test(BasicZoneProcessorTest, init_primitives) {
 
   assertEqual(-8*60*60, zoneProcessor.mTransitions[2].era.offsetSeconds());
   assertEqual("P%T", zoneProcessor.mTransitions[2].era.format());
-  assertEqual(1967, zoneProcessor.mTransitions[2].rule.fromYear());
+  assertEqual(-32767, zoneProcessor.mTransitions[2].rule.fromYear());
   assertEqual(2006, zoneProcessor.mTransitions[2].rule.toYear());
   assertEqual(10, zoneProcessor.mTransitions[2].rule.inMonth());
 
@@ -455,7 +455,7 @@ test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   FindResult result;
 
   assertEqual(1980, kZoneContext.startYear);
-  assertEqual(10000, kZoneContext.untilYear);
+  assertEqual(2200, kZoneContext.untilYear);
 
   // 1970 > LocalDate::kMinYear so dt is valid, and
   dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,

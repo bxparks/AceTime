@@ -6,6 +6,7 @@
 #ifndef ACE_TIME_INFOS_H
 #define ACE_TIME_INFOS_H
 
+#include "ZoneInfoLow.h"
 #include "ZoneInfoMid.h"
 #include "ZoneInfoHigh.h"
 
@@ -14,19 +15,19 @@ namespace ace_time {
 // Data structures for BasicZoneProcessor
 namespace basic {
 
-class Basic {};
-using ZoneContext = zoneinfomid::ZoneContext<Basic>;
-using ZoneRule = zoneinfomid::ZoneRule<Basic>;
-using ZonePolicy = zoneinfomid::ZonePolicy<Basic>;
-using ZoneEra = zoneinfomid::ZoneEra<Basic>;
-using ZoneInfo = zoneinfomid::ZoneInfo<Basic, ZoneContext>;
+class Basic {}; // dummy sentinel class
+using ZoneContext = zoneinfolow::ZoneContext<Basic>;
+using ZoneRule = zoneinfolow::ZoneRule<Basic>;
+using ZonePolicy = zoneinfolow::ZonePolicy<Basic>;
+using ZoneEra = zoneinfolow::ZoneEra<Basic>;
+using ZoneInfo = zoneinfolow::ZoneInfo<Basic, ZoneContext>;
 
 }
 
 // Data structures for ExtendedZoneProcessor
 namespace extended {
 
-class Extended {};
+class Extended {}; // dummy sentinel class
 using ZoneContext = zoneinfomid::ZoneContext<Extended>;
 using ZoneRule = zoneinfomid::ZoneRule<Extended>;
 using ZonePolicy = zoneinfomid::ZonePolicy<Extended>;
@@ -38,7 +39,7 @@ using ZoneInfo = zoneinfomid::ZoneInfo<Extended, ZoneContext>;
 // Data structures for CompleteZoneProcessor
 namespace complete {
 
-class Complete {};
+class Complete {}; // dummy sentinel class
 using ZoneContext = zoneinfohigh::ZoneContext<Complete>;
 using ZoneRule = zoneinfohigh::ZoneRule<Complete>;
 using ZonePolicy = zoneinfohigh::ZonePolicy<Complete>;

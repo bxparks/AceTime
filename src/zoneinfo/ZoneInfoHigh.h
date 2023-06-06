@@ -58,6 +58,9 @@ struct ZoneContext {
   /** Until year of the zone files. */
   int16_t const untilYear;
 
+  /** Base year for tiny years. Unused. */
+  int16_t const baseYear;
+
   /** Max number of transitions required in TransitionStorage. */
   int16_t const maxTransitions;
 

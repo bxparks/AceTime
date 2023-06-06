@@ -11,7 +11,7 @@
 //     --include_list include_list.txt
 //     --nocompress
 //     --start_year 1980
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -42,9 +42,9 @@
 //   Rules: 32
 //
 // Memory (8-bits):
-//   Rules: 352
+//   Rules: 288
 //   Policies: 24
-//   Eras: 180
+//   Eras: 165
 //   Zones: 143
 //   Links: 13
 //   Registry: 24
@@ -52,7 +52,7 @@
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 987
+//   TOTAL: 908
 //
 // Memory (32-bits):
 //   Rules: 384
@@ -96,7 +96,8 @@ const char* const kLetters[] = {
 
 const basic::ZoneContext kZoneContext = {
   1980 /*startYear*/,
-  10000 /*untilYear*/,
+  2200 /*untilYear*/,
+  2100 /*baseYear*/,
   6 /*maxTransitions*/,
   kTzDatabaseVersion /*tzVersion*/,
   1 /*numFragments*/,
@@ -122,7 +123,7 @@ static const basic::ZoneEra kZoneEraAfrica_Johannesburg[] ACE_TIME_PROGMEM = {
     "SAST" /*format*/,
     8 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -154,7 +155,7 @@ static const basic::ZoneEra kZoneEraAmerica_Chicago[] ACE_TIME_PROGMEM = {
     "C%T" /*format*/,
     -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -186,7 +187,7 @@ static const basic::ZoneEra kZoneEraAmerica_Denver[] ACE_TIME_PROGMEM = {
     "M%T" /*format*/,
     -28 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -218,7 +219,7 @@ static const basic::ZoneEra kZoneEraAmerica_Edmonton[] ACE_TIME_PROGMEM = {
     "M%T" /*format*/,
     -28 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    1987 /*untilYear*/,
+    -113 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -230,7 +231,7 @@ static const basic::ZoneEra kZoneEraAmerica_Edmonton[] ACE_TIME_PROGMEM = {
     "M%T" /*format*/,
     -28 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -262,7 +263,7 @@ static const basic::ZoneEra kZoneEraAmerica_Los_Angeles[] ACE_TIME_PROGMEM = {
     "P%T" /*format*/,
     -32 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -294,7 +295,7 @@ static const basic::ZoneEra kZoneEraAmerica_New_York[] ACE_TIME_PROGMEM = {
     "E%T" /*format*/,
     -20 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -326,7 +327,7 @@ static const basic::ZoneEra kZoneEraAmerica_Toronto[] ACE_TIME_PROGMEM = {
     "E%T" /*format*/,
     -20 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -358,7 +359,7 @@ static const basic::ZoneEra kZoneEraAmerica_Vancouver[] ACE_TIME_PROGMEM = {
     "P%T" /*format*/,
     -32 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    1987 /*untilYear*/,
+    -113 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -370,7 +371,7 @@ static const basic::ZoneEra kZoneEraAmerica_Vancouver[] ACE_TIME_PROGMEM = {
     "P%T" /*format*/,
     -32 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -402,7 +403,7 @@ static const basic::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
     "C%T" /*format*/,
     -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    2006 /*untilYear*/,
+    -94 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -414,7 +415,7 @@ static const basic::ZoneEra kZoneEraAmerica_Winnipeg[] ACE_TIME_PROGMEM = {
     "C%T" /*format*/,
     -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -446,7 +447,7 @@ static const basic::ZoneEra kZoneEraAustralia_Darwin[] ACE_TIME_PROGMEM = {
     "AC%T" /*format*/,
     38 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -478,7 +479,7 @@ static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     "-05" /*format*/,
     -20 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    1986 /*untilYear*/,
+    -114 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,
@@ -490,7 +491,7 @@ static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     "-06/-05" /*format*/,
     -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    32767 /*untilYear*/,
+    127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
     0 /*untilTimeCode*/,

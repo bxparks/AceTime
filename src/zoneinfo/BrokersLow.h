@@ -3,14 +3,14 @@
  * Copyright (c) 2023 Brian T. Park
  */
 
-#ifndef ACE_TIME_BROKERS_HIGH_H
-#define ACE_TIME_BROKERS_HIGH_H
+#ifndef ACE_TIME_BROKERS_LOW_H
+#define ACE_TIME_BROKERS_LOW_H
 
 /**
- * @file BrokersHigh.h
+ * @file BrokersLow.h
  *
  * These classes provide a thin layer of indirection for accessing the
- * data structures defined by `ZoneInfoHigh.h`.
+ * data structures defined by `ZoneInfoLow.h`.
  *
  * The zoneinfo files are stored in flash memory (using the PROGMEM keyword),
  * and cannot be accessed directly on microcontrollers using the Harvard
@@ -25,24 +25,48 @@
 #include <AceCommon.h> // KString
 #include "compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
-#include "ZoneInfoHigh.h"
+#include "ZoneInfoLow.h"
 
 class __FlashStringHelper;
 class Print;
 
 namespace ace_time {
-namespace zoneinfohigh {
+namespace zoneinfolow {
 
 //-----------------------------------------------------------------------------
 
 /**
- * Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT
- * time in ZoneRule in one second resolution. The `code` parameter holds the AT
- * or UNTIL time in minutes component in units of 15 seconds. The lower 4-bits
- * of `modifier` holds the remainder seconds.
+ * Convert the `deltaCode` in the ZoneInfo or the ZoneRule struct to the actual
+ * deltaMinutes. The lower 4-bits stores minutes in units of 15-minutes, shifted
+ * by 1h, so can represent the interval [-01:00 to 02:45].
+ *
+ * @code
+ * deltaMinutes = deltaCode * 15m - 1h
+ * @endcode
  */
-inline uint32_t timeCodeToSeconds(uint16_t code, uint8_t modifier) {
-  return code * (uint32_t) 15 + (modifier & 0x0f);
+inline int16_t toDeltaMinutes(uint8_t deltaCode) {
+  return ((int16_t)(deltaCode & 0x0f) - 4) * 15;
+}
+
+/**
+ * Convert the `offsetCode` and `deltaCode` into a signed 16-bit integer that
+ * represents the UTCOFF of the ZoneEra in minutes. The `offsetCode` is rounded
+ * towards -infinity in 15-minute multiples. The upper 4-bits of `deltaCode`
+ * holds the (unsigned) remainder in one-minute increments.
+ */
+inline int16_t toOffsetMinutes(int8_t offsetCode, uint8_t deltaCode) {
+  return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
+}
+
+
+/**
+ * Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT
+ * time in ZoneRule in one minute resolution. The `code` parameter holds the AT
+ * or UNTIL time in minutes component in units of 15 minutes. The lower 4-bits
+ * of `modifier` holds the remainder minutes.
+ */
+inline uint16_t timeCodeToMinutes(uint8_t code, uint8_t modifier) {
+  return code * (uint16_t) 15 + (modifier & 0x0f);
 }
 
 /**
@@ -146,11 +170,26 @@ class ZoneRuleBroker {
     bool isNull() const { return mZoneRule == nullptr; }
 
     int16_t fromYear() const {
-      return pgm_read_word(&mZoneRule->fromYear);
+      int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneRule->fromYear);
+      return toYearFromTiny(yearTiny, mZoneContext->baseYear);
     }
 
     int16_t toYear() const {
-      return pgm_read_word(&mZoneRule->toYear);
+      int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneRule->toYear);
+      return toYearFromTiny(yearTiny, mZoneContext->baseYear);
+    }
+
+    static int16_t toYearFromTiny(int8_t yearTiny, int16_t baseYear) {
+      if (yearTiny == ZC::kInvalidYearTiny) return ZC::kInvalidYear;
+      if (yearTiny == ZC::kMinYearTiny) return ZC::kMinYear;
+
+      // yearTiny should be a maximum of 126, and should never be as high as
+      // 127. But if it does have this value, what should we do? Let's peg the
+      // return value at 32766, so that it's always less than the 32767 maximum
+      // returned by untilYear().
+      if (yearTiny >= ZC::kMaxYearTiny) return ZC::kMaxYear;
+
+      return baseYear + yearTiny;
     }
 
     uint8_t inMonth() const {
@@ -166,8 +205,8 @@ class ZoneRuleBroker {
     }
 
     uint32_t atTimeSeconds() const {
-      return timeCodeToSeconds(
-          pgm_read_word(&mZoneRule->atTimeCode),
+      return 60 * timeCodeToMinutes(
+          pgm_read_byte(&mZoneRule->atTimeCode),
           pgm_read_byte(&mZoneRule->atTimeModifier));
     }
 
@@ -176,7 +215,7 @@ class ZoneRuleBroker {
     }
 
     int32_t deltaSeconds() const {
-      return int32_t(60) * (int8_t) pgm_read_byte(&mZoneRule->deltaMinutes);
+      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
     const char* letter() const {
@@ -267,12 +306,13 @@ class ZoneEraBroker {
     }
 
     int32_t offsetSeconds() const {
-      return int32_t(15) * (int16_t) pgm_read_word(&mZoneEra->offsetCode)
-        + (int32_t) pgm_read_byte(&mZoneEra->offsetRemainder);
+      return 60 * toOffsetMinutes(
+        pgm_read_byte(&mZoneEra->offsetCode),
+        pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     int32_t deltaSeconds() const {
-      return int32_t(60) * (int8_t) pgm_read_byte(&mZoneEra->deltaMinutes);
+      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
     }
 
     const char* format() const {
@@ -280,7 +320,15 @@ class ZoneEraBroker {
     }
 
     int16_t untilYear() const {
-      return pgm_read_word(&mZoneEra->untilYear);
+      int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneEra->untilYear);
+      return toUntilYearFromTiny(yearTiny, mZoneContext->baseYear);
+    }
+
+    static int16_t toUntilYearFromTiny(int8_t yearTiny, int16_t baseYear) {
+      if (yearTiny == ZC::kInvalidYearTiny) return ZC::kInvalidYear;
+      if (yearTiny == ZC::kMinYearTiny) return ZC::kMinYear;
+      if (yearTiny == ZC::kMaxUntilYearTiny) return ZC::kMaxUntilYear;
+      return baseYear + yearTiny;
     }
 
     uint8_t untilMonth() const {
@@ -292,8 +340,8 @@ class ZoneEraBroker {
     }
 
     uint32_t untilTimeSeconds() const {
-      return timeCodeToSeconds(
-        pgm_read_word(&mZoneEra->untilTimeCode),
+      return 60 * timeCodeToMinutes(
+        pgm_read_byte(&mZoneEra->untilTimeCode),
         pgm_read_byte(&mZoneEra->untilTimeModifier));
     }
 
@@ -397,7 +445,7 @@ template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer)
     const {
   ace_common::printReplaceCharTo(
-      printer, internal:: findShortName(name()), '_', ' ');
+      printer, internal::findShortName(name()), '_', ' ');
 }
 
 //-----------------------------------------------------------------------------
@@ -454,7 +502,7 @@ class ZoneInfoStore {
     }
 };
 
-} // zoneinfohigh
+} // zoneinfolow
 
 } // ace_time
 
