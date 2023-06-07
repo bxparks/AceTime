@@ -40,7 +40,7 @@
 //   Infos: 596
 //
 // Memory (8-bits):
-//   Rules: 16
+//   Context: 16
 //   Rules: 26856
 //   Policies: 402
 //   Eras: 29235
@@ -54,7 +54,7 @@
 //   TOTAL: 72440
 //
 // Memory (32-bits):
-//   Rules: 24
+//   Context: 24
 //   Rules: 26856
 //   Policies: 1072
 //   Eras: 38980
