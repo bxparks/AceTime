@@ -9,6 +9,7 @@
 
 using namespace ace_time;
 using ace_time::basic::ZoneContext;
+using ace_time::basic::ZoneContextBroker;
 using ace_time::basic::ZoneInfoBroker;
 using ace_time::basic::ZoneEraBroker;
 using ace_time::basic::ZoneRuleBroker;
@@ -20,6 +21,11 @@ using ace_time::zonedbtesting::kZoneIdUS_Pacific;
 using ace_time::zonedbtesting::kZoneIdAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
+
+test(BasicBrokerTest, ZoneContextBroker) {
+  const char* tzVersion = ZoneContextBroker(&kZoneContext).tzVersion();
+  assertEqual("2023c", tzVersion);
+}
 
 test(BasicBrokerTest, ZoneRuleBroker_toYearFromTiny) {
   ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);

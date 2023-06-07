@@ -120,7 +120,7 @@ class ZoneContextBroker {
     }
 
     const char* tzVersion() const {
-      return mZoneContext->onDayOfWeek;
+      return mZoneContext->tzVersion;
     }
 
     uint8_t numFragments() const {

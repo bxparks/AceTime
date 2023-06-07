@@ -9,6 +9,7 @@
 
 using namespace ace_time;
 using ace_time::extended::ZoneContext;
+using ace_time::extended::ZoneContextBroker;
 using ace_time::extended::ZoneInfoBroker;
 using ace_time::extended::ZoneEraBroker;
 using ace_time::extended::ZoneRuleBroker;
@@ -31,6 +32,11 @@ test(timeCodeToMinutes) {
 }
 
 //---------------------------------------------------------------------------
+
+test(BasicBrokerTest, ZoneContextBroker) {
+  const char* tzVersion = ZoneContextBroker(&kZoneContext).tzVersion();
+  assertEqual("2023c", tzVersion);
+}
 
 test(ExtendedBrokerTest, ZoneRuleBroker) {
   ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);
