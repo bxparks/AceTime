@@ -8,6 +8,7 @@
 
 #include <string.h> // strchr()
 #include <stdint.h>
+#include <Arduino.h> // pgm_read_byte()
 #include <AceCommon.h> // copyReplaceChar()
 #include "../zoneinfo/infos.h"
 #include "../zoneinfo/brokers.h"
@@ -743,12 +744,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         const ZEB& era, const ZRB& rule) {
 
       int16_t deltaMinutes;
-      const char* letter;
+      const __FlashStringHelper* letter;
       uint8_t mon;
       if (rule.isNull()) {
         mon = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
         deltaMinutes = era.deltaSeconds() / kMinToSec;
-        letter = "";
+        letter = nullptr;
       } else {
         mon = rule.inMonth();
         deltaMinutes = rule.deltaSeconds() / kMinToSec;
@@ -760,7 +761,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
       int16_t offsetMinutes = era.offsetSeconds() / kMinToSec + deltaMinutes;
 
-      return {
+      Transition transition{
         era,
         rule,
         0 /*epochSeconds*/,
@@ -768,8 +769,15 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
         deltaMinutes,
         year,
         mon,
-        {letter[0]}, // only single letters are allowed in Basic
+        {0} /*abbrev*/,
       };
+      if (letter) {
+        // BasicZoneProcessor supports only a single letter. TODO: I think
+        // this can be fixed relatively easily.
+        transition.abbrev[0] = pgm_read_byte(letter);
+        transition.abbrev[1] = '\0';
+      }
+      return transition;
     }
 
     /**

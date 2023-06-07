@@ -89,12 +89,19 @@ const char* const kFragments[] = {
 
 };
 
-const char* const kLetters[] = {
-/*0*/ "",
-/*1*/ "CAT",
-/*2*/ "D",
-/*3*/ "S",
-/*4*/ "WAT",
+static const char kLetter0[] ACE_TIME_PROGMEM = "";
+static const char kLetter1[] ACE_TIME_PROGMEM = "CAT";
+static const char kLetter2[] ACE_TIME_PROGMEM = "D";
+static const char kLetter3[] ACE_TIME_PROGMEM = "S";
+static const char kLetter4[] ACE_TIME_PROGMEM = "WAT";
+
+
+const char* const kLetters[] ACE_TIME_PROGMEM = {
+  kLetter0,
+  kLetter1,
+  kLetter2,
+  kLetter3,
+  kLetter4,
 
 };
 

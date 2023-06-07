@@ -101,35 +101,65 @@ const char* const kFragments[] = {
 
 };
 
-const char* const kLetters[] = {
-/*0*/ "",
-/*1*/ "+00",
-/*2*/ "+02",
-/*3*/ "+05",
-/*4*/ "-0430",
-/*5*/ "-0530",
-/*6*/ "BDST",
-/*7*/ "BST",
-/*8*/ "CAT",
-/*9*/ "CDT",
-/*10*/ "CPT",
-/*11*/ "CST",
-/*12*/ "CWT",
-/*13*/ "D",
-/*14*/ "DD",
-/*15*/ "EDT",
-/*16*/ "EST",
-/*17*/ "GMT",
-/*18*/ "M",
-/*19*/ "MDST",
-/*20*/ "MMT",
-/*21*/ "MSD",
-/*22*/ "MSK",
-/*23*/ "MST",
-/*24*/ "P",
-/*25*/ "S",
-/*26*/ "W",
-/*27*/ "WAT",
+static const char kLetter0[] ACE_TIME_PROGMEM = "";
+static const char kLetter1[] ACE_TIME_PROGMEM = "+00";
+static const char kLetter2[] ACE_TIME_PROGMEM = "+02";
+static const char kLetter3[] ACE_TIME_PROGMEM = "+05";
+static const char kLetter4[] ACE_TIME_PROGMEM = "-0430";
+static const char kLetter5[] ACE_TIME_PROGMEM = "-0530";
+static const char kLetter6[] ACE_TIME_PROGMEM = "BDST";
+static const char kLetter7[] ACE_TIME_PROGMEM = "BST";
+static const char kLetter8[] ACE_TIME_PROGMEM = "CAT";
+static const char kLetter9[] ACE_TIME_PROGMEM = "CDT";
+static const char kLetter10[] ACE_TIME_PROGMEM = "CPT";
+static const char kLetter11[] ACE_TIME_PROGMEM = "CST";
+static const char kLetter12[] ACE_TIME_PROGMEM = "CWT";
+static const char kLetter13[] ACE_TIME_PROGMEM = "D";
+static const char kLetter14[] ACE_TIME_PROGMEM = "DD";
+static const char kLetter15[] ACE_TIME_PROGMEM = "EDT";
+static const char kLetter16[] ACE_TIME_PROGMEM = "EST";
+static const char kLetter17[] ACE_TIME_PROGMEM = "GMT";
+static const char kLetter18[] ACE_TIME_PROGMEM = "M";
+static const char kLetter19[] ACE_TIME_PROGMEM = "MDST";
+static const char kLetter20[] ACE_TIME_PROGMEM = "MMT";
+static const char kLetter21[] ACE_TIME_PROGMEM = "MSD";
+static const char kLetter22[] ACE_TIME_PROGMEM = "MSK";
+static const char kLetter23[] ACE_TIME_PROGMEM = "MST";
+static const char kLetter24[] ACE_TIME_PROGMEM = "P";
+static const char kLetter25[] ACE_TIME_PROGMEM = "S";
+static const char kLetter26[] ACE_TIME_PROGMEM = "W";
+static const char kLetter27[] ACE_TIME_PROGMEM = "WAT";
+
+
+const char* const kLetters[] ACE_TIME_PROGMEM = {
+  kLetter0,
+  kLetter1,
+  kLetter2,
+  kLetter3,
+  kLetter4,
+  kLetter5,
+  kLetter6,
+  kLetter7,
+  kLetter8,
+  kLetter9,
+  kLetter10,
+  kLetter11,
+  kLetter12,
+  kLetter13,
+  kLetter14,
+  kLetter15,
+  kLetter16,
+  kLetter17,
+  kLetter18,
+  kLetter19,
+  kLetter20,
+  kLetter21,
+  kLetter22,
+  kLetter23,
+  kLetter24,
+  kLetter25,
+  kLetter26,
+  kLetter27,
 
 };
 

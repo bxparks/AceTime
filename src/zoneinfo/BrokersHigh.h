@@ -112,8 +112,11 @@ class ZoneContextBroker {
       return (const char* const*) pgm_read_ptr(&mZoneContext->fragments);
     }
 
-    const char* letter(uint8_t i) const {
-      return *((const char* const*) pgm_read_ptr(&mZoneContext->letters) + i);
+    const __FlashStringHelper* letter(uint8_t i) const {
+      const char * const* letters = (const char* const*)
+          pgm_read_ptr(&mZoneContext->letters);
+      const char* letter = (const char*) pgm_read_ptr(letters + i);
+      return (const __FlashStringHelper*) letter;
     }
 
   private:
@@ -180,7 +183,7 @@ class ZoneRuleBroker {
       return int32_t(60) * (int8_t) pgm_read_byte(&mZoneRule->deltaMinutes);
     }
 
-    const char* letter() const {
+    const __FlashStringHelper* letter() const {
       uint8_t index = pgm_read_byte(&mZoneRule->letterIndex);
       return ZoneContextBroker<ZC>(mZoneContext).letter(index);
     }
