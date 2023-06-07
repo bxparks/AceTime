@@ -95,8 +95,9 @@ class ZoneContextBroker {
       return (int16_t) pgm_read_word(&mZoneContext->maxTransitions);
     }
 
-    const char* tzVersion() const {
-      return (const char*) pgm_read_ptr(&mZoneContext->tzVersion);
+    const __FlashStringHelper* tzVersion() const {
+      return (const __FlashStringHelper*)
+          pgm_read_ptr(&mZoneContext->tzVersion);
     }
 
     uint8_t numFragments() const {

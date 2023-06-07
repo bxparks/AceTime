@@ -77,10 +77,10 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// ZoneContext (should not be in PROGMEM)
+// ZoneContext
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2023c";
+const char kTzDatabaseVersion[] ACE_TIME_PROGMEM = "2023c";
 
 const char* const kFragments[] = {
 /*\x00*/ nullptr,
