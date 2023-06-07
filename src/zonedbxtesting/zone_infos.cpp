@@ -98,7 +98,7 @@ const char* const kLetters[] = {
 
 };
 
-const extended::ZoneContext kZoneContext = {
+const extended::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   1980 /*startYear*/,
   10000 /*untilYear*/,
   2100 /*baseYear*/,

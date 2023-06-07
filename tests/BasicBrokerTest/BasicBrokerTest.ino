@@ -15,6 +15,7 @@ using ace_time::basic::ZoneEraBroker;
 using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
 using ace_time::zonedbtesting::kZoneContext;
+using ace_time::zonedbtesting::kTzDatabaseVersion;
 using ace_time::zonedbtesting::kZonePolicyUS;
 using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
 using ace_time::zonedbtesting::kZoneIdUS_Pacific;
@@ -23,8 +24,9 @@ using ace_time::zonedbtesting::kZoneIdAmerica_Los_Angeles;
 //---------------------------------------------------------------------------
 
 test(BasicBrokerTest, ZoneContextBroker) {
-  const char* tzVersion = ZoneContextBroker(&kZoneContext).tzVersion();
-  assertEqual("2023c", tzVersion);
+  auto broker = ZoneContextBroker(&kZoneContext);
+  assertEqual(kTzDatabaseVersion, broker.tzVersion());
+  assertEqual("D", broker.letter(1));
 }
 
 test(BasicBrokerTest, ZoneRuleBroker_toYearFromTiny) {

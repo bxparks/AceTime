@@ -29,6 +29,8 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
   public:
     void validateZone(const extended::ZoneInfo* zoneInfo) {
       zoneProcessor.setZoneKey((uintptr_t) zoneInfo);
+      auto zoneInfoBroker = extended::ZoneInfoBroker(zoneInfo);
+      auto zoneContextBroker = zoneInfoBroker.zoneContext();
 
       // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100
       // years chunks, because time zone processing is valid over an interval of
@@ -36,8 +38,8 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
       // epoch year that is in the middle of each 100-year chunk.
     #if defined(EPOXY_DUINO)
       // On desktop machines, we can cover 2000 to year 10000.
-      for (int16_t startYear = zonedbx::kZoneContext.startYear;
-          startYear < zonedbx::kZoneContext.untilYear;
+      for (int16_t startYear = zoneContextBroker.startYear();
+          startYear < zoneContextBroker.untilYear();
           startYear += 100) {
     #else
       // On slow microcontrollers, let's check only 2000 to 2100.
@@ -47,7 +49,7 @@ class ExtendedTransitionValidation : public aunit::TestOnce {
         int16_t epochYear = startYear + 50;
         int16_t untilYear = min(
             (int16_t) (epochYear + 50),
-            zonedbx::kZoneContext.untilYear);
+            zoneContextBroker.untilYear());
 
         testing::EpochYearContext context(epochYear);
         assertNoFatalFailure(validateZone(startYear, untilYear));

@@ -104,39 +104,39 @@ class ZoneContextBroker {
     const ZC* raw() const { return mZoneContext; }
 
     int16_t startYear() const {
-      return mZoneContext->startYear;
+      return (int16_t) pgm_read_word(&mZoneContext->startYear);
     }
 
     int16_t untilYear() const {
-      return mZoneContext->untilYear;
+      return (int16_t) pgm_read_word(&mZoneContext->untilYear);
     }
 
     int16_t baseYear() const {
-      return mZoneContext->baseYear;
+      return (int16_t) pgm_read_word(&mZoneContext->baseYear);
     }
 
     int16_t maxTransitions() const {
-      return mZoneContext->maxTransitions;
+      return (int16_t) pgm_read_word(&mZoneContext->maxTransitions);
     }
 
     const char* tzVersion() const {
-      return mZoneContext->tzVersion;
+      return (const char*) pgm_read_ptr(&mZoneContext->tzVersion);
     }
 
     uint8_t numFragments() const {
-      return mZoneContext->numFragments;
+      return (uint8_t) pgm_read_byte(&mZoneContext->numFragments);
     }
 
     uint8_t numLetters() const {
-      return mZoneContext->numLetters;
+      return (uint8_t) pgm_read_byte(&mZoneContext->numLetters);
     }
 
     const char* const* fragments() const {
-      return mZoneContext->fragments;
+      return (const char* const*) pgm_read_ptr(&mZoneContext->fragments);
     }
 
     const char* letter(uint8_t i) const {
-      return mZoneContext->letters[i];
+      return *((const char* const*) pgm_read_ptr(&mZoneContext->letters) + i);
     }
 
   private:
@@ -171,12 +171,14 @@ class ZoneRuleBroker {
 
     int16_t fromYear() const {
       int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneRule->fromYear);
-      return toYearFromTiny(yearTiny, mZoneContext->baseYear);
+      int16_t baseYear = ZoneContextBroker<ZC>(mZoneContext).baseYear();
+      return toYearFromTiny(yearTiny, baseYear);
     }
 
     int16_t toYear() const {
       int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneRule->toYear);
-      return toYearFromTiny(yearTiny, mZoneContext->baseYear);
+      int16_t baseYear = ZoneContextBroker<ZC>(mZoneContext).baseYear();
+      return toYearFromTiny(yearTiny, baseYear);
     }
 
     static int16_t toYearFromTiny(int8_t yearTiny, int16_t baseYear) {
@@ -220,7 +222,7 @@ class ZoneRuleBroker {
 
     const char* letter() const {
       uint8_t index = pgm_read_byte(&mZoneRule->letterIndex);
-      return mZoneContext->letters[index];
+      return ZoneContextBroker<ZC>(mZoneContext).letter(index);
     }
 
   private:
@@ -321,7 +323,8 @@ class ZoneEraBroker {
 
     int16_t untilYear() const {
       int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneEra->untilYear);
-      return toUntilYearFromTiny(yearTiny, mZoneContext->baseYear);
+      int16_t baseYear = ZoneContextBroker<ZC>(mZoneContext).baseYear();
+      return toUntilYearFromTiny(yearTiny, baseYear);
     }
 
     static int16_t toUntilYearFromTiny(int8_t yearTiny, int16_t baseYear) {
@@ -503,7 +506,6 @@ class ZoneInfoStore {
 };
 
 } // zoneinfolow
-
 } // ace_time
 
 #endif

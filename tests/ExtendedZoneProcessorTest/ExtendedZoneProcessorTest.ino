@@ -9,18 +9,19 @@
 
 using ace_common::PrintStr;
 using namespace ace_time;
-using ace_time::extended::ZoneContext;
 using ace_time::extended::DateTuple;
 using ace_time::extended::TransitionStorageTemplate;
 using ace_time::extended::YearMonthTuple;
-using ace_time::extended::ZoneEra;
-using ace_time::extended::ZoneEraBroker;
-using ace_time::extended::ZoneInfo;
-using ace_time::extended::ZoneInfoBroker;
-using ace_time::extended::ZonePolicy;
-using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::ZoneContext;
 using ace_time::extended::ZoneRule;
+using ace_time::extended::ZonePolicy;
+using ace_time::extended::ZoneEra;
+using ace_time::extended::ZoneInfo;
+using ace_time::extended::ZoneContextBroker;
 using ace_time::extended::ZoneRuleBroker;
+using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::ZoneEraBroker;
+using ace_time::extended::ZoneInfoBroker;
 using ace_time::extended::normalizeDateTuple;
 using ace_time::extended::subtractDateTuple;
 using ace_time::testing::EpochYearContext;
@@ -963,8 +964,9 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  assertEqual(1980, kZoneContext.startYear);
-  assertEqual(10000, kZoneContext.untilYear);
+  ZoneContextBroker zoneContextBroker(&kZoneContext);
+  assertEqual(1980, zoneContextBroker.startYear());
+  assertEqual(10000, zoneContextBroker.untilYear());
 
   // 1970 > LocalDate::kMinYear so dt is valid, and
   dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,
