@@ -26,9 +26,8 @@ benchmarks: $(TARGETS)
 nano.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END nano:USB0
 
-# Sparkfun Micro does not flash using the Arduino CLI. Use IDE instead.
 micro.txt:
-	$(AUNITER_DIR)/auniter.sh --ide upmon -o $@ --eof END micro:ACM0
+	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END micro:ACM0
 
 samd21.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon --delay 1 -o $@ --eof END xiao:ACM0
