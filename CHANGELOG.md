@@ -36,6 +36,9 @@
         * Add `--scope complete` to access the `zonedbc` database.
     * Rename `src/tzonedb*` directories to `src/zonedb*testing` for consistency
       with other acetime libraries.
+    * Move `ZoneContext`, `letters[]`, `fragments[]` into PROGMEM.
+        * Saves around 150-200 bytes of RAM on AVR processors,
+          200-350 bytes of RAM on ESP8266.
 * 2.2.3 (2023-05-31, TZDB version 2023c)
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.
