@@ -16,6 +16,7 @@ using ace_time::extended::ZoneRuleBroker;
 using ace_time::extended::ZonePolicyBroker;
 using ace_time::extended::ZoneEra;
 using ace_time::zonedbxtesting::kZoneContext;
+using ace_time::zonedbxtesting::kTzDatabaseVersion;
 using ace_time::zonedbxtesting::kZonePolicyUS;
 using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
 using ace_time::zonedbxtesting::kZonePolicyNamibia;
@@ -34,8 +35,9 @@ test(timeCodeToMinutes) {
 //---------------------------------------------------------------------------
 
 test(BasicBrokerTest, ZoneContextBroker) {
-  const char* tzVersion = ZoneContextBroker(&kZoneContext).tzVersion();
-  assertEqual("2023c", tzVersion);
+  auto broker = ZoneContextBroker(&kZoneContext);
+  assertEqual(kTzDatabaseVersion, broker.tzVersion());
+  assertEqual("CAT", broker.letter(1));
 }
 
 test(ExtendedBrokerTest, ZoneRuleBroker) {

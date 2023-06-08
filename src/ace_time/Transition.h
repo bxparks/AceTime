@@ -191,7 +191,7 @@ struct TransitionTemplate {
   char abbrev[internal::kAbbrevSize];
 
   /** Storage for the 'letter' field if 'rule' is not null. */
-  const char* letter;
+  const __FlashStringHelper* letter;
 
   union {
     /**

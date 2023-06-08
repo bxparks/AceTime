@@ -818,7 +818,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         // Used for simple MatchingEra.
         t->transitionTime = match->startDateTime;
         t->deltaSeconds = match->era.deltaSeconds();
-        t->letter = "";
+        t->letter = F("");
       } else {
         t->transitionTime = getTransitionTime(year, rule);
         t->deltaSeconds = rule.deltaSeconds();
@@ -1171,7 +1171,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         uint8_t destSize,
         const char* format,
         uint32_t deltaSeconds,
-        const char* letterString) {
+        const __FlashStringHelper* letterString) {
 
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {

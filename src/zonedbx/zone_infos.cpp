@@ -77,44 +77,69 @@ namespace ace_time {
 namespace zonedbx {
 
 //---------------------------------------------------------------------------
-// ZoneContext (should not be in PROGMEM)
+// ZoneContext
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2023c";
+const char kTzDatabaseVersion[] ACE_TIME_PROGMEM = "2023c";
 
-const char* const kFragments[] = {
-/*\x00*/ nullptr,
-/*\x01*/ "Africa/",
-/*\x02*/ "America/",
-/*\x03*/ "Antarctica/",
-/*\x04*/ "Argentina/",
-/*\x05*/ "Asia/",
-/*\x06*/ "Atlantic/",
-/*\x07*/ "Australia/",
-/*\x08*/ "Brazil/",
-/*\x09*/ "Canada/",
-/*\x0a*/ "Etc/",
-/*\x0b*/ "Europe/",
-/*\x0c*/ "Indian/",
-/*\x0d*/ "Indiana/",
-/*\x0e*/ "Pacific/",
+static const char kFragment1[] ACE_TIME_PROGMEM = "Africa/";
+static const char kFragment2[] ACE_TIME_PROGMEM = "America/";
+static const char kFragment3[] ACE_TIME_PROGMEM = "Antarctica/";
+static const char kFragment4[] ACE_TIME_PROGMEM = "Argentina/";
+static const char kFragment5[] ACE_TIME_PROGMEM = "Asia/";
+static const char kFragment6[] ACE_TIME_PROGMEM = "Atlantic/";
+static const char kFragment7[] ACE_TIME_PROGMEM = "Australia/";
+static const char kFragment8[] ACE_TIME_PROGMEM = "Brazil/";
+static const char kFragment9[] ACE_TIME_PROGMEM = "Canada/";
+static const char kFragment10[] ACE_TIME_PROGMEM = "Etc/";
+static const char kFragment11[] ACE_TIME_PROGMEM = "Europe/";
+static const char kFragment12[] ACE_TIME_PROGMEM = "Indian/";
+static const char kFragment13[] ACE_TIME_PROGMEM = "Indiana/";
+static const char kFragment14[] ACE_TIME_PROGMEM = "Pacific/";
+
+const char* const kFragments[] ACE_TIME_PROGMEM = {
+  nullptr, // '\x00' cannot exist
+  kFragment1, // '\x01' "Africa/"
+  kFragment2, // '\x02' "America/"
+  kFragment3, // '\x03' "Antarctica/"
+  kFragment4, // '\x04' "Argentina/"
+  kFragment5, // '\x05' "Asia/"
+  kFragment6, // '\x06' "Atlantic/"
+  kFragment7, // '\x07' "Australia/"
+  kFragment8, // '\x08' "Brazil/"
+  kFragment9, // '\x09' "Canada/"
+  kFragment10, // '\x0a' "Etc/"
+  kFragment11, // '\x0b' "Europe/"
+  kFragment12, // '\x0c' "Indian/"
+  kFragment13, // '\x0d' "Indiana/"
+  kFragment14, // '\x0e' "Pacific/"
 
 };
 
-const char* const kLetters[] = {
-/*0*/ "",
-/*1*/ "+00",
-/*2*/ "+02",
-/*3*/ "CAT",
-/*4*/ "CST",
-/*5*/ "D",
-/*6*/ "DD",
-/*7*/ "S",
-/*8*/ "WAT",
+static const char kLetter0[] ACE_TIME_PROGMEM = "";
+static const char kLetter1[] ACE_TIME_PROGMEM = "+00";
+static const char kLetter2[] ACE_TIME_PROGMEM = "+02";
+static const char kLetter3[] ACE_TIME_PROGMEM = "CAT";
+static const char kLetter4[] ACE_TIME_PROGMEM = "CST";
+static const char kLetter5[] ACE_TIME_PROGMEM = "D";
+static const char kLetter6[] ACE_TIME_PROGMEM = "DD";
+static const char kLetter7[] ACE_TIME_PROGMEM = "S";
+static const char kLetter8[] ACE_TIME_PROGMEM = "WAT";
+
+const char* const kLetters[] ACE_TIME_PROGMEM = {
+  kLetter0, // ""
+  kLetter1, // "+00"
+  kLetter2, // "+02"
+  kLetter3, // "CAT"
+  kLetter4, // "CST"
+  kLetter5, // "D"
+  kLetter6, // "DD"
+  kLetter7, // "S"
+  kLetter8, // "WAT"
 
 };
 
-const extended::ZoneContext kZoneContext = {
+const extended::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   2000 /*startYear*/,
   10000 /*untilYear*/,
   2100 /*baseYear*/,

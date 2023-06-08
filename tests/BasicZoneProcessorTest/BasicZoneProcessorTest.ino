@@ -9,16 +9,17 @@
 
 using ace_common::PrintStr;
 using namespace ace_time;
-using ace_time::basic::ZoneContext;
 using ace_time::basic::compareYearMonth;
-using ace_time::basic::ZoneInfo;
-using ace_time::basic::ZoneEra;
+using ace_time::basic::ZoneContext;
 using ace_time::basic::ZoneRule;
 using ace_time::basic::ZonePolicy;
-using ace_time::basic::ZoneInfoBroker;
-using ace_time::basic::ZoneEraBroker;
+using ace_time::basic::ZoneEra;
+using ace_time::basic::ZoneInfo;
+using ace_time::basic::ZoneContextBroker;
 using ace_time::basic::ZoneRuleBroker;
 using ace_time::basic::ZonePolicyBroker;
+using ace_time::basic::ZoneEraBroker;
+using ace_time::basic::ZoneInfoBroker;
 using ace_time::testing::EpochYearContext;
 using ace_time::zonedbtesting::kZoneContext;
 using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
@@ -454,8 +455,9 @@ test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   acetime_t epochSeconds;
   FindResult result;
 
-  assertEqual(1980, kZoneContext.startYear);
-  assertEqual(2200, kZoneContext.untilYear);
+  ZoneContextBroker broker = ZoneContextBroker(&kZoneContext);
+  assertEqual(1980, broker.startYear());
+  assertEqual(2200, broker.untilYear());
 
   // 1970 > LocalDate::kMinYear so dt is valid, and
   dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,

@@ -276,6 +276,8 @@ ASCII table.
       150 bytes.
     * Decreases memory cosumption for BasicZoneManager w/ all timezones by
       800-900 bytes.
+* Move ZoneContext and its string arrays into PROGMEM.
+    * Reduces RAM usage by 150-200 bytes on AVR and ESP8266 processors.
 
 # Legend
 

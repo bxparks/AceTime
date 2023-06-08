@@ -79,26 +79,33 @@ namespace ace_time {
 namespace zonedbxtesting {
 
 //---------------------------------------------------------------------------
-// ZoneContext (should not be in PROGMEM)
+// ZoneContext
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] = "2023c";
+const char kTzDatabaseVersion[] ACE_TIME_PROGMEM = "2023c";
 
-const char* const kFragments[] = {
-/*\x00*/ nullptr,
 
-};
-
-const char* const kLetters[] = {
-/*0*/ "",
-/*1*/ "CAT",
-/*2*/ "D",
-/*3*/ "S",
-/*4*/ "WAT",
+const char* const kFragments[] ACE_TIME_PROGMEM = {
+  nullptr, // '\x00' cannot exist
 
 };
 
-const extended::ZoneContext kZoneContext = {
+static const char kLetter0[] ACE_TIME_PROGMEM = "";
+static const char kLetter1[] ACE_TIME_PROGMEM = "CAT";
+static const char kLetter2[] ACE_TIME_PROGMEM = "D";
+static const char kLetter3[] ACE_TIME_PROGMEM = "S";
+static const char kLetter4[] ACE_TIME_PROGMEM = "WAT";
+
+const char* const kLetters[] ACE_TIME_PROGMEM = {
+  kLetter0, // ""
+  kLetter1, // "CAT"
+  kLetter2, // "D"
+  kLetter3, // "S"
+  kLetter4, // "WAT"
+
+};
+
+const extended::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   1980 /*startYear*/,
   10000 /*untilYear*/,
   2100 /*baseYear*/,

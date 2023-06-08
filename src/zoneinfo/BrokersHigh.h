@@ -38,8 +38,8 @@ namespace zoneinfohigh {
 /**
  * Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT
  * time in ZoneRule in one second resolution. The `code` parameter holds the AT
- * or UNTIL time in minutes component in units of 15 seconds. The lower 4-bits
- * of `modifier` holds the remainder seconds.
+ * or UNTIL time in units of 15 seconds. The lower 4-bits of `modifier` holds
+ * the remainder seconds.
  */
 inline uint32_t timeCodeToSeconds(uint16_t code, uint8_t modifier) {
   return code * (uint32_t) 15 + (modifier & 0x0f);
@@ -80,39 +80,44 @@ class ZoneContextBroker {
     const ZC* raw() const { return mZoneContext; }
 
     int16_t startYear() const {
-      return mZoneContext->startYear;
+      return (int16_t) pgm_read_word(&mZoneContext->startYear);
     }
 
     int16_t untilYear() const {
-      return mZoneContext->untilYear;
+      return (int16_t) pgm_read_word(&mZoneContext->untilYear);
     }
 
     int16_t baseYear() const {
-      return mZoneContext->baseYear;
+      return (int16_t) pgm_read_word(&mZoneContext->baseYear);
     }
 
     int16_t maxTransitions() const {
-      return mZoneContext->maxTransitions;
+      return (int16_t) pgm_read_word(&mZoneContext->maxTransitions);
     }
 
-    const char* tzVersion() const {
-      return mZoneContext->tzVersion;
+    const __FlashStringHelper* tzVersion() const {
+      return (const __FlashStringHelper*)
+          pgm_read_ptr(&mZoneContext->tzVersion);
     }
 
     uint8_t numFragments() const {
-      return mZoneContext->numFragments;
+      return (uint8_t) pgm_read_byte(&mZoneContext->numFragments);
     }
 
     uint8_t numLetters() const {
-      return mZoneContext->numLetters;
+      return (uint8_t) pgm_read_byte(&mZoneContext->numLetters);
     }
 
-    const char* const* fragments() const {
-      return mZoneContext->fragments;
+    const __FlashStringHelper* const* fragments() const {
+      return (const __FlashStringHelper* const*)
+          pgm_read_ptr(&mZoneContext->fragments);
     }
 
-    const char* letter(uint8_t i) const {
-      return mZoneContext->letters[i];
+    const __FlashStringHelper* letter(uint8_t i) const {
+      const char * const* letters = (const char* const*)
+          pgm_read_ptr(&mZoneContext->letters);
+      const char* letter = (const char*) pgm_read_ptr(letters + i);
+      return (const __FlashStringHelper*) letter;
     }
 
   private:
@@ -179,9 +184,9 @@ class ZoneRuleBroker {
       return int32_t(60) * (int8_t) pgm_read_byte(&mZoneRule->deltaMinutes);
     }
 
-    const char* letter() const {
+    const __FlashStringHelper* letter() const {
       uint8_t index = pgm_read_byte(&mZoneRule->letterIndex);
-      return mZoneContext->letters[index];
+      return ZoneContextBroker<ZC>(mZoneContext).letter(index);
     }
 
   private:
@@ -397,7 +402,7 @@ template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer)
     const {
   ace_common::printReplaceCharTo(
-      printer, internal:: findShortName(name()), '_', ' ');
+      printer, internal::findShortName(name()), '_', ' ');
 }
 
 //-----------------------------------------------------------------------------
@@ -455,7 +460,6 @@ class ZoneInfoStore {
 };
 
 } // zoneinfohigh
-
 } // ace_time
 
 #endif

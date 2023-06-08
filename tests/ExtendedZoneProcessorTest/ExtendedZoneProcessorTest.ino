@@ -9,18 +9,19 @@
 
 using ace_common::PrintStr;
 using namespace ace_time;
-using ace_time::extended::ZoneContext;
 using ace_time::extended::DateTuple;
 using ace_time::extended::TransitionStorageTemplate;
 using ace_time::extended::YearMonthTuple;
-using ace_time::extended::ZoneEra;
-using ace_time::extended::ZoneEraBroker;
-using ace_time::extended::ZoneInfo;
-using ace_time::extended::ZoneInfoBroker;
-using ace_time::extended::ZonePolicy;
-using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::ZoneContext;
 using ace_time::extended::ZoneRule;
+using ace_time::extended::ZonePolicy;
+using ace_time::extended::ZoneEra;
+using ace_time::extended::ZoneInfo;
+using ace_time::extended::ZoneContextBroker;
 using ace_time::extended::ZoneRuleBroker;
+using ace_time::extended::ZonePolicyBroker;
+using ace_time::extended::ZoneEraBroker;
+using ace_time::extended::ZoneInfoBroker;
 using ace_time::extended::normalizeDateTuple;
 using ace_time::extended::subtractDateTuple;
 using ace_time::testing::EpochYearContext;
@@ -790,7 +791,7 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, nullptr);
   assertEqual("SAST", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 60, "A");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 60, F("A"));
   assertEqual("SAST", dst);
 
   // If '%', and letter is (incorrectly) set to '\0', just copy the thing
@@ -798,30 +799,32 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   assertEqual("SA%ST", dst);
 
   // If '%', then replaced with (non-null) letterString.
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 60, "D");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 60, F("D"));
   assertEqual("PDT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "S");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, F("S"));
   assertEqual("PST", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, F(""));
   assertEqual("PT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 60, "CAT");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 60, F("CAT"));
   assertEqual("CAT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, "WAT");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, F("WAT"));
   assertEqual("WAT", dst);
 
   // If '/', then deltaSeconds selects the first or second component.
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, "");
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, F(""));
   assertEqual("GMT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 60, "");
+  ExtendedZoneProcessor::createAbbreviation(
+      dst, kDstSize, "GMT/BST", 60, F(""));
   assertEqual("BST", dst);
 
   // test truncation to kDstSize
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 60, "DD");
+  ExtendedZoneProcessor::createAbbreviation(
+      dst, kDstSize, "P%T3456", 60, F("DD"));
   assertEqual("PDDT3", dst);
 }
 
@@ -963,8 +966,9 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  assertEqual(1980, kZoneContext.startYear);
-  assertEqual(10000, kZoneContext.untilYear);
+  ZoneContextBroker zoneContextBroker(&kZoneContext);
+  assertEqual(1980, zoneContextBroker.startYear());
+  assertEqual(10000, zoneContextBroker.untilYear());
 
   // 1970 > LocalDate::kMinYear so dt is valid, and
   dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,
