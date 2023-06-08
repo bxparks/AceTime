@@ -132,8 +132,9 @@ class ZoneContextBroker {
       return (uint8_t) pgm_read_byte(&mZoneContext->numLetters);
     }
 
-    const char* const* fragments() const {
-      return (const char* const*) pgm_read_ptr(&mZoneContext->fragments);
+    const __FlashStringHelper* const* fragments() const {
+      return (const __FlashStringHelper* const*)
+          pgm_read_ptr(&mZoneContext->fragments);
     }
 
     const __FlashStringHelper* letter(uint8_t i) const {

@@ -84,8 +84,9 @@ namespace zonedbxtesting {
 
 const char kTzDatabaseVersion[] ACE_TIME_PROGMEM = "2023c";
 
-const char* const kFragments[] = {
-/*\x00*/ nullptr,
+
+const char* const kFragments[] ACE_TIME_PROGMEM = {
+  nullptr, // '\x00' cannot exist
 
 };
 
@@ -95,13 +96,12 @@ static const char kLetter2[] ACE_TIME_PROGMEM = "D";
 static const char kLetter3[] ACE_TIME_PROGMEM = "S";
 static const char kLetter4[] ACE_TIME_PROGMEM = "WAT";
 
-
 const char* const kLetters[] ACE_TIME_PROGMEM = {
-  kLetter0,
-  kLetter1,
-  kLetter2,
-  kLetter3,
-  kLetter4,
+  kLetter0, // ""
+  kLetter1, // "CAT"
+  kLetter2, // "D"
+  kLetter3, // "S"
+  kLetter4, // "WAT"
 
 };
 
