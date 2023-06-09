@@ -34,10 +34,10 @@
 // Max Buffer Size: 7
 //
 // Records:
-//   Rules: 735
-//   Policies: 83
-//   Eras: 646
 //   Infos: 596
+//   Eras: 646
+//   Policies: 83
+//   Rules: 735
 //
 // Memory (8-bits):
 //   Context: 16

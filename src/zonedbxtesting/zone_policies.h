@@ -36,10 +36,10 @@
 // Max Buffer Size: 7
 //
 // Records:
-//   Rules: 227
-//   Policies: 12
-//   Eras: 30
 //   Infos: 16
+//   Eras: 30
+//   Policies: 12
+//   Rules: 227
 //
 // Memory (8-bits):
 //   Context: 16
@@ -81,7 +81,6 @@ namespace zonedbxtesting {
 
 //---------------------------------------------------------------------------
 // Supported policies: 12
-// Supported rules: 227
 //---------------------------------------------------------------------------
 
 extern const extended::ZonePolicy kZonePolicyAus;

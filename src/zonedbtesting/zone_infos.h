@@ -36,10 +36,10 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Rules: 32
-//   Policies: 8
-//   Eras: 15
 //   Infos: 12
+//   Eras: 15
+//   Policies: 8
+//   Rules: 32
 //
 // Memory (8-bits):
 //   Context: 16
@@ -91,7 +91,6 @@ extern const basic::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 11
-// Supported eras: 15
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Johannesburg; // Africa/Johannesburg

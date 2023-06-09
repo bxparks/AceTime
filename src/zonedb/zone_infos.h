@@ -34,10 +34,10 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Rules: 362
-//   Policies: 63
-//   Eras: 238
 //   Infos: 446
+//   Eras: 238
+//   Policies: 63
+//   Rules: 362
 //
 // Memory (8-bits):
 //   Context: 16
@@ -89,7 +89,6 @@ extern const basic::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 226
-// Supported eras: 238
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
