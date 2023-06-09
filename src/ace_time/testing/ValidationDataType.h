@@ -16,7 +16,7 @@ namespace testing {
  * The epochSecond and the expected UTC offset and dateTime components.
  * This is the C++ representation of the 'TestItem' entry in
  * validation_data.json file which is defined in
- * AceTimeTools/types/valtyping.py. The 'type' contains a single
+ * AceTimeTools/datatypes/valtyping.py. The 'type' contains a single
  * character with the following meanings:
  *
  *    * 'A': pre-transition where the UTC offset is different
