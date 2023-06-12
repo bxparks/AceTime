@@ -30,6 +30,8 @@
 //
 // Original Years:  [1844,2087]
 // Generated Years: [1844,2087]
+// Lower/Upper Truncated: [False, False]
+//
 // Estimator Years: [1800,2090]
 // Max Buffer Size: 8
 //
