@@ -4,8 +4,7 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using ace_time::internal::findShortName;
-using ace_time::zoneinfomid::timeCodeToMinutes;
+using ace_time::zoneinfo::findShortName;
 
 test(findShortStringTest_cstring) {
   assertEqual("", findShortName(""));

@@ -9,7 +9,7 @@
 #include "BrokerCommon.h"
 
 namespace ace_time {
-namespace internal {
+namespace zoneinfo {
 
 const char* findShortName(const char* name) {
   size_t len = strlen(name);
@@ -40,5 +40,5 @@ const __FlashStringHelper* findShortName(const __FlashStringHelper* fname) {
   return (const __FlashStringHelper*) begin;
 }
 
-} // internal
+} // zoneinfo
 } // ace_time

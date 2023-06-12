@@ -453,7 +453,7 @@ template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer)
     const {
   ace_common::printReplaceCharTo(
-      printer, internal::findShortName(name()), '_', ' ');
+      printer, zoneinfo::findShortName(name()), '_', ' ');
 }
 
 //-----------------------------------------------------------------------------

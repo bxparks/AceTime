@@ -17,7 +17,8 @@
 class __FlashStringHelper;
 
 namespace ace_time {
-namespace internal {
+namespace zoneinfo {
+
 /**
  * Return a pointer to the short name of a full ZoneName. The short name is the
  * last component, which usually begins after the last separator '/'. If the
@@ -42,7 +43,7 @@ const char* findShortName(const char* name);
  */
 const __FlashStringHelper* findShortName(const __FlashStringHelper* fname);
 
-} // internal
+} // zoneinfo
 } // ace_time
 
 #endif
