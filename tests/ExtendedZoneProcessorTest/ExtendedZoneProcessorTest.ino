@@ -304,7 +304,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kPrior,
@@ -318,7 +318,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -332,7 +332,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -346,7 +346,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -360,7 +360,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kWithinMatch,
@@ -374,7 +374,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatchFuzzy) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
   assertEqual(
       (uint8_t) CompareStatus::kFarFuture,
@@ -462,7 +462,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE, /* originalTransitionTime */
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   // transitionTime = 2000-01-01
@@ -473,7 +473,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   // transitionTime = 2000-01-02
@@ -484,7 +484,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   // transitionTime = 2001-02-03
@@ -495,7 +495,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   ExtendedZoneProcessor::Transition* transitions[] = {
@@ -571,7 +571,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   // This occurs at exactly match.startDateTime, so should replace the prior.
@@ -583,7 +583,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   // An interior transition. Prior should not change.
@@ -595,7 +595,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   // Occurs after match.untilDateTime, so should be rejected.
@@ -607,7 +607,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
     EMPTY_DATE,
   #endif
-    0, 0, 0, {0}, 0, false
+    0, 0, 0, {0}, false
   };
 
   ExtendedZoneProcessor::Transition* transitions[] = {
@@ -791,7 +791,7 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, nullptr);
   assertEqual("SAST", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 60, F("A"));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 60, "A");
   assertEqual("SAST", dst);
 
   // If '%', and letter is (incorrectly) set to '\0', just copy the thing
@@ -799,32 +799,30 @@ test(ExtendedZoneProcessorTest, createAbbreviation) {
   assertEqual("SA%ST", dst);
 
   // If '%', then replaced with (non-null) letterString.
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 60, F("D"));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 60, "D");
   assertEqual("PDT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, F("S"));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "S");
   assertEqual("PST", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, F(""));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "");
   assertEqual("PT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 60, F("CAT"));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 60, "CAT");
   assertEqual("CAT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, F("WAT"));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, "WAT");
   assertEqual("WAT", dst);
 
   // If '/', then deltaSeconds selects the first or second component.
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, F(""));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, "");
   assertEqual("GMT", dst);
 
-  ExtendedZoneProcessor::createAbbreviation(
-      dst, kDstSize, "GMT/BST", 60, F(""));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 60, "");
   assertEqual("BST", dst);
 
   // test truncation to kDstSize
-  ExtendedZoneProcessor::createAbbreviation(
-      dst, kDstSize, "P%T3456", 60, F("DD"));
+  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 60, "DD");
   assertEqual("PDDT3", dst);
 }
 

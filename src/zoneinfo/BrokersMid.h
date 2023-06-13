@@ -22,6 +22,7 @@
  */
 
 #include <stdint.h> // uintptr_t, uint32_t, etc
+#include <Arduino.h> // strncpy_P()
 #include <AceCommon.h> // KString
 #include "compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
@@ -208,9 +209,12 @@ class ZoneRuleBroker {
       return 60 * toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
-    const __FlashStringHelper* letter() const {
+    void letter(char* buf) const {
       uint8_t index = pgm_read_byte(&mZoneRule->letterIndex);
-      return ZoneContextBroker<ZC>(mZoneContext).letter(index);
+      const __FlashStringHelper* letter =
+          ZoneContextBroker<ZC>(mZoneContext).letter(index);
+      strncpy_P(buf, (const char*) letter, zoneinfo::kAbbrevSize - 1);
+      buf[zoneinfo::kAbbrevSize - 1] = '\0';
     }
 
   private:
@@ -427,7 +431,7 @@ template <typename ZC, typename ZI, typename ZE, typename ZP, typename ZR>
 void ZoneInfoBroker<ZC, ZI, ZE, ZP, ZR>::printShortNameTo(Print& printer)
     const {
   ace_common::printReplaceCharTo(
-      printer, internal::findShortName(name()), '_', ' ');
+      printer, zoneinfo::findShortName(name()), '_', ' ');
 }
 
 //-----------------------------------------------------------------------------

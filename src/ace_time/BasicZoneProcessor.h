@@ -8,7 +8,6 @@
 
 #include <string.h> // strchr()
 #include <stdint.h>
-#include <Arduino.h> // pgm_read_byte()
 #include <AceCommon.h> // copyReplaceChar()
 #include "../zoneinfo/infos.h"
 #include "../zoneinfo/brokers.h"
@@ -743,17 +742,17 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     static Transition createTransition(int16_t year, uint8_t month,
         const ZEB& era, const ZRB& rule) {
 
+      Transition transition;
       int16_t deltaMinutes;
-      const __FlashStringHelper* letter;
       uint8_t mon;
       if (rule.isNull()) {
         mon = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
         deltaMinutes = era.deltaSeconds() / kMinToSec;
-        letter = nullptr;
+        transition.abbrev[0] = '\0';
       } else {
         mon = rule.inMonth();
         deltaMinutes = rule.deltaSeconds() / kMinToSec;
-        letter = rule.letter();
+        rule.letter(transition.abbrev);
       }
       // Clobber the month if specified.
       if (month != 0) {
@@ -761,22 +760,13 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
       int16_t offsetMinutes = era.offsetSeconds() / kMinToSec + deltaMinutes;
 
-      Transition transition{
-        era,
-        rule,
-        0 /*epochSeconds*/,
-        offsetMinutes,
-        deltaMinutes,
-        year,
-        mon,
-        {0} /*abbrev*/,
-      };
-      if (letter) {
-        // BasicZoneProcessor supports only a single letter. TODO: I think
-        // this can be fixed relatively easily.
-        transition.abbrev[0] = pgm_read_byte(letter);
-        transition.abbrev[1] = '\0';
-      }
+      transition.era = era;
+      transition.rule = rule;
+      transition.startEpochSeconds = 0;
+      transition.offsetMinutes = offsetMinutes;
+      transition.deltaMinutes = deltaMinutes;
+      transition.year = year;
+      transition.month = mon;
       return transition;
     }
 

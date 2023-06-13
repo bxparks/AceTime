@@ -10,7 +10,7 @@
 
 using ace_common::KString;
 using ace_common::printReplaceCharTo;
-using ace_time::internal::findShortName;
+using ace_time::zoneinfo::findShortName;
 using ace_time::extended::ZoneContextBroker;
 
 namespace ace_time {

@@ -17,7 +17,18 @@
 class __FlashStringHelper;
 
 namespace ace_time {
-namespace internal {
+namespace zoneinfo {
+
+/**
+ * Size of the c-string buffer needed to hold a time zone abbreviation.
+ * Longest abbreviation currently seems to be 5 characters
+ * (https://www.timeanddate.com/time/zones/) but the TZ database spec says
+ * that abbreviations are 3 to 6 characters
+ * (https://data.iana.org/time-zones/theory.html#abbreviations), so use 6 as
+ * the maximum. Plus one for the terminating NUL character.
+ */
+const int kAbbrevSize = 6 + 1;
+
 /**
  * Return a pointer to the short name of a full ZoneName. The short name is the
  * last component, which usually begins after the last separator '/'. If the
@@ -42,7 +53,7 @@ const char* findShortName(const char* name);
  */
 const __FlashStringHelper* findShortName(const __FlashStringHelper* fname);
 
-} // internal
+} // zoneinfo
 } // ace_time
 
 #endif
