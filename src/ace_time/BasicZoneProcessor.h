@@ -298,9 +298,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       const Transition* transition = getTransition(epochSeconds);
       if (!transition) return result;
 
-      result.dstOffsetSeconds = transition->deltaMinutes * kMinToSec;
+      result.dstOffsetSeconds = transition->deltaMinutes * kSecPerMin;
       result.stdOffsetSeconds = (transition->offsetMinutes
-          - transition->deltaMinutes) * kMinToSec;
+          - transition->deltaMinutes) * kSecPerMin;
       result.reqStdOffsetSeconds = result.stdOffsetSeconds;
       result.reqDstOffsetSeconds = result.dstOffsetSeconds;
       result.type = FindResult::kTypeExact;
@@ -753,11 +753,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       uint8_t mon;
       if (rule.isNull()) {
         mon = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
-        deltaMinutes = era.deltaSeconds() / kMinToSec;
+        deltaMinutes = era.deltaSeconds() / kSecPerMin;
         transition.abbrev[0] = '\0';
       } else {
         mon = rule.inMonth();
-        deltaMinutes = rule.deltaSeconds() / kMinToSec;
+        deltaMinutes = rule.deltaSeconds() / kSecPerMin;
         ace_common::strncpy_T(
             transition.abbrev, rule.letter(), internal::kAbbrevSize - 1);
         transition.abbrev[internal::kAbbrevSize - 1] = '\0';
@@ -766,7 +766,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (month != 0) {
         mon = month;
       }
-      int16_t offsetMinutes = era.offsetSeconds() / kMinToSec + deltaMinutes;
+      int16_t offsetMinutes = era.offsetSeconds() / kSecPerMin + deltaMinutes;
 
       transition.era = era;
       transition.rule = rule;
@@ -843,7 +843,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           // requires the offset of the previous transition.
           const int16_t prevOffsetMinutes = calcRuleOffsetMinutes(
               prevTransition->offsetMinutes,
-              transition.era.offsetSeconds() / kMinToSec,
+              transition.era.offsetSeconds() / kSecPerMin,
               transition.rule.atTimeSuffix());
 
           // startDateTime
@@ -912,7 +912,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
   private:
-    static const int32_t kMinToSec = 60;
+    static const int32_t kSecPerMin = 60;
 
     const ZIS* mZoneInfoStore; // nullable
     ZIB mZoneInfoBroker;
