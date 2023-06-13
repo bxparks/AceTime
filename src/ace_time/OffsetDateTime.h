@@ -109,19 +109,25 @@ class OffsetDateTime {
      * the string cannot be parsed, then returns OffsetDateTime::forError().
      * Created for debugging purposes not for production use.
      *
-     * The parsing validation is so weak that the behavior is undefined for
-     * most invalid date/time strings. The range of valid dates is from
-     * 0001-01-01T00:00:00 to 9999-12-31T23:59:59.
+     * The parsing validation is so weak that the behavior is undefined for most
+     * invalid date/time strings. It cares mostly about the positional placement
+     * of the various components. It does not validate the separation characters
+     * like '-' or ':'. For example, both of the following will parse to the
+     * exactly same OffsetDateTime object: "2018-08-31T13:48:01-07:00"
+     * "2018/08/31 13.48.01-07.00"
      *
      * @param dateString the date and time in ISO 8601 format
-     *        "YYYY-MM-DDThh:mm:ss+/-hh:mm", but currently, the parser is very
-     *        lenient. It cares mostly about the positional placement of the
-     *        various components. It does not validate the separation
-     *        characters like '-' or ':'. For example, both of the following
-     *        will parse to the exactly same OffsetDateTime object:
-     *        "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00"
+     *        "YYYY-MM-DDThh:mm:ss+/-hh:mm". The range of valid dates is from
+     *        0001-01-01T00:00:00 to 9999-12-31T23:59:59.
      */
     static OffsetDateTime forDateString(const char* dateString);
+
+    /**
+     * Factory method. Create a OffsetDateTime from date string in flash memory
+     * F() strings. Mostly for unit testing. Returns OffsetDateTime::forError()
+     * if a parsing error occurs.
+     */
+    static OffsetDateTime forDateString(const __FlashStringHelper* dateString);
 
     /**
      * Variant of forDateString() that updates the pointer to the next
@@ -131,28 +137,6 @@ class OffsetDateTime {
      * This method assumes that the dateString is sufficiently long.
      */
     static OffsetDateTime forDateStringChainable(const char*& dateString);
-
-    /**
-     * Factory method. Create a OffsetDateTime from date string in flash memory
-     * F() strings. Mostly for unit testing. Returns OffsetDateTime::forError()
-     * if a parsing error occurs.
-     */
-    static OffsetDateTime forDateString(const __FlashStringHelper* dateString) {
-      // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
-      // ESP8266 do not have strlcpy_P(). We need +1 for the '\0' character and
-      // another +1 to determine if the dateString is too long to fit.
-      char buffer[kDateStringLength + 2];
-      strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
-      buffer[kDateStringLength + 1] = 0;
-
-      // check if the original F() was too long
-      size_t len = strlen(buffer);
-      if (len > kDateStringLength) {
-        return forError();
-      }
-
-      return forDateString(buffer);
-    }
 
     /** Factory method that returns an instance whose isError() is true. */
     static OffsetDateTime forError() {

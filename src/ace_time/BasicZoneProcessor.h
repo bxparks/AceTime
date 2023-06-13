@@ -7,7 +7,7 @@
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_H
 
 #include <stdint.h>
-#include <AceCommon.h> // copyReplaceChar()
+#include <AceCommon.h> // strncpy_T()
 #include "../zoneinfo/infos.h"
 #include "../zoneinfo/brokers.h"
 #include "common/common.h" // kAbbrevSize
@@ -715,7 +715,14 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // would mean maintaining another version of zone_processor.py.
       if (mNumTransitions >= kMaxCacheEntries) return;
 
-      // insert new element at the end of the list
+      // Insert new element at the end of the list.
+      // NOTE: It is probably tempting to pass a pointer (or reference) to
+      // mTransitions[mNumTransitions] into createTransition(), instead of
+      // returning it by value. However, MemoryBenchmark shows that directly
+      // updating the Transition through the pointer increases flash memory
+      // consumption by ~110 bytes on AVR processors. It seems that creating a
+      // local copy of Transition on the stack, filling it, and then copying it
+      // by value takes fewer instructions.
       mTransitions[mNumTransitions] = createTransition(year, month, era, rule);
       mNumTransitions++;
 
@@ -751,7 +758,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       } else {
         mon = rule.inMonth();
         deltaMinutes = rule.deltaSeconds() / kMinToSec;
-        rule.letter(transition.abbrev);
+        ace_common::strncpy_T(
+            transition.abbrev, rule.letter(), internal::kAbbrevSize - 1);
+        transition.abbrev[internal::kAbbrevSize - 1] = '\0';
       }
       // Clobber the month if specified.
       if (month != 0) {
@@ -770,9 +779,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Find the ZoneEra which applies to the given year. The era will
-     * satisfy (year < ZoneEra.untilYear). Since the largest
-     * untilYear is 127, the largest supported 'year' is 2126.
+     * Find the ZoneEra which applies to the given year. The era will satisfy
+     * (year < ZoneEra.untilYear).
      */
     static ZEB findZoneEra(const ZIB& info, int16_t year) {
       for (uint8_t i = 0; i < info.numEras(); i++) {

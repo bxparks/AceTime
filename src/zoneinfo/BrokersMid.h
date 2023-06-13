@@ -82,8 +82,7 @@ inline uint8_t toSuffix(uint8_t modifier) {
 //-----------------------------------------------------------------------------
 
 /**
- * Data broker for accessing a ZoneContext. Currently, this assumes that the
- * ZoneContext is in RAM. TODO: Move ZoneContext to PROGMEM for consistency.
+ * Data broker for accessing a ZoneContext.
  *
  * @tparam ZC the specific ZoneContext class
  */
@@ -209,12 +208,9 @@ class ZoneRuleBroker {
       return 60 * toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
     }
 
-    void letter(char* buf) const {
+    const __FlashStringHelper* letter() const {
       uint8_t index = pgm_read_byte(&mZoneRule->letterIndex);
-      const __FlashStringHelper* letter =
-          ZoneContextBroker<ZC>(mZoneContext).letter(index);
-      strncpy_P(buf, (const char*) letter, zoneinfo::kAbbrevSize - 1);
-      buf[zoneinfo::kAbbrevSize - 1] = '\0';
+      return ZoneContextBroker<ZC>(mZoneContext).letter(index);
     }
 
   private:

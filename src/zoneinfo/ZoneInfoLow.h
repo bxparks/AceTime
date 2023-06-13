@@ -163,17 +163,12 @@ struct ZoneRule {
    * field (implemented here by just a '%') of the ZoneInfo::format field. This
    * is an index offset into the global kLetters array. Most LETTER string is a
    * single character, e.g. "D", "S", or "". But a small number have LETTER
-   * fields which are longer than one character. As of TZDB version 2018i,
-   * these are:
+   * fields which are longer than one character. For example:
    *
    *  - Belize ('CST'; used by America/Belize)
    *  - Namibia ('WAT', 'CAT'; used by Africa/Windhoek)
    *  - StJohns ('DD'; used by America/St_Johns and America/Goose_Bay)
    *  - Troll ('+00' '+02'; used by Antarctica/Troll)
-   *
-   * TODO: Current BasicZoneProcessor supports only single-character LETTER.
-   * But I think it can be easily extended to support multi-character LETTER
-   * fields.
    */
   uint8_t const letterIndex;
 };

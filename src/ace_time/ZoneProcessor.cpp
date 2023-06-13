@@ -4,6 +4,7 @@
  */
 
 #include <string.h> // strchr(), strncpy(), memcpy()
+#include <AceCommon.h> // copyReplaceString()
 #include "ZoneProcessor.h"
 
 namespace ace_time {
