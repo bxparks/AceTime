@@ -818,11 +818,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         // Used for simple MatchingEra.
         t->transitionTime = match->startDateTime;
         t->deltaSeconds = match->era.deltaSeconds();
-        t->letter = F("");
+        t->abbrev[0] = '\0';
       } else {
         t->transitionTime = getTransitionTime(year, rule);
         t->deltaSeconds = rule.deltaSeconds();
-        t->letter = rule.letter();
+        rule.letter(t->abbrev);
       }
     }
 
@@ -1147,31 +1147,35 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
             "calcAbbreviations(): format:%s, deltaSeconds:%d, letter:%s\n",
-            t->format(), t->deltaSeconds, t->letter);
+            t->format(), t->deltaSeconds, t->abbrev);
         }
         createAbbreviation(
             t->abbrev,
             internal::kAbbrevSize,
             t->format(),
             t->deltaSeconds,
-            t->letter);
+            t->abbrev);
       }
     }
 
     /**
-     * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
-     * that 'letter' is a string.
-     *
-     * @param letterString nullptr if RULES is a '- or an 'hh:mm', an empty
-     * string if the LETTER was a '-', or a pointer to a non-empty string if
-     * LETTER was a 'S', 'D', 'WAT' etc.
-     */
+      * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
+      * that 'letter' is a string.
+      *
+      * @param letterString the string corrresonding to the LETTER field in the
+      * ZoneRule record. It is `nullptr` if ZoneEra.RULES is a '- or an 'hh:mm';
+      * an empty string if the ZoneRule.LETTER was a '-'; or a pointer to a
+      * non-empty string if ZoneRule.LETTER was a 'S', 'D', 'WAT' and so on. It
+      * is possible for `letterString` to be the same buffer as the `dest`
+      * string. Therefore we must copy the `letterString` before overwriting
+      * `dest`.
+      */
     static void createAbbreviation(
         char* dest,
         uint8_t destSize,
         const char* format,
         uint32_t deltaSeconds,
-        const __FlashStringHelper* letterString) {
+        const char* letterString) {
 
       // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
@@ -1180,8 +1184,17 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           strncpy(dest, format, destSize - 1);
           dest[destSize - 1] = '\0';
         } else {
-          ace_common::copyReplaceString(
-              dest, destSize, format, '%', letterString);
+          // Copy `letterString` into a local buffer, in case `letterString` is
+          // the same as `dest.
+          char letter[internal::kAbbrevSize];
+          if (letterString) {
+            strncpy(letter, letterString, internal::kAbbrevSize - 1);
+            letter[internal::kAbbrevSize - 1] = '\0';
+          } else {
+            letter[0] = '\0';
+          }
+
+          ace_common::copyReplaceString(dest, destSize, format, '%', letter);
         }
       } else {
         // Check if FORMAT contains a '/'.

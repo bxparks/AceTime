@@ -187,11 +187,13 @@ struct TransitionTemplate {
   /** The DST delta seconds. */
   int32_t deltaSeconds;
 
-  /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
+  /**
+   * The calculated effective time zone abbreviation, e.g. "PST" or "PDT".
+   * Initially this string buffer temporarily holds the `ZoneRule.letter()`
+   * string, until `createAbbreviation()` is called, which consumes the `letter`
+   * can creates the abbreviation.
+   */
   char abbrev[internal::kAbbrevSize];
-
-  /** Storage for the 'letter' field if 'rule' is not null. */
-  const __FlashStringHelper* letter;
 
   union {
     /**

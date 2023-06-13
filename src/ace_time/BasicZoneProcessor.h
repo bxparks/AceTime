@@ -742,25 +742,17 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     static Transition createTransition(int16_t year, uint8_t month,
         const ZEB& era, const ZRB& rule) {
 
+      Transition transition;
       int16_t deltaMinutes;
-      ace_common::PrintStr<internal::kAbbrevSize> letter;
       uint8_t mon;
       if (rule.isNull()) {
         mon = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
         deltaMinutes = era.deltaSeconds() / kMinToSec;
+        transition.abbrev[0] = '\0';
       } else {
         mon = rule.inMonth();
         deltaMinutes = rule.deltaSeconds() / kMinToSec;
-
-        // Use PrintStr.print() to copy rule.letter() everything under
-        // src/ace_time/ is agnostic to whether broker methods (e.g.
-        // rule.letter()) return a (const char*) or a (const
-        // __FlashStringHelper*). This allows the compiler to resolve the
-        // template code using the appropriate method automatically. For
-        // example, the following calls either `PrintStr.print(const char*)` or
-        // `PrintStr.print(const __FlashStringHelper*)` depending on the
-        // implementation of the ZRB class.
-        letter.print(rule.letter());
+        rule.letter(transition.abbrev);
       }
       // Clobber the month if specified.
       if (month != 0) {
@@ -768,17 +760,13 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
       int16_t offsetMinutes = era.offsetSeconds() / kMinToSec + deltaMinutes;
 
-      const char* lp = letter.cstr();
-      Transition transition{
-        era,
-        rule,
-        0 /*epochSeconds*/,
-        offsetMinutes,
-        deltaMinutes,
-        year,
-        mon,
-        {*lp} /*abbrev*/, // TODO: generalize this to more than 1-letter
-      };
+      transition.era = era;
+      transition.rule = rule;
+      transition.startEpochSeconds = 0;
+      transition.offsetMinutes = offsetMinutes;
+      transition.deltaMinutes = deltaMinutes;
+      transition.year = year;
+      transition.month = mon;
       return transition;
     }
 
