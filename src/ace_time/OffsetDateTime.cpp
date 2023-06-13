@@ -3,6 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
+#include <string.h> // strlen()
 #include "LocalDateTime.h"
 #include "OffsetDateTime.h"
 #include "TimeOffset.h"

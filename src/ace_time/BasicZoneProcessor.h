@@ -6,7 +6,6 @@
 #ifndef ACE_TIME_BASIC_ZONE_PROCESSOR_H
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_H
 
-#include <string.h> // strchr()
 #include <stdint.h>
 #include <AceCommon.h> // copyReplaceChar()
 #include "../zoneinfo/infos.h"

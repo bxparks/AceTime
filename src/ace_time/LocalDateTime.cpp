@@ -3,6 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
+#include <string.h> // strlen()
 #include <AceCommon.h>
 #include "common/DateStrings.h"
 #include "LocalDateTime.h"
@@ -60,4 +61,3 @@ LocalDateTime LocalDateTime::forDateStringChainable(const char*& dateString) {
 }
 
 }
-

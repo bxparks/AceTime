@@ -7,7 +7,6 @@
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_H
 
 #include <stdint.h> // uintptr_t
-#include <string.h> // memcpy(), strncpy()
 #include <AceCommon.h> // copyReplaceString()
 #include "../zoneinfo/infos.h"
 #include "../zoneinfo/brokers.h"

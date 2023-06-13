@@ -3,6 +3,7 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
+#include <string.h> // strchr(), strncpy(), memcpy()
 #include "ZoneProcessor.h"
 
 namespace ace_time {
