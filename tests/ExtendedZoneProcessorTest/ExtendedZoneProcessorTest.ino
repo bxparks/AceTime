@@ -780,53 +780,6 @@ test(ExtendedZoneProcessorTest, fixTransitionTimes_generateStartUntilTimes) {
 }
 
 //---------------------------------------------------------------------------
-// Step 5
-//---------------------------------------------------------------------------
-
-test(ExtendedZoneProcessorTest, createAbbreviation) {
-  const uint8_t kDstSize = 6;
-  char dst[kDstSize];
-
-  // If no '%', deltaSeconds and letter should not matter
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, nullptr);
-  assertEqual("SAST", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 60, "A");
-  assertEqual("SAST", dst);
-
-  // If '%', and letter is (incorrectly) set to '\0', just copy the thing
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "SA%ST", 0, nullptr);
-  assertEqual("SA%ST", dst);
-
-  // If '%', then replaced with (non-null) letterString.
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 60, "D");
-  assertEqual("PDT", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "S");
-  assertEqual("PST", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, "");
-  assertEqual("PT", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 60, "CAT");
-  assertEqual("CAT", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "%", 0, "WAT");
-  assertEqual("WAT", dst);
-
-  // If '/', then deltaSeconds selects the first or second component.
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, "");
-  assertEqual("GMT", dst);
-
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 60, "");
-  assertEqual("BST", dst);
-
-  // test truncation to kDstSize
-  ExtendedZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 60, "DD");
-  assertEqual("PDDT3", dst);
-}
-
-//---------------------------------------------------------------------------
 // Test high level public methods of ExtendedZoneProcessor.
 //---------------------------------------------------------------------------
 

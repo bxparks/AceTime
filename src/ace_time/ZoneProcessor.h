@@ -292,6 +292,25 @@ struct MonthDay {
 MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
     uint8_t onDayOfWeek, int8_t onDayOfMonth);
 
+/**
+  * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
+  * that 'letter' is a string.
+  *
+  * @param letterString the string corrresonding to the LETTER field in the
+  * ZoneRule record. It is `nullptr` if ZoneEra.RULES is a '- or an 'hh:mm';
+  * an empty string if the ZoneRule.LETTER was a '-'; or a pointer to a
+  * non-empty string if ZoneRule.LETTER was a 'S', 'D', 'WAT' and so on. It
+  * is possible for `letterString` to be the same buffer as the `dest`
+  * string. Therefore we must copy the `letterString` before overwriting
+  * `dest`.
+  */
+void createAbbreviation(
+    char* dest,
+    uint8_t destSize,
+    const char* format,
+    uint32_t deltaSeconds,
+    const char* letterString);
+
 } // internal
 } // ace_time
 
