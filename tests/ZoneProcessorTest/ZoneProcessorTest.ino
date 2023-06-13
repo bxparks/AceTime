@@ -6,6 +6,7 @@
 using ace_time::LocalDate;
 using ace_time::internal::calcStartDayOfMonth;
 using ace_time::internal::MonthDay;
+using ace_time::internal::createAbbreviation;
 
 test(ZoneProcessorTest, calcStartDayOfMonth) {
   // 2018-11, Sun>=1
@@ -48,6 +49,49 @@ test(ZoneProcessorTest, calcStartDayOfMonth) {
   monthDay = calcStartDayOfMonth(2018, 3, 0, 30);
   assertEqual(3, monthDay.month);
   assertEqual(30, monthDay.day);
+}
+
+test(ZoneProcessorTest, createAbbreviation) {
+  const uint8_t kDstSize = 6;
+  char dst[kDstSize];
+
+  // If no '%', deltaSeconds and letter should not matter
+  createAbbreviation(dst, kDstSize, "SAST", 0, nullptr);
+  assertEqual("SAST", dst);
+
+  createAbbreviation(dst, kDstSize, "SAST", 60, "A");
+  assertEqual("SAST", dst);
+
+  // If '%', and letter is (incorrectly) set to '\0', just copy the thing
+  createAbbreviation(dst, kDstSize, "SA%ST", 0, nullptr);
+  assertEqual("SA%ST", dst);
+
+  // If '%', then replaced with (non-null) letterString.
+  createAbbreviation(dst, kDstSize, "P%T", 60, "D");
+  assertEqual("PDT", dst);
+
+  createAbbreviation(dst, kDstSize, "P%T", 0, "S");
+  assertEqual("PST", dst);
+
+  createAbbreviation(dst, kDstSize, "P%T", 0, "");
+  assertEqual("PT", dst);
+
+  createAbbreviation(dst, kDstSize, "%", 60, "CAT");
+  assertEqual("CAT", dst);
+
+  createAbbreviation(dst, kDstSize, "%", 0, "WAT");
+  assertEqual("WAT", dst);
+
+  // If '/', then deltaSeconds selects the first or second component.
+  createAbbreviation(dst, kDstSize, "GMT/BST", 0, "");
+  assertEqual("GMT", dst);
+
+  createAbbreviation(dst, kDstSize, "GMT/BST", 60, "");
+  assertEqual("BST", dst);
+
+  // test truncation to kDstSize
+  createAbbreviation(dst, kDstSize, "P%T3456", 60, "DD");
+  assertEqual("PDDT3", dst);
 }
 
 //---------------------------------------------------------------------------

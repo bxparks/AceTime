@@ -36,7 +36,6 @@ class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneProcessorTest_compareTransitionToMatch;
 class ExtendedZoneProcessorTest_processTransitionCompareStatus;
 class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
-class ExtendedZoneProcessorTest_createAbbreviation;
 class ExtendedZoneProcessorTest_setZoneKey;
 class ExtendedTransitionValidation;
 class CompleteTransitionValidation;
@@ -418,7 +417,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatch;
     friend class ::ExtendedZoneProcessorTest_processTransitionCompareStatus;
     friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
-    friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneKey;
     friend class ::ExtendedTransitionValidation;
     friend class ::CompleteTransitionValidation;
@@ -1149,73 +1147,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             "calcAbbreviations(): format:%s, deltaSeconds:%d, letter:%s\n",
             t->format(), t->deltaSeconds, t->abbrev);
         }
-        createAbbreviation(
+        internal::createAbbreviation(
             t->abbrev,
             internal::kAbbrevSize,
             t->format(),
             t->deltaSeconds,
             t->abbrev);
-      }
-    }
-
-    /**
-      * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
-      * that 'letter' is a string.
-      *
-      * @param letterString the string corrresonding to the LETTER field in the
-      * ZoneRule record. It is `nullptr` if ZoneEra.RULES is a '- or an 'hh:mm';
-      * an empty string if the ZoneRule.LETTER was a '-'; or a pointer to a
-      * non-empty string if ZoneRule.LETTER was a 'S', 'D', 'WAT' and so on. It
-      * is possible for `letterString` to be the same buffer as the `dest`
-      * string. Therefore we must copy the `letterString` before overwriting
-      * `dest`.
-      */
-    static void createAbbreviation(
-        char* dest,
-        uint8_t destSize,
-        const char* format,
-        uint32_t deltaSeconds,
-        const char* letterString) {
-
-      // Check if FORMAT contains a '%'.
-      if (strchr(format, '%') != nullptr) {
-        // Check if RULES column empty, therefore no 'letter'
-        if (letterString == nullptr) {
-          strncpy(dest, format, destSize - 1);
-          dest[destSize - 1] = '\0';
-        } else {
-          // Copy `letterString` into a local buffer, in case `letterString` is
-          // the same as `dest.
-          char letter[internal::kAbbrevSize];
-          if (letterString) {
-            strncpy(letter, letterString, internal::kAbbrevSize - 1);
-            letter[internal::kAbbrevSize - 1] = '\0';
-          } else {
-            letter[0] = '\0';
-          }
-
-          ace_common::copyReplaceString(dest, destSize, format, '%', letter);
-        }
-      } else {
-        // Check if FORMAT contains a '/'.
-        const char* slashPos = strchr(format, '/');
-        if (slashPos != nullptr) {
-          if (deltaSeconds == 0) {
-            uint8_t headLength = (slashPos - format);
-            if (headLength >= destSize) headLength = destSize - 1;
-            memcpy(dest, format, headLength);
-            dest[headLength] = '\0';
-          } else {
-            uint8_t tailLength = strlen(slashPos+1);
-            if (tailLength >= destSize) tailLength = destSize - 1;
-            memcpy(dest, slashPos+1, tailLength);
-            dest[tailLength] = '\0';
-          }
-        } else {
-          // Just copy the FORMAT disregarding deltaSeconds and letterString.
-          strncpy(dest, format, destSize - 1);
-          dest[destSize - 1] = '\0';
-        }
       }
     }
 

@@ -255,45 +255,6 @@ test(BasicZoneProcessorTest, initForLocalDate) {
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
-test(BasicZoneProcessorTest, createAbbreviation) {
-  const uint8_t kDstSize = 6;
-  char dst[kDstSize];
-
-  // If no '%', deltaMinutes and letter should not matter
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
-  assertEqual("SAST", dst);
-
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SAST", 1*60, 'A');
-  assertEqual("SAST", dst);
-
-  // If '%', and letter is set to '\0', remove the '%'.
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "SA%ST", 0, '\0');
-  assertEqual("SAST", dst);
-
-  // If '%', then replaced with 'letter', where '-' means "no letter".
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
-  assertEqual("PST", dst);
-
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T", 1*60, 'D');
-  assertEqual("PDT", dst);
-
-  // If '/', then deltaMinutes selects the first or second component depending
-  // on the deltaOffset, ignoring the 'letter'.
-
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '\0');
-  assertEqual("GMT", dst);
-
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 1*60, '-');
-  assertEqual("BST", dst);
-
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "GMT/BST", 1*60, '\0');
-  assertEqual("BST", dst);
-
-  // test truncation to kDstSize
-  BasicZoneProcessor::createAbbreviation(dst, kDstSize, "P%T3456", 1*60, 'D');
-  assertEqual("PDT34", dst);
-}
-
 //---------------------------------------------------------------------------
 // Test public methods
 //---------------------------------------------------------------------------

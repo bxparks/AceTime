@@ -884,82 +884,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /** Calculate the time zone abbreviation of the current transition. */
     static void calcAbbreviation(Transition* transition) {
-      createAbbreviation(
+      internal::createAbbreviation(
           transition->abbrev,
           internal::kAbbrevSize,
           transition->era.format(),
           transition->deltaMinutes,
-          transition->abbrev[0]);
-    }
-
-    /**
-     * Create the time zone abbreviation in dest from the format string
-     * (e.g. "P%T", "E%T"), the time zone deltaMinutes (!= 0 means DST), and the
-     * replacement letter (e.g. 'S', 'D', '\0' (represented as '-' in the
-     * Rule.LETTER entry). If the Zone.RULES column is '-' or 'hh:mm', then
-     * 'letter' will be set to '\0' also, although AceTimetools/transformer.py
-     * should have detected this condition and filtered that zone out.
-     *
-     * 1) If the FORMAT contains a '%', then:
-     *    1a) If the letter is '\0', then the '%' is removed. This indicates the
-     *    Zone.Rule was ('-', 'hh:mm'), or Rule.LETTER was a '-'.
-     *    1b) Else the 'letter' is a single letter (e.g. 'S', 'D', etc) from the
-     *    Rule.LETTER column, so replace '%' with with the given 'letter'.
-     *
-     * 2) If the FORMAT contains a '/', then, ignore the 'letter' and just
-     * use deltaMinutes in the following way:
-     *    2a) If deltaMinutes is 0, pick the first component, i.e. before the
-     *    '/'.
-     *    2b) Else deltaMinutes != 0, pick the second component, i.e. after the
-     *    '/'.
-     *
-     * The above algorithm supports the following edge cases from the TZ
-     * Database:
-     *
-     * A) Asia/Dushanbe in 1991 has a ZoneEra with a fixed hh:mm in the RULES
-     * and a '/' in the FORMAT, the fixed hh:mm selects the DST abbreviation
-     * in FORMAT. (This seems have been fixed in TZDB sometime before 2022g).
-     *
-     * B) Africa/Johannesburg 1942-1944 where the RULES which contains a
-     * reference to named RULEs with DST transitions but there is no '/' or '%'
-     * to distinguish between the 2.
-     *
-     * @param dest destination string buffer
-     * @param destSize size of buffer
-     * @param format encoded abbreviation, '%' is a character substitution
-     * @param deltaMinutes the additional delta minutes std offset
-     *    (0 for standard, != 0 for DST)
-     * @param letter during standard or DST time. If Zone.RULES is a named rule,
-     *    this is the value of the Rule.LETTER field (e.g. 'S', 'D') or '\0' for
-     *    '-'. string), If Zone.RULES is '-' or 'hh:mm' indicating a fixed
-     *    offset, then 'letter' will also be set to '\0'.
-     */
-    static void createAbbreviation(char* dest, uint8_t destSize,
-        const char* format, int16_t deltaMinutes, char letter) {
-      // Check if FORMAT contains a '%'.
-      if (strchr(format, '%') != nullptr) {
-        ace_common::copyReplaceChar(dest, destSize, format, '%', letter);
-      } else {
-        // Check if FORMAT contains a '/'.
-        const char* slashPos = strchr(format, '/');
-        if (slashPos != nullptr) {
-          if (deltaMinutes == 0) {
-            uint8_t headLength = (slashPos - format);
-            if (headLength >= destSize) headLength = destSize - 1;
-            memcpy(dest, format, headLength);
-            dest[headLength] = '\0';
-          } else {
-            uint8_t tailLength = strlen(slashPos+1);
-            if (tailLength >= destSize) tailLength = destSize - 1;
-            memcpy(dest, slashPos+1, tailLength);
-            dest[tailLength] = '\0';
-          }
-        } else {
-          // Just copy the FORMAT disregarding the deltaMinutes and letter.
-          strncpy(dest, format, destSize - 1);
-          dest[destSize - 1] = '\0';
-        }
-      }
+          transition->abbrev);
     }
 
     /** Search the cache and find closest Transition. */
