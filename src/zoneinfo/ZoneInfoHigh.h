@@ -149,10 +149,6 @@ struct ZoneRule {
    *  - Namibia ('WAT', 'CAT'; used by Africa/Windhoek)
    *  - StJohns ('DD'; used by America/St_Johns and America/Goose_Bay)
    *  - Troll ('+00' '+02'; used by Antarctica/Troll)
-   *
-   * TODO: Current BasicZoneProcessor supports only single-character LETTER.
-   * But I think it can be easily extended to support multi-character LETTER
-   * fields.
    */
   uint8_t const letterIndex;
 };

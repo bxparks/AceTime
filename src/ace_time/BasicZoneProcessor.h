@@ -7,7 +7,7 @@
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_H
 
 #include <stdint.h>
-#include <AceCommon.h> // copyReplaceChar()
+#include <AceCommon.h> // strncpy_T()
 #include "../zoneinfo/infos.h"
 #include "../zoneinfo/brokers.h"
 #include "common/common.h" // kAbbrevSize
@@ -716,6 +716,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (mNumTransitions >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
+      // TODO: pass pointer to mTransitions[mNumTransitions] to
+      // createTransition().
       mTransitions[mNumTransitions] = createTransition(year, month, era, rule);
       mNumTransitions++;
 
@@ -751,7 +753,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       } else {
         mon = rule.inMonth();
         deltaMinutes = rule.deltaSeconds() / kMinToSec;
-        rule.letter(transition.abbrev);
+        ace_common::strncpy_T(
+            transition.abbrev, rule.letter(), internal::kAbbrevSize - 1);
+        transition.abbrev[internal::kAbbrevSize - 1] = '\0';
       }
       // Clobber the month if specified.
       if (month != 0) {

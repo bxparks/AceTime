@@ -819,7 +819,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       } else {
         t->transitionTime = getTransitionTime(year, rule);
         t->deltaSeconds = rule.deltaSeconds();
-        rule.letter(t->abbrev);
+        ace_common::strncpy_T(
+            t->abbrev, rule.letter(), internal::kAbbrevSize - 1);
+        t->abbrev[internal::kAbbrevSize - 1] = '\0';
       }
     }
 

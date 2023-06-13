@@ -53,9 +53,7 @@ test(BasicBrokerTest, ZoneRuleBroker) {
   assertEqual((uint32_t)2*60*60, rule.atTimeSeconds());
   assertEqual(ZoneContext::kSuffixW, rule.atTimeSuffix());
   assertEqual(0, rule.deltaSeconds());
-  char letter[internal::kAbbrevSize];
-  rule.letter(letter);
-  assertEqual("S", letter);
+  assertEqual("S", rule.letter());
 }
 
 test(BasicBrokerTest, ZonePolicyBroker) {
