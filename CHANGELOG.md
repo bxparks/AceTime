@@ -39,6 +39,10 @@
     * Move `ZoneContext`, `letters[]`, `fragments[]` into PROGMEM.
         * Saves around 150-200 bytes of RAM on AVR processors,
           200-350 bytes of RAM on ESP8266.
+    * Allow multi-character `ZoneRule.letter` in `BasicZoneProcessor`.
+        * Regenerate `zonedb` which enables 2 more zones: `/Africa/Windhoek`,
+          and `America/Belize`
+        * Increases `zonedb` by 150-200 bytes.
 * 2.2.3 (2023-05-31, TZDB version 2023c)
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.
