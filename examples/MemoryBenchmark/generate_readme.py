@@ -283,6 +283,11 @@ ASCII table.
       no change in RAM usage.
     * `ExtendedZoneProcessor`: Slight (30-60 bytes) increase in flash memory.
       But saves ~16 bytes of RAM for 8-bit, ~64 bytes of RAM for 32-bit.
+* Support multi-character `ZoneRule.letter` field
+    * Enables `Africa/Windhoek` and `America/Belize` in the `zonedb` database
+      used with `BasicZoneProcessor`.
+    * Increases flash memory for `zonedb` by ~150 bytes on 8-bit, ~200 on 32-bit
+      processors.
 
 # Legend
 
