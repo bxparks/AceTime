@@ -25,8 +25,8 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2023c
 //
-// Supported Zones: 446 (226 zones, 220 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 448 (228 zones, 220 links)
+// Unsupported Zones: 148 (122 zones, 26 links)
 //
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2023]
@@ -36,38 +36,38 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 238
-//   Policies: 63
-//   Rules: 362
+//   Infos: 448
+//   Eras: 240
+//   Policies: 65
+//   Rules: 367
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 3258
-//   Policies: 189
-//   Eras: 2618
-//   Zones: 2938
+//   Rules: 3303
+//   Policies: 195
+//   Eras: 2640
+//   Zones: 2964
 //   Links: 2860
-//   Registry: 892
-//   Formats: 465
-//   Letters: 11
+//   Registry: 896
+//   Formats: 467
+//   Letters: 29
 //   Fragments: 116
-//   Names: 4144 (original: 6503)
-//   TOTAL: 17507
+//   Names: 4162 (original: 6534)
+//   TOTAL: 17648
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 4344
-//   Policies: 504
-//   Eras: 3808
-//   Zones: 5424
+//   Rules: 4404
+//   Policies: 520
+//   Eras: 3840
+//   Zones: 5472
 //   Links: 5280
-//   Registry: 1784
-//   Formats: 465
-//   Letters: 17
+//   Registry: 1792
+//   Formats: 467
+//   Letters: 41
 //   Fragments: 138
-//   Names: 4144 (original: 6503)
-//   TOTAL: 25932
+//   Names: 4162 (original: 6534)
+//   TOTAL: 26140
 //
 // DO NOT EDIT
 
@@ -81,7 +81,7 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[226] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[228] ACE_TIME_PROGMEM = {
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
   &kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
   &kZoneAmerica_Hermosillo, // 0x065d21c4, America/Hermosillo
@@ -183,6 +183,7 @@ const basic::ZoneInfo* const kZoneRegistry[226] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Bissau, // 0x75564141, Africa/Bissau
   &kZoneAfrica_Ceuta, // 0x77fb46ec, Africa/Ceuta
   &kZoneAfrica_Lagos, // 0x789bb5d0, Africa/Lagos
+  &kZoneAfrica_Windhoek, // 0x789c9bd3, Africa/Windhoek
   &kZoneAmerica_Toronto, // 0x792e851b, America/Toronto
   &kZoneAfrica_Tunis, // 0x79378e6d, Africa/Tunis
   &kZoneIndian_Mauritius, // 0x7b09c02a, Indian/Mauritius
@@ -203,6 +204,7 @@ const basic::ZoneInfo* const kZoneRegistry[226] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Maputo, // 0x8e6ca1f0, Africa/Maputo
   &kZoneAsia_Yerevan, // 0x9185c8cc, Asia/Yerevan
   &kZoneAmerica_Detroit, // 0x925cfbc1, America/Detroit
+  &kZoneAmerica_Belize, // 0x93256c81, America/Belize
   &kZoneAmerica_Bogota, // 0x93d7bc62, America/Bogota
   &kZoneAmerica_Glace_Bay, // 0x9681f8dd, America/Glace_Bay
   &kZoneAmerica_Denver, // 0x97d10b2a, America/Denver
@@ -314,7 +316,7 @@ const basic::ZoneInfo* const kZoneRegistry[226] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
   &kZoneGB, // 0x005973ae, GB -> Europe/London
   &kZoneNZ, // 0x005974ad, NZ -> Pacific/Auckland
   &kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur -> Asia/Singapore
@@ -524,6 +526,7 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Ceuta, // 0x77fb46ec, Africa/Ceuta
   &kZoneAfrica_Dakar, // 0x780b00fd, Africa/Dakar -> Africa/Abidjan
   &kZoneAfrica_Lagos, // 0x789bb5d0, Africa/Lagos
+  &kZoneAfrica_Windhoek, // 0x789c9bd3, Africa/Windhoek
   &kZoneAmerica_Toronto, // 0x792e851b, America/Toronto
   &kZoneAmerica_Tortola, // 0x7931462b, America/Tortola -> America/Puerto_Rico
   &kZoneAfrica_Tunis, // 0x79378e6d, Africa/Tunis
@@ -574,6 +577,7 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Niamey, // 0x914a30fd, Africa/Niamey -> Africa/Lagos
   &kZoneAsia_Yerevan, // 0x9185c8cc, Asia/Yerevan
   &kZoneAmerica_Detroit, // 0x925cfbc1, America/Detroit
+  &kZoneAmerica_Belize, // 0x93256c81, America/Belize
   &kZoneAmerica_Bogota, // 0x93d7bc62, America/Bogota
   &kZoneAmerica_Cayman, // 0x953961df, America/Cayman -> America/Panama
   &kZoneAmerica_Glace_Bay, // 0x9681f8dd, America/Glace_Bay

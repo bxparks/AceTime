@@ -25,8 +25,8 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2023c
 //
-// Supported Zones: 446 (226 zones, 220 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 448 (228 zones, 220 links)
+// Unsupported Zones: 148 (122 zones, 26 links)
 //
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2023]
@@ -36,38 +36,38 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 238
-//   Policies: 63
-//   Rules: 362
+//   Infos: 448
+//   Eras: 240
+//   Policies: 65
+//   Rules: 367
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 3258
-//   Policies: 189
-//   Eras: 2618
-//   Zones: 2938
+//   Rules: 3303
+//   Policies: 195
+//   Eras: 2640
+//   Zones: 2964
 //   Links: 2860
-//   Registry: 892
-//   Formats: 465
-//   Letters: 11
+//   Registry: 896
+//   Formats: 467
+//   Letters: 29
 //   Fragments: 116
-//   Names: 4144 (original: 6503)
-//   TOTAL: 17507
+//   Names: 4162 (original: 6534)
+//   TOTAL: 17648
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 4344
-//   Policies: 504
-//   Eras: 3808
-//   Zones: 5424
+//   Rules: 4404
+//   Policies: 520
+//   Eras: 3840
+//   Zones: 5472
 //   Links: 5280
-//   Registry: 1784
-//   Formats: 465
-//   Letters: 17
+//   Registry: 1792
+//   Formats: 467
+//   Letters: 41
 //   Fragments: 138
-//   Names: 4144 (original: 6503)
-//   TOTAL: 25932
+//   Names: 4162 (original: 6534)
+//   TOTAL: 26140
 //
 // DO NOT EDIT
 
@@ -113,13 +113,19 @@ const char* const kFragments[] ACE_TIME_PROGMEM = {
 };
 
 static const char kLetter0[] ACE_TIME_PROGMEM = "";
-static const char kLetter1[] ACE_TIME_PROGMEM = "D";
-static const char kLetter2[] ACE_TIME_PROGMEM = "S";
+static const char kLetter1[] ACE_TIME_PROGMEM = "CAT";
+static const char kLetter2[] ACE_TIME_PROGMEM = "CST";
+static const char kLetter3[] ACE_TIME_PROGMEM = "D";
+static const char kLetter4[] ACE_TIME_PROGMEM = "S";
+static const char kLetter5[] ACE_TIME_PROGMEM = "WAT";
 
 const char* const kLetters[] ACE_TIME_PROGMEM = {
   kLetter0, // ""
-  kLetter1, // "D"
-  kLetter2, // "S"
+  kLetter1, // "CAT"
+  kLetter2, // "CST"
+  kLetter3, // "D"
+  kLetter4, // "S"
+  kLetter5, // "WAT"
 
 };
 
@@ -130,14 +136,14 @@ const basic::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   6 /*maxTransitions*/,
   kTzDatabaseVersion /*tzVersion*/,
   12 /*numFragments*/,
-  3 /*numLetters*/,
+  6 /*numLetters*/,
   kFragments /*fragments*/,
   kLetters /*letters*/,
 };
 
 //---------------------------------------------------------------------------
-// Zones: 226
-// Eras: 238
+// Zones: 228
+// Eras: 240
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -493,6 +499,38 @@ const basic::ZoneInfo kZoneAfrica_Tunis ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Africa/Windhoek
+// Eras: 1
+//---------------------------------------------------------------------------
+
+static const basic::ZoneEra kZoneEraAfrica_Windhoek[] ACE_TIME_PROGMEM = {
+  //             2:00    Namibia    %s
+  {
+    &kZonePolicyNamibia /*zonePolicy*/,
+    "%" /*format*/,
+    8 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAfrica_Windhoek[] ACE_TIME_PROGMEM = "\x01" "Windhoek";
+
+const basic::ZoneInfo kZoneAfrica_Windhoek ACE_TIME_PROGMEM = {
+  kZoneNameAfrica_Windhoek /*name*/,
+  0x789c9bd3 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAfrica_Windhoek /*eras*/,
+  nullptr /*targetInfo*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Adak
 // Eras: 1
 //---------------------------------------------------------------------------
@@ -649,6 +687,38 @@ const basic::ZoneInfo kZoneAmerica_Belem ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Belem /*eras*/,
+  nullptr /*targetInfo*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Belize
+// Eras: 1
+//---------------------------------------------------------------------------
+
+static const basic::ZoneEra kZoneEraAmerica_Belize[] ACE_TIME_PROGMEM = {
+  //             -6:00    Belize    %s
+  {
+    &kZonePolicyBelize /*zonePolicy*/,
+    "%" /*format*/,
+    -24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+
+};
+
+static const char kZoneNameAmerica_Belize[] ACE_TIME_PROGMEM = "\x02" "Belize";
+
+const basic::ZoneInfo kZoneAmerica_Belize ACE_TIME_PROGMEM = {
+  kZoneNameAmerica_Belize /*name*/,
+  0x93256c81 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  1 /*numEras*/,
+  kZoneEraAmerica_Belize /*eras*/,
   nullptr /*targetInfo*/,
 };
 
