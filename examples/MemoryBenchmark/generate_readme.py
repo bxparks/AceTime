@@ -278,6 +278,11 @@ ASCII table.
       800-900 bytes.
 * Move ZoneContext and its string arrays into PROGMEM.
     * Reduces RAM usage by 150-200 bytes on AVR and ESP8266 processors.
+* Merge `createAbbreviation()`
+    * `BasicZoneProcessor`: Slight (30-60 bytes) increase in flash memory,
+      no change in RAM usage.
+    * `ExtendedZoneProcessor`: Slight (30-60 bytes) increase in flash memory.
+      But saves ~16 bytes of RAM for 8-bit, ~64 bytes of RAM for 32-bit.
 
 # Legend
 
