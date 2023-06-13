@@ -715,9 +715,14 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // would mean maintaining another version of zone_processor.py.
       if (mNumTransitions >= kMaxCacheEntries) return;
 
-      // insert new element at the end of the list
-      // TODO: pass pointer to mTransitions[mNumTransitions] to
-      // createTransition().
+      // Insert new element at the end of the list.
+      // NOTE: It is probably tempting to pass a pointer (or reference) to
+      // mTransitions[mNumTransitions] into createTransition(), instead of
+      // returning it by value. However, MemoryBenchmark shows that directly
+      // updating the Transition through the pointer increases flash memory
+      // consumption by ~110 bytes on AVR processors. It seems that creating a
+      // local copy of Transition on the stack, filling it, and then copying it
+      // by value takes fewer instructions.
       mTransitions[mNumTransitions] = createTransition(year, month, era, rule);
       mNumTransitions++;
 
@@ -774,9 +779,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Find the ZoneEra which applies to the given year. The era will
-     * satisfy (year < ZoneEra.untilYear). Since the largest
-     * untilYear is 127, the largest supported 'year' is 2126.
+     * Find the ZoneEra which applies to the given year. The era will satisfy
+     * (year < ZoneEra.untilYear).
      */
     static ZEB findZoneEra(const ZIB& info, int16_t year) {
       for (uint8_t i = 0; i < info.numEras(); i++) {
