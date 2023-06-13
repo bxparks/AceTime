@@ -4,6 +4,7 @@
  */
 
 #include <string.h> // strlen()
+#include <Arduino.h> // strncpy_P()
 #include "LocalDateTime.h"
 #include "OffsetDateTime.h"
 #include "TimeOffset.h"
@@ -28,6 +29,24 @@ OffsetDateTime OffsetDateTime::forDateString(const char* dateString) {
     return forError();
   }
   return forDateStringChainable(dateString);
+}
+
+OffsetDateTime OffsetDateTime::forDateString(
+    const __FlashStringHelper* dateString) {
+  // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
+  // ESP8266 do not have strlcpy_P(). We need +1 for the '\0' character and
+  // another +1 to determine if the dateString is too long to fit.
+  char buffer[kDateStringLength + 2];
+  strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
+  buffer[kDateStringLength + 1] = 0;
+
+  // check if the original F() was too long
+  size_t len = strlen(buffer);
+  if (len > kDateStringLength) {
+    return forError();
+  }
+
+  return forDateString(buffer);
 }
 
 OffsetDateTime OffsetDateTime::forDateStringChainable(const char*& dateString) {

@@ -8,11 +8,8 @@
 
 #include <stdint.h>
 #include <string.h> // strlen()
-#include <Arduino.h>
-#include <AceCommon.h> // printPad2To()
 #include "Epoch.h"
 #include "common/common.h"
-#include "common/DateStrings.h" // DateStrings
 
 class Print;
 
@@ -406,25 +403,7 @@ class LocalDate {
      * This class does not implement the Printable interface to avoid
      * increasing the size of the object from the additional virtual function.
      */
-    void printTo(Print& printer) const {
-      if (isError()) {
-        printer.print(F("<Invalid LocalDate>"));
-        return;
-      }
-
-      // Date
-      using ace_common::printPad2To;
-      printer.print(year());
-      printer.print('-');
-      printPad2To(printer, mMonth, '0');
-      printer.print('-');
-      printPad2To(printer, mDay, '0');
-      printer.print(' ');
-
-      // Week day
-      DateStrings ds;
-      printer.print(ds.dayOfWeekLongString(dayOfWeek()));
-    }
+    void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
     LocalDate(const LocalDate&) = default;
