@@ -37,9 +37,10 @@ namespace zoneinfolow {
 //-----------------------------------------------------------------------------
 
 /**
- * Convert the `deltaCode` in the ZoneInfo or the ZoneRule struct to the actual
- * deltaMinutes. The lower 4-bits stores minutes in units of 15-minutes, shifted
- * by 1h, so can represent the interval [-01:00 to 02:45].
+ * Convert the `deltaCode` holding the RULES/DSTOFF field in ZoneEra or the
+ * SAVE field in ZoneRule to the delta offset in minutes. The lower 4-bits
+ * stores minutes in units of 15-minutes, shifted by 1h, so can represent the
+ * interval [-01:00 to 02:45].
  *
  * @code
  * deltaMinutes = deltaCode * 15m - 1h
@@ -50,10 +51,10 @@ inline int16_t toDeltaMinutes(uint8_t deltaCode) {
 }
 
 /**
- * Convert the `offsetCode` and `deltaCode` into a signed 16-bit integer that
- * represents the UTCOFF of the ZoneEra in minutes. The `offsetCode` is rounded
- * towards -infinity in 15-minute multiples. The upper 4-bits of `deltaCode`
- * holds the (unsigned) remainder in one-minute increments.
+ * Convert the `offsetCode` and `deltaCode` holding the STDOFF field of the
+ * ZoneEra into minutes. The `offsetCode` is rounded towards -infinity in
+ * 15-minute multiples. The upper 4-bits of `deltaCode` holds the (unsigned)
+ * remainder in one-minute increments.
  */
 inline int16_t toOffsetMinutes(int8_t offsetCode, uint8_t deltaCode) {
   return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);

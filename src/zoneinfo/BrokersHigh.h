@@ -37,10 +37,25 @@ namespace zoneinfohigh {
 //-----------------------------------------------------------------------------
 
 /**
- * Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT
- * time in ZoneRule in one second resolution. The `code` parameter holds the AT
- * or UNTIL time in units of 15 seconds. The lower 4-bits of `modifier` holds
- * the remainder seconds.
+ * Convert the deltaMinutes holding the RULES/DSTOFF field in ZoneEra or the
+ * SAVE field in ZoneRule to delta offset in seconds.
+ */
+inline int32_t toDeltaSeconds(uint8_t deltaMinutes) {
+  return int32_t(60) * (int8_t) deltaMinutes;
+}
+
+/**
+ * Convert (code, remainder) holding the STDOFF field of ZoneEra into seconds.
+ */
+inline int32_t toOffsetSeconds(uint16_t offsetCode, uint8_t offsetRemainder) {
+  return int32_t(15) * (int16_t) offsetCode + (int32_t) offsetRemainder;
+}
+
+/**
+ * Convert (code, modifier) holding the UNTIL time in ZoneInfo or AT time in
+ * ZoneRule into seconds. The `code` parameter holds the AT or UNTIL time in
+ * units of 15 seconds. The lower 4-bits of `modifier` holds the remainder
+ * seconds.
  */
 inline uint32_t timeCodeToSeconds(uint16_t code, uint8_t modifier) {
   return code * (uint32_t) 15 + (modifier & 0x0f);
@@ -181,7 +196,7 @@ class ZoneRuleBroker {
     }
 
     int32_t deltaSeconds() const {
-      return int32_t(60) * (int8_t) pgm_read_byte(&mZoneRule->deltaMinutes);
+      return toDeltaSeconds(pgm_read_byte(&mZoneRule->deltaMinutes));
     }
 
     const __FlashStringHelper* letter() const {
@@ -272,12 +287,13 @@ class ZoneEraBroker {
     }
 
     int32_t offsetSeconds() const {
-      return int32_t(15) * (int16_t) pgm_read_word(&mZoneEra->offsetCode)
-        + (int32_t) pgm_read_byte(&mZoneEra->offsetRemainder);
+      return toOffsetSeconds(
+          pgm_read_word(&mZoneEra->offsetCode),
+          pgm_read_byte(&mZoneEra->offsetRemainder));
     }
 
     int32_t deltaSeconds() const {
-      return int32_t(60) * (int8_t) pgm_read_byte(&mZoneEra->deltaMinutes);
+      return toDeltaSeconds(pgm_read_byte(&mZoneEra->deltaMinutes));
     }
 
     const char* format() const {
