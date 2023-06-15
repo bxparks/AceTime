@@ -321,14 +321,11 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      if (year < mZoneInfoBroker.zoneContext().startYear() - 1
-          || mZoneInfoBroker.zoneContext().untilYear() < year) {
+      if (year < LocalDate::kMinYear || LocalDate::kMaxYear < year) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
               "initForYear(): Year %d out of valid range [%d, %d)\n",
-              year,
-              mZoneInfoBroker.zoneContext().startYear(),
-              mZoneInfoBroker.zoneContext().untilYear());
+              year, LocalDate::kMinYear, LocalDate::kMaxYear);
         }
         return false;
       }

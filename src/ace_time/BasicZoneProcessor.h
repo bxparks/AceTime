@@ -472,8 +472,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mEpochYear = Epoch::currentEpochYear();
       mNumTransitions = 0; // clear cache
 
-      if (year < mZoneInfoBroker.zoneContext().startYear() - 1
-          || mZoneInfoBroker.zoneContext().untilYear() < year) {
+      if (year < LocalDate::kMinYear || LocalDate::kMaxYear < year) {
         return false;
       }
 

@@ -37,6 +37,16 @@
         * Add `zonedbc` database which is valid from `[1800,10000)`, which
           includes all transitions in the TZDB.
         * Add `--scope complete` to access the `zonedbc` database.
+    * Zone Processors
+        * Remove range checks against `ZoneContext.startYear()` and
+          `ZoneContext.untilYear()`
+        * Replace with hardcoded `LocalDate::kMinYear` and
+          `LocalDate::kMaxYear`, mostly for formatting reasons (prevent negative
+          years, and years with more than 4 digits).
+        * The zone processors will always return something reasonble across the
+          entire `int16_t` range.
+        * Only the accuracy suffers outside of the `startYearAccurate()` and
+         `untilYearAccurate()` limits.
     * Rename `src/tzonedb*` directories to `src/zonedb*testing` for consistency
       with other acetime libraries.
     * Move `ZoneContext`, `letters[]`, `fragments[]` into PROGMEM.

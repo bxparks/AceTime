@@ -414,28 +414,30 @@ test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   EpochYearContext context(2000); // set epoch year to 2000 temporarily
   OffsetDateTime dt;
   acetime_t epochSeconds;
-  FindResult result;
 
-  ZoneContextBroker broker = ZoneContextBroker(&kZoneContext);
-  assertEqual(1980, broker.startYear());
-  assertEqual(2200, broker.untilYear());
+  ZoneContextBroker zoneContextBroker = ZoneContextBroker(&kZoneContext);
+  assertEqual(1980, zoneContextBroker.startYear());
+  assertEqual(2200, zoneContextBroker.untilYear());
+  assertEqual(1980, zoneContextBroker.startYearAccurate());
+  assertEqual(ZoneContext::kMaxUntilYear,
+      zoneContextBroker.untilYearAccurate());
 
-  // 1970 > LocalDate::kMinYear so dt is valid, and
+  // 1970 > LocalDate::kMinYear so we can create an OffsetDateTime.
   dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   assertFalse(dt.isError());
-  // 1970 is within roughly 50 years of Epoch::currentEpochYear() of 2050
-  // so toEpochSeconds() still works.
+  // 1970 is less than 68 years (INT32_MAX seconds) away from
+  // Epoch::currentEpochYear() of 2000 so toEpochSeconds() works.
   epochSeconds = dt.toEpochSeconds();
   assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
-  // But 1998 < ZoneContext.startYear, so FindResult not found.
-  result = zoneProcessor.findByEpochSeconds(epochSeconds);
-  assertEqual((int)result.type, (int)FindResult::kTypeNotFound);
+  // FindResult still works, but since 1970 < startYearAccurate(), the
+  // DST transitions may not be accurate.
+  FindResult result = zoneProcessor.findByEpochSeconds(epochSeconds);
+  assertEqual((int)result.type, (int)FindResult::kTypeExact);
 
   // 10001 is beyond LocalDate::kMaxYear so should fail.
   dt = OffsetDateTime::forComponents(10001, 2, 1, 1, 0, 0,
       TimeOffset::forHours(-8));
-  // 10001 > LocalDate::kMaxYear, so fails
   assertTrue(dt.isError());
   // toEpochSeconds() returns invalid seconds
   epochSeconds = dt.toEpochSeconds();

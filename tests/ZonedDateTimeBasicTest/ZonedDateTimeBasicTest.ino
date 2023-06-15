@@ -51,8 +51,8 @@ test(ZonedDateTimeBasicTest, printTo) {
 test(ZonedDateTimeBasicTest, forComponents_isError) {
   TimeZone tz = basicZoneManager.createForZoneInfo(&kZoneAmerica_Los_Angeles);
 
-  // outside [1980, 10000) range, should generate error
-  ZonedDateTime dt = ZonedDateTime::forComponents(1970, 3, 11, 1, 59, 0, tz);
+  // outside [0, 10000) range, should generate error
+  ZonedDateTime dt = ZonedDateTime::forComponents(-100, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());
   dt = ZonedDateTime::forComponents(10001, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());

@@ -57,15 +57,15 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // Cannot create dates roughly before ZoneContext.startYear.
-  ZonedDateTime dt = ZonedDateTime::forComponents(1970, 3, 11, 1, 59, 59, tz);
+  // outside [0, 10000) range, should generate error
+  ZonedDateTime dt = ZonedDateTime::forComponents(-200, 3, 11, 1, 59, 59, tz);
   const OffsetDateTime &odt = dt.offsetDateTime();
   assertTrue(odt.isError());
   const LocalDateTime &ldt = dt.localDateTime();
   assertTrue(ldt.isError());
   assertTrue(dt.isError());
 
-  // Cannot create dates roughly after ZoneContext.untilYear.
+  // outside [0, 10000) range, should generate error
   dt = ZonedDateTime::forComponents(10001, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
 }
