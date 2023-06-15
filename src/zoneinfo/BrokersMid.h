@@ -112,6 +112,14 @@ class ZoneContextBroker {
       return (int16_t) pgm_read_word(&mZoneContext->untilYear);
     }
 
+    int16_t startYearAccurate() const {
+      return (int16_t) pgm_read_word(&mZoneContext->startYearAccurate);
+    }
+
+    int16_t untilYearAccurate() const {
+      return (int16_t) pgm_read_word(&mZoneContext->untilYearAccurate);
+    }
+
     int16_t baseYear() const {
       return (int16_t) pgm_read_word(&mZoneContext->baseYear);
     }
