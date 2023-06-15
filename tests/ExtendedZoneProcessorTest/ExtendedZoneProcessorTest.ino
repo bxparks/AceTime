@@ -919,7 +919,7 @@ test(ExtendedZoneProcessorTest, findByEpochSeconds_outOfBounds) {
 
   ZoneContextBroker zoneContextBroker(&kZoneContext);
   assertEqual(1980, zoneContextBroker.startYear());
-  assertEqual(10000, zoneContextBroker.untilYear());
+  assertEqual(2200, zoneContextBroker.untilYear());
 
   // 1970 > LocalDate::kMinYear so dt is valid, and
   dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,

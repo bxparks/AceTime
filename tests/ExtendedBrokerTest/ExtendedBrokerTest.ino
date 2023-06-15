@@ -88,7 +88,7 @@ test(ExtendedBrokerTest, ZoneInfoBroker) {
   assertEqual("America/Los_Angeles", info.name());
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
   assertEqual(1980, info.zoneContext().startYear());
-  assertEqual(10000, info.zoneContext().untilYear());
+  assertEqual(2200, info.zoneContext().untilYear());
   assertEqual(1980, info.zoneContext().startYearAccurate());
   assertEqual(ZoneContext::kMaxUntilYear,
       info.zoneContext().untilYearAccurate());
