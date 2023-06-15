@@ -22,7 +22,7 @@
  */
 
 #include <stdint.h> // uintptr_t, uint32_t, etc
-#include <Arduino.h> // strncpy_P()
+#include <Arduino.h> // pgm_read_xxx()
 #include <AceCommon.h> // KString
 #include "compat.h" // ACE_TIME_USE_PROGMEM
 #include "BrokerCommon.h"
