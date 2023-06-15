@@ -263,22 +263,29 @@ ASCII table.
     * ESP32 Boards 2.0.9
 
 **v2.3-dev**
-* Implement 1-second resolution in ExtendedZoneProcessor.
+* Implement 1-second resolution in ExtendedZoneProcessor (decoupled from
+  zonedbx storage format).
     * Increases flash usage by ~1kB on 8-bit processors, but only 0-100 bytes
       on 32-bit processors.
+    * Enables it to be also used as the CompleteZoneProcessor class.
 * Implement CompleteZoneProcessor as a specialization of ExtendedZoneProcessor.
     * Enables the creation of `zonedbc` database which contains all TZDB
       timezones, for all years going back to 1844, the earliest transition in
       the TZDB.
     * The flash consumption of zonedbc is roughly 2X of zonedbx.
 * Revert `zonedb` to use 8-bit year fields.
-    * Increases memory consumption for BasicZoneManager w/ 1 zone by around
-      150 bytes.
-    * Decreases memory cosumption for BasicZoneManager w/ all timezones by
+    * Increases flash memory consumption for BasicZoneManager w/ 1 zone by
+      around 150 bytes.
+    * Decreases flash memory cosumption for BasicZoneManager w/ all timezones by
       800-900 bytes.
+* Revert `zonedbx` to use 8-bit year fields.
+    * Increase flash memory consumption of ExtendedZoneManager w/ 1 zone by
+      around 220 bytes.
+    * Decreases flash memory cosumption for ExtendedZoneManager w/ all timezones
+      by ~2000 bytes.
 * Move ZoneContext and its string arrays into PROGMEM.
     * Reduces RAM usage by 150-200 bytes on AVR and ESP8266 processors.
-* Merge `createAbbreviation()`
+* Merge `createAbbreviation()` of BasicZoneProcessor and ExtendedZoneProcessor
     * `BasicZoneProcessor`: Slight (30-60 bytes) increase in flash memory,
       no change in RAM usage.
     * `ExtendedZoneProcessor`: Slight (30-60 bytes) increase in flash memory.
