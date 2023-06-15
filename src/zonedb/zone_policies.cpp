@@ -28,9 +28,12 @@
 // Supported Zones: 448 (228 zones, 220 links)
 // Unsupported Zones: 148 (122 zones, 26 links)
 //
+// Requested Years: [2000,2200]
+// Accurate Years: [2000,32767]
+//
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2023]
-// Lower/Upper Truncated: [True, False]
+// Lower/Upper Truncated: [True,False]
 //
 // Estimator Years: [1950,2025]
 // Max Buffer Size: 6
