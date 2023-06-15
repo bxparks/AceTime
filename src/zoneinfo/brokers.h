@@ -57,31 +57,31 @@ using ZoneInfoStore = zoneinfolow::ZoneInfoStore<
 namespace extended {
 
 /** Data broker for accessing ZoneContext. */
-using ZoneContextBroker = zoneinfomid::ZoneContextBroker<ZoneContext>;
+using ZoneContextBroker = zoneinfolow::ZoneContextBroker<ZoneContext>;
 
 /** Data broker for accessing ZoneRule. */
-using ZoneRuleBroker = zoneinfomid::ZoneRuleBroker<ZoneContext, ZoneRule>;
+using ZoneRuleBroker = zoneinfolow::ZoneRuleBroker<ZoneContext, ZoneRule>;
 
 /** Data broker for accessing ZonePolicy. */
-using ZonePolicyBroker = zoneinfomid::ZonePolicyBroker<
+using ZonePolicyBroker = zoneinfolow::ZonePolicyBroker<
     ZoneContext, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneEra. */
-using ZoneEraBroker = zoneinfomid::ZoneEraBroker<
+using ZoneEraBroker = zoneinfolow::ZoneEraBroker<
     ZoneContext, ZoneEra, ZonePolicy, ZoneRule>;
 
 /** Data broker for accessing ZoneInfo. */
-using ZoneInfoBroker = zoneinfomid::ZoneInfoBroker<
+using ZoneInfoBroker = zoneinfolow::ZoneInfoBroker<
     ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 /**
  * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
  * array of (const ZoneInfo*) in the zone_registry.cpp file.
  */
-using ZoneRegistryBroker = zoneinfomid::ZoneRegistryBroker<ZoneInfo>;
+using ZoneRegistryBroker = zoneinfolow::ZoneRegistryBroker<ZoneInfo>;
 
 /** Storage object that returns a ZoneInfoBroker from a ZoneInfo pointer. */
-using ZoneInfoStore = zoneinfomid::ZoneInfoStore<
+using ZoneInfoStore = zoneinfolow::ZoneInfoStore<
     ZoneContext, ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>;
 
 } // extended

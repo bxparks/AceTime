@@ -46,9 +46,9 @@
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 8085
+//   Rules: 6615
 //   Policies: 249
-//   Eras: 7752
+//   Eras: 7106
 //   Zones: 4550
 //   Links: 3198
 //   Registry: 1192
@@ -56,7 +56,7 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 31484
+//   TOTAL: 29368
 //
 // Memory (32-bits):
 //   Context: 24
