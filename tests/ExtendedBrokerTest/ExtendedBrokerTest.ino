@@ -89,6 +89,9 @@ test(ExtendedBrokerTest, ZoneInfoBroker) {
   assertEqual((uint32_t) 0xb7f7e8f2, info.zoneId());
   assertEqual(1980, info.zoneContext().startYear());
   assertEqual(10000, info.zoneContext().untilYear());
+  assertEqual(1980, info.zoneContext().startYearAccurate());
+  assertEqual(ZoneContext::kMaxUntilYear,
+      info.zoneContext().untilYearAccurate());
   assertEqual(1, info.numEras());
 }
 

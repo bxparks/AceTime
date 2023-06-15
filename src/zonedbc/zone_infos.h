@@ -9,7 +9,7 @@
 //     --scope complete
 //     --db_namespace zonedbc
 //     --start_year 1800
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -28,9 +28,12 @@
 // Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
+// Requested Years: [1800,2200]
+// Accurate Years: [-32767,32767]
+//
 // Original Years:  [1844,2087]
 // Generated Years: [1844,2087]
-// Lower/Upper Truncated: [False, False]
+// Lower/Upper Truncated: [False,False]
 //
 // Estimator Years: [1800,2090]
 // Max Buffer Size: 8

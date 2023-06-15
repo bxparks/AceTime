@@ -9,7 +9,7 @@
 //     --scope extended
 //     --db_namespace zonedbx
 //     --start_year 2000
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -28,9 +28,12 @@
 // Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
+// Requested Years: [2000,2200]
+// Accurate Years: [2000,32767]
+//
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2087]
-// Lower/Upper Truncated: [True, False]
+// Lower/Upper Truncated: [True,False]
 //
 // Estimator Years: [1950,2090]
 // Max Buffer Size: 7
@@ -143,7 +146,9 @@ const char* const kLetters[] ACE_TIME_PROGMEM = {
 
 const extended::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   2000 /*startYear*/,
-  10000 /*untilYear*/,
+  2200 /*untilYear*/,
+  2000 /*startYearAccurate*/,
+  32767 /*untilYearAccurate*/,
   2100 /*baseYear*/,
   7 /*maxTransitions*/,
   kTzDatabaseVersion /*tzVersion*/,

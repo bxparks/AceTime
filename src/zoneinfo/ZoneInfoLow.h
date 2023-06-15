@@ -67,11 +67,17 @@ struct ZoneContext {
   /** Represents 'u' or UTC time. */
   static const uint8_t kSuffixU = 0x20;
 
-  /** Start year of the zone files. */
+  /** Start year of the zone files as requested. */
   int16_t const startYear;
 
-  /** Until year of the zone files. */
+  /** Until year of the zone files as requested. */
   int16_t const untilYear;
+
+  /** Start year of accurate transitions. kMinYear indicates -Infinity. */
+  int16_t const startYearAccurate;
+
+  /** Until year of accurate transitions. kMaxUntilYear indicates +Infinity. */
+  int16_t const untilYearAccurate;
 
   /** Base year for tiny years. */
   int16_t const baseYear;

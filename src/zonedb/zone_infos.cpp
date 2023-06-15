@@ -28,9 +28,12 @@
 // Supported Zones: 448 (228 zones, 220 links)
 // Unsupported Zones: 148 (122 zones, 26 links)
 //
+// Requested Years: [2000,2200]
+// Accurate Years: [2000,32767]
+//
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2023]
-// Lower/Upper Truncated: [True, False]
+// Lower/Upper Truncated: [True,False]
 //
 // Estimator Years: [1950,2025]
 // Max Buffer Size: 6
@@ -132,6 +135,8 @@ const char* const kLetters[] ACE_TIME_PROGMEM = {
 const basic::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   2000 /*startYear*/,
   2200 /*untilYear*/,
+  2000 /*startYearAccurate*/,
+  32767 /*untilYearAccurate*/,
   2100 /*baseYear*/,
   6 /*maxTransitions*/,
   kTzDatabaseVersion /*tzVersion*/,
