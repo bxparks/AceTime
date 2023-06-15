@@ -28,11 +28,11 @@ using ZoneInfo = zoneinfolow::ZoneInfo<Basic, ZoneContext>;
 namespace extended {
 
 class Extended {}; // dummy sentinel class
-using ZoneContext = zoneinfomid::ZoneContext<Extended>;
-using ZoneRule = zoneinfomid::ZoneRule<Extended>;
-using ZonePolicy = zoneinfomid::ZonePolicy<Extended>;
-using ZoneEra = zoneinfomid::ZoneEra<Extended>;
-using ZoneInfo = zoneinfomid::ZoneInfo<Extended, ZoneContext>;
+using ZoneContext = zoneinfolow::ZoneContext<Extended>;
+using ZoneRule = zoneinfolow::ZoneRule<Extended>;
+using ZonePolicy = zoneinfolow::ZonePolicy<Extended>;
+using ZoneEra = zoneinfolow::ZoneEra<Extended>;
+using ZoneInfo = zoneinfolow::ZoneInfo<Extended, ZoneContext>;
 
 }
 

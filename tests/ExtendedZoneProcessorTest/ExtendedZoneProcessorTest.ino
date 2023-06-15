@@ -31,13 +31,25 @@ using ace_time::zonedbxtesting::kZonePolicyUS;
 using ace_time::zonedbxtesting::kZoneAustralia_Darwin;
 using ace_time::zonedbxtesting::kZoneAmerica_Caracas;
 
+// 0 if extended::ZoneInfo uses int16 years through zoneinfomid:: classes.
+// 1 if extended::ZoneInfo uses int8 years through zoneinfolow:: classes.
+#define USE_TINY_YEARS 1
+
+// Must be same as ZoneContextBroker.baseYear().
+#define BASE_YEAR 2100
+
 //---------------------------------------------------------------------------
 // Step 1
 //---------------------------------------------------------------------------
 
 test(ExtendedZoneProcessorTest, compareEraToYearMonth) {
+#if USE_TINY_YEARS
+  static const ZoneEra ERA ACE_TIME_PROGMEM =
+      {nullptr, "", 0, 0, 2000-BASE_YEAR, 1, 2, 12, ZoneContext::kSuffixW};
+#else
   static const ZoneEra ERA ACE_TIME_PROGMEM =
       {nullptr, "", 0, 0, 2000, 1, 2, 12, ZoneContext::kSuffixW};
+#endif
 
   assertEqual(1, ExtendedZoneProcessor::compareEraToYearMonth(
       ZoneEraBroker(&kZoneContext, &ERA), 2000, 1));
@@ -50,8 +62,13 @@ test(ExtendedZoneProcessorTest, compareEraToYearMonth) {
 }
 
 test(ExtendedZoneProcessorTest, compareEraToYearMonth2) {
+#if USE_TINY_YEARS
+  static const ZoneEra ERA ACE_TIME_PROGMEM =
+      {nullptr, "", 0, 0, 2000-BASE_YEAR, 1, 0, 0, ZoneContext::kSuffixW};
+#else
   static const ZoneEra ERA ACE_TIME_PROGMEM =
       {nullptr, "", 0, 0, 2000, 1, 0, 0, ZoneContext::kSuffixW};
+#endif
 
   assertEqual(0, ExtendedZoneProcessor::compareEraToYearMonth(
       ZoneEraBroker(&kZoneContext, &ERA), 2000, 1));
@@ -59,19 +76,37 @@ test(ExtendedZoneProcessorTest, compareEraToYearMonth2) {
 
 test(ExtendedZoneProcessorTest, createMatchingEra) {
   // UNTIL = 2000-12-02 3:00
+#if USE_TINY_YEARS
+  static const ZoneEra era1 ACE_TIME_PROGMEM =
+      {nullptr, "", 0, 0, 2000-BASE_YEAR /*y*/, 12/*m*/, 2/*d*/, 3*(60/15),
+      ZoneContext::kSuffixW};
+#else
   static const ZoneEra era1 ACE_TIME_PROGMEM =
       {nullptr, "", 0, 0, 2000 /*y*/, 12/*m*/, 2/*d*/, 3*(60/15),
       ZoneContext::kSuffixW};
+#endif
 
+#if USE_TINY_YEARS
   // UNTIL = 2001-02-03 4:00
   static const ZoneEra era2 ACE_TIME_PROGMEM =
-      {nullptr, "", 0, 0, 2001/*y*/, 2/*m*/, 3/*d*/, 4*(60/15),
+      {nullptr, "", 0, 0, 2001-BASE_YEAR/*y*/, 2/*m*/, 3/*d*/, 4*(60/15),
       ZoneContext::kSuffixW};
+#else
+  static const ZoneEra era1 ACE_TIME_PROGMEM =
+      {nullptr, "", 0, 0, 2000 /*y*/, 12/*m*/, 2/*d*/, 3*(60/15),
+      ZoneContext::kSuffixW};
+#endif
 
+#if USE_TINY_YEARS
   // UNTIL = 2002-10-11 4:00
   static const ZoneEra era3 ACE_TIME_PROGMEM =
-      {nullptr, "", 0, 0, 2002/*y*/, 10/*m*/, 11/*d*/, 4*(60/15),
+      {nullptr, "", 0, 0, 2002-BASE_YEAR/*y*/, 10/*m*/, 11/*d*/, 4*(60/15),
       ZoneContext::kSuffixW};
+#else
+  static const ZoneEra era1 ACE_TIME_PROGMEM =
+      {nullptr, "", 0, 0, 2000 /*y*/, 12/*m*/, 2/*d*/, 3*(60/15),
+      ZoneContext::kSuffixW};
+#endif
 
   // 14-month interval, from 2000-12 until 2002-02
   YearMonthTuple startYm = {2000, 12};
@@ -429,6 +464,19 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
   using ace_time::extended::CompareStatus;
 
   // UNTIL = 2002-01-02T03:00
+#if USE_TINY_YEARS
+  static const ZoneEra ERA ACE_TIME_PROGMEM = {
+      nullptr /*zonePolicy*/,
+      "" /*format*/,
+      0 /*offsetCode*/,
+      0 /*deltaCode*/,
+      2002-BASE_YEAR /*untilYearTiny*/,
+      1 /*untilMonth*/,
+      2 /*untilDay*/,
+      12 /*untilTimeCode*/,
+      ZoneContext::kSuffixW
+  };
+#else
   static const ZoneEra ERA ACE_TIME_PROGMEM = {
       nullptr /*zonePolicy*/,
       "" /*format*/,
@@ -440,6 +488,7 @@ test(ExtendedZoneProcessorTest, compareTransitionToMatch) {
       12 /*untilTimeCode*/,
       ZoneContext::kSuffixW
   };
+#endif
 
   const DateTuple EMPTY_DATE = {0, 0, 0, 0, 0};
 
@@ -537,6 +586,19 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
   using ace_time::extended::CompareStatus;
 
   // UNTIL = 2002-01-02T03:00
+#if USE_TINY_YEARS
+  static const ZoneEra ERA ACE_TIME_PROGMEM = {
+      nullptr /*zonePolicy*/,
+      "" /*format*/,
+      0 /*offsetCode*/,
+      0 /*deltaCode*/,
+      2002-BASE_YEAR /*untilYearTiny*/,
+      1 /*untilMonth*/,
+      2 /*untilDay*/,
+      12 /*untilTimeCode*/,
+      ZoneContext::kSuffixW
+  };
+#else
   static const ZoneEra ERA ACE_TIME_PROGMEM = {
       nullptr /*zonePolicy*/,
       "" /*format*/,
@@ -548,6 +610,7 @@ test(ExtendedZoneProcessorTest, processTransitionCompareStatus) {
       12 /*untilTimeCode*/,
       ZoneContext::kSuffixW
   };
+#endif
 
   const DateTuple EMPTY_DATE = {0, 0, 0, 0, 0};
 

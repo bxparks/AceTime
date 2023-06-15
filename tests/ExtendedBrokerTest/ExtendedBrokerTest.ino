@@ -23,6 +23,10 @@ using ace_time::zonedbxtesting::kZonePolicyNamibia;
 using ace_time::zonedbxtesting::kZoneIdUS_Pacific;
 using ace_time::zonedbxtesting::kZoneIdAmerica_Los_Angeles; 
 
+// 0 if extended::ZoneInfo uses int16 years through zoneinfomid:: classes.
+// 1 if extended::ZoneInfo uses int8 years through zoneinfolow:: classes.
+#define USE_TINY_YEARS 1
+
 //---------------------------------------------------------------------------
 
 test(timeCodeToMinutes) {
@@ -43,7 +47,11 @@ test(BasicBrokerTest, ZoneContextBroker) {
 test(ExtendedBrokerTest, ZoneRuleBroker) {
   ZoneRuleBroker rule(&kZoneContext, &kZonePolicyUS.rules[1]);
   assertFalse(rule.isNull());
+#if USE_TINY_YEARS
+  assertEqual(ZoneContext::kMinYear, rule.fromYear());
+#else
   assertEqual(1967, rule.fromYear());
+#endif
   assertEqual(2006, rule.toYear());
   assertEqual(10, rule.inMonth());
   assertEqual(7, rule.onDayOfWeek());

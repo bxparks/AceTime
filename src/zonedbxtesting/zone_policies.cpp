@@ -48,9 +48,9 @@
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 2497
+//   Rules: 2043
 //   Policies: 36
-//   Eras: 360
+//   Eras: 330
 //   Zones: 195
 //   Links: 13
 //   Registry: 32
@@ -58,7 +58,7 @@
 //   Letters: 23
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3524
+//   TOTAL: 3040
 //
 // Memory (32-bits):
 //   Context: 24
@@ -95,8 +95,8 @@ namespace zonedbxtesting {
 static const extended::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Aus    1943    1944    -    Mar    lastSun    2:00s    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -121,8 +121,8 @@ const extended::ZonePolicy kZonePolicyAus ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Canada    1945    only    -    Sep    30    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -133,8 +133,8 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1945    only    -    Sep    30    2:00    0    S
   {
-    1945 /*fromYear*/,
-    1945 /*toYear*/,
+    -127 /*fromYearTiny (1945)*/,
+    -127 /*toYearTiny (1945)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -145,8 +145,8 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1974 /*fromYear*/,
-    1986 /*toYear*/,
+    -126 /*fromYearTiny (1974)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -157,8 +157,8 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
   {
-    1974 /*fromYear*/,
-    2006 /*toYear*/,
+    -126 /*fromYearTiny (1974)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -169,8 +169,8 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    1987 /*fromYear*/,
-    2006 /*toYear*/,
+    -113 /*fromYearTiny (1987)*/,
+    -94 /*toYearTiny (2006)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -181,8 +181,8 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -193,8 +193,8 @@ static const extended::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   },
   // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -219,8 +219,8 @@ const extended::ZonePolicy kZonePolicyCanada ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    EU    1978    only    -    Oct     1     1:00u    0    -
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -231,8 +231,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1977    1980    -    Apr    Sun>=1     1:00u    1:00    S
   {
-    1977 /*fromYear*/,
-    1980 /*toYear*/,
+    -123 /*fromYearTiny (1977)*/,
+    -120 /*toYearTiny (1980)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -243,8 +243,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1978    only    -    Oct     1     1:00u    0    -
   {
-    1978 /*fromYear*/,
-    1978 /*toYear*/,
+    -122 /*fromYearTiny (1978)*/,
+    -122 /*toYearTiny (1978)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -255,8 +255,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
   {
-    1979 /*fromYear*/,
-    1995 /*toYear*/,
+    -121 /*fromYearTiny (1979)*/,
+    -105 /*toYearTiny (1995)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -267,8 +267,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
   {
-    1981 /*fromYear*/,
-    32766 /*toYear*/,
+    -119 /*fromYearTiny (1981)*/,
+    126 /*toYearTiny (32766)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -279,8 +279,8 @@ static const extended::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   },
   // Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
   {
-    1996 /*fromYear*/,
-    32766 /*toYear*/,
+    -104 /*fromYearTiny (1996)*/,
+    126 /*toYearTiny (32766)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -305,8 +305,8 @@ const extended::ZonePolicy kZonePolicyEU ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -317,8 +317,8 @@ static const extended::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   },
   // Rule    Edm    1947    only    -    Sep    lastSun    2:00    0    S
   {
-    1947 /*fromYear*/,
-    1947 /*toYear*/,
+    -127 /*fromYearTiny (1947)*/,
+    -127 /*toYearTiny (1947)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -329,8 +329,8 @@ static const extended::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   },
   // Rule    Edm    1972    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1972 /*fromYear*/,
-    1986 /*toYear*/,
+    -127 /*fromYearTiny (1972)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -341,8 +341,8 @@ static const extended::ZoneRule kZoneRulesEdm[] ACE_TIME_PROGMEM = {
   },
   // Rule    Edm    1972    2006    -    Oct    lastSun    2:00    0    S
   {
-    1972 /*fromYear*/,
-    2006 /*toYear*/,
+    -127 /*fromYearTiny (1972)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -367,8 +367,8 @@ const extended::ZonePolicy kZonePolicyEdm ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Morocco    1978    only    -    Aug     4     0:00    0    -
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -379,8 +379,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    1978    only    -    Aug     4     0:00    0    -
   {
-    1978 /*fromYear*/,
-    1978 /*toYear*/,
+    -122 /*fromYearTiny (1978)*/,
+    -122 /*toYearTiny (1978)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -391,8 +391,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2008    only    -    Jun     1     0:00    1:00    -
   {
-    2008 /*fromYear*/,
-    2008 /*toYear*/,
+    -92 /*fromYearTiny (2008)*/,
+    -92 /*toYearTiny (2008)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -403,8 +403,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2008    only    -    Sep     1     0:00    0    -
   {
-    2008 /*fromYear*/,
-    2008 /*toYear*/,
+    -92 /*fromYearTiny (2008)*/,
+    -92 /*toYearTiny (2008)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -415,8 +415,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2009    only    -    Jun     1     0:00    1:00    -
   {
-    2009 /*fromYear*/,
-    2009 /*toYear*/,
+    -91 /*fromYearTiny (2009)*/,
+    -91 /*toYearTiny (2009)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -427,8 +427,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2009    only    -    Aug    21     0:00    0    -
   {
-    2009 /*fromYear*/,
-    2009 /*toYear*/,
+    -91 /*fromYearTiny (2009)*/,
+    -91 /*toYearTiny (2009)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -439,8 +439,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2010    only    -    May     2     0:00    1:00    -
   {
-    2010 /*fromYear*/,
-    2010 /*toYear*/,
+    -90 /*fromYearTiny (2010)*/,
+    -90 /*toYearTiny (2010)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -451,8 +451,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2010    only    -    Aug     8     0:00    0    -
   {
-    2010 /*fromYear*/,
-    2010 /*toYear*/,
+    -90 /*fromYearTiny (2010)*/,
+    -90 /*toYearTiny (2010)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -463,8 +463,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2011    only    -    Apr     3     0:00    1:00    -
   {
-    2011 /*fromYear*/,
-    2011 /*toYear*/,
+    -89 /*fromYearTiny (2011)*/,
+    -89 /*toYearTiny (2011)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -475,8 +475,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2011    only    -    Jul    31     0:00    0    -
   {
-    2011 /*fromYear*/,
-    2011 /*toYear*/,
+    -89 /*fromYearTiny (2011)*/,
+    -89 /*toYearTiny (2011)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -487,8 +487,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2012    2013    -    Apr    lastSun     2:00    1:00    -
   {
-    2012 /*fromYear*/,
-    2013 /*toYear*/,
+    -88 /*fromYearTiny (2012)*/,
+    -87 /*toYearTiny (2013)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -499,8 +499,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2012    only    -    Jul    20     3:00    0    -
   {
-    2012 /*fromYear*/,
-    2012 /*toYear*/,
+    -88 /*fromYearTiny (2012)*/,
+    -88 /*toYearTiny (2012)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -511,8 +511,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2012    only    -    Aug    20     2:00    1:00    -
   {
-    2012 /*fromYear*/,
-    2012 /*toYear*/,
+    -88 /*fromYearTiny (2012)*/,
+    -88 /*toYearTiny (2012)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -523,8 +523,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2012    only    -    Sep    30     3:00    0    -
   {
-    2012 /*fromYear*/,
-    2012 /*toYear*/,
+    -88 /*fromYearTiny (2012)*/,
+    -88 /*toYearTiny (2012)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -535,8 +535,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2013    only    -    Jul     7     3:00    0    -
   {
-    2013 /*fromYear*/,
-    2013 /*toYear*/,
+    -87 /*fromYearTiny (2013)*/,
+    -87 /*toYearTiny (2013)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -547,8 +547,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2013    only    -    Aug    10     2:00    1:00    -
   {
-    2013 /*fromYear*/,
-    2013 /*toYear*/,
+    -87 /*fromYearTiny (2013)*/,
+    -87 /*toYearTiny (2013)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -559,8 +559,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2013    2018    -    Oct    lastSun     3:00    0    -
   {
-    2013 /*fromYear*/,
-    2018 /*toYear*/,
+    -87 /*fromYearTiny (2013)*/,
+    -82 /*toYearTiny (2018)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -571,8 +571,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2014    2018    -    Mar    lastSun     2:00    1:00    -
   {
-    2014 /*fromYear*/,
-    2018 /*toYear*/,
+    -86 /*fromYearTiny (2014)*/,
+    -82 /*toYearTiny (2018)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -583,8 +583,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2014    only    -    Jun    28     3:00    0    -
   {
-    2014 /*fromYear*/,
-    2014 /*toYear*/,
+    -86 /*fromYearTiny (2014)*/,
+    -86 /*toYearTiny (2014)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -595,8 +595,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2014    only    -    Aug     2     2:00    1:00    -
   {
-    2014 /*fromYear*/,
-    2014 /*toYear*/,
+    -86 /*fromYearTiny (2014)*/,
+    -86 /*toYearTiny (2014)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -607,8 +607,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2015    only    -    Jun    14     3:00    0    -
   {
-    2015 /*fromYear*/,
-    2015 /*toYear*/,
+    -85 /*fromYearTiny (2015)*/,
+    -85 /*toYearTiny (2015)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -619,8 +619,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2015    only    -    Jul    19     2:00    1:00    -
   {
-    2015 /*fromYear*/,
-    2015 /*toYear*/,
+    -85 /*fromYearTiny (2015)*/,
+    -85 /*toYearTiny (2015)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -631,8 +631,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2016    only    -    Jun     5     3:00    0    -
   {
-    2016 /*fromYear*/,
-    2016 /*toYear*/,
+    -84 /*fromYearTiny (2016)*/,
+    -84 /*toYearTiny (2016)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -643,8 +643,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2016    only    -    Jul    10     2:00    1:00    -
   {
-    2016 /*fromYear*/,
-    2016 /*toYear*/,
+    -84 /*fromYearTiny (2016)*/,
+    -84 /*toYearTiny (2016)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -655,8 +655,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2017    only    -    May    21     3:00    0    -
   {
-    2017 /*fromYear*/,
-    2017 /*toYear*/,
+    -83 /*fromYearTiny (2017)*/,
+    -83 /*toYearTiny (2017)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -667,8 +667,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2017    only    -    Jul     2     2:00    1:00    -
   {
-    2017 /*fromYear*/,
-    2017 /*toYear*/,
+    -83 /*fromYearTiny (2017)*/,
+    -83 /*toYearTiny (2017)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -679,8 +679,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2018    only    -    May    13     3:00    0    -
   {
-    2018 /*fromYear*/,
-    2018 /*toYear*/,
+    -82 /*fromYearTiny (2018)*/,
+    -82 /*toYearTiny (2018)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -691,8 +691,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2018    only    -    Jun    17     2:00    1:00    -
   {
-    2018 /*fromYear*/,
-    2018 /*toYear*/,
+    -82 /*fromYearTiny (2018)*/,
+    -82 /*toYearTiny (2018)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     17 /*onDayOfMonth*/,
@@ -703,8 +703,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2019    only    -    May     5     3:00    -1:00    -
   {
-    2019 /*fromYear*/,
-    2019 /*toYear*/,
+    -81 /*fromYearTiny (2019)*/,
+    -81 /*toYearTiny (2019)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -715,8 +715,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2019    only    -    Jun     9     2:00    0    -
   {
-    2019 /*fromYear*/,
-    2019 /*toYear*/,
+    -81 /*fromYearTiny (2019)*/,
+    -81 /*toYearTiny (2019)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -727,8 +727,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2020    only    -    Apr    19     3:00    -1:00    -
   {
-    2020 /*fromYear*/,
-    2020 /*toYear*/,
+    -80 /*fromYearTiny (2020)*/,
+    -80 /*toYearTiny (2020)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -739,8 +739,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2020    only    -    May    31     2:00    0    -
   {
-    2020 /*fromYear*/,
-    2020 /*toYear*/,
+    -80 /*fromYearTiny (2020)*/,
+    -80 /*toYearTiny (2020)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -751,8 +751,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2021    only    -    Apr    11     3:00    -1:00    -
   {
-    2021 /*fromYear*/,
-    2021 /*toYear*/,
+    -79 /*fromYearTiny (2021)*/,
+    -79 /*toYearTiny (2021)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -763,8 +763,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2021    only    -    May    16     2:00    0    -
   {
-    2021 /*fromYear*/,
-    2021 /*toYear*/,
+    -79 /*fromYearTiny (2021)*/,
+    -79 /*toYearTiny (2021)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -775,8 +775,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2022    only    -    Mar    27     3:00    -1:00    -
   {
-    2022 /*fromYear*/,
-    2022 /*toYear*/,
+    -78 /*fromYearTiny (2022)*/,
+    -78 /*toYearTiny (2022)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -787,8 +787,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2022    only    -    May     8     2:00    0    -
   {
-    2022 /*fromYear*/,
-    2022 /*toYear*/,
+    -78 /*fromYearTiny (2022)*/,
+    -78 /*toYearTiny (2022)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -799,8 +799,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2023    only    -    Mar    19     3:00    -1:00    -
   {
-    2023 /*fromYear*/,
-    2023 /*toYear*/,
+    -77 /*fromYearTiny (2023)*/,
+    -77 /*toYearTiny (2023)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -811,8 +811,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2023    only    -    Apr    23     2:00    0    -
   {
-    2023 /*fromYear*/,
-    2023 /*toYear*/,
+    -77 /*fromYearTiny (2023)*/,
+    -77 /*toYearTiny (2023)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -823,8 +823,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2024    only    -    Mar    10     3:00    -1:00    -
   {
-    2024 /*fromYear*/,
-    2024 /*toYear*/,
+    -76 /*fromYearTiny (2024)*/,
+    -76 /*toYearTiny (2024)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -835,8 +835,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2024    only    -    Apr    14     2:00    0    -
   {
-    2024 /*fromYear*/,
-    2024 /*toYear*/,
+    -76 /*fromYearTiny (2024)*/,
+    -76 /*toYearTiny (2024)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -847,8 +847,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2025    only    -    Feb    23     3:00    -1:00    -
   {
-    2025 /*fromYear*/,
-    2025 /*toYear*/,
+    -75 /*fromYearTiny (2025)*/,
+    -75 /*toYearTiny (2025)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -859,8 +859,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2025    only    -    Apr     6     2:00    0    -
   {
-    2025 /*fromYear*/,
-    2025 /*toYear*/,
+    -75 /*fromYearTiny (2025)*/,
+    -75 /*toYearTiny (2025)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     6 /*onDayOfMonth*/,
@@ -871,8 +871,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2026    only    -    Feb    15     3:00    -1:00    -
   {
-    2026 /*fromYear*/,
-    2026 /*toYear*/,
+    -74 /*fromYearTiny (2026)*/,
+    -74 /*toYearTiny (2026)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -883,8 +883,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2026    only    -    Mar    22     2:00    0    -
   {
-    2026 /*fromYear*/,
-    2026 /*toYear*/,
+    -74 /*fromYearTiny (2026)*/,
+    -74 /*toYearTiny (2026)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -895,8 +895,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2027    only    -    Feb     7     3:00    -1:00    -
   {
-    2027 /*fromYear*/,
-    2027 /*toYear*/,
+    -73 /*fromYearTiny (2027)*/,
+    -73 /*toYearTiny (2027)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -907,8 +907,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2027    only    -    Mar    14     2:00    0    -
   {
-    2027 /*fromYear*/,
-    2027 /*toYear*/,
+    -73 /*fromYearTiny (2027)*/,
+    -73 /*toYearTiny (2027)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -919,8 +919,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2028    only    -    Jan    23     3:00    -1:00    -
   {
-    2028 /*fromYear*/,
-    2028 /*toYear*/,
+    -72 /*fromYearTiny (2028)*/,
+    -72 /*toYearTiny (2028)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -931,8 +931,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2028    only    -    Mar     5     2:00    0    -
   {
-    2028 /*fromYear*/,
-    2028 /*toYear*/,
+    -72 /*fromYearTiny (2028)*/,
+    -72 /*toYearTiny (2028)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -943,8 +943,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2029    only    -    Jan    14     3:00    -1:00    -
   {
-    2029 /*fromYear*/,
-    2029 /*toYear*/,
+    -71 /*fromYearTiny (2029)*/,
+    -71 /*toYearTiny (2029)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -955,8 +955,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2029    only    -    Feb    18     2:00    0    -
   {
-    2029 /*fromYear*/,
-    2029 /*toYear*/,
+    -71 /*fromYearTiny (2029)*/,
+    -71 /*toYearTiny (2029)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -967,8 +967,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2029    only    -    Dec    30     3:00    -1:00    -
   {
-    2029 /*fromYear*/,
-    2029 /*toYear*/,
+    -71 /*fromYearTiny (2029)*/,
+    -71 /*toYearTiny (2029)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -979,8 +979,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2030    only    -    Feb    10     2:00    0    -
   {
-    2030 /*fromYear*/,
-    2030 /*toYear*/,
+    -70 /*fromYearTiny (2030)*/,
+    -70 /*toYearTiny (2030)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -991,8 +991,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2030    only    -    Dec    22     3:00    -1:00    -
   {
-    2030 /*fromYear*/,
-    2030 /*toYear*/,
+    -70 /*fromYearTiny (2030)*/,
+    -70 /*toYearTiny (2030)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -1003,8 +1003,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2031    only    -    Jan    26     2:00    0    -
   {
-    2031 /*fromYear*/,
-    2031 /*toYear*/,
+    -69 /*fromYearTiny (2031)*/,
+    -69 /*toYearTiny (2031)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -1015,8 +1015,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2031    only    -    Dec    14     3:00    -1:00    -
   {
-    2031 /*fromYear*/,
-    2031 /*toYear*/,
+    -69 /*fromYearTiny (2031)*/,
+    -69 /*toYearTiny (2031)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -1027,8 +1027,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2032    only    -    Jan    18     2:00    0    -
   {
-    2032 /*fromYear*/,
-    2032 /*toYear*/,
+    -68 /*fromYearTiny (2032)*/,
+    -68 /*toYearTiny (2032)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -1039,8 +1039,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2032    only    -    Nov    28     3:00    -1:00    -
   {
-    2032 /*fromYear*/,
-    2032 /*toYear*/,
+    -68 /*fromYearTiny (2032)*/,
+    -68 /*toYearTiny (2032)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -1051,8 +1051,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2033    only    -    Jan     9     2:00    0    -
   {
-    2033 /*fromYear*/,
-    2033 /*toYear*/,
+    -67 /*fromYearTiny (2033)*/,
+    -67 /*toYearTiny (2033)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1063,8 +1063,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2033    only    -    Nov    20     3:00    -1:00    -
   {
-    2033 /*fromYear*/,
-    2033 /*toYear*/,
+    -67 /*fromYearTiny (2033)*/,
+    -67 /*toYearTiny (2033)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -1075,8 +1075,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2033    only    -    Dec    25     2:00    0    -
   {
-    2033 /*fromYear*/,
-    2033 /*toYear*/,
+    -67 /*fromYearTiny (2033)*/,
+    -67 /*toYearTiny (2033)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -1087,8 +1087,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2034    only    -    Nov     5     3:00    -1:00    -
   {
-    2034 /*fromYear*/,
-    2034 /*toYear*/,
+    -66 /*fromYearTiny (2034)*/,
+    -66 /*toYearTiny (2034)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -1099,8 +1099,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2034    only    -    Dec    17     2:00    0    -
   {
-    2034 /*fromYear*/,
-    2034 /*toYear*/,
+    -66 /*fromYearTiny (2034)*/,
+    -66 /*toYearTiny (2034)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     17 /*onDayOfMonth*/,
@@ -1111,8 +1111,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2035    only    -    Oct    28     3:00    -1:00    -
   {
-    2035 /*fromYear*/,
-    2035 /*toYear*/,
+    -65 /*fromYearTiny (2035)*/,
+    -65 /*toYearTiny (2035)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -1123,8 +1123,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2035    only    -    Dec     9     2:00    0    -
   {
-    2035 /*fromYear*/,
-    2035 /*toYear*/,
+    -65 /*fromYearTiny (2035)*/,
+    -65 /*toYearTiny (2035)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1135,8 +1135,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2036    only    -    Oct    19     3:00    -1:00    -
   {
-    2036 /*fromYear*/,
-    2036 /*toYear*/,
+    -64 /*fromYearTiny (2036)*/,
+    -64 /*toYearTiny (2036)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -1147,8 +1147,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2036    only    -    Nov    23     2:00    0    -
   {
-    2036 /*fromYear*/,
-    2036 /*toYear*/,
+    -64 /*fromYearTiny (2036)*/,
+    -64 /*toYearTiny (2036)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -1159,8 +1159,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2037    only    -    Oct     4     3:00    -1:00    -
   {
-    2037 /*fromYear*/,
-    2037 /*toYear*/,
+    -63 /*fromYearTiny (2037)*/,
+    -63 /*toYearTiny (2037)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -1171,8 +1171,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2037    only    -    Nov    15     2:00    0    -
   {
-    2037 /*fromYear*/,
-    2037 /*toYear*/,
+    -63 /*fromYearTiny (2037)*/,
+    -63 /*toYearTiny (2037)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1183,8 +1183,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2038    only    -    Sep    26     3:00    -1:00    -
   {
-    2038 /*fromYear*/,
-    2038 /*toYear*/,
+    -62 /*fromYearTiny (2038)*/,
+    -62 /*toYearTiny (2038)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -1195,8 +1195,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2038    only    -    Oct    31     2:00    0    -
   {
-    2038 /*fromYear*/,
-    2038 /*toYear*/,
+    -62 /*fromYearTiny (2038)*/,
+    -62 /*toYearTiny (2038)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -1207,8 +1207,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2039    only    -    Sep    18     3:00    -1:00    -
   {
-    2039 /*fromYear*/,
-    2039 /*toYear*/,
+    -61 /*fromYearTiny (2039)*/,
+    -61 /*toYearTiny (2039)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -1219,8 +1219,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2039    only    -    Oct    23     2:00    0    -
   {
-    2039 /*fromYear*/,
-    2039 /*toYear*/,
+    -61 /*fromYearTiny (2039)*/,
+    -61 /*toYearTiny (2039)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -1231,8 +1231,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2040    only    -    Sep     2     3:00    -1:00    -
   {
-    2040 /*fromYear*/,
-    2040 /*toYear*/,
+    -60 /*fromYearTiny (2040)*/,
+    -60 /*toYearTiny (2040)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1243,8 +1243,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2040    only    -    Oct    14     2:00    0    -
   {
-    2040 /*fromYear*/,
-    2040 /*toYear*/,
+    -60 /*fromYearTiny (2040)*/,
+    -60 /*toYearTiny (2040)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -1255,8 +1255,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2041    only    -    Aug    25     3:00    -1:00    -
   {
-    2041 /*fromYear*/,
-    2041 /*toYear*/,
+    -59 /*fromYearTiny (2041)*/,
+    -59 /*toYearTiny (2041)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -1267,8 +1267,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2041    only    -    Sep    29     2:00    0    -
   {
-    2041 /*fromYear*/,
-    2041 /*toYear*/,
+    -59 /*fromYearTiny (2041)*/,
+    -59 /*toYearTiny (2041)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     29 /*onDayOfMonth*/,
@@ -1279,8 +1279,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2042    only    -    Aug    10     3:00    -1:00    -
   {
-    2042 /*fromYear*/,
-    2042 /*toYear*/,
+    -58 /*fromYearTiny (2042)*/,
+    -58 /*toYearTiny (2042)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -1291,8 +1291,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2042    only    -    Sep    21     2:00    0    -
   {
-    2042 /*fromYear*/,
-    2042 /*toYear*/,
+    -58 /*fromYearTiny (2042)*/,
+    -58 /*toYearTiny (2042)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -1303,8 +1303,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2043    only    -    Aug     2     3:00    -1:00    -
   {
-    2043 /*fromYear*/,
-    2043 /*toYear*/,
+    -57 /*fromYearTiny (2043)*/,
+    -57 /*toYearTiny (2043)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1315,8 +1315,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2043    only    -    Sep    13     2:00    0    -
   {
-    2043 /*fromYear*/,
-    2043 /*toYear*/,
+    -57 /*fromYearTiny (2043)*/,
+    -57 /*toYearTiny (2043)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -1327,8 +1327,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2044    only    -    Jul    24     3:00    -1:00    -
   {
-    2044 /*fromYear*/,
-    2044 /*toYear*/,
+    -56 /*fromYearTiny (2044)*/,
+    -56 /*toYearTiny (2044)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     24 /*onDayOfMonth*/,
@@ -1339,8 +1339,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2044    only    -    Aug    28     2:00    0    -
   {
-    2044 /*fromYear*/,
-    2044 /*toYear*/,
+    -56 /*fromYearTiny (2044)*/,
+    -56 /*toYearTiny (2044)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -1351,8 +1351,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2045    only    -    Jul     9     3:00    -1:00    -
   {
-    2045 /*fromYear*/,
-    2045 /*toYear*/,
+    -55 /*fromYearTiny (2045)*/,
+    -55 /*toYearTiny (2045)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1363,8 +1363,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2045    only    -    Aug    20     2:00    0    -
   {
-    2045 /*fromYear*/,
-    2045 /*toYear*/,
+    -55 /*fromYearTiny (2045)*/,
+    -55 /*toYearTiny (2045)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -1375,8 +1375,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2046    only    -    Jul     1     3:00    -1:00    -
   {
-    2046 /*fromYear*/,
-    2046 /*toYear*/,
+    -54 /*fromYearTiny (2046)*/,
+    -54 /*toYearTiny (2046)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1387,8 +1387,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2046    only    -    Aug     5     2:00    0    -
   {
-    2046 /*fromYear*/,
-    2046 /*toYear*/,
+    -54 /*fromYearTiny (2046)*/,
+    -54 /*toYearTiny (2046)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -1399,8 +1399,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2047    only    -    Jun    23     3:00    -1:00    -
   {
-    2047 /*fromYear*/,
-    2047 /*toYear*/,
+    -53 /*fromYearTiny (2047)*/,
+    -53 /*toYearTiny (2047)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -1411,8 +1411,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2047    only    -    Jul    28     2:00    0    -
   {
-    2047 /*fromYear*/,
-    2047 /*toYear*/,
+    -53 /*fromYearTiny (2047)*/,
+    -53 /*toYearTiny (2047)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -1423,8 +1423,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2048    only    -    Jun     7     3:00    -1:00    -
   {
-    2048 /*fromYear*/,
-    2048 /*toYear*/,
+    -52 /*fromYearTiny (2048)*/,
+    -52 /*toYearTiny (2048)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -1435,8 +1435,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2048    only    -    Jul    19     2:00    0    -
   {
-    2048 /*fromYear*/,
-    2048 /*toYear*/,
+    -52 /*fromYearTiny (2048)*/,
+    -52 /*toYearTiny (2048)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -1447,8 +1447,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2049    only    -    May    30     3:00    -1:00    -
   {
-    2049 /*fromYear*/,
-    2049 /*toYear*/,
+    -51 /*fromYearTiny (2049)*/,
+    -51 /*toYearTiny (2049)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -1459,8 +1459,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2049    only    -    Jul     4     2:00    0    -
   {
-    2049 /*fromYear*/,
-    2049 /*toYear*/,
+    -51 /*fromYearTiny (2049)*/,
+    -51 /*toYearTiny (2049)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -1471,8 +1471,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2050    only    -    May    15     3:00    -1:00    -
   {
-    2050 /*fromYear*/,
-    2050 /*toYear*/,
+    -50 /*fromYearTiny (2050)*/,
+    -50 /*toYearTiny (2050)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1483,8 +1483,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2050    only    -    Jun    26     2:00    0    -
   {
-    2050 /*fromYear*/,
-    2050 /*toYear*/,
+    -50 /*fromYearTiny (2050)*/,
+    -50 /*toYearTiny (2050)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -1495,8 +1495,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2051    only    -    May     7     3:00    -1:00    -
   {
-    2051 /*fromYear*/,
-    2051 /*toYear*/,
+    -49 /*fromYearTiny (2051)*/,
+    -49 /*toYearTiny (2051)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -1507,8 +1507,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2051    only    -    Jun    18     2:00    0    -
   {
-    2051 /*fromYear*/,
-    2051 /*toYear*/,
+    -49 /*fromYearTiny (2051)*/,
+    -49 /*toYearTiny (2051)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -1519,8 +1519,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2052    only    -    Apr    28     3:00    -1:00    -
   {
-    2052 /*fromYear*/,
-    2052 /*toYear*/,
+    -48 /*fromYearTiny (2052)*/,
+    -48 /*toYearTiny (2052)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -1531,8 +1531,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2052    only    -    Jun     2     2:00    0    -
   {
-    2052 /*fromYear*/,
-    2052 /*toYear*/,
+    -48 /*fromYearTiny (2052)*/,
+    -48 /*toYearTiny (2052)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1543,8 +1543,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2053    only    -    Apr    13     3:00    -1:00    -
   {
-    2053 /*fromYear*/,
-    2053 /*toYear*/,
+    -47 /*fromYearTiny (2053)*/,
+    -47 /*toYearTiny (2053)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -1555,8 +1555,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2053    only    -    May    25     2:00    0    -
   {
-    2053 /*fromYear*/,
-    2053 /*toYear*/,
+    -47 /*fromYearTiny (2053)*/,
+    -47 /*toYearTiny (2053)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -1567,8 +1567,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2054    only    -    Apr     5     3:00    -1:00    -
   {
-    2054 /*fromYear*/,
-    2054 /*toYear*/,
+    -46 /*fromYearTiny (2054)*/,
+    -46 /*toYearTiny (2054)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -1579,8 +1579,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2054    only    -    May    10     2:00    0    -
   {
-    2054 /*fromYear*/,
-    2054 /*toYear*/,
+    -46 /*fromYearTiny (2054)*/,
+    -46 /*toYearTiny (2054)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -1591,8 +1591,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2055    only    -    Mar    28     3:00    -1:00    -
   {
-    2055 /*fromYear*/,
-    2055 /*toYear*/,
+    -45 /*fromYearTiny (2055)*/,
+    -45 /*toYearTiny (2055)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -1603,8 +1603,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2055    only    -    May     2     2:00    0    -
   {
-    2055 /*fromYear*/,
-    2055 /*toYear*/,
+    -45 /*fromYearTiny (2055)*/,
+    -45 /*toYearTiny (2055)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1615,8 +1615,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2056    only    -    Mar    12     3:00    -1:00    -
   {
-    2056 /*fromYear*/,
-    2056 /*toYear*/,
+    -44 /*fromYearTiny (2056)*/,
+    -44 /*toYearTiny (2056)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     12 /*onDayOfMonth*/,
@@ -1627,8 +1627,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2056    only    -    Apr    23     2:00    0    -
   {
-    2056 /*fromYear*/,
-    2056 /*toYear*/,
+    -44 /*fromYearTiny (2056)*/,
+    -44 /*toYearTiny (2056)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -1639,8 +1639,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2057    only    -    Mar     4     3:00    -1:00    -
   {
-    2057 /*fromYear*/,
-    2057 /*toYear*/,
+    -43 /*fromYearTiny (2057)*/,
+    -43 /*toYearTiny (2057)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -1651,8 +1651,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2057    only    -    Apr     8     2:00    0    -
   {
-    2057 /*fromYear*/,
-    2057 /*toYear*/,
+    -43 /*fromYearTiny (2057)*/,
+    -43 /*toYearTiny (2057)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -1663,8 +1663,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2058    only    -    Feb    17     3:00    -1:00    -
   {
-    2058 /*fromYear*/,
-    2058 /*toYear*/,
+    -42 /*fromYearTiny (2058)*/,
+    -42 /*toYearTiny (2058)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     17 /*onDayOfMonth*/,
@@ -1675,8 +1675,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2058    only    -    Mar    31     2:00    0    -
   {
-    2058 /*fromYear*/,
-    2058 /*toYear*/,
+    -42 /*fromYearTiny (2058)*/,
+    -42 /*toYearTiny (2058)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -1687,8 +1687,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2059    only    -    Feb     9     3:00    -1:00    -
   {
-    2059 /*fromYear*/,
-    2059 /*toYear*/,
+    -41 /*fromYearTiny (2059)*/,
+    -41 /*toYearTiny (2059)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1699,8 +1699,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2059    only    -    Mar    23     2:00    0    -
   {
-    2059 /*fromYear*/,
-    2059 /*toYear*/,
+    -41 /*fromYearTiny (2059)*/,
+    -41 /*toYearTiny (2059)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -1711,8 +1711,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2060    only    -    Feb     1     3:00    -1:00    -
   {
-    2060 /*fromYear*/,
-    2060 /*toYear*/,
+    -40 /*fromYearTiny (2060)*/,
+    -40 /*toYearTiny (2060)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1723,8 +1723,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2060    only    -    Mar     7     2:00    0    -
   {
-    2060 /*fromYear*/,
-    2060 /*toYear*/,
+    -40 /*fromYearTiny (2060)*/,
+    -40 /*toYearTiny (2060)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -1735,8 +1735,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2061    only    -    Jan    16     3:00    -1:00    -
   {
-    2061 /*fromYear*/,
-    2061 /*toYear*/,
+    -39 /*fromYearTiny (2061)*/,
+    -39 /*toYearTiny (2061)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -1747,8 +1747,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2061    only    -    Feb    27     2:00    0    -
   {
-    2061 /*fromYear*/,
-    2061 /*toYear*/,
+    -39 /*fromYearTiny (2061)*/,
+    -39 /*toYearTiny (2061)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -1759,8 +1759,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2062    only    -    Jan     8     3:00    -1:00    -
   {
-    2062 /*fromYear*/,
-    2062 /*toYear*/,
+    -38 /*fromYearTiny (2062)*/,
+    -38 /*toYearTiny (2062)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -1771,8 +1771,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2062    only    -    Feb    12     2:00    0    -
   {
-    2062 /*fromYear*/,
-    2062 /*toYear*/,
+    -38 /*fromYearTiny (2062)*/,
+    -38 /*toYearTiny (2062)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     12 /*onDayOfMonth*/,
@@ -1783,8 +1783,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2062    only    -    Dec    31     3:00    -1:00    -
   {
-    2062 /*fromYear*/,
-    2062 /*toYear*/,
+    -38 /*fromYearTiny (2062)*/,
+    -38 /*toYearTiny (2062)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -1795,8 +1795,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2063    only    -    Feb     4     2:00    0    -
   {
-    2063 /*fromYear*/,
-    2063 /*toYear*/,
+    -37 /*fromYearTiny (2063)*/,
+    -37 /*toYearTiny (2063)*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -1807,8 +1807,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2063    only    -    Dec    16     3:00    -1:00    -
   {
-    2063 /*fromYear*/,
-    2063 /*toYear*/,
+    -37 /*fromYearTiny (2063)*/,
+    -37 /*toYearTiny (2063)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -1819,8 +1819,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2064    only    -    Jan    27     2:00    0    -
   {
-    2064 /*fromYear*/,
-    2064 /*toYear*/,
+    -36 /*fromYearTiny (2064)*/,
+    -36 /*toYearTiny (2064)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -1831,8 +1831,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2064    only    -    Dec     7     3:00    -1:00    -
   {
-    2064 /*fromYear*/,
-    2064 /*toYear*/,
+    -36 /*fromYearTiny (2064)*/,
+    -36 /*toYearTiny (2064)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -1843,8 +1843,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2065    only    -    Jan    11     2:00    0    -
   {
-    2065 /*fromYear*/,
-    2065 /*toYear*/,
+    -35 /*fromYearTiny (2065)*/,
+    -35 /*toYearTiny (2065)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -1855,8 +1855,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2065    only    -    Nov    22     3:00    -1:00    -
   {
-    2065 /*fromYear*/,
-    2065 /*toYear*/,
+    -35 /*fromYearTiny (2065)*/,
+    -35 /*toYearTiny (2065)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -1867,8 +1867,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2066    only    -    Jan     3     2:00    0    -
   {
-    2066 /*fromYear*/,
-    2066 /*toYear*/,
+    -34 /*fromYearTiny (2066)*/,
+    -34 /*toYearTiny (2066)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -1879,8 +1879,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2066    only    -    Nov    14     3:00    -1:00    -
   {
-    2066 /*fromYear*/,
-    2066 /*toYear*/,
+    -34 /*fromYearTiny (2066)*/,
+    -34 /*toYearTiny (2066)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -1891,8 +1891,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2066    only    -    Dec    26     2:00    0    -
   {
-    2066 /*fromYear*/,
-    2066 /*toYear*/,
+    -34 /*fromYearTiny (2066)*/,
+    -34 /*toYearTiny (2066)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -1903,8 +1903,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2067    only    -    Nov     6     3:00    -1:00    -
   {
-    2067 /*fromYear*/,
-    2067 /*toYear*/,
+    -33 /*fromYearTiny (2067)*/,
+    -33 /*toYearTiny (2067)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     6 /*onDayOfMonth*/,
@@ -1915,8 +1915,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2067    only    -    Dec    11     2:00    0    -
   {
-    2067 /*fromYear*/,
-    2067 /*toYear*/,
+    -33 /*fromYearTiny (2067)*/,
+    -33 /*toYearTiny (2067)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -1927,8 +1927,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2068    only    -    Oct    21     3:00    -1:00    -
   {
-    2068 /*fromYear*/,
-    2068 /*toYear*/,
+    -32 /*fromYearTiny (2068)*/,
+    -32 /*toYearTiny (2068)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -1939,8 +1939,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2068    only    -    Dec     2     2:00    0    -
   {
-    2068 /*fromYear*/,
-    2068 /*toYear*/,
+    -32 /*fromYearTiny (2068)*/,
+    -32 /*toYearTiny (2068)*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1951,8 +1951,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2069    only    -    Oct    13     3:00    -1:00    -
   {
-    2069 /*fromYear*/,
-    2069 /*toYear*/,
+    -31 /*fromYearTiny (2069)*/,
+    -31 /*toYearTiny (2069)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -1963,8 +1963,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2069    only    -    Nov    17     2:00    0    -
   {
-    2069 /*fromYear*/,
-    2069 /*toYear*/,
+    -31 /*fromYearTiny (2069)*/,
+    -31 /*toYearTiny (2069)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     17 /*onDayOfMonth*/,
@@ -1975,8 +1975,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2070    only    -    Oct     5     3:00    -1:00    -
   {
-    2070 /*fromYear*/,
-    2070 /*toYear*/,
+    -30 /*fromYearTiny (2070)*/,
+    -30 /*toYearTiny (2070)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -1987,8 +1987,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2070    only    -    Nov     9     2:00    0    -
   {
-    2070 /*fromYear*/,
-    2070 /*toYear*/,
+    -30 /*fromYearTiny (2070)*/,
+    -30 /*toYearTiny (2070)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1999,8 +1999,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2071    only    -    Sep    20     3:00    -1:00    -
   {
-    2071 /*fromYear*/,
-    2071 /*toYear*/,
+    -29 /*fromYearTiny (2071)*/,
+    -29 /*toYearTiny (2071)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2011,8 +2011,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2071    only    -    Nov     1     2:00    0    -
   {
-    2071 /*fromYear*/,
-    2071 /*toYear*/,
+    -29 /*fromYearTiny (2071)*/,
+    -29 /*toYearTiny (2071)*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2023,8 +2023,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2072    only    -    Sep    11     3:00    -1:00    -
   {
-    2072 /*fromYear*/,
-    2072 /*toYear*/,
+    -28 /*fromYearTiny (2072)*/,
+    -28 /*toYearTiny (2072)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -2035,8 +2035,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2072    only    -    Oct    16     2:00    0    -
   {
-    2072 /*fromYear*/,
-    2072 /*toYear*/,
+    -28 /*fromYearTiny (2072)*/,
+    -28 /*toYearTiny (2072)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -2047,8 +2047,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2073    only    -    Aug    27     3:00    -1:00    -
   {
-    2073 /*fromYear*/,
-    2073 /*toYear*/,
+    -27 /*fromYearTiny (2073)*/,
+    -27 /*toYearTiny (2073)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -2059,8 +2059,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2073    only    -    Oct     8     2:00    0    -
   {
-    2073 /*fromYear*/,
-    2073 /*toYear*/,
+    -27 /*fromYearTiny (2073)*/,
+    -27 /*toYearTiny (2073)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -2071,8 +2071,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2074    only    -    Aug    19     3:00    -1:00    -
   {
-    2074 /*fromYear*/,
-    2074 /*toYear*/,
+    -26 /*fromYearTiny (2074)*/,
+    -26 /*toYearTiny (2074)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -2083,8 +2083,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2074    only    -    Sep    30     2:00    0    -
   {
-    2074 /*fromYear*/,
-    2074 /*toYear*/,
+    -26 /*fromYearTiny (2074)*/,
+    -26 /*toYearTiny (2074)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -2095,8 +2095,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2075    only    -    Aug    11     3:00    -1:00    -
   {
-    2075 /*fromYear*/,
-    2075 /*toYear*/,
+    -25 /*fromYearTiny (2075)*/,
+    -25 /*toYearTiny (2075)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -2107,8 +2107,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2075    only    -    Sep    15     2:00    0    -
   {
-    2075 /*fromYear*/,
-    2075 /*toYear*/,
+    -25 /*fromYearTiny (2075)*/,
+    -25 /*toYearTiny (2075)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -2119,8 +2119,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2076    only    -    Jul    26     3:00    -1:00    -
   {
-    2076 /*fromYear*/,
-    2076 /*toYear*/,
+    -24 /*fromYearTiny (2076)*/,
+    -24 /*toYearTiny (2076)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -2131,8 +2131,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2076    only    -    Sep     6     2:00    0    -
   {
-    2076 /*fromYear*/,
-    2076 /*toYear*/,
+    -24 /*fromYearTiny (2076)*/,
+    -24 /*toYearTiny (2076)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     6 /*onDayOfMonth*/,
@@ -2143,8 +2143,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2077    only    -    Jul    18     3:00    -1:00    -
   {
-    2077 /*fromYear*/,
-    2077 /*toYear*/,
+    -23 /*fromYearTiny (2077)*/,
+    -23 /*toYearTiny (2077)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -2155,8 +2155,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2077    only    -    Aug    22     2:00    0    -
   {
-    2077 /*fromYear*/,
-    2077 /*toYear*/,
+    -23 /*fromYearTiny (2077)*/,
+    -23 /*toYearTiny (2077)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -2167,8 +2167,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2078    only    -    Jul    10     3:00    -1:00    -
   {
-    2078 /*fromYear*/,
-    2078 /*toYear*/,
+    -22 /*fromYearTiny (2078)*/,
+    -22 /*toYearTiny (2078)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -2179,8 +2179,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2078    only    -    Aug    14     2:00    0    -
   {
-    2078 /*fromYear*/,
-    2078 /*toYear*/,
+    -22 /*fromYearTiny (2078)*/,
+    -22 /*toYearTiny (2078)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -2191,8 +2191,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2079    only    -    Jun    25     3:00    -1:00    -
   {
-    2079 /*fromYear*/,
-    2079 /*toYear*/,
+    -21 /*fromYearTiny (2079)*/,
+    -21 /*toYearTiny (2079)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -2203,8 +2203,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2079    only    -    Aug     6     2:00    0    -
   {
-    2079 /*fromYear*/,
-    2079 /*toYear*/,
+    -21 /*fromYearTiny (2079)*/,
+    -21 /*toYearTiny (2079)*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     6 /*onDayOfMonth*/,
@@ -2215,8 +2215,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2080    only    -    Jun    16     3:00    -1:00    -
   {
-    2080 /*fromYear*/,
-    2080 /*toYear*/,
+    -20 /*fromYearTiny (2080)*/,
+    -20 /*toYearTiny (2080)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -2227,8 +2227,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2080    only    -    Jul    21     2:00    0    -
   {
-    2080 /*fromYear*/,
-    2080 /*toYear*/,
+    -20 /*fromYearTiny (2080)*/,
+    -20 /*toYearTiny (2080)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2239,8 +2239,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2081    only    -    Jun     1     3:00    -1:00    -
   {
-    2081 /*fromYear*/,
-    2081 /*toYear*/,
+    -19 /*fromYearTiny (2081)*/,
+    -19 /*toYearTiny (2081)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2251,8 +2251,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2081    only    -    Jul    13     2:00    0    -
   {
-    2081 /*fromYear*/,
-    2081 /*toYear*/,
+    -19 /*fromYearTiny (2081)*/,
+    -19 /*toYearTiny (2081)*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -2263,8 +2263,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2082    only    -    May    24     3:00    -1:00    -
   {
-    2082 /*fromYear*/,
-    2082 /*toYear*/,
+    -18 /*fromYearTiny (2082)*/,
+    -18 /*toYearTiny (2082)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     24 /*onDayOfMonth*/,
@@ -2275,8 +2275,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2082    only    -    Jun    28     2:00    0    -
   {
-    2082 /*fromYear*/,
-    2082 /*toYear*/,
+    -18 /*fromYearTiny (2082)*/,
+    -18 /*toYearTiny (2082)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -2287,8 +2287,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2083    only    -    May    16     3:00    -1:00    -
   {
-    2083 /*fromYear*/,
-    2083 /*toYear*/,
+    -17 /*fromYearTiny (2083)*/,
+    -17 /*toYearTiny (2083)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -2299,8 +2299,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2083    only    -    Jun    20     2:00    0    -
   {
-    2083 /*fromYear*/,
-    2083 /*toYear*/,
+    -17 /*fromYearTiny (2083)*/,
+    -17 /*toYearTiny (2083)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2311,8 +2311,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2084    only    -    Apr    30     3:00    -1:00    -
   {
-    2084 /*fromYear*/,
-    2084 /*toYear*/,
+    -16 /*fromYearTiny (2084)*/,
+    -16 /*toYearTiny (2084)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -2323,8 +2323,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2084    only    -    Jun    11     2:00    0    -
   {
-    2084 /*fromYear*/,
-    2084 /*toYear*/,
+    -16 /*fromYearTiny (2084)*/,
+    -16 /*toYearTiny (2084)*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -2335,8 +2335,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2085    only    -    Apr    22     3:00    -1:00    -
   {
-    2085 /*fromYear*/,
-    2085 /*toYear*/,
+    -15 /*fromYearTiny (2085)*/,
+    -15 /*toYearTiny (2085)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -2347,8 +2347,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2085    only    -    May    27     2:00    0    -
   {
-    2085 /*fromYear*/,
-    2085 /*toYear*/,
+    -15 /*fromYearTiny (2085)*/,
+    -15 /*toYearTiny (2085)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -2359,8 +2359,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2086    only    -    Apr    14     3:00    -1:00    -
   {
-    2086 /*fromYear*/,
-    2086 /*toYear*/,
+    -14 /*fromYearTiny (2086)*/,
+    -14 /*toYearTiny (2086)*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -2371,8 +2371,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2086    only    -    May    19     2:00    0    -
   {
-    2086 /*fromYear*/,
-    2086 /*toYear*/,
+    -14 /*fromYearTiny (2086)*/,
+    -14 /*toYearTiny (2086)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -2383,8 +2383,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2087    only    -    Mar    30     3:00    -1:00    -
   {
-    2087 /*fromYear*/,
-    2087 /*toYear*/,
+    -13 /*fromYearTiny (2087)*/,
+    -13 /*toYearTiny (2087)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -2395,8 +2395,8 @@ static const extended::ZoneRule kZoneRulesMorocco[] ACE_TIME_PROGMEM = {
   },
   // Rule    Morocco    2087    only    -    May    11     2:00    0    -
   {
-    2087 /*fromYear*/,
-    2087 /*toYear*/,
+    -13 /*fromYearTiny (2087)*/,
+    -13 /*toYearTiny (2087)*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -2421,8 +2421,8 @@ const extended::ZonePolicy kZonePolicyMorocco ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Namibia    1994    2017    -    Sep    Sun>=1    2:00    0    CAT
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2433,8 +2433,8 @@ static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
   },
   // Rule    Namibia    1994    only    -    Mar    21    0:00    -1:00    WAT
   {
-    1994 /*fromYear*/,
-    1994 /*toYear*/,
+    -106 /*fromYearTiny (1994)*/,
+    -106 /*toYearTiny (1994)*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2445,8 +2445,8 @@ static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
   },
   // Rule    Namibia    1994    2017    -    Sep    Sun>=1    2:00    0    CAT
   {
-    1994 /*fromYear*/,
-    2017 /*toYear*/,
+    -106 /*fromYearTiny (1994)*/,
+    -83 /*toYearTiny (2017)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2457,8 +2457,8 @@ static const extended::ZoneRule kZoneRulesNamibia[] ACE_TIME_PROGMEM = {
   },
   // Rule    Namibia    1995    2017    -    Apr    Sun>=1    2:00    -1:00    WAT
   {
-    1995 /*fromYear*/,
-    2017 /*toYear*/,
+    -105 /*fromYearTiny (1995)*/,
+    -83 /*toYearTiny (2017)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2483,8 +2483,8 @@ const extended::ZonePolicy kZonePolicyNamibia ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Port    1978    only    -    Oct     1     0:00s    0    -
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2495,8 +2495,8 @@ static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1978    1979    -    Apr    Sun>=1     0:00s    1:00    S
   {
-    1978 /*fromYear*/,
-    1979 /*toYear*/,
+    -122 /*fromYearTiny (1978)*/,
+    -121 /*toYearTiny (1979)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2507,8 +2507,8 @@ static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1978    only    -    Oct     1     0:00s    0    -
   {
-    1978 /*fromYear*/,
-    1978 /*toYear*/,
+    -122 /*fromYearTiny (1978)*/,
+    -122 /*toYearTiny (1978)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2519,8 +2519,8 @@ static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1979    1982    -    Sep    lastSun     1:00s    0    -
   {
-    1979 /*fromYear*/,
-    1982 /*toYear*/,
+    -121 /*fromYearTiny (1979)*/,
+    -118 /*toYearTiny (1982)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2531,8 +2531,8 @@ static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1980    only    -    Mar    lastSun     0:00s    1:00    S
   {
-    1980 /*fromYear*/,
-    1980 /*toYear*/,
+    -120 /*fromYearTiny (1980)*/,
+    -120 /*toYearTiny (1980)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2543,8 +2543,8 @@ static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1981    1982    -    Mar    lastSun     1:00s    1:00    S
   {
-    1981 /*fromYear*/,
-    1982 /*toYear*/,
+    -119 /*fromYearTiny (1981)*/,
+    -118 /*toYearTiny (1982)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2555,8 +2555,8 @@ static const extended::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
   },
   // Rule    Port    1983    only    -    Mar    lastSun     2:00s    1:00    S
   {
-    1983 /*fromYear*/,
-    1983 /*toYear*/,
+    -117 /*fromYearTiny (1983)*/,
+    -117 /*toYearTiny (1983)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2581,8 +2581,8 @@ const extended::ZonePolicy kZonePolicyPort ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2593,8 +2593,8 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
-    1967 /*fromYear*/,
-    2006 /*toYear*/,
+    -127 /*fromYearTiny (1967)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2605,8 +2605,8 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1975    only    -    Feb    lastSun    2:00    1:00    D
   {
-    1975 /*fromYear*/,
-    1975 /*toYear*/,
+    -125 /*fromYearTiny (1975)*/,
+    -125 /*toYearTiny (1975)*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2617,8 +2617,8 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1976 /*fromYear*/,
-    1986 /*toYear*/,
+    -124 /*fromYearTiny (1976)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2629,8 +2629,8 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    1987 /*fromYear*/,
-    2006 /*toYear*/,
+    -113 /*fromYearTiny (1987)*/,
+    -94 /*toYearTiny (2006)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2641,8 +2641,8 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -2653,8 +2653,8 @@ static const extended::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   },
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
-    2007 /*fromYear*/,
-    32766 /*toYear*/,
+    -93 /*fromYearTiny (2007)*/,
+    126 /*toYearTiny (32766)*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2679,8 +2679,8 @@ const extended::ZonePolicy kZonePolicyUS ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2691,8 +2691,8 @@ static const extended::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   },
   // Rule    Vanc    1946    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    1946 /*fromYear*/,
-    1986 /*toYear*/,
+    -127 /*fromYearTiny (1946)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2703,8 +2703,8 @@ static const extended::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   },
   // Rule    Vanc    1947    1961    -    Sep    lastSun    2:00    0    S
   {
-    1947 /*fromYear*/,
-    1961 /*toYear*/,
+    -127 /*fromYearTiny (1947)*/,
+    -127 /*toYearTiny (1961)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2715,8 +2715,8 @@ static const extended::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
   },
   // Rule    Vanc    1962    2006    -    Oct    lastSun    2:00    0    S
   {
-    1962 /*fromYear*/,
-    2006 /*toYear*/,
+    -127 /*fromYearTiny (1962)*/,
+    -94 /*toYearTiny (2006)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2741,8 +2741,8 @@ const extended::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2753,8 +2753,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1977    1980    -    Apr    Sun>=1     1:00s    1:00    S
   {
-    1977 /*fromYear*/,
-    1980 /*toYear*/,
+    -123 /*fromYearTiny (1977)*/,
+    -120 /*toYearTiny (1980)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2765,8 +2765,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
   {
-    1978 /*fromYear*/,
-    1978 /*toYear*/,
+    -122 /*fromYearTiny (1978)*/,
+    -122 /*toYearTiny (1978)*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2777,8 +2777,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1979    1995    -    Sep    lastSun     1:00s    0    -
   {
-    1979 /*fromYear*/,
-    1995 /*toYear*/,
+    -121 /*fromYearTiny (1979)*/,
+    -105 /*toYearTiny (1995)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2789,8 +2789,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1981    max    -    Mar    lastSun     1:00s    1:00    S
   {
-    1981 /*fromYear*/,
-    32766 /*toYear*/,
+    -119 /*fromYearTiny (1981)*/,
+    126 /*toYearTiny (32766)*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2801,8 +2801,8 @@ static const extended::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
   },
   // Rule    W-Eur    1996    max    -    Oct    lastSun     1:00s    0    -
   {
-    1996 /*fromYear*/,
-    32766 /*toYear*/,
+    -104 /*fromYearTiny (1996)*/,
+    126 /*toYearTiny (32766)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2827,8 +2827,8 @@ const extended::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2839,8 +2839,8 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
   },
   // Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
   {
-    2010 /*fromYear*/,
-    2010 /*toYear*/,
+    -90 /*fromYearTiny (2010)*/,
+    -90 /*toYearTiny (2010)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2851,8 +2851,8 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
   },
   // Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
   {
-    2011 /*fromYear*/,
-    2011 /*toYear*/,
+    -89 /*fromYearTiny (2011)*/,
+    -89 /*toYearTiny (2011)*/,
     4 /*inMonth*/,
     6 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2863,8 +2863,8 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
   },
   // Rule    WS    2011    only    -    Sep    lastSat    3:00    1    -
   {
-    2011 /*fromYear*/,
-    2011 /*toYear*/,
+    -89 /*fromYearTiny (2011)*/,
+    -89 /*toYearTiny (2011)*/,
     9 /*inMonth*/,
     6 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2875,8 +2875,8 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
   },
   // Rule    WS    2012    2021    -    Apr    Sun>=1    4:00    0    -
   {
-    2012 /*fromYear*/,
-    2021 /*toYear*/,
+    -88 /*fromYearTiny (2012)*/,
+    -79 /*toYearTiny (2021)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2887,8 +2887,8 @@ static const extended::ZoneRule kZoneRulesWS[] ACE_TIME_PROGMEM = {
   },
   // Rule    WS    2012    2020    -    Sep    lastSun    3:00    1    -
   {
-    2012 /*fromYear*/,
-    2020 /*toYear*/,
+    -88 /*fromYearTiny (2012)*/,
+    -80 /*toYearTiny (2020)*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2913,8 +2913,8 @@ const extended::ZonePolicy kZonePolicyWS ACE_TIME_PROGMEM = {
 static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Winn    1963    only    -    Sep    22    2:00    0    S
   {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
+    -127 /*fromYearTiny (-32767)*/,
+    -127 /*toYearTiny (-32767)*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2925,8 +2925,8 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1963    only    -    Sep    22    2:00    0    S
   {
-    1963 /*fromYear*/,
-    1963 /*toYear*/,
+    -127 /*fromYearTiny (1963)*/,
+    -127 /*toYearTiny (1963)*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -2937,8 +2937,8 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
   {
-    1966 /*fromYear*/,
-    1986 /*toYear*/,
+    -127 /*fromYearTiny (1966)*/,
+    -114 /*toYearTiny (1986)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2949,8 +2949,8 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
   {
-    1966 /*fromYear*/,
-    2005 /*toYear*/,
+    -127 /*fromYearTiny (1966)*/,
+    -95 /*toYearTiny (2005)*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2961,8 +2961,8 @@ static const extended::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   },
   // Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
   {
-    1987 /*fromYear*/,
-    2005 /*toYear*/,
+    -113 /*fromYearTiny (1987)*/,
+    -95 /*toYearTiny (2005)*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
