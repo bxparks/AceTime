@@ -137,7 +137,7 @@ class LocalDate {
 
     /** Return true if year is within the range of `[0,10000]` */
     static bool isYearValid(int16_t year) {
-      return year >= kMinYear && year <= kMaxYear;
+      return kMinYear <= year && year <= kMaxYear;
     }
 
   // Factory methods.

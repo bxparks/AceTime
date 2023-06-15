@@ -311,25 +311,27 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Exposed for debugging.
      */
     bool initForYear(int16_t year) const {
+      // Restrict to [1,9999] even though LocalDate should be able to handle
+      // [0,10000].
+      if (year <= LocalDate::kMinYear || LocalDate::kMaxYear <= year) {
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::printf(
+              "initForYear(): Year %d outside range [%d, %d]\n",
+              year, LocalDate::kMinYear + 1, LocalDate::kMaxYear - 1);
+        }
+        return false;
+      }
+
       if (isFilled(year)) return true;
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("initForYear(): %d\n", year);
       }
-
       mYear = year;
       mEpochYear = Epoch::currentEpochYear();
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      if (year < LocalDate::kMinYear || LocalDate::kMaxYear < year) {
-        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-          logging::printf(
-              "initForYear(): Year %d out of valid range [%d, %d)\n",
-              year, LocalDate::kMinYear, LocalDate::kMaxYear);
-        }
-        return false;
-      }
-
+      // Fill transitions over a 14-month window straddling the given year.
       extended::YearMonthTuple startYm = { (int16_t) (year - 1), 12 };
       extended::YearMonthTuple untilYm =  { (int16_t) (year + 1), 2 };
 

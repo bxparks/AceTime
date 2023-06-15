@@ -462,6 +462,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
+      // Restrict to [1,9999], even though LocalDate should be able to handle
+      // [0,10000].
+      if (year <= LocalDate::kMinYear || LocalDate::kMaxYear <= year) {
+        return false;
+      }
+
       if (isFilled(year)) return true;
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("initForLocalDate(): %d (new year %d)\n",
@@ -471,10 +477,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mYear = year;
       mEpochYear = Epoch::currentEpochYear();
       mNumTransitions = 0; // clear cache
-
-      if (year < LocalDate::kMinYear || LocalDate::kMaxYear < year) {
-        return false;
-      }
 
       ZEB priorEra = addTransitionPriorToYear(year);
       ZEB currentEra = addTransitionsForYear(year, priorEra);
