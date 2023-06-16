@@ -56,8 +56,8 @@ inline int16_t toDeltaMinutes(uint8_t deltaCode) {
  * 15-minute multiples. The upper 4-bits of `deltaCode` holds the (unsigned)
  * remainder in one-minute increments.
  */
-inline int16_t toOffsetMinutes(int8_t offsetCode, uint8_t deltaCode) {
-  return (offsetCode * 15) + (((uint8_t)deltaCode & 0xf0) >> 4);
+inline int16_t toOffsetMinutes(uint8_t offsetCode, uint8_t deltaCode) {
+  return ((int8_t)offsetCode * 15) + ((deltaCode & 0xf0) >> 4);
 }
 
 
