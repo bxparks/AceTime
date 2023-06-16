@@ -19,5 +19,18 @@ all:
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
+zonedb.json:
+	$(TOOLS)/tzcompiler.sh \
+		--tzrepo $(TZ_REPO) \
+		--tag $(TZ_VERSION) \
+		--action json \
+		--language arduino \
+		--scope extended \
+		--db_namespace zonedbxtesting \
+		--include_list include_list.txt \
+		--nocompress \
+		--start_year $(START_YEAR) \
+		--until_year $(UNTIL_YEAR)
+
 clean:
-	rm -rf tzfiles
+	rm -rf tzfiles zonedb.json *.o

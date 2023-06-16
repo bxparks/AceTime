@@ -21,8 +21,8 @@ zonedb.json:
 	$(TOOLS)/tzcompiler.sh \
 		--tzrepo $(TZ_REPO) \
 		--tag $(TZ_VERSION) \
-		--action zonedb \
-		--language json \
+		--action json \
+		--language arduino \
 		--scope extended \
 		--db_namespace zonedbx \
 		--start_year $(START_YEAR) \

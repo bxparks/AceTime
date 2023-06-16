@@ -21,12 +21,12 @@ zonedb.json:
 	$(TOOLS)/tzcompiler.sh \
 		--tzrepo $(TZ_REPO) \
 		--tag $(TZ_VERSION) \
-		--action zonedb \
-		--language json \
+		--action json \
+		--language arduino \
 		--scope basic \
 		--db_namespace zonedb \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
 clean:
-	rm -rf tzfiles zonedb.json
+	rm -rf tzfiles zonedb.json *.o
