@@ -3315,19 +3315,17 @@ Serial.println(dt.isError() ? "true" : "false");
           leap second aware, so the `epochSeconds` will continue to be ahead of
           UTC by one second even after synchronization.
 * `acetime_t`
-    * AceTime uses an epoch of 2050-01-01T00:00:00 UTC by default. The epoch can
-      be changed using the `Epoch::currentEpochYear(year)` function.
+    * AceTime uses a default epoch of 2050-01-01T00:00:00 UTC by default. The
+      epoch can be changed using the `Epoch::currentEpochYear(year)` function.
     * The `acetime_t` type is a 32-bit signed integer whose smallest value
       is `-2^31` and largest value is `2^31-1`. However, the smallest value is
       used to indicate an internal "Error" condition, therefore the actual
       smallest `acetime_t` is `-2^31+1`. Therefore, the smallest and largest
-      dates that can be represented by `acetime_t` is theoreticall
-      1981-12-13T20:45:53 UTC to 2018-01-20T03:14:07 UTC (inclusive).
-    * To be conversative, users of this library should limit the range of the
+      dates that can be represented by `acetime_t` is theoretically
+      1981-12-13T20:45:53 UTC to 2118-01-20T03:14:07 UTC (inclusive).
+    * To be conservative, users of this library should limit the range of the
       epoch seconds to +/- 50 years of the current epoch, in other words,
       `[2000,2100)`.
-* `TimeOffset`
-    * Implemented using `int16_t` in 1 minute increments.
 * `LocalDate`, `LocalDateTime`
     * The `year` component is valid in the range of `[1, 9999]`.
     * The `year = 0` is used internally to represent `-Infinity`. This should
@@ -3345,11 +3343,10 @@ Serial.println(dt.isError() ? "true" : "false");
       not load the entire TZ Database due to memory constraints of most Arduino
       boards.
 * `TimeZone`
-    * It might be possible to use both a basic `TimeZone` created using a
-      `zonedb::ZoneInfo` entry, and an extended `TimeZone` using a
-      `zonedbx::ZoneInfo` entry, together in a single program. However, this is
-      not a configuration that is expected to be used often, so it has not been
-      tested well, if at all.
+    * It might be possible to use different `TimeZone` instances created
+      different zonedb database (i.e. `zonedb`, `zonedbx`, `zonedbc`).
+      However, this is not a configuration that is expected to be used often, so
+      it has not been tested well, if at all.
     * One potential problem is that the equality of two `TimeZone` depends only
       on the `zoneId`, so a Basic `TimeZone` created with a
       `zonedb::kZoneAmerica_Los_Angeles` will be considered equal to an Extended
@@ -3370,24 +3367,26 @@ Serial.println(dt.isError() ? "true" : "false");
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTime Epoch
-    * The internal time zone calculations use the same `int32_t` type as
-      the `acetime_t` epoch seconds. This has a range of about 136 years.
-    * To be safe, the `ZoneDateTime` objects should be restricted to about +/-
-      50 years of the epoch defined by `Epoch::currentEpochYear()`.
+* `ZonedDateTime` should be within roughly +/- 50 years (maybe +/- 60 years) of
+  the current AceTime Epoch.
+    * The internal time zone calculations use the same `int32_t` type as the
+      `acetime_t` epoch seconds. This has a range of about 136 years.
 * `BasicZoneProcessor`
     * Supports 1-minute resolution for AT and UNTIL fields.
     * Supports only a 15-minute resolution for the STDOFF and DST offset fields.
     * Sufficient to support large number of timezones since the year 2000.
 * `ExtendedZoneProcessor`
-    * Has a 1-minute resolution for AT, UNTIL and STDOFF fields.
-    * Supports only a 15-minute resolution for DST field.
+    * Has a 1-second resolution for all fields: AT, UNTIL, STDOFF, DST offsets.
+    * However, the `zonedbx` database has a 1-minute resolution for these
+      fields, which limits the year range of the database.
     * All timezones after 1974 has DST offsets in 15-minutes increments.
-* `zonedb/` and `zonedbx/` ZoneInfo entries
-    * These statically defined data structures are loaded into flash memory
-      using the `PROGMEM` keyword.
-        * The vast majority of the data structure fields will stay in flash
-          memory and not copied into RAM.
+* `CompleteZoneProcessor`
+    * Is identical to `ExtendedZonProcessor`, but is able to use the
+      high-resolution `zonedbc` database.
+    * Allows it to handle all timezones, for all years `[0001,10000)`.
+* `zonedb/`, `zonedbx/`, `zonedbc` databases
+    * These data structures are loaded into flash memory using the `PROGMEM`
+      keyword.
     * The ZoneInfo entries have *not* been compressed using bit-fields.
         * It may be possible to decrease the size of the full database using
           these compression techniques. However, compression will increase the
@@ -3406,47 +3405,42 @@ Serial.println(dt.isError() ? "true" : "false");
         * The `tzcompiler.py` will exclude and flag the Rules which could
           potentially shift to a different year. As of version 2022f, no such
           Rule seems to exist.
-* Arduino Zero and SAMD21 Boards
-    * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
-      no longer fully supported because:
-        * I am no longer able to upload firmware to my SAMD21 boards
-        * The Arduino samd Core v1.8.10 migrated to the
-          [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api).
-          Unfortunately the ArduinoCore-API is not supported by AceTime.
-    * If you are using an original Arduino Zero and using the "Native USB Port",
-      you may encounter problems with nothing showing up on the Serial Monitor.
-        * The original Arduino Zero has [2 USB
-          ports](https://www.arduino.cc/en/Guide/ArduinoZero). The Programming
-          port is connected to `Serial` object and the Native port is connected
-          to `SerialUSB` object. You can select either the "Arduino/Genuino Zero
-          (Programming Port)" or the "Arduino/Genuino Zero (Native USB Port)" on
-          the Board Manager selector in the Arduino IDEA. Unfortunately, if you
-          select "(Native USB Port)", the `SERIAL_MONITOR_PORT` macro *should*
-          be defined to be `SerialUSB`, but it continues to point to `Serial`,
-          which means that nothing will show up on the Serial Monitor.
-        * You may be able to fix this by setting
-          `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
-          `src/ace_time/common/compat.h`. (I do not test this option often, so
-          it may be broken.)
-    * If you are using a SAMD21 development or breakout board, or one of the
-      many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
-      have), I have been unable to find a board configuration that is an exact
-      match. You have a few choices:
-        * If you are running the [AceTime unit tests](tests/), you need to
-          have a working `SERIAL_PORT_MONITOR`, so the "Arduino MKR ZERO" board
-          might work better, instead of the "Arduino Zero (Native USB Port)"
-          board.
-        * If you are running an app that requires proper pin configuration,
-          it seems that the `Arduino MKR ZERO" configuration is not correct for
-          this clone board. You need to go back to the "Arduino/Genuino Zero
-          (Native USB Port)" board configuration.
-        * You may also try installing the [SparkFun
-          Boards](https://github.com/sparkfun/Arduino_Boards) and select
-          the "SparkFun SAMD21 Mini Breakout" board. The advantage of using
-          this configuration is that the `SERIAL_PORT_MONITOR` is configured
-          properly as well as the port pin numbers. However, I have found that
-          the USB connection can be a bit flaky.
-    * The `MKR Zero` board generates far faster code (30%?) than the `SparkFun
-      SAMD21 Mini Breakout` board. The `MKR Zero` could be using a different
-      (more recent?) version of the GCC tool chain. I have not investigated
-      this.
+* SAMD21 and SAMD51 Boards
+    * SAMD boards using the traditional Arduino API are supported.
+        * For example, Adafruit ItsyBitsy M0, Seeeduino XIAO M0.
+    * SAMD boards using the Arduino samd Core >= 1.8.10 migrated to the
+      [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api) are not
+      compatible with this library.
+* Arduino Zero
+    * Arduino Zero with the "Native USB Port" may cause problems with nothing
+      showing up on the Serial Monitor.
+    * The original Arduino Zero has
+      [2 USB ports](https://www.arduino.cc/en/Guide/ArduinoZero).
+    * The Programming port is connected to `Serial` object and the Native port
+      is connected to `SerialUSB` object. You can select either the
+      "Arduino/Genuino Zero (Programming Port)" or the "Arduino/Genuino Zero
+      (Native USB Port)" on the Board Manager selector in the Arduino IDE.
+    * If you select "(Native USB Port)", the `SERIAL_MONITOR_PORT` macro
+      *should* be defined to be `SerialUSB`, but it continues to point to
+      `Serial`, which means that nothing will show up on the Serial Monitor.
+    * You may be able to fix this by setting
+      `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
+      `src/ace_time/common/compat.h`. (I do not test this option often, so it
+      may be broken.)
+* Other Third Party SAMD21 boards
+    * I have been unable to find a board configuration that is an exact match.
+      These boards are not supported. You may try a few things:
+    * If you are running the [AceTime unit tests](tests/), you need to
+      have a working `SERIAL_PORT_MONITOR`, so the "Arduino MKR ZERO" board
+      might work better, instead of the "Arduino Zero (Native USB Port)"
+      board.
+    * If you are running an app that requires proper pin configuration,
+      it seems that the `Arduino MKR ZERO" configuration is not correct for
+      this clone board. You need to go back to the "Arduino/Genuino Zero
+      (Native USB Port)" board configuration.
+    * You may also try installing the [SparkFun
+      Boards](https://github.com/sparkfun/Arduino_Boards) and select
+      the "SparkFun SAMD21 Mini Breakout" board. The advantage of using
+      this configuration is that the `SERIAL_PORT_MONITOR` is configured
+      properly as well as the port pin numbers. However, I have found that
+      the USB connection can be a bit flaky.
