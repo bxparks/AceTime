@@ -595,6 +595,7 @@ class TimeZone {
       return mZoneProcessor;
     }
 
+  private:
     uint8_t mType;
 
     // 3 combinations:
