@@ -7,18 +7,40 @@ The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" from the AceTime Epoch (default 2050-01-01 UTC) to
 human-readable local date and time fields. Those classes can also convert local
 date and time between different time zones, properly accounting for all DST
-transitions from the year 2000 until 2100.
+transitions from the year 2000 until 2100. The library has mechanisms to extend
+the range of useful years.
 
 The default AceTime epoch is 2050-01-01, but it can be adjusted by the client
-application. The timezone functions are valid over any 100-year interval
+application at runtime. The epoch second has the type `acetime_t` which is a
+32-bit signed integer, instead of a 64-bit signed integer. Using the smaller
+32-bit integer allows the library to be efficient on 8-bit and 32-bit
+microcontrollers with limited memory resources, and without native 64-bit
+integer instructions. The range of a 32-bit signed integer is about 136 years.
+AceTime timezone functions will be valid at a minimum over a 100-year interval
 straddling +/- 50 years of the `Epoch::currentEpochYear()`, subject to the
-limits of the ZoneInfo Databases.
+accuracy limits of the given ZoneInfo Database. In practice, the range of
+validity is probably at least +/- 60 years, or even +/- 65 years, but boundary
+effects at the larger intervals are more likely.
 
-The two pre-generated ZoneInfo Databases (`zonedb` and `zonedbx`) are
-programmatically extracted from the [IANA TZ
-database](https://www.iana.org/time-zones). They are valid from the year 2000
-until the year 10000. Client applications can choose to use reduced subsets of
-the ZoneInfo Database to save flash memory size.
+The library provides 3 pre-generated ZoneInfo Databases which
+are programmatically extracted from the [IANA TZ
+database](https://www.iana.org/time-zones):
+
+- [zonedb](src/zonedb) (basic, not usually recommended)
+    - valid over the years `[2000,10000)`
+    - contains a subset of zones (~450) compatible with the `BasicZoneProcessor`
+      and `BasicZoneManager`
+- [zonedbx](src/zonedbx) (extended, recommended for most situations)
+    - valid over the years `[2000,10000)`
+    - contains all zones and links (~600) in the IANA TZ database
+    - compatible with the `ExtendedZoneProcessor` and `ExtendedZoneManager`
+- [zonedbc](src/zonedbc) (complete, mostly for validation testing, new in v2.3)
+    - valid over the years `[0001,10000)`
+    - contains all zones and links (~600) the IANA TZ database
+    - compatible with the `CompleteZoneProcessor` and `CompleteZoneManager`
+
+Client applications can choose to incorporate a subset of the zones provided by
+the above databases to save flash memory size of the application.
 
 Support for [Unix time](https://en.wikipedia.org/wiki/Unix_time) using the Unix
 epoch of 1970-01-01 is provided through conversion functions of the `time_t`
@@ -70,6 +92,8 @@ v2.2.0](MIGRATING.md#MigratingToVersion220) for details.
 * AceTimeValidation (https://github.com/bxparks/AceTimeValidation)
 * AceTimeTools (https://github.com/bxparks/AceTimeTools)
 * acetimepy (https://github.com/bxparks/acetimepy)
+* acetimec (https://github.com/bxparks/acetimec)
+* acetimego (https://github.com/bxparks/acetimego)
 
 ## Table of Contents
 
@@ -132,14 +156,22 @@ The `master` branch contains the stable releases.
 The source files are organized as follows:
 
 * `src/AceTime.h` - main header file
-* `src/ace_time/` - date and time classes (`ace_time::` namespace)
+* main library code
+    * `src/ace_time/` - date and time classes (`ace_time::` namespace)
     * `src/ace_time/common/` - shared classes and utilities
     * `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`
-      namespace)
+        namespace)
+    * `src/zoneinfo` - reading the zone databases, and remapping their APIs
+* zone databases
     * `src/zonedb/` - files generated from TZ Database for
-      `BasicZoneProcessor` (`ace_time::zonedb` namespace)
+        `BasicZoneProcessor` (`ace_time::zonedb` namespace)
+    * `src/zonedbtesting/` - limited subset of `zonedb` for unit tests
     * `src/zonedbx/` - files generated from TZ Database for
-      `ExtendedZoneProcessor` (`ace_time::zonedbx` namespace)
+        `ExtendedZoneProcessor` (`ace_time::zonedbx` namespace)
+    * `src/zonedbxtesting/` - limited subset of `zonedbx` for unit tests
+    * `src/zonedbc/` - files generated from TZ Database for
+        `CompleteZoneProcessor` (`ace_time::zonedbc` namespace)
+    * `src/zonedbctesting/` - limited subset of `zonedbc` for unit tests
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs and benchmarks
     * Simple
@@ -216,8 +248,8 @@ zones:
 using namespace ace_time;
 
 // ZoneProcessor instances should be created statically at initialization time.
-static BasicZoneProcessor losAngelesProcessor;
-static BasicZoneProcessor londonProcessor;
+static ExtendedZoneProcessor losAngelesProcessor;
+static ExtendedZoneProcessor londonProcessor;
 
 void setup() {
   delay(1000);
@@ -226,10 +258,10 @@ void setup() {
 
   // TimeZone objects are light-weight and can be created on the fly.
   TimeZone losAngelesTz = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles,
+      &zonedbx::kZoneAmerica_Los_Angeles,
       &losAngelesProcessor);
   TimeZone londonTz = TimeZone::forZoneInfo(
-      &zonedb::kZoneEurope_London,
+      &zonedbx::kZoneEurope_London,
       &londonProcessor);
 
   // Create from components. 2019-03-10T03:00:00 is just after DST change in
@@ -362,7 +394,7 @@ void setup() {
 
   // Create America/Los_Angeles timezone by ZoneInfo.
   TimeZone losAngelesTz = manager.createForZoneInfo(
-        &zonedb::kZoneAmerica_Los_Angeles);
+        &zonedbx::kZoneAmerica_Los_Angeles);
   ZonedDateTime losAngelesTime = ZonedDateTime::forComponents(
       2019, 3, 10, 3, 0, 0, losAngelesTz);
   losAngelesTime.printTo(Serial);
@@ -375,7 +407,7 @@ void setup() {
   Serial.println();
 
   // Create Australia/Sydney timezone by ZoneId.
-  TimeZone sydneyTz = manager.createForZoneId(zonedb::kZoneIdAustralia_Sydney);
+  TimeZone sydneyTz = manager.createForZoneId(zonedbx::kZoneIdAustralia_Sydney);
   ZonedDateTime sydneyTime = losAngelesTime.convertToTimeZone(sydneyTz);
   sydneyTime.printTo(Serial);
   Serial.println();
@@ -434,36 +466,55 @@ The full documentation of the following classes are given in the
         * `ace_time::ExtendedZoneManager`
         * `ace_time::ManualZoneManager`
 * ZoneInfo Database
+    * 3 sets of timezone data are provided (Basic, Extended, Complete) which
+      support slightly different sets of zones and years
     * programmatically generated from the IANA TZ Database files
-    * two sets of timezone data are provided (Basic and Extended) because
-      2 slightly different algorithms for handling timezone data are provided
-    * ZoneInfo (opaque reference to a timezone)
-        * `ace_time::basic::ZoneInfo` (258 zones and 193 links, as of 2021c)
+    * each timezone is identified in multiple ways
+        * ZoneInfo: (opaque) pointer to a `ZoneInfo` data structure
+        * ZoneId: unique and stable `uint32_t` identifier (e.g. `0xb7f7e8f2`)
+        * ZoneName: unique human-readable string (e.g. "America/Los_Angeles")
+    * Basic (not usually recommended)
+        * 448 zones and links as of 2023c
+        * ZoneInfo (`const ace_time::basic::ZoneInfo*`)
             * `ace_time::zonedb::kZoneAfrica_Abidjan`
-            * `ace_time::zonedb::kZoneAfrica_Accra`
             * ...
-            * `ace_time::zonedb::kZonePacific_Wake`
             * `ace_time::zonedb::kZonePacific_Wallis`
-        * `ace_time::extended::ZoneInfo` (377 zones and 217 links, as of 2021c)
-            * `ace_time::zonedbx::kZoneAfrica_Abidjan`
-            * `ace_time::zonedbx::kZoneAfrica_Accra`
-            * ...
-            * `ace_time::zonedbx::kZonePacific_Wake`
-            * `ace_time::zonedbx::kZonePacific_Wallis`
-    * ZoneId
-        * unique and stable `uint32_t` identifiers for each timezone
-        * Basic
+        * ZoneId (`uint32_t`)
             * `ace_time::zonedb::kZoneIdAfrica_Abidjan`
-            * `ace_time::zonedb::kZoneIdAfrica_Accra`
             * ...
-            * `ace_time::zonedb::kZoneIdPacific_Wake`
             * `ace_time::zonedb::kZoneIdPacific_Wallis`
-        * Extended
-            * `ace_time::zonedbx::kZoneIdAfrica_Abidjan`
-            * `ace_time::zonedbx::kZoneIdAfrica_Accra`
+        * ZoneName (`const char*`)
+            * `"Africa/Abidjan"`
             * ...
-            * `ace_time::zonedbx::kZoneIdPacific_Wake`
+            * `"Pacific/Wallis"`
+    * Extended (recommended for most cases)
+        * 596 zones and links as of 2023c
+        * ZoneInfo (`const ace_time::extended::ZoneInfo*`)
+            * `ace_time::zonedbx::kZoneAfrica_Abidjan`
+            * ...
+            * `ace_time::zonedbx::kZonePacific_Wallis`
+        * ZoneIds (`uint32_t`)
+            * `ace_time::zonedbx::kZoneIdAfrica_Abidjan`
+            * ...
             * `ace_time::zonedbx::kZoneIdPacific_Wallis`
+        * ZoneName (`const char*`)
+            * `"Africa/Abidjan"`
+            * ...
+            * `"Pacific/Wallis"`
+    * Complete (useful when full range of years is necessary)
+        * 596 zones and links as of 2023c
+        * ZoneInfo (`const ace_time::complete::ZoneInfo*`)
+            * `ace_time::zonedbc::kZoneAfrica_Abidjan`
+            * ...
+            * `ace_time::zonedbc::kZonePacific_Wallis`
+        * ZoneId (`uint32_t`)
+            * `ace_time::zonedbc::kZoneIdAfrica_Abidjan`
+            * ...
+            * `ace_time::zonedbc::kZoneIdPacific_Wallis`
+        * ZoneName (`const char*`)
+            * `"Africa/Abidjan"`
+            * ...
+            * `"Pacific/Wallis"`
 
 <a name="Validation"></a>
 ## Validation
@@ -471,24 +522,32 @@ The full documentation of the following classes are given in the
 The details of how the Date, Time and TimeZone classes are validated are given
 in [AceTimeValidation](https://github.com/bxparks/AceTimeValidation).
 
-The ZoneInfo Database and the algorithms in this library have been validated to
-match the UTC offsets calculated using other date/time libraries written in
-different programming languages:
+The ZoneInfo Database and the algorithms in this library were tested against
+other date/time libraries written in different programming languages. Some of
+these libraries match AceTime exactly. Other libraries contained bugs which
+prevented exact conformance with AceTime.
 
-* the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
+**Conformant**
+
+- the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
+  from year 1800 to 2200,
+- the GNU libc time functions (https://www.gnu.org/software/libc/libc.html)
+  library from 1800 to 2200 (exclusive)
+- the C# Noda Time (https://nodatime.org) library from 1800 to 2200 (exclusive)
+
+**Non Conformant**
+
+- the Python pytz (https://pypi.org/project/pytz/) library from the year 2000
   until 2038 (pytz cannot handle years after 2038),
-* the Python dateutil (https://pypi.org/project/python-dateutil/) library from
+- the Python dateutil (https://pypi.org/project/python-dateutil/) library from
   the year 2000 until 2037 (dateutil cannot handle years after 2038),
-* the Python 3.9 zoneinfo (https://docs.python.org/3/library/zoneinfo.html)
-  library from the year 2000 until 2100,
-* the Java JDK 11
+- the Python 3.9 zoneinfo (https://docs.python.org/3/library/zoneinfo.html)
+  library from the year 1800 until 2200,
+- the Java JDK 11
   [java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
   library from year 2000 until 2100,
-* the C++11/14/17 Hinnant date (https://github.com/HowardHinnant/date) library
-  from year 2000 to 2100,
-* the Go lang 1.19 `time` package (https://pkg.go.dev/time) in the standard
+- the Go lang 1.19 `time` package (https://pkg.go.dev/time) in the standard
   library from 2000 to 2100,
-* the C# Noda Time (https://nodatime.org) library from 2000 to 2100 (exclusive)
 
 <a name="ResourceConsumption"></a>
 ## Resource Consumption

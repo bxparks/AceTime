@@ -37,7 +37,7 @@
         * Add `zonedbc` database which is valid from `[1800,10000)`, which
           includes all transitions in the TZDB.
         * Add `--scope complete` to access the `zonedbc` database.
-    * Zone Processors
+    * Zone Processor with graceful degradation
         * Remove range checks against `ZoneContext.startYear()` and
           `ZoneContext.untilYear()`
         * Replace with hardcoded `LocalDate::kMinYear` and
@@ -47,11 +47,17 @@
           entire `int16_t` range.
         * Only the accuracy suffers outside of the `startYearAccurate()` and
          `untilYearAccurate()` limits.
-    * Rename `src/tzonedb*` directories to `src/zonedb*testing` for consistency
-      with other acetime libraries.
+        * Along with v2.2 which always generates anchor rules for all zone
+          policies, the `startYearAccureate()` and `untilYearAccurate()` allows
+          for graceful degradation of classes like `ZonedDateTime` for years
+          outside of this accuracy range.
+    * Rename `src/tzonedb*` directories
+        * to `src/zonedb*testing` for consistency with other acetime libraries
     * Move `ZoneContext`, `letters[]`, `fragments[]` into PROGMEM.
         * Move `zonedbXxx::kTzDatabaseVersion` string into PROGMEM, and change
           type to `const __FlashString*`.
+        * Create `ZoneContextBroker` class, for consistency with all other
+          XxxBroker classes.
         * Saves around 150-200 bytes of RAM on AVR processors,
           200-350 bytes of RAM on ESP8266.
     * Allow multi-character `ZoneRule.letter` in `BasicZoneProcessor`.
