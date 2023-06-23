@@ -85,7 +85,9 @@ namespace zonedb {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] ACE_TIME_PROGMEM = "2023c";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2023c";
+const __FlashStringHelper* const kTzDatabaseVersion =
+    (const __FlashStringHelper*) kVersionString;
 
 static const char kFragment1[] ACE_TIME_PROGMEM = "Africa/";
 static const char kFragment2[] ACE_TIME_PROGMEM = "America/";
@@ -139,7 +141,7 @@ const basic::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   32767 /*untilYearAccurate*/,
   2100 /*baseYear*/,
   6 /*maxTransitions*/,
-  kTzDatabaseVersion /*tzVersion*/,
+  kVersionString /*tzVersion*/,
   12 /*numFragments*/,
   6 /*numLetters*/,
   kFragments /*fragments*/,

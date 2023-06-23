@@ -79,6 +79,8 @@
 
 #include <zoneinfo/infos.h>
 
+class __FlashStringHelper;
+
 namespace ace_time {
 namespace zonedbc {
 
@@ -87,7 +89,7 @@ namespace zonedbc {
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
-extern const char kTzDatabaseVersion[];
+extern const __FlashStringHelper* const kTzDatabaseVersion;
 
 // Metadata about the zonedb files.
 extern const complete::ZoneContext kZoneContext;

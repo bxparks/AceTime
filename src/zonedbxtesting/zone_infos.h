@@ -81,6 +81,8 @@
 
 #include <zoneinfo/infos.h>
 
+class __FlashStringHelper;
+
 namespace ace_time {
 namespace zonedbxtesting {
 
@@ -89,7 +91,7 @@ namespace zonedbxtesting {
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
-extern const char kTzDatabaseVersion[];
+extern const __FlashStringHelper* const kTzDatabaseVersion;
 
 // Metadata about the zonedb files.
 extern const extended::ZoneContext kZoneContext;

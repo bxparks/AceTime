@@ -87,7 +87,9 @@ namespace zonedbtesting {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-const char kTzDatabaseVersion[] ACE_TIME_PROGMEM = "2023c";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2023c";
+const __FlashStringHelper* const kTzDatabaseVersion =
+    (const __FlashStringHelper*) kVersionString;
 
 
 const char* const kFragments[] ACE_TIME_PROGMEM = {
@@ -113,7 +115,7 @@ const basic::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
   32767 /*untilYearAccurate*/,
   2100 /*baseYear*/,
   6 /*maxTransitions*/,
-  kTzDatabaseVersion /*tzVersion*/,
+  kVersionString /*tzVersion*/,
   1 /*numFragments*/,
   3 /*numLetters*/,
   kFragments /*fragments*/,

@@ -50,6 +50,8 @@
     * Rename `src/tzonedb*` directories to `src/zonedb*testing` for consistency
       with other acetime libraries.
     * Move `ZoneContext`, `letters[]`, `fragments[]` into PROGMEM.
+        * Move `zonedbXxx::kTzDatabaseVersion` string into PROGMEM, and change
+          type to `const __FlashString*`.
         * Saves around 150-200 bytes of RAM on AVR processors,
           200-350 bytes of RAM on ESP8266.
     * Allow multi-character `ZoneRule.letter` in `BasicZoneProcessor`.
