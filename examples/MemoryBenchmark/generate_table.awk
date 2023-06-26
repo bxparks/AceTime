@@ -78,9 +78,9 @@ END {
   u[complete_sorter_by_offset_and_name]["d_ram"] -= u[complete_zone_manager]["d_ram"]
 
   printf(\
-    "+---------------------------------------------------------------------+\n")
+    "+----------------------------------------------------------------------+\n")
   printf(\
-    "| Functionality                          |  flash/  ram |       delta |\n")
+    "| Functionality                          |  flash/  ram |        delta |\n")
 
   for (i = 0; i <= NUM_FEATURES; i++) {
     name = labels[i]
@@ -93,10 +93,10 @@ END {
         || name ~ /^Complete TimeZone \(1 zone\)/ \
         || name ~ /^Complete ZoneSorterByName/) {
       printf(\
-    "|----------------------------------------+--------------+-------------|\n")
+    "|----------------------------------------+--------------+--------------|\n")
     }
 
-    printf("| %-38s | %6d/%5d | %5d/%5d |\n",
+    printf("| %-38s | %6d/%5d | %6d/%5d |\n",
         name, u[i]["flash"], u[i]["ram"], u[i]["d_flash"], u[i]["d_ram"])
   }
   printf(\

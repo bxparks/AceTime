@@ -316,7 +316,7 @@ ASCII table.
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Arduino AVR Boards 1.8.6
 
 ```
@@ -326,7 +326,7 @@ ASCII table.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -336,7 +336,7 @@ ASCII table.
 ## Seeed Studio XIAO SAMD21
 
 * SAMD21, 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.19, Arduino CLI 0.31.1
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Seeeduino SAMD Boards 1.8.4
 
 ```
@@ -346,7 +346,7 @@ ASCII table.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * STM32duino 2.5.0
 
 ```
@@ -356,7 +356,7 @@ ASCII table.
 ## SAMD51 (Adafruit ItsyBitsy M4)
 
 * SAMD51, 120 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Adafruit SAMD 1.7.11
 
 ```
@@ -365,7 +365,7 @@ ASCII table.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * ESP8266 Boards 3.0.2
 
 ```
@@ -375,14 +375,10 @@ ASCII table.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * ESP32 Boards 2.0.9
 
 ```
 {esp32_results}
 ```
-
-RAM usage remains constant as more objects are created, which indicates that an
-initial pool of a certain minimum size is created regardless of the actual RAM
-usage by objects.
 """)
