@@ -2,57 +2,92 @@ SIZEOF
 sizeof(LocalDate): 4
 sizeof(LocalTime): 4
 sizeof(LocalDateTime): 8
-sizeof(TimeOffset): 2
-sizeof(OffsetDateTime): 10
+sizeof(TimeOffset): 4
+sizeof(OffsetDateTime): 12
 sizeof(TimeZone): 12
 sizeof(TimeZoneData): 8
 sizeof(ZonedDateTime): 24
-sizeof(ZonedExtra): 16
+sizeof(ZonedExtra): 24
 sizeof(TimePeriod): 4
-sizeof(BasicZoneProcessor): 208
-sizeof(ExtendedZoneProcessor): 608
-sizeof(BasicZoneProcessorCache<1>): 216
-sizeof(ExtendedZoneProcessorCache<1>): 616
-sizeof(BasicZoneManager): 12
-sizeof(ExtendedZoneManager): 12
-sizeof(internal::ZoneContext): 24
-sizeof(basic::ZoneEra): 16
-sizeof(basic::ZoneInfo): 24
-sizeof(basic::ZoneRule): 12
-sizeof(basic::ZonePolicy): 8
-sizeof(basic::ZoneRegistrar): 8
-sizeof(BasicZoneProcessor::Transition): 36
-sizeof(ExtendedZoneProcessor::Transition): 52
-sizeof(ExtendedZoneProcessor::TransitionStorage): 452
-sizeof(ExtendedZoneProcessor::MatchingEra): 32
+Basic:
+  sizeof(basic::ZoneContext): 28
+  sizeof(basic::ZoneEra): 16
+  sizeof(basic::ZoneInfo): 24
+  sizeof(basic::ZoneRule): 9
+  sizeof(basic::ZonePolicy): 8
+  sizeof(basic::ZoneRegistrar): 8
+  sizeof(BasicZoneProcessor): 208
+  sizeof(BasicZoneProcessorCache<1>): 216
+  sizeof(BasicZoneManager): 12
+  sizeof(BasicZoneProcessor::Transition): 36
+Extended:
+  sizeof(extended::ZoneContext): 28
+  sizeof(extended::ZoneEra): 16
+  sizeof(extended::ZoneInfo): 24
+  sizeof(extended::ZoneRule): 9
+  sizeof(extended::ZonePolicy): 8
+  sizeof(extended::ZoneRegistrar): 8
+  sizeof(ExtendedZoneProcessor): 720
+  sizeof(ExtendedZoneProcessorCache<1>): 728
+  sizeof(ExtendedZoneManager): 12
+  sizeof(ExtendedZoneProcessor::Transition): 60
+  sizeof(ExtendedZoneProcessor::TransitionStorage): 516
+  sizeof(ExtendedZoneProcessor::MatchingEra): 44
+Complete:
+  sizeof(complete::ZoneContext): 28
+  sizeof(complete::ZoneEra): 20
+  sizeof(complete::ZoneInfo): 24
+  sizeof(complete::ZoneRule): 12
+  sizeof(complete::ZonePolicy): 8
+  sizeof(complete::ZoneRegistrar): 8
+  sizeof(CompleteZoneProcessor): 720
+  sizeof(CompleteZoneProcessorCache<1>): 728
+  sizeof(CompleteZoneManager): 12
+  sizeof(CompleteZoneProcessor::Transition): 60
+  sizeof(CompleteZoneProcessor::TransitionStorage): 516
+  sizeof(CompleteZoneProcessor::MatchingEra): 44
 BENCHMARKS
 EmptyLoop 1.200
 LocalDate::forEpochDays() 0.800
-LocalDate::toEpochDays() 0.250
+LocalDate::toEpochDays() 0.350
 LocalDate::dayOfWeek() 0.400
-OffsetDateTime::forEpochSeconds() 1.700
-OffsetDateTime::toEpochSeconds() 1.450
+OffsetDateTime::forEpochSeconds() 1.350
+OffsetDateTime::toEpochSeconds() 1.500
 ZonedDateTime::toEpochSeconds() 1.350
-ZonedDateTime::toEpochDays() 1.150
-ZonedDateTime::forEpochSeconds(UTC) 3.200
-ZonedDateTime::forEpochSeconds(Basic_nocache) 17.400
-ZonedDateTime::forEpochSeconds(Basic_cached) 3.550
-ZonedDateTime::forEpochSeconds(Extended_nocache) 47.250
-ZonedDateTime::forEpochSeconds(Extended_cached) 4.900
-ZonedDateTime::forComponents(Basic_nocache) 25.300
-ZonedDateTime::forComponents(Basic_cached) 11.400
-ZonedDateTime::forComponents(Extended_nocache) 35.950
-ZonedDateTime::forComponents(Extended_cached) 2.100
-ZonedExtra::forEpochSeconds(Basic_nocache) 16.150
-ZonedExtra::forEpochSeconds(Basic_cached) 1.400
-ZonedExtra::forEpochSeconds(Extended_nocache) 45.100
-ZonedExtra::forEpochSeconds(Extended_cached) 2.800
-ZonedExtra::forComponents(Basic_nocache) 24.150
-ZonedExtra::forComponents(Basic_cached) 10.300
-ZonedExtra::forComponents(Extended_nocache) 34.900
-ZonedExtra::forComponents(Extended_cached) 1.050
-BasicZoneManager::createForZoneName(binary) 3.050
-BasicZoneManager::createForZoneId(binary) 0.700
-BasicZoneManager::createForZoneId(linear) 2.850
+ZonedDateTime::toEpochDays() 1.100
+ZonedDateTime::forEpochSeconds(UTC) 1.950
+ZonedDateTime::forEpochSeconds(Basic_nocache) 23.100
+ZonedDateTime::forEpochSeconds(Basic_cached) 2.350
+ZonedDateTime::forEpochSeconds(Extended_nocache) 65.000
+ZonedDateTime::forEpochSeconds(Extended_cached) 4.000
+ZonedDateTime::forEpochSeconds(Complete_nocache) 74.500
+ZonedDateTime::forEpochSeconds(Complete_cached) 4.000
+ZonedDateTime::forComponents(Basic_nocache) 29.250
+ZonedDateTime::forComponents(Basic_cached) 9.650
+ZonedDateTime::forComponents(Extended_nocache) 51.700
+ZonedDateTime::forComponents(Extended_cached) 1.050
+ZonedDateTime::forComponents(Complete_nocache) 61.400
+ZonedDateTime::forComponents(Complete_cached) 1.050
+ZonedExtra::forEpochSeconds(Basic_nocache) 22.850
+ZonedExtra::forEpochSeconds(Basic_cached) 1.450
+ZonedExtra::forEpochSeconds(Extended_nocache) 63.900
+ZonedExtra::forEpochSeconds(Extended_cached) 2.900
+ZonedExtra::forEpochSeconds(Complete_nocache) 73.450
+ZonedExtra::forEpochSeconds(Complete_cached) 2.900
+ZonedExtra::forComponents(Basic_nocache) 29.450
+ZonedExtra::forComponents(Basic_cached) 9.850
+ZonedExtra::forComponents(Extended_nocache) 51.850
+ZonedExtra::forComponents(Extended_cached) 1.200
+ZonedExtra::forComponents(Complete_nocache) 61.550
+ZonedExtra::forComponents(Complete_cached) 1.150
+BasicZoneRegistrar::findIndexForName(binary) 3.050
+BasicZoneRegistrar::findIndexForIdBinary() 0.700
+BasicZoneRegistrar::findIndexForIdLinear() 2.850
+ExtendedZoneRegistrar::findIndexForName(binary) 3.050
+ExtendedZoneRegistrar::findIndexForIdBinary() 0.700
+ExtendedZoneRegistrar::findIndexForIdLinear() 2.800
+CompleteZoneRegistrar::findIndexForName(binary) 3.050
+CompleteZoneRegistrar::findIndexForIdBinary() 0.750
+CompleteZoneRegistrar::findIndexForIdLinear() 2.850
 Iterations_per_run 20000
 END

@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v2.2.3
+**Version**: AceTime v2.3-dev
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -222,6 +222,13 @@ The CPU times below are given in microseconds.
     * Seeeduino SAMD Boards 1.8.4
     * STM32duino Boards 2.5.0
     * ESP32 Boards 2.0.9
+
+**v2.3-dev**
+
+* Add benchmarks for `CompleteZoneProcessor` and related classes
+* Replace labels of `BasicZoneManager::createForXxx()` with
+  `BasicZoneRegistrar::findIndexForXxx()`, because those are the methods which
+  are actually being tested.
 
 ## Arduino Nano
 

@@ -66,7 +66,10 @@ END {
         || name ~ /^ZonedDateTime::forComponents\(Basic_nocache\)/ \
         || name ~ /^ZonedExtra::forEpochSeconds\(Basic_nocache\)/ \
         || name ~ /^ZonedExtra::forComponents\(Basic_nocache\)/ \
-        || name ~ /^BasicZoneManager::createForZoneName\(binary\)/) {
+        || name ~ /^BasicZoneRegistrar::findIndexForName\(binary\)/ \
+        || name ~ /^ExtendedZoneRegistrar::findIndexForName\(binary\)/ \
+        || name ~ /^CompleteZoneRegistrar::findIndexForName\(binary\)/ \
+      ) {
       printf(\
         "|--------------------------------------------------+----------|\n")
     }
