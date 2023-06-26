@@ -31,8 +31,8 @@ using namespace ace_time;
 #endif
 
 // ZoneProcessor instances should be created statically at initialization time.
-static BasicZoneProcessor losAngelesProcessor;
-static BasicZoneProcessor londonProcessor;
+static ExtendedZoneProcessor losAngelesProcessor;
+static ExtendedZoneProcessor londonProcessor;
 
 void setup() {
 #if ! defined(EPOXY_DUINO)
@@ -47,10 +47,10 @@ void setup() {
 
   // TimeZone objects are light-weight and can be created on the fly.
   TimeZone losAngelesTz = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles,
+      &zonedbx::kZoneAmerica_Los_Angeles,
       &losAngelesProcessor);
   TimeZone londonTz = TimeZone::forZoneInfo(
-      &zonedb::kZoneEurope_London,
+      &zonedbx::kZoneEurope_London,
       &londonProcessor);
 
   // Create from components. 2019-03-10T03:00:00 is just after DST change in
