@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_ZONED_EXTRA_H
 #define ACE_TIME_ZONED_EXTRA_H
 
-#include <string.h> // memcpy()
+#include <string.h> // strncpy()
 #include <stdint.h>
 #include "common/common.h" // acetime_t, kAbbrevSize
 #include "TimeOffset.h"
@@ -97,7 +97,7 @@ class ZonedExtra {
       , mReqDstOffsetSeconds(reqDstOffsetSeconds)
       , mType(type)
     {
-      memcpy(mAbbrev, abbrev, internal::kAbbrevSize);
+      strncpy(mAbbrev, abbrev, internal::kAbbrevSize - 1);
       mAbbrev[internal::kAbbrevSize - 1] = '\0';
     }
 
