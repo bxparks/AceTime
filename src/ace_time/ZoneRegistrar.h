@@ -12,8 +12,15 @@
 #include "../zoneinfo/brokers.h"
 
 // AutoBenchmark.ino
-void runIndexForZoneIdBinary();
-void runIndexForZoneIdLinear();
+void runBasicRegistrarFindIndexForName();
+void runBasicRegistrarFindIndexForIdBinary();
+void runBasicRegistrarFindIndexForIdLinear();
+void runExtendedRegistrarFindIndexForName();
+void runExtendedRegistrarFindIndexForIdBinary();
+void runExtendedRegistrarFindIndexForIdLinear();
+void runCompleteRegistrarFindIndexForName();
+void runCompleteRegistrarFindIndexForIdBinary();
+void runCompleteRegistrarFindIndexForIdLinear();
 
 // Tests
 class ZoneRegistrarTest_Sorted_isSorted;
@@ -107,8 +114,15 @@ class ZoneRegistrarTemplate {
     }
 
   protected:
-    friend void ::runIndexForZoneIdBinary();
-    friend void ::runIndexForZoneIdLinear();
+    friend void ::runBasicRegistrarFindIndexForName();
+    friend void ::runBasicRegistrarFindIndexForIdBinary();
+    friend void ::runBasicRegistrarFindIndexForIdLinear();
+    friend void ::runExtendedRegistrarFindIndexForName();
+    friend void ::runExtendedRegistrarFindIndexForIdBinary();
+    friend void ::runExtendedRegistrarFindIndexForIdLinear();
+    friend void ::runCompleteRegistrarFindIndexForName();
+    friend void ::runCompleteRegistrarFindIndexForIdBinary();
+    friend void ::runCompleteRegistrarFindIndexForIdLinear();
     friend class ::ZoneRegistrarTest_Sorted_isSorted;
     friend class ::ZoneRegistrarTest_Unsorted_isSorted;
     friend class ::ZoneRegistrarTest_Sorted_linearSearchById;

@@ -16,7 +16,7 @@
  *   runLocalDateToEpochDays(), reverted).
  *
  * * Sketch uses 28136 bytes (91%) of program storage space. Maximum is 30720
- *   bytes. (After creating a custom kBenchmarkZoneRegistry with only 83 zones.)
+ *   bytes. (After creating a custom kBasicRegistry with only 83 zones.)
  *
  * * Sketch uses 28036 bytes (91%) of program storage space. Maximum is 30720
  *   bytes. (After moving elapsedMillis calculation into printResult().
@@ -45,18 +45,22 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include "Benchmark.h"
-#include "zone_registry.h"
+#include "basic_registry.h"
+#include "extended_registry.h"
+#include "complete_registry.h"
 
 using namespace ace_time;
 using ace_common::PrintStr;
 
-// Sometimes, depending on the size of the AceTime library, the SparkFun
-// ProMicro does not have enough flash, so this allows us to disable
-// ExtendedZoneProcessor when needed.
+// AVR microcontrollers like the SparkFun ProMicro and Arduino Nano do not have
+// enough flash memory, so this allows us to enable the ExtendedZoneProcessor
+// and CompleteZoneProcessor only when needed.
 #if defined(ARDUINO_AVR_PROMICRO) || defined(ARDUINO_AVR_NANO)
   #define ENABLE_EXTENDED_ZONE_PROCESSOR 0
+  #define ENABLE_COMPLETE_ZONE_PROCESSOR 0
 #else
   #define ENABLE_EXTENDED_ZONE_PROCESSOR 1
+  #define ENABLE_COMPLETE_ZONE_PROCESSOR 1
 #endif
 
 #if defined(ARDUINO_ARCH_AVR)
@@ -64,9 +68,9 @@ const uint32_t COUNT = 1000;
 #elif defined(ARDUINO_ARCH_SAMD)
 const uint32_t COUNT = 5000;
 #elif defined(ARDUINO_ARCH_STM32)
-const uint32_t COUNT = 10000;
-#elif defined(ESP8266)
 const uint32_t COUNT = 5000;
+#elif defined(ESP8266)
+const uint32_t COUNT = 2000; // low enough to prevent WDT exception
 #elif defined(ESP32)
 const uint32_t COUNT = 20000;
 #elif defined(TEENSYDUINO)
@@ -365,7 +369,13 @@ static BasicZoneProcessor* basicZoneProcessor;
   static ExtendedZoneProcessor* extendedZoneProcessor;
 #endif
 
-// ZonedDateTime::forEpochSeconds(seconds, tz), uncached
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 1
+  static CompleteZoneProcessor* completeZoneProcessor;
+#endif
+
+//-----------------------------------------------------------------------------
+
+// ZonedDateTime::forEpochSeconds(seconds, tz), Basic uncached
 static void runZonedDateTimeForEpochSecondsBasicNoCache() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -386,7 +396,7 @@ static void runZonedDateTimeForEpochSecondsBasicNoCache() {
       forEpochSecondsMillis, emptyLoopMillis);
 }
 
-// ZonedDateTime::forEpochSeconds(seconds, tz), cached
+// ZonedDateTime::forEpochSeconds(seconds, tz), Basic cached
 static void runZonedDateTimeForEpochSecondsBasicCached() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -405,7 +415,7 @@ static void runZonedDateTimeForEpochSecondsBasicCached() {
       forEpochSecondsMillis, emptyLoopMillis);
 }
 
-// ZonedDateTime::forEpochSeconds(seconds, tz), uncached
+// ZonedDateTime::forEpochSeconds(seconds, tz), Extended uncached
 static void runZonedDateTimeForEpochSecondsExtendedNoCache() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_nocache)"));
@@ -431,7 +441,7 @@ static void runZonedDateTimeForEpochSecondsExtendedNoCache() {
 #endif
 }
 
-// ZonedDateTime::forEpochSeconds(seconds, tz), cached
+// ZonedDateTime::forEpochSeconds(seconds, tz), Extended cached
 static void runZonedDateTimeForEpochSecondsExtendedCached() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedDateTime::forEpochSeconds(Extended_cached)"));
@@ -455,9 +465,59 @@ static void runZonedDateTimeForEpochSecondsExtendedCached() {
 #endif
 }
 
+// ZonedDateTime::forEpochSeconds(seconds, tz), Complete uncached
+static void runZonedDateTimeForEpochSecondsCompleteNoCache() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Complete_nocache)"));
+
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+  offset = 0;
+
+  unsigned long forEpochSecondsMillis = runLambda([]() {
+    offset = (offset) ? 0 : kTwoYears;
+    fakeEpochSeconds = millis() + offset;
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
+        fakeEpochSeconds, tzLosAngeles);
+    disableOptimization(dateTime);
+  });
+
+  printResult(F("ZonedDateTime::forEpochSeconds(Complete_nocache)"),
+      forEpochSecondsMillis, emptyLoopMillis);
+#endif
+}
+
+// ZonedDateTime::forEpochSeconds(seconds, tz), Complete cached
+static void runZonedDateTimeForEpochSecondsCompleteCached() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedDateTime::forEpochSeconds(Complete_cached)"));
+
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+  fakeEpochSeconds = millis() & 0xffff;
+
+  unsigned long forEpochSecondsMillis = runLambda([]() {
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
+        fakeEpochSeconds, tzLosAngeles);
+    disableOptimization(dateTime);
+  });
+
+  printResult(F("ZonedDateTime::forEpochSeconds(Complete_cached)"),
+      forEpochSecondsMillis, emptyLoopMillis);
+#endif
+}
+
 //-----------------------------------------------------------------------------
 
-// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), uncached
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), Basic uncached
 static void runZonedDateTimeForComponentsBasicNoCache() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -476,7 +536,7 @@ static void runZonedDateTimeForComponentsBasicNoCache() {
       forComponentsMillis, emptyLoopMillis);
 }
 
-// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), cached
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), Basic cached
 static void runZonedDateTimeForComponentsBasicCached() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -495,7 +555,7 @@ static void runZonedDateTimeForComponentsBasicCached() {
       forComponentsMillis, emptyLoopMillis);
 }
 
-// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), uncached
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), Extended uncached
 static void runZonedDateTimeForComponentsExtendedNoCache() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedDateTime::forComponents(Extended_nocache)"));
@@ -519,7 +579,7 @@ static void runZonedDateTimeForComponentsExtendedNoCache() {
 #endif
 }
 
-// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), cached
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), Extended cached
 static void runZonedDateTimeForComponentsExtendedCached() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedDateTime::forComponents(Extended_cached)"));
@@ -543,9 +603,57 @@ static void runZonedDateTimeForComponentsExtendedCached() {
 #endif
 }
 
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), Complete uncached
+static void runZonedDateTimeForComponentsCompleteNoCache() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedDateTime::forComponents(Complete_nocache)"));
+
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+
+  unsigned long forComponentsMillis = runLambda([]() {
+    year = (year == 2000) ? 2002 : 2000;
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedDateTime dateTime = ZonedDateTime::forComponents(
+        year, 3, 1, 0, 0, 0, tzLosAngeles);
+    disableOptimization(dateTime);
+  });
+
+  printResult(F("ZonedDateTime::forComponents(Complete_nocache)"),
+      forComponentsMillis, emptyLoopMillis);
+#endif
+}
+
+// ZonedDateTime::forComponents(year, m, d, h, m, s, tz), Complete cached
+static void runZonedDateTimeForComponentsCompleteCached() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedDateTime::forComponents(Complete_cached)"));
+
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+  year = 2000;
+
+  unsigned long forComponentsMillis = runLambda([]() {
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedDateTime dateTime = ZonedDateTime::forComponents(
+        year, 3, 1, 0, 0, 0, tzLosAngeles);
+    disableOptimization(dateTime);
+  });
+
+  printResult(F("ZonedDateTime::forComponents(Complete_cached)"),
+      forComponentsMillis, emptyLoopMillis);
+#endif
+}
+
 //-----------------------------------------------------------------------------
 
-// ZonedExtra::forEpochSeconds(seconds, tz), uncached
+// ZonedExtra::forEpochSeconds(seconds, tz), Basic uncached
 static void runZonedExtraForEpochSecondsBasicNoCache() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -566,7 +674,7 @@ static void runZonedExtraForEpochSecondsBasicNoCache() {
       forEpochSecondsMillis, emptyLoopMillis);
 }
 
-// ZonedExtra::forEpochSeconds(seconds, tz), cached
+// ZonedExtra::forEpochSeconds(seconds, tz), Basic cached
 static void runZonedExtraForEpochSecondsBasicCached() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -585,7 +693,7 @@ static void runZonedExtraForEpochSecondsBasicCached() {
       forEpochSecondsMillis, emptyLoopMillis);
 }
 
-// ZonedExtra::forEpochSeconds(seconds, tz), uncached
+// ZonedExtra::forEpochSeconds(seconds, tz), Extended uncached
 static void runZonedExtraForEpochSecondsExtendedNoCache() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedExtra::forEpochSeconds(Extended_nocache)"));
@@ -611,7 +719,7 @@ static void runZonedExtraForEpochSecondsExtendedNoCache() {
 #endif
 }
 
-// ZonedExtra::forEpochSeconds(seconds, tz), cached
+// ZonedExtra::forEpochSeconds(seconds, tz), Extended cached
 static void runZonedExtraForEpochSecondsExtendedCached() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedExtra::forEpochSeconds(Extended_cached)"));
@@ -635,9 +743,59 @@ static void runZonedExtraForEpochSecondsExtendedCached() {
 #endif
 }
 
+// ZonedExtra::forEpochSeconds(seconds, tz), Complete uncached
+static void runZonedExtraForEpochSecondsCompleteNoCache() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedExtra::forEpochSeconds(Complete_nocache)"));
+
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+  offset = 0;
+
+  unsigned long forEpochSecondsMillis = runLambda([]() {
+    offset = (offset) ? 0 : kTwoYears;
+    fakeEpochSeconds = millis() + offset;
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedExtra extra = ZonedExtra::forEpochSeconds(
+        fakeEpochSeconds, tzLosAngeles);
+    disableOptimization(extra);
+  });
+
+  printResult(F("ZonedExtra::forEpochSeconds(Complete_nocache)"),
+      forEpochSecondsMillis, emptyLoopMillis);
+#endif
+}
+
+// ZonedExtra::forEpochSeconds(seconds, tz), Complete cached
+static void runZonedExtraForEpochSecondsCompleteCached() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedExtra::forEpochSeconds(Complete_cached)"));
+
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+  fakeEpochSeconds = millis() & 0xffff;
+
+  unsigned long forEpochSecondsMillis = runLambda([]() {
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedExtra extra = ZonedExtra::forEpochSeconds(
+        fakeEpochSeconds, tzLosAngeles);
+    disableOptimization(extra);
+  });
+
+  printResult(F("ZonedExtra::forEpochSeconds(Complete_cached)"),
+      forEpochSecondsMillis, emptyLoopMillis);
+#endif
+}
+
 //-----------------------------------------------------------------------------
 
-// ZonedExtra::forComponents(year, m, d, h, m, s, tz), uncached
+// ZonedExtra::forComponents(year, m, d, h, m, s, tz), Basic uncached
 static void runZonedExtraForComponentsBasicNoCache() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -656,7 +814,7 @@ static void runZonedExtraForComponentsBasicNoCache() {
       forComponentsMillis, emptyLoopMillis);
 }
 
-// ZonedExtra::forComponents(year, m, d, h, m, s, tz), cached
+// ZonedExtra::forComponents(year, m, d, h, m, s, tz), Basic cached
 static void runZonedExtraForComponentsBasicCached() {
 	BasicZoneProcessor processor;
   basicZoneProcessor = &processor;
@@ -675,7 +833,7 @@ static void runZonedExtraForComponentsBasicCached() {
       forComponentsMillis, emptyLoopMillis);
 }
 
-// ZonedExtra::forComponents(year, m, d, h, m, s, tz), uncached
+// ZonedExtra::forComponents(year, m, d, h, m, s, tz), Extended uncached
 static void runZonedExtraForComponentsExtendedNoCache() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedExtra::forComponents(Extended_nocache)"));
@@ -699,7 +857,7 @@ static void runZonedExtraForComponentsExtendedNoCache() {
 #endif
 }
 
-// ZonedExtra::forComponents(year, m, d, h, m, s, tz), cached
+// ZonedExtra::forComponents(year, m, d, h, m, s, tz), Extended cached
 static void runZonedExtraForComponentsExtendedCached() {
 #if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
   printNullResult(F("ZonedExtra::forComponents(Extended_cached)"));
@@ -723,24 +881,65 @@ static void runZonedExtraForComponentsExtendedCached() {
 #endif
 }
 
-//-----------------------------------------------------------------------------
+// ZonedExtra::forComponents(year, m, d, h, m, s, tz), Complete uncached
+static void runZonedExtraForComponentsCompleteNoCache() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedExtra::forComponents(Complete_nocache)"));
 
-// This sketch is small enough to run on an Arduino Nano with about ~32kB. It
-// currently squeezes just under the ~30kB limit for a SparkFun Pro Micro.
-// "Sketch uses 28394 bytes (99%) of program storage space. Maximum is 28672
-// bytes."
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+
+  unsigned long forComponentsMillis = runLambda([]() {
+    year = (year == 2000) ? 2002 : 2000;
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedExtra extra = ZonedExtra::forComponents(
+        year, 3, 1, 0, 0, 0, tzLosAngeles);
+    disableOptimization(extra);
+  });
+
+  printResult(F("ZonedExtra::forComponents(Complete_nocache)"),
+      forComponentsMillis, emptyLoopMillis);
+#endif
+}
+
+// ZonedExtra::forComponents(year, m, d, h, m, s, tz), Complete cached
+static void runZonedExtraForComponentsCompleteCached() {
+#if ENABLE_COMPLETE_ZONE_PROCESSOR == 0
+  printNullResult(F("ZonedExtra::forComponents(Complete_cached)"));
+
+#else
+	CompleteZoneProcessor processor;
+  completeZoneProcessor = &processor;
+  year = 2000;
+
+  unsigned long forComponentsMillis = runLambda([]() {
+    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+        &zonedbc::kZoneAmerica_Los_Angeles,
+        completeZoneProcessor);
+    ZonedExtra extra = ZonedExtra::forComponents(
+        year, 3, 1, 0, 0, 0, tzLosAngeles);
+    disableOptimization(extra);
+  });
+
+  printResult(F("ZonedExtra::forComponents(Complete_cached)"),
+      forComponentsMillis, emptyLoopMillis);
+#endif
+}
+
+//-----------------------------------------------------------------------------
 
 basic::ZoneRegistrar* basicZoneRegistrar;
 
-static void runIndexForZoneName() {
-  basic::ZoneRegistrar registrar(
-      kBenchmarkZoneRegistrySize,
-      kBenchmarkZoneRegistry);
+void runBasicRegistrarFindIndexForName() {
+  basic::ZoneRegistrar registrar(kBasicRegistrySize, kBasicRegistry);
   basicZoneRegistrar = &registrar;
 
   unsigned long runMillis = runLambda([]() {
     PrintStr<40> printStr;
-    uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
+    uint16_t randomIndex = random(kBasicRegistrySize);
     const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     BasicZone(info).printNameTo(printStr);
@@ -754,7 +953,7 @@ static void runIndexForZoneName() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     PrintStr<40> printStr;
-    uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
+    uint16_t randomIndex = random(kBasicRegistrySize);
     const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     BasicZone(info).printNameTo(printStr);
@@ -768,19 +967,17 @@ static void runIndexForZoneName() {
     disableOptimization((uint32_t) tmp);
   });
 
-  printResult(F("BasicZoneManager::createForZoneName(binary)"), runMillis,
+  printResult(F("BasicZoneRegistrar::findIndexForName(binary)"), runMillis,
       emptyLoopMillis);
 }
 
 // non-static to allow friend access into basic::ZoneRegistrar
-void runIndexForZoneIdBinary() {
-	basic::ZoneRegistrar registrar(
-      kBenchmarkZoneRegistrySize,
-      kBenchmarkZoneRegistry);
+void runBasicRegistrarFindIndexForIdBinary() {
+	basic::ZoneRegistrar registrar(kBasicRegistrySize, kBasicRegistry);
   basicZoneRegistrar = &registrar;
 
   unsigned long runMillis = runLambda([]() {
-    uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
+    uint16_t randomIndex = random(kBasicRegistrySize);
     const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     uint32_t zoneId = BasicZone(info).zoneId();
@@ -793,7 +990,7 @@ void runIndexForZoneIdBinary() {
   });
 
   unsigned long emptyLoopMillis = runLambda([]() {
-    uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
+    uint16_t randomIndex = random(kBasicRegistrySize);
     const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     uint32_t zoneId = BasicZone(info).zoneId();
@@ -801,20 +998,18 @@ void runIndexForZoneIdBinary() {
     disableOptimization(zoneId);
   });
 
-  printResult(F("BasicZoneManager::createForZoneId(binary)"), runMillis,
+  printResult(F("BasicZoneRegistrar::findIndexForIdBinary()"), runMillis,
       emptyLoopMillis);
 }
 
 // non-static to allow friend access into basic::ZoneRegistrar
-void runIndexForZoneIdLinear() {
-	basic::ZoneRegistrar registrar(
-      kBenchmarkZoneRegistrySize,
-      kBenchmarkZoneRegistry);
+void runBasicRegistrarFindIndexForIdLinear() {
+	basic::ZoneRegistrar registrar(kBasicRegistrySize, kBasicRegistry);
   basicZoneRegistrar = &registrar;
 
   unsigned long runMillis = runLambda([]() {
-    uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
-    const basic::ZoneInfo* info = kBenchmarkZoneRegistry[randomIndex];
+    uint16_t randomIndex = random(kBasicRegistrySize);
+    const basic::ZoneInfo* info = kBasicRegistry[randomIndex];
     uint32_t zoneId = BasicZone(info).zoneId();
 
     uint16_t index = basicZoneRegistrar->findIndexForIdLinear(zoneId);
@@ -822,15 +1017,261 @@ void runIndexForZoneIdLinear() {
   });
 
   unsigned long emptyLoopMillis = runLambda([]() {
-    uint16_t randomIndex = random(kBenchmarkZoneRegistrySize);
-    const basic::ZoneInfo* info = kBenchmarkZoneRegistry[randomIndex];
+    uint16_t randomIndex = random(kBasicRegistrySize);
+    const basic::ZoneInfo* info = kBasicRegistry[randomIndex];
     uint32_t zoneId = BasicZone(info).zoneId();
 
     disableOptimization(zoneId);
   });
 
-  printResult(F("BasicZoneManager::createForZoneId(linear)"), runMillis,
+  printResult(F("BasicZoneRegistrar::findIndexForIdLinear()"), runMillis,
       emptyLoopMillis);
+}
+
+//-----------------------------------------------------------------------------
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 1
+extended::ZoneRegistrar* extendedZoneRegistrar;
+#endif
+
+void runExtendedRegistrarFindIndexForName() {
+  const __FlashStringHelper* const label =
+      F("ExtendedZoneRegistrar::findIndexForName(binary)");
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(label);
+
+#else
+
+  extended::ZoneRegistrar registrar(kExtendedRegistrySize, kExtendedRegistry);
+  extendedZoneRegistrar = &registrar;
+
+  unsigned long runMillis = runLambda([]() {
+    PrintStr<40> printStr;
+    uint16_t randomIndex = random(kExtendedRegistrySize);
+    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    ExtendedZone(info).printNameTo(printStr);
+
+    uint16_t index = extendedZoneRegistrar->findIndexForName(printStr.cstr());
+    if (index == extended::ZoneRegistrar::kInvalidIndex) {
+      SERIAL_PORT_MONITOR.println(F("Not found"));
+    }
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda([]() {
+    PrintStr<40> printStr;
+    uint16_t randomIndex = random(kExtendedRegistrySize);
+    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    ExtendedZone(info).printNameTo(printStr);
+
+    uint16_t len = printStr.length();
+    const char* s = printStr.cstr();
+    uint32_t tmp = s[0]
+      + ((len > 1) ? ((uint32_t) s[1] << 8) : 0)
+      + ((len > 2) ? ((uint32_t) s[2] << 16) : 0)
+      + ((len > 3) ? ((uint32_t) s[3] << 24) : 0);
+    disableOptimization((uint32_t) tmp);
+  });
+
+  printResult(label, runMillis, emptyLoopMillis);
+#endif
+}
+
+// non-static to allow friend access into extended::ZoneRegistrar
+void runExtendedRegistrarFindIndexForIdBinary() {
+  const __FlashStringHelper* const label =
+      F("ExtendedZoneRegistrar::findIndexForIdBinary()");
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(label);
+
+#else
+	extended::ZoneRegistrar registrar(kExtendedRegistrySize, kExtendedRegistry);
+  extendedZoneRegistrar = &registrar;
+
+  unsigned long runMillis = runLambda([]() {
+    uint16_t randomIndex = random(kExtendedRegistrySize);
+    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    uint16_t index = extendedZoneRegistrar->findIndexForIdBinary(zoneId);
+    if (index == extended::ZoneRegistrar::kInvalidIndex) {
+      SERIAL_PORT_MONITOR.println(F("Not found"));
+    }
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda([]() {
+    uint16_t randomIndex = random(kExtendedRegistrySize);
+    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    disableOptimization(zoneId);
+  });
+
+  printResult(label, runMillis, emptyLoopMillis);
+#endif
+}
+
+// non-static to allow friend access into extended::ZoneRegistrar
+void runExtendedRegistrarFindIndexForIdLinear() {
+  const __FlashStringHelper* const label =
+      F("ExtendedZoneRegistrar::findIndexForIdLinear()");
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(label);
+
+#else
+	extended::ZoneRegistrar registrar(kExtendedRegistrySize, kExtendedRegistry);
+  extendedZoneRegistrar = &registrar;
+
+  unsigned long runMillis = runLambda([]() {
+    uint16_t randomIndex = random(kExtendedRegistrySize);
+    const extended::ZoneInfo* info = kExtendedRegistry[randomIndex];
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    uint16_t index = extendedZoneRegistrar->findIndexForIdLinear(zoneId);
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda([]() {
+    uint16_t randomIndex = random(kExtendedRegistrySize);
+    const extended::ZoneInfo* info = kExtendedRegistry[randomIndex];
+    uint32_t zoneId = ExtendedZone(info).zoneId();
+
+    disableOptimization(zoneId);
+  });
+
+  printResult(label, runMillis, emptyLoopMillis);
+#endif
+}
+
+//-----------------------------------------------------------------------------
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 1
+complete::ZoneRegistrar* completeZoneRegistrar;
+#endif
+
+void runCompleteRegistrarFindIndexForName() {
+  const __FlashStringHelper* const label =
+      F("CompleteZoneRegistrar::findIndexForName(binary)");
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(label);
+
+#else
+
+  complete::ZoneRegistrar registrar(kCompleteRegistrySize, kCompleteRegistry);
+  completeZoneRegistrar = &registrar;
+
+  unsigned long runMillis = runLambda([]() {
+    PrintStr<40> printStr;
+    uint16_t randomIndex = random(kCompleteRegistrySize);
+    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    CompleteZone(info).printNameTo(printStr);
+
+    uint16_t index = completeZoneRegistrar->findIndexForName(printStr.cstr());
+    if (index == complete::ZoneRegistrar::kInvalidIndex) {
+      SERIAL_PORT_MONITOR.println(F("Not found"));
+    }
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda([]() {
+    PrintStr<40> printStr;
+    uint16_t randomIndex = random(kCompleteRegistrySize);
+    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    CompleteZone(info).printNameTo(printStr);
+
+    uint16_t len = printStr.length();
+    const char* s = printStr.cstr();
+    uint32_t tmp = s[0]
+      + ((len > 1) ? ((uint32_t) s[1] << 8) : 0)
+      + ((len > 2) ? ((uint32_t) s[2] << 16) : 0)
+      + ((len > 3) ? ((uint32_t) s[3] << 24) : 0);
+    disableOptimization((uint32_t) tmp);
+  });
+
+  printResult(label, runMillis, emptyLoopMillis);
+#endif
+}
+
+// non-static to allow friend access into complete::ZoneRegistrar
+void runCompleteRegistrarFindIndexForIdBinary() {
+  const __FlashStringHelper* const label =
+      F("CompleteZoneRegistrar::findIndexForIdBinary()");
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(label);
+
+#else
+	complete::ZoneRegistrar registrar(kCompleteRegistrySize, kCompleteRegistry);
+  completeZoneRegistrar = &registrar;
+
+  unsigned long runMillis = runLambda([]() {
+    uint16_t randomIndex = random(kCompleteRegistrySize);
+    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    uint32_t zoneId = CompleteZone(info).zoneId();
+
+    uint16_t index = completeZoneRegistrar->findIndexForIdBinary(zoneId);
+    if (index == complete::ZoneRegistrar::kInvalidIndex) {
+      SERIAL_PORT_MONITOR.println(F("Not found"));
+    }
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda([]() {
+    uint16_t randomIndex = random(kCompleteRegistrySize);
+    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
+        randomIndex);
+    uint32_t zoneId = CompleteZone(info).zoneId();
+
+    disableOptimization(zoneId);
+  });
+
+  printResult(label, runMillis, emptyLoopMillis);
+#endif
+}
+
+// non-static to allow friend access into complete::ZoneRegistrar
+void runCompleteRegistrarFindIndexForIdLinear() {
+  const __FlashStringHelper* const label =
+      F("CompleteZoneRegistrar::findIndexForIdLinear()");
+
+#if ENABLE_EXTENDED_ZONE_PROCESSOR == 0
+  printNullResult(label);
+
+#else
+	complete::ZoneRegistrar registrar(kCompleteRegistrySize, kCompleteRegistry);
+  completeZoneRegistrar = &registrar;
+
+  unsigned long runMillis = runLambda([]() {
+    uint16_t randomIndex = random(kCompleteRegistrySize);
+    const complete::ZoneInfo* info = kCompleteRegistry[randomIndex];
+    uint32_t zoneId = CompleteZone(info).zoneId();
+
+    uint16_t index = completeZoneRegistrar->findIndexForIdLinear(zoneId);
+    disableOptimization(index);
+  });
+
+  unsigned long emptyLoopMillis = runLambda([]() {
+    uint16_t randomIndex = random(kCompleteRegistrySize);
+    const complete::ZoneInfo* info = kCompleteRegistry[randomIndex];
+    uint32_t zoneId = CompleteZone(info).zoneId();
+
+    disableOptimization(zoneId);
+  });
+
+  printResult(label, runMillis, emptyLoopMillis);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -853,25 +1294,41 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsBasicCached();
   runZonedDateTimeForEpochSecondsExtendedNoCache();
   runZonedDateTimeForEpochSecondsExtendedCached();
+  runZonedDateTimeForEpochSecondsCompleteNoCache();
+  runZonedDateTimeForEpochSecondsCompleteCached();
 
   runZonedDateTimeForComponentsBasicNoCache();
   runZonedDateTimeForComponentsBasicCached();
   runZonedDateTimeForComponentsExtendedNoCache();
   runZonedDateTimeForComponentsExtendedCached();
+  runZonedDateTimeForComponentsCompleteNoCache();
+  runZonedDateTimeForComponentsCompleteCached();
 
   runZonedExtraForEpochSecondsBasicNoCache();
   runZonedExtraForEpochSecondsBasicCached();
   runZonedExtraForEpochSecondsExtendedNoCache();
   runZonedExtraForEpochSecondsExtendedCached();
+  runZonedExtraForEpochSecondsCompleteNoCache();
+  runZonedExtraForEpochSecondsCompleteCached();
 
   runZonedExtraForComponentsBasicNoCache();
   runZonedExtraForComponentsBasicCached();
   runZonedExtraForComponentsExtendedNoCache();
   runZonedExtraForComponentsExtendedCached();
+  runZonedExtraForComponentsCompleteNoCache();
+  runZonedExtraForComponentsCompleteCached();
 
-  runIndexForZoneName();
-  runIndexForZoneIdBinary();
-  runIndexForZoneIdLinear();
+  runBasicRegistrarFindIndexForName();
+  runBasicRegistrarFindIndexForIdBinary();
+  runBasicRegistrarFindIndexForIdLinear();
+
+  runExtendedRegistrarFindIndexForName();
+  runExtendedRegistrarFindIndexForIdBinary();
+  runExtendedRegistrarFindIndexForIdLinear();
+
+  runCompleteRegistrarFindIndexForName();
+  runCompleteRegistrarFindIndexForIdBinary();
+  runCompleteRegistrarFindIndexForIdLinear();
 
   SERIAL_PORT_MONITOR.print(F("Iterations_per_run "));
   SERIAL_PORT_MONITOR.println(COUNT);
