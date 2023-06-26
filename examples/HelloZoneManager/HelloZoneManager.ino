@@ -24,7 +24,7 @@ using namespace ace_time;
 // performance penalties.
 //
 // Using an ExtendedZoneManager with the entire zonedbx::kZoneAndLinkRegistry
-// consumes ~39kB of flash memory (AVR) and ~49kB (ESP8266). This program no
+// consumes ~44kB of flash memory (AVR) and ~51kB (ESP8266). This program no
 // longer fits on an Arduino Nano. It may be possible to make it fit using the
 // BasicZoneManager and using zonedb::kZoneAndLinkRegistry (~24kB on AVR), or
 // zonedb::kZoneRegistry (~19kB on AVR).
