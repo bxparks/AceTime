@@ -74,11 +74,12 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Breaking Changes in v2.2**: `TimeZone` class is immutable. Affects fixed
-offsets of type `kTypeManual`. See [Migrating to
-v2.2.0](MIGRATING.md#MigratingToVersion220) for details.
+**Major Changes in v2.3**: Add `CompleteZoneProcessor`, `CompleteZoneManager`,
+and the `zonedbc` database to support all timezones, for all transitions defined
+in the IANA TZ database (`[1844,2087]), and extending the validity of timezone
+calculations from `[2000,10000)` to `[0001,10000)`.
 
-**Version**: 2.3-dev (2023-06-26, TZDB version 2023c)
+**Version**: 2.3.0 (2023-06-27, TZDB version 2023c)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 

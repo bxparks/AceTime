@@ -1,28 +1,48 @@
 # Changelog
 
 * Unreleased
-    * Rename `BrokerFactory` to `ZoneInfoStore` for better self-documentation.
-        * This is an internal implementation detail. Downstream clients should
-          not be affected.
+* 2.3.0 (2023-06-27, TZDB version 2023c)
+    * Create [CustomZoneRegistry](examples/CustomZoneRegistry/) example
+      to illustrate how to use a custom registry.
     * Update `BasicZoneManager` to detect gaps.
         * Allows `AceTimeValidation/validation` tests to pass.
         * Still not able to distinguish between exact and overlap though.
-    * Simplify zoneinfo classes and related brokers.
-        * Merge `zoneinfo/ZonePolicy.h` into `zoneinfo/ZoneInfo.h`.
-        * Convert structs in `zoneinfo/ZoneInfo.inc` into templates, with
-          synthetic `typename S` selector. Merge `ZoneInfo.inc` into
-          `ZoneInfo.h`.
+    * Allow multi-character `ZoneRule.letter` in `BasicZoneProcessor`.
+        * Regenerate `zonedb` which enables 2 more zones: `/Africa/Windhoek`,
+          and `America/Belize`
+        * Increases `zonedb` by 150-200 bytes.
+    * Rename `BrokerFactory` to `ZoneInfoStore` for better self-documentation.
+        * This is an internal implementation detail. Downstream clients should
+          not be affected.
+    * `ZoneContext`
+        * Move `ZoneContext`, `letters[]`, `fragments[]` into PROGMEM.
+        * Move `zonedbXxx::kTzDatabaseVersion` string into PROGMEM, and change
+          type to `const __FlashString*`.
         * Create `ZoneContextBroker` around `ZoneContext`, for consistency
           with all other zoneinfo data structures. Merge `ZoneContext.h` into
           `ZoneInfo.h`.
         * Add `startYearAccurate` and `untilYearAccurate` to `ZoneContext` which
           define the interval of accurate transitions.
+        * Saves around 150-200 bytes of RAM on AVR processors,
+          200-350 bytes of RAM on ESP8266.
+    * Cleanly separate zoneinfo storage classes from their brokers classes.
+        * Three storage implementations instead of one: `zoneinfolow`,
+          `zoneinfomid`, `zoneinfohigh`, supporting low, middle, and high time
+          resolutions.
+        * `zoneinfohigh` was created to support `CompleteZoneProcessor`,
+          `CompleteZoneManager` and the `zonedbc` database.
+        * `zoneinfomid` initially used in `ExtendedZoneProcessor`, but now
+          unused.
+        * Merge `zoneinfo/ZonePolicy.h` into `zoneinfo/ZoneInfo.h`.
+        * Convert structs in `zoneinfo/ZoneInfo.inc` into templates, with
+          synthetic `typename S` selector. Merge `ZoneInfo.inc` into
+          `ZoneInfo.h`.
     * Support timezones before 1972 using `CompleteZoneManager`,
       `CompleteZoneProcessor`, and `zonedbc` database
-        * Before standardizing on UTC, many timezones had local times offsets
-          from UTC which require one-second resolution instead of one-minute
-          resolution. This requires changing many internal variables from
-          `int16_t` to `int32_t`.
+        * Before standardizing on UTC around 1970, many timezones had local
+          times offsets from UTC which require one-second resolution instead of
+          one-minute resolution. This requires changing many internal variables
+          from `int16_t` to `int32_t`.
         * Change `TimeOffset` to support one-second resolution using `int32_t`.
         * Rename `BasicZone::stdOffseMinutes()` to `BasicZone::stdOffset()`
           which returns a `TimeOffset` object.
@@ -35,13 +55,14 @@
         * Add `CompleteZoneManager`, `CompleteZoneProcessor`,
           `CompleteZoneProcessorCache`, `CompleteZone`
         * Add `zonedbc` database which is valid from `[1800,10000)`, which
-          includes all transitions in the TZDB.
-        * Add `--scope complete` to access the `zonedbc` database.
+          includes all transitions in the TZDB since the first transition is
+          1844.
+        * Add `scope=complete` to access the `zonedbc` database.
     * Zone Processor with graceful degradation
         * Remove range checks against `ZoneContext.startYear()` and
           `ZoneContext.untilYear()`
-        * Replace with hardcoded `LocalDate::kMinYear` and
-          `LocalDate::kMaxYear`, mostly for formatting reasons (prevent negative
+        * Replace with `LocalDate::kMinYear` and `LocalDate::kMaxYear`, mostly
+          for formatting reasons (prevent negative
           years, and years with more than 4 digits).
         * The zone processors will always return something reasonble across the
           entire `int16_t` range.
@@ -53,17 +74,6 @@
           outside of this accuracy range.
     * Rename `src/tzonedb*` directories
         * to `src/zonedb*testing` for consistency with other acetime libraries
-    * Move `ZoneContext`, `letters[]`, `fragments[]` into PROGMEM.
-        * Move `zonedbXxx::kTzDatabaseVersion` string into PROGMEM, and change
-          type to `const __FlashString*`.
-        * Create `ZoneContextBroker` class, for consistency with all other
-          XxxBroker classes.
-        * Saves around 150-200 bytes of RAM on AVR processors,
-          200-350 bytes of RAM on ESP8266.
-    * Allow multi-character `ZoneRule.letter` in `BasicZoneProcessor`.
-        * Regenerate `zonedb` which enables 2 more zones: `/Africa/Windhoek`,
-          and `America/Belize`
-        * Increases `zonedb` by 150-200 bytes.
 * 2.2.3 (2023-05-31, TZDB version 2023c)
     * Update `ace_time/testing/*` classes to support splitting the test data
       into 2 separate lists: `transitions` and `samples`.

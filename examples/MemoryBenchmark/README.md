@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v2.3-dev
+**Version**: AceTime v2.3.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -238,7 +238,7 @@ ASCII table.
     * STM32duino Boards 2.5.0
     * ESP32 Boards 2.0.9
 
-**v2.3-dev**
+**v2.3.0**
 * Implement 1-second resolution in ExtendedZoneProcessor (decoupled from
   zonedbx storage format).
     * Increases flash usage by ~1kB on 8-bit processors, but only 0-100 bytes

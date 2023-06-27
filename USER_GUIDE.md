@@ -20,7 +20,7 @@ or `[0001,10000)` (`zonedbc`). By adjusting the `currentEpochYear()`, the
 library will work across any 100-120 year interval straddling the current epoch
 year, across the 8000 to 10000 year range of the TZ database.
 
-**Version**: 2.3-dev (2023-06-26, TZDB 2023c)
+**Version**: 2.3.0 (2023-06-27, TZDB 2023c)
 
 **Related Documents**:
 
