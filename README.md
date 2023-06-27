@@ -977,7 +977,7 @@ These boards should work but I don't test them as often:
 
 **Tier 3: May work, but not supported**
 
-* Other SAMD21 based boards.
+* Other SAMD21 based boards, e.g Arduino Zero
     * SAMD21 based boards are now split into 2 groups:
         * Those using the new ArduinoCore-API, usually Arduino-branded
         boards. These are explicitly blacklisted. See below.
@@ -1034,9 +1034,8 @@ the EpoxyDuino (https://github.com/bxparks/EpoxyDuino) emulation layer.
 <a name="OperatingSystem"></a>
 ### Operating System
 
-I use Ubuntu 18.04 and 20.04 for the vast majority of my development. I expect
-that the library will work fine under MacOS and Windows, but I have not tested
-them.
+I use Ubuntu 22.04 for the vast majority of my development. I expect that the
+library will work fine under MacOS and Windows, but I have not tested them.
 
 <a name="Motivation"></a>
 ## Motivation and Design Considerations
