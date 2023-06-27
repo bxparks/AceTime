@@ -9,16 +9,14 @@ sets the epoch to be `{year}-01-01T00:00:00 UTC`.
 The epoch seconds is represented by an `int32_t` integer (instead of an
 `int64_t` used in most modern timezone libraries) to save resources on 8-bit
 processors without native 64-bit integer instructions. The range of a 32-bit
-integer is about 132 years which allows most features of the AceTime library to
-work across at least a 100-year (probably as large as 120-year) interval
-straddling the current epoch year.
+integer is about 136 years which allows most features of the AceTime library to
+work across at least about a 120-year interval straddling the current epoch
+year.
 
-The IANA TZ database is programmatically generated into the `src/zonedb`,
-`src/zonedbx`, and `src/zonedbc` subdirectories from the raw IANA TZ files. The
-database entries are valid from the years `[2000,10000)` (`zonedb`, `zonedbx`)
-or `[0001,10000)` (`zonedbc`). By adjusting the `currentEpochYear()`, the
-library will work across any 100-120 year interval straddling the current epoch
-year, across the 8000 to 10000 year range of the TZ database.
+The IANA TZ database is programmatically generated into 3 predefined databases:
+`src/zonedb`, `src/zonedbx`, and `src/zonedbc` subdirectories. Different
+databases have different accuracy ranges, and are designed to work with
+different `ZoneProcessor` and `ZoneManager` classes.
 
 **Version**: 2.3.0 (2023-06-27, TZDB 2023c)
 
@@ -102,20 +100,23 @@ year, across the 8000 to 10000 year range of the TZ database.
 
 The Date, Time, and TimeZone classes provide an abstraction layer to make it
 easier to use and manipulate date and time fields, in different time zones. It
-is difficult to organize the various parts of this library in the most easily
+is difficult to organize the various parts of this library in an easily
 digestible way, but perhaps they can be categorized into three parts:
 
 * Simple Date and Time classes for converting date and time fields to and
-  from the "epoch seconds",
-* TimeZone related classes which come in 2 forms:
-    * classes that extend the simple Date and Time classes that account for time
-      zones which can be described in a time zone database (e.g. `TimeZone`,
-     `ZonedDateTime`, `ZoneProcessor`)
-    * classes and types that manage the TZ Database and provide access to its
-      data (e.g. `ZoneManager`, `ZoneInfo`, `ZoneId`)
-* The ZoneInfo Database generated from the IANA TZ Database that contains UTC
-  offsets and the rules for determining when DST transitions occur for a
-  particular time zone
+  from the "epoch seconds", for example:
+    - `acetime_t`
+    - `LocalDate`, `LocalTime`, `LocalDateTime`, `OffsetDateTime`
+    - `TimeOffset`, `TimePeriod`
+* TimeZone related classes, for example:
+    - `TimeZone`, `ZoneInfo`
+    - `ZonedDateTime`, `ZonedExtra`
+    - `BasicZoneProcessor`, `ExtendedZoneProcessor`, `CompleteZoneProcessor`
+    - `BasicZoneManager`, `ExtendedZoneManager`, `CompleteZoneManager`
+* ZoneInfo Databases generated from the IANA TZ Database
+    * contains UTC offsets and the DST transition rules
+    * `zonedb/`, `zonedbx/`, `zonedbc/` databases
+    * registries: `kZoneRegistry`, `kZoneAndLinkRegistry`
 
 <a name="DateAndTimeOverview"></a>
 ### Date and Time Overview
@@ -158,10 +159,11 @@ Most timezone related functions of the library use the `int32_t` epochseconds
 for its internal calculations, so the date range should be constrained to +/- 68
 years of the current epoch. The timezone calculations require some additional
 buffers at the edges of the range (1-3 years), so the actual range of validity
-is about +/- 65 years. To be very conservative, client applications are advised
-to limit the date range to about 100 years, in other words, about +/- 50 years
-from the current epoch year. Using the default epoch year of 2050, the
-recommended range is `[2000,2100)`.
+is about +/- 65 years. To be conservative, client applications are advised to
+limit the date range to about 100-120 years, in other words, about +/- 50 to 60
+years from the current epoch year. Using the default epoch year of 2050, the
+recommended range is `[2000,2100)` because a 100-year interval is easy to
+remember.
 
 <a name="TimeZoneOverview"></a>
 ### TimeZone Overview
@@ -223,8 +225,8 @@ Three slightly different sets of ZoneInfo entries are generated:
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAfrica_Casablanca`)
 * [zonedbc/zone_infos.h](src/zonedbc/zone_infos.h)
     * intended for `CompleteZoneProcessor` or `CompleteZoneManager`
-    * all 596 (as of version 2023c) in the IANA TZ Database
-      over the vast years of `[0001,10000)`
+    * all 596 (as of version 2023c) in the IANA TZ Database over the years of
+      `[0001,10000)`
     * contains `kZone*` declarations (e.g. `kZoneAfrica_Casablanca`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAfrica_Casablanca`)
 
@@ -337,7 +339,7 @@ with several major differences:
 It is possible to convert between a `time_t` and an `acetime_t` by adding or
 subtracting the number of seconds between the 2 Epoch dates. This value is given
 by `Epoch::secondsToCurrentEpochFromUnixEpoch64()` which returns an `int64_t`
-value to allow epoch years greater than 2038. If the date is within +/- 50 years
+value to allow epoch years greater than 2038. If the date is within +/- 60 years
 of the current epoch year, then the resulting epoch seconds will fit inside a
 `int32_t` integer. Helper methods are available on various classes to avoid
 manual conversion between these 2 epochs: `forUnixSeconds64()` and
@@ -3344,8 +3346,8 @@ Serial.println(dt.isError() ? "true" : "false");
       dates that can be represented by `acetime_t` is theoretically
       1981-12-13T20:45:53 UTC to 2118-01-20T03:14:07 UTC (inclusive).
     * To be conservative, users of this library should limit the range of the
-      epoch seconds to +/- 50 years of the current epoch, in other words,
-      `[2000,2100)`.
+      epoch seconds to +/- 60 years of the current epoch, in other words,
+      `[1990,2110)`, or even easier to remember, `[2000,2100)`.
 * `LocalDate`, `LocalDateTime`
     * The class checks that the `year` component in the range of `[0,
       10000]`, which is a smaller range than the `[-32767,32765]` range
@@ -3390,8 +3392,8 @@ Serial.println(dt.isError() ? "true" : "false");
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `ZonedDateTime` objects should remain within roughly +/- 50 years (maybe +/-
-  60 years) of the current AceTime Epoch.
+* `ZonedDateTime` objects should remain within roughly +/- 60 years of the
+  current AceTime Epoch.
     * Otherwise, internal integer variables may overflow without warning
       and incorrect results may be calculated.
     * The internal time zone calculations use the same `int32_t` type as the

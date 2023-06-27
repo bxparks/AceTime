@@ -6,36 +6,33 @@
 The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" from the AceTime Epoch (default 2050-01-01 UTC) to
 human-readable local date and time fields. Those classes can also convert local
-date and time between different time zones, properly accounting for all DST
-transitions from the year 2000 until 2100. The library has mechanisms to extend
-the range of useful years.
+date and time between different time zones defined by the [IANA TZ
+database](https://www.iana.org/time-zones) while accurately accounting for DST
+transitions.
 
 The default AceTime epoch is 2050-01-01, but it can be adjusted by the client
 application at runtime. The epoch second has the type `acetime_t` which is a
 32-bit signed integer, instead of a 64-bit signed integer. Using the smaller
-32-bit integer allows the library to be efficient on 8-bit and 32-bit
-microcontrollers with limited memory resources, and without native 64-bit
-integer instructions. The range of a 32-bit signed integer is about 136 years.
-AceTime timezone functions will be valid at a minimum over a 100-year interval
-straddling +/- 50 years of the `Epoch::currentEpochYear()`, subject to the
-accuracy limits of the given ZoneInfo Database. In practice, the range of
-validity is probably at least +/- 60 years, or even +/- 65 years, but boundary
-effects at the larger intervals are more likely.
+32-bit integer allows the library to use less CPU and memory resources on 8-bit
+and 32-bit microcontrollers without native 64-bit integer instructions. The
+range of a 32-bit integer is about 136 years. To be safe, AceTime timezone
+functions should be kept well within the bounds of this interval, for example,
+straddling roughly +/- 60 years of the `Epoch::currentEpochYear()`.
 
-The library provides 3 pre-generated ZoneInfo Databases which
-are programmatically extracted from the [IANA TZ
-database](https://www.iana.org/time-zones):
+The library provides 3 pre-generated ZoneInfo Databases which are
+programmatically extracted from the IANA TZ database:
 
-- [zonedb](src/zonedb) (basic, not usually recommended)
-    - valid over the years `[2000,10000)`
+- [zonedb](src/zonedb) ("basic", not usually recommended)
+    - accurate over the years `[2000,10000)`
     - contains a subset of zones (~450) compatible with `BasicZoneProcessor`
       and `BasicZoneManager`
-- [zonedbx](src/zonedbx) (extended, recommended for most situations)
-    - valid over the years `[2000,10000)`
+- [zonedbx](src/zonedbx) ("extended", recommended for most situations)
+    - accurate over the years `[2000,10000)`
     - contains all zones and links (~600) in the IANA TZ database
     - compatible with `ExtendedZoneProcessor` and `ExtendedZoneManager`
-- [zonedbc](src/zonedbc) (complete, mostly for validation testing, new in v2.3)
-    - valid over the years `[0001,10000)`
+- [zonedbc](src/zonedbc) ("complete", mostly intended for validation testing,
+  new in v2.3)
+    - accurate over the years `[0001,10000)`
     - contains all zones and links (~600) the IANA TZ database
     - compatible with `CompleteZoneProcessor` and `CompleteZoneManager`
 
