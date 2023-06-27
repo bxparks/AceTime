@@ -12,6 +12,7 @@ library.
     * [Storage Layer](#StorageLayer)
     * [Broker Layer](#BrokerLayer)
     * [ZoneDb Files](#ZoneDbFiles)
+        * [ZoneContext](#ZoneContext)
         * [ZoneInfo and ZoneEra](#ZoneInfoZoneEra)
         * [ZonePolicy and ZoneRule](#ZonePolicyZoneRule)
         * [ZoneRegistry](#ZoneRegistry)
@@ -284,6 +285,51 @@ Each `zonedb*/` directory contains the following files:
 * `zone_policies.h`, `zone_policies.cpp`
 * `zone_registry.h`, `zone_registry.cpp`
 
+<a name="ZoneContext"></a>
+#### ZoneContext
+
+There is a single `ZoneContext kZoneContext` record included in the
+`zone_infos.h` and `zone_infos.cpp` files. The record and its related data could
+have been placed in a separate file (e.g. `zone_context.h,cpp`), but they are
+relatively small so I avoided creating the overhead of generating separate
+files.
+
+The `ZoneContext` provides a number of common parameters for all `ZoneInfo`
+records. Each `ZoneInfo` record (see below) has a reference to a `ZoneContext`
+record. The fields of the `ZoneContext` class are defined in
+
+- [ZoneInfoLow.h](src/zoneinfo/ZoneInfoLow.h)
+- [ZoneInfoMid.h](src/zoneinfo/ZoneInfoMid.h)
+- [ZoneInfoHigh.h](src/zoneinfo/ZoneInfoHigh.h)
+
+The `ZoneContext::tzVersion` field is also available as a direct variable named
+`kTzDatabaseVersion` in the appropriate namespace for the database: (`zonedb::`,
+`zonedbx::`, `zonedbc::`). This allows the TZ version to be retrieved without
+having to having to hop across multiple wrapper classes: first get a `ZoneInfo`,
+then wrap it around its  `ZoneInfoBroker`, call `ZoneInfoBroker::zoneContext()`,
+to retrieve a `ZoneContextBroker`, which finally allows calling the
+`ZoneContextBroker::tzVersion()` method.
+
+The `letters[]` and `fragments[]` string arrays are stored in flash memory using
+`PROGMEM`, in addition to storing the actual strings themselves in `PROGMEM`.
+
+There is no equivalent `formats[]` array in `ZoneContext`. Instead each `format`
+string is stored in the `ZoneEra` record as a pointer. This is because each
+`ZoneEra.format` string is relatively unique, so there did not seem to be much
+room to save memory through deduplication. Also, adding the `formats[]` array
+into `ZoneContext` would incorporate the entire set of `formats[]` into flash
+memory even if only a limited number of timezones were selected through a custom
+zone registry. That would increase the flash size for applications using a small
+number of zones, while decreasing the flash size for applications using the
+default zone registries (`kZoneRegistry` or `kZoneAndLinkRegistry`). But the
+advantage of collecting all the `format` strings into a common pool would be
+that all those strings would be in `PROGMEM` flash memory, instead of normal
+static memory. This would save RAM memory on AVR processors when large number of
+zones are compiled into the application. It might be worth investigating the 2
+implementations and comparing the flash and static memory usage patterns to
+determine if it's worth moving the `format` strings to `formats[]` array in the
+`ZoneContext`.
+
 <a name="ZoneInfoZoneEra"></a>
 #### ZoneInfo and ZoneEra
 
@@ -297,12 +343,6 @@ transformations are applied to create an valid C++ identifier. For example, all
 dashes `-` are converted to underscore `_`. As an exception, the `+` character
 is converted to `_PLUS_` to differentiate "Etc/GMT+1" from "Etc/GMT-1", and so
 on.
-
-The `kTzDatabaseVersion` string constant identifies the version of the TZ
-Database that was used to generate these files, e.g. "2023c".
-
-The `kZoneContext` variable points to an instance of `xxx::ZoneContext`
-which identifies the `startYear` and `untilYear` of the current database.
 
 Near end of the `zone_info.h` file, we list the zones which were deliberately
 excluded by the tool. Also at the end of the `zone_info.h` file, there may be
