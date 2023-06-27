@@ -78,7 +78,7 @@ This library can be an alternative to the Arduino Time
 offsets of type `kTypeManual`. See [Migrating to
 v2.2.0](MIGRATING.md#MigratingToVersion220) for details.
 
-**Version**: 2.2.3 (2023-05-31, TZDB version 2023c)
+**Version**: 2.3-dev (2023-06-26, TZDB version 2023c)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 

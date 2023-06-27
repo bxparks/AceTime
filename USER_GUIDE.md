@@ -15,12 +15,12 @@ straddling the current epoch year.
 
 The IANA TZ database is programmatically generated into the `src/zonedb`,
 `src/zonedbx`, and `src/zonedbc` subdirectories from the raw IANA TZ files. The
-database entries are valid from the years `[2000,10000)` (zonedb, zonedbx) or
-`[0001,10000)` (zonedbc). By adjusting the `currentEpochYear()`, the library
-will work across any 100-120 year interval across the 8000 to 10000 year range
-of the TZ database.
+database entries are valid from the years `[2000,10000)` (`zonedb`, `zonedbx`)
+or `[0001,10000)` (`zonedbc`). By adjusting the `currentEpochYear()`, the
+library will work across any 100-120 year interval straddling the current epoch
+year, across the 8000 to 10000 year range of the TZ database.
 
-**Version**: 2.2.3 (2023-05-31, TZDB 2023c)
+**Version**: 2.3-dev (2023-06-26, TZDB 2023c)
 
 **Related Documents**:
 
@@ -1726,7 +1726,7 @@ The `ZoneManager` solves these problems by implementing 2 features:
 <a name="ClassHierarchy"></a>
 #### Class Hierarchy
 
-Three implementations of the `ZoneManager` are provided. Prior to v1.9, they
+Four implementations of the `ZoneManager` are provided. Prior to v1.9, they
 were organized into a hierarchy with a top-level `ZoneManager` interface with
 pure virtual functions. However, in v1.9, the top-level `ZoneManager` interface
 was removed and all functions became nonvirtual. This saves about 1100-1200
@@ -1826,13 +1826,23 @@ included in the `<AceTime.h>` header:
 
 * [zonedb/zone_registry.h](src/zonedb/zone_registry.h)
     * Zones and Links supported by `BasicZoneManager`
-    * `ace_time::zonedb` namespace
+    * `ace_time::zonedb::kZoneAndLinkRegistry`
+    * `ace_time::zonedb::kZoneAndLinkRegistrySize`
 * [zonedbx/zone_registry.h](src/zonedbx/zone_registry.h)
     * Zones and Links supported by `ExtendedZoneManager`
-    * `ace_time::zonedbx` namespace
+    * `ace_time::zonedbx::kZoneAndLinkRegistry`
+    * `ace_time::zonedbx::kZoneAndLinkRegistrySize`
 * [zonedbc/zone_registry.h](src/zonedbx/zone_registry.h)
     * Zones and Links supported by `CompleteZoneManager`
-    * `ace_time::zonedbc` namespace
+    * `ace_time::zonedbc::kZoneAndLinkRegistry`
+    * `ace_time::zonedbc::kZoneAndLinkRegistrySize`
+
+Each database also defines a smaller registry named `kZoneRegistry` and
+`kZoneRegistrySize`. These contain only the Zone entries from the IANA TZ
+database, not the Link entries. However, for the perspective of the end-user,
+there is no difference between a Zone entry and a Link entry. Therefore, I
+recommend that client applications always use the `kZoneAndLinkRegistry` to
+support all timezone identifiers defined by the IANA TZ database.
 
 <a name="ZoneProcessorCache"></a>
 #### ZoneProcessorCache
@@ -1860,20 +1870,17 @@ application is expected to use *at the same time*. If your app never changes its
 time zone after initialization, then this can be `<1>` (although in this case,
 you may not even want to use the `ZoneManager`). If your app allows the user to
 dynamically change the time zone (e.g. from a menu of time zones), then this
-should be at least `<2>` (to allow the system to compare the old time zone to
-the new time zone selected by the user). In general, the `CACHE_SIZE` should be
-set to the number of timezones displayed to the user concurrently, plus an
-additional 1 if the user is able to change the timezone dynamically.
+should be at least `<2>`. This allows the system to maintain 2 active
+`ZoneProcessors` to quickly compare the old time zone to the new time zone
+selected by the user. In general, the `CACHE_SIZE` should be set to the number
+of timezones displayed to the user concurrently, plus an additional 1 if the
+user is able to change the timezone dynamically.
 
 <a name="ZoneManagerCreation"></a>
 #### ZoneManager Creation
 
-If you decide to use the default registries, there are 4 possible configurations
-of the ZoneManager constructors as shown below. The following also shows the
-number of zones and links supported by each configuration, as well as the flash
-memory consumption of each configuration, as determined by
-[MemoryBenchmark](examples/MemoryBenchmark). These numbers are correct as of
-v1.6 with TZDB version 2021a:
+The ZoneManager object (except for `ManualZoneManager`) is initialized with
+a zone registry and its zone cache, like this:
 
 ```C++
 static const uint8_t CACHE_SIZE = 2; // tuned for application
@@ -1942,9 +1949,10 @@ void someFunction() {
 }
 ```
 
-I think the only time the `createForZoneName()` might be useful is if
-the user was allowed to type in the zone name, and you wanted to create a
-`TimeZone` from the string typed in by the user.
+I think the only time the `createForZoneName()` would be necessary is when the
+user is allowed to type in the zone name, or the timezone name is provided by an
+outside source (e.g. text of date-time components) and the `TimeZone` needs to
+be created from the user-provided string.
 
 <a name="CreateForZoneId"></a>
 #### createForZoneId()
@@ -2382,16 +2390,16 @@ defined in the `zoneinfo/ZoneInfoXxx.h` header files:
 
 * `ZoneContext`
 * `ZoneRule`
-* `ZonePolicy`: a collection of `ZoneRule`
+* `ZonePolicy`: referencing a collection of `ZoneRule`
 * `ZoneEra`
-* `ZoneInfo`: a collection of `ZoneEra`
+* `ZoneInfo`: referencing a collection of `ZoneEra`
 
-In v2.3, three versions of these ZoneInfo records were created, to
-support the 3 different zonedb types:
+In v2.3, three versions of these ZoneInfo records were created, to support the 3
+different zonedb types:
 
-* `src/zoneinfo/ZoneInfoLow.h` - low resolution
-* `src/zoneinfo/ZoneInfoMed.h` - medium resolution
-* `src/zoneinfo/ZoneInfoHigh.h` - high resolution
+* `ace_time::basic::ZoneXxx` - used with `BasicZoneProcessor`
+* `ace_time::extended::ZoneXxx` - used with `ExtendedZoneProcessor`
+* `ace_time::complete::ZoneXxx` - used with `CompleteZoneProcessor`
 
 Information stored in `PROGMEM` must be retrieved using special functions (e.g.
 `pgm_read_byte()`, `pgm_read_word()`, etc). A thin layer of indirection is
@@ -2403,6 +2411,8 @@ abstraction layer is provided by `zoneinfo/Brokers.h`:
 * `ZonePolicyBroker`
 * `ZoneEraBroker`
 * `ZoneInfoBroker`
+* `ZoneRegistryBroker`
+* `ZoneInfoStore` - a factory of `ZoneInfoBroker`
 
 There are 3 sets of these broker classes, duplicated into 2 different C++
 namespaces:
@@ -2412,7 +2422,7 @@ namespaces:
 * `ace_time::complete::ZoneXxxBroker`
 
 The separate namespaces allows compile-time verification that the correct
-`zonedb[x]` database is used with the correct `BasicZoneProcessor`,
+`zonedb*` database is used with the correct `BasicZoneProcessor`,
 `ExtendedZoneProcessor`, or `CompleteZoneProcessor`.
 
 <a name="ZoneDB"></a>
@@ -2421,15 +2431,15 @@ The separate namespaces allows compile-time verification that the correct
 There are 6 zonedb databases provided in this library. Three are meant for
 general consumption:
 
-* `zonedb`: for `BasicZoneProcessor`
-* `zonedbx`: for `ExtendedZoneProcessor`
-* `zonedbc`: for `CompleteZoneProcessor`
+* `zonedb` for `BasicZoneProcessor`
+* `zonedbx` for `ExtendedZoneProcessor`
+* `zonedbc` for `CompleteZoneProcessor`
 
 These 3 are meant for unit tests:
 
-* `zonedbtesting`: for BasicZoneProcessor
-* `zonedbxtesting`: for ExtendedZoneProcessor
-* `zonedbctesting`: for CompleteZoneProcessor
+* `zonedbtesting` for `BasicZoneProcessor`
+* `zonedbxtesting` for `ExtendedZoneProcessor`
+* `zonedbctesting` for `CompleteZoneProcessor`
 
 <a name="BasicZonedb"></a>
 #### Basic zonedb
@@ -2445,15 +2455,13 @@ summarized in [BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
 
 * the year fields are stores as 8-bit integer offsets (from a base year of 2100)
   instead of using the full 16-bit integer
-    * this limits the year range from 1974 to 2225 inclusive,
-    * for most embedded applications, this should not be severely limiting
-* the DST offset is a multiple of 15-minutes (all current timezones satisfy
-  this)
-* the STDOFF offset is a multiple of 1-minute (all current timezones
+    * this limits the year range to `[1974,2225]`
+* the DST offset is a multiple of 15-minutes ranging from -1:00 to 2:45
+* the STDOFF offset is a multiple of 1-minute (all timezones after year 2000
   satisfy this)
 * the AT or UNTIL fields must occur at one-year boundaries (this is the biggest
   filter)
-* the LETTER field must contain only a single character
+* the LETTER field can be an arbitrary string
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
@@ -2465,17 +2473,21 @@ and Links (out of a total of 596), supporting the years roughly `[2000,2200]`.
 
 The goal of the `zonedbx/` database is to support all zones listed in the TZ
 Database for modern years using the `ExtendedZoneProcessor` and
-`ExtendedZoneManager` classes. The year range is restricted to be or after the
-year 2000 to the year 32766.
+`ExtendedZoneManager` classes. The year range is restricted to `[2000,32765]`.
 
+* the year fields are stores as 8-bit integer offsets (from a base year of 2100)
+  instead of using the full 16-bit integer
+    * this limits the year range to `[1974,2225]`
 * the DST offset is a multiple of 15-minutes ranging from -1:00 to 2:45
   (all timezones from about 1972 support this)
-* the STDOFF offset is a multiple of 1-minute
+* the STDOFF offset is a multiple of 1-minute (all timezones after year 2000
+  satisfy this)
 * the AT and UNTIL fields are multiples of 1-minute
+* the UNTIL time suffix can be 'w', 's, or 'u'
 * the LETTER field can be an arbitrary string
 
 As of version v2.3 (with TZDB 2022c), the `zonedbx` database contains all 596
-Zones and Links, over all years in the range of `[2000,32766]`.
+Zones and Links, over all years in the range of `[2000,32765]`.
 
 <a name="CompleteZonedbc"></a>
 #### Complete zonedbc
@@ -2485,10 +2497,13 @@ Database, for all years in that database, from 1844 onwards without limit,
 using the `CompleteZoneProcessor` and the `CompleteZoneManager` classes. This is
 the largest of the 3 zonedb databases. Its features are:
 
+* the year fields are stored as 16-bit signed integers, which allows any year
+  from `[-32767,32765]` (-32768, +32766, +32767 are used for internal purposes)
 * the DST offset can be a multiple of 1-minute, which is satisfied by all
   timezones across all years
 * the STDOFF ofset can be an arbitrary multiple of 1-second
 * the AT and UNTIL fields can be an arbitrary multiple of 1-second
+* the UNTIL time suffix can be 'w', 's, or 'u'
 * the LETTER field can be an arbitrary string
 
 As of version v2.3 (with TZDB 2023c), the `zonedbc` database contains all 596
@@ -2753,20 +2768,20 @@ zones from the `zonedbx::` data set:
 #include <AceTime.h>
 using namespace ace_time;
 ...
-static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
+static const extended::ZoneInfo* const kCustomRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Los_Angeles,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Chicago,
   &zonedbx::kZoneAmerica_New_York,
 };
 
-static const uint16_t kZoneRegistrySize =
-    sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
+static const uint16_t kCustomRegistrySize =
+    sizeof(kCustomRegistry) / sizeof(extended::ZoneInfo*);
 
 static const uint16_t CACHE_SIZE = 2;
 static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 static ExtendedZoneManager zoneManager(
-    kZoneRegistrySize, kZoneRegistry, zoneProcessorCache);
+    kCustomRegistrySize, kCustomRegistry, zoneProcessorCache);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
@@ -2775,7 +2790,11 @@ entries are stored in normal RAM or flash memory (i.e. `PROGMEM`). It **must**
 be used for custom zoneRegistries because the ZoneManagers expect to find them
 in static RAM or flash memory according to this macro.
 
-See examples in various unit tests:
+An example is shown in:
+
+* [examples/CustomZoneRegistry](examples/CustomZoneRegistry)
+
+Various unit tests also use custom registries:
 
 * [tests/ZoneRegistrarTest](tests/ZoneRegistrarTest)
 * [tests/TimeZoneTest](tests/TimeZoneTest)
@@ -3253,6 +3272,7 @@ bool LocalDateTime::isError() const;
 bool OffsetDatetime::isError() const;
 bool ZonedDateTime::isError() const;
 bool TimeOffset::isError() const;
+bool TimeZone::isError() const;
 ```
 
 A well-crafted application should check for these error conditions before

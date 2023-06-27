@@ -136,7 +136,7 @@ by each set:
     * medium resolution persistence format
         * 1-minute resolution for AT, UNTIL, STDOFF; 15-minute resolution for
           DST offset)
-        * 2-byte year fields supporting years `[-32767,32766]`
+        * 2-byte year fields supporting years `[-32767,32765]`
     * `zoneinfomid::ZoneContext<>`
     * `zoneinfomid::ZoneRule<>`
     * `zoneinfomid::ZonePolicy<>`
@@ -145,7 +145,7 @@ by each set:
 * `ZoneInfoHigh.h`
     * high resolution persistence format
         * 1-second resolution for AT, UNTIL, STDOFF, and DST offsets
-        * 2-byte year fields supporting years `[-32767,32766]`
+        * 2-byte year fields supporting years `[-32767,32765]`
     * `zoneinfohigh::ZoneContext<>`
     * `zoneinfohigh::ZoneRule<>`
     * `zoneinfohigh::ZonePolicy<>`
