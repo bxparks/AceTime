@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['prev_631',['prev',['../structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html#a8ad9753b06d605affa441ca051f9cc6e',1,'ace_time::extended::TransitionForDateTimeTemplate']]],
-  ['prevmatch_632',['prevMatch',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#a4ac51091d609bee6d54607d59c26f1d8',1,'ace_time::extended::MatchingEraTemplate']]]
+  ['offsetcode_700',['offsetCode',['../structace__time_1_1zoneinfohigh_1_1ZoneEra.html#ac1847dd9133a84e23dd631ac3a409346',1,'ace_time::zoneinfohigh::ZoneEra::offsetCode()'],['../structace__time_1_1zoneinfolow_1_1ZoneEra.html#aa1f9d6e7c1e9509e3ea991a82533de03',1,'ace_time::zoneinfolow::ZoneEra::offsetCode()'],['../structace__time_1_1zoneinfomid_1_1ZoneEra.html#ae6d5dc8e0195cefba160cc040a244e8b',1,'ace_time::zoneinfomid::ZoneEra::offsetCode()']]],
+  ['offsetminutes_701',['offsetMinutes',['../structace__time_1_1basic_1_1TransitionTemplate.html#aa5921648ab30c46ac806db1913866481',1,'ace_time::basic::TransitionTemplate']]],
+  ['offsetremainder_702',['offsetRemainder',['../structace__time_1_1zoneinfohigh_1_1ZoneEra.html#aadfa49d648a4cc655a3a3cf95d52f867',1,'ace_time::zoneinfohigh::ZoneEra']]],
+  ['offsetseconds_703',['offsetSeconds',['../structace__time_1_1extended_1_1TransitionTemplate.html#a190b27d79a82643e36feda0800fac78d',1,'ace_time::extended::TransitionTemplate']]],
+  ['ondayofmonth_704',['onDayOfMonth',['../structace__time_1_1zoneinfohigh_1_1ZoneRule.html#a7a6eebdd9eb12d84d4ed1c385e5657f6',1,'ace_time::zoneinfohigh::ZoneRule::onDayOfMonth()'],['../structace__time_1_1zoneinfolow_1_1ZoneRule.html#afdb0927bf1f68d68bf60cd66ae4090d1',1,'ace_time::zoneinfolow::ZoneRule::onDayOfMonth()'],['../structace__time_1_1zoneinfomid_1_1ZoneRule.html#af06f5d5f39cc5953ccc5a459ca68975e',1,'ace_time::zoneinfomid::ZoneRule::onDayOfMonth()']]],
+  ['ondayofweek_705',['onDayOfWeek',['../structace__time_1_1zoneinfohigh_1_1ZoneRule.html#aec71c31d310a7eb2d315302cd472869d',1,'ace_time::zoneinfohigh::ZoneRule::onDayOfWeek()'],['../structace__time_1_1zoneinfolow_1_1ZoneRule.html#a8daf7007d07ce4f75b7b346c5d92054a',1,'ace_time::zoneinfolow::ZoneRule::onDayOfWeek()'],['../structace__time_1_1zoneinfomid_1_1ZoneRule.html#a350bb3e05cd1305b153eb45a9aaa7fe8',1,'ace_time::zoneinfomid::ZoneRule::onDayOfWeek()']]]
 ];

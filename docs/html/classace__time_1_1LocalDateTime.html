@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -199,12 +199,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7009318e9e3934c7ec480442a6ea0a4c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a7009318e9e3934c7ec480442a6ea0a4c">forDateString</a> (const char *dateString)</td></tr>
 <tr class="memdesc:a7009318e9e3934c7ec480442a6ea0a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1LocalDateTime.html#a7009318e9e3934c7ec480442a6ea0a4c">More...</a><br /></td></tr>
 <tr class="separator:a7009318e9e3934c7ec480442a6ea0a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a165bb7c96c7936fe23ae1032b7f1217a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a165bb7c96c7936fe23ae1032b7f1217a">forDateString</a> (const __FlashStringHelper *dateString)</td></tr>
+<tr class="memdesc:a165bb7c96c7936fe23ae1032b7f1217a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1LocalDateTime.html#a165bb7c96c7936fe23ae1032b7f1217a">More...</a><br /></td></tr>
+<tr class="separator:a165bb7c96c7936fe23ae1032b7f1217a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad14a21540e27fad838c798ede040d480"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#ad14a21540e27fad838c798ede040d480">forDateStringChainable</a> (const char *&amp;dateString)</td></tr>
 <tr class="memdesc:ad14a21540e27fad838c798ede040d480"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant of <a class="el" href="classace__time_1_1LocalDateTime.html#a7009318e9e3934c7ec480442a6ea0a4c" title="Factory method.">forDateString()</a> that updates the pointer to the next unprocessed character.  <a href="classace__time_1_1LocalDateTime.html#ad14a21540e27fad838c798ede040d480">More...</a><br /></td></tr>
 <tr class="separator:ad14a21540e27fad838c798ede040d480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01cc56a01909d115b6b46bc3802a8cfa"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a01cc56a01909d115b6b46bc3802a8cfa">forDateString</a> (const __FlashStringHelper *dateString)</td></tr>
-<tr class="memdesc:a01cc56a01909d115b6b46bc3802a8cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method.  <a href="classace__time_1_1LocalDateTime.html#a01cc56a01909d115b6b46bc3802a8cfa">More...</a><br /></td></tr>
-<tr class="separator:a01cc56a01909d115b6b46bc3802a8cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e238445e0b676f3a166e5bdc3794aa9"><td class="memItemLeft" align="right" valign="top"><a id="a5e238445e0b676f3a166e5bdc3794aa9"></a>
 static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDateTime.html#a5e238445e0b676f3a166e5bdc3794aa9">forError</a> ()</td></tr>
 <tr class="memdesc:a5e238445e0b676f3a166e5bdc3794aa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory method that returns an instance where <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> returns true. <br /></td></tr>
@@ -221,7 +221,7 @@ Friends</h2></td></tr>
 <p>It is an aggregation of the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> and <a class="el" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z...">LocalTime</a> classes.</p>
 <p>Parts of this class were inspired by the java.time.LocalDateTime class of Java 11 (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html</a>). The 'fold' parameter was inspired by the datetime package in Python 3.6. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00031">31</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00030">30</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a258117e35f7f6b063fd969b57385b90f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a258117e35f7f6b063fd969b57385b90f">&#9670;&nbsp;</a></span>LocalDateTime()</h2>
@@ -249,7 +249,7 @@ Friends</h2></td></tr>
 <p>Constructor. </p>
 <p>All internal fields are left in an undefined state. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00165">165</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00148">148</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -281,7 +281,7 @@ Friends</h2></td></tr>
 <p>Compare 'this' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> with 'that' <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, and return (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'. </p>
 <p>If either this-&gt;<a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the behavior is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00275">275</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00258">258</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -363,12 +363,12 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00045">45</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00044">44</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
-<a id="a01cc56a01909d115b6b46bc3802a8cfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01cc56a01909d115b6b46bc3802a8cfa">&#9670;&nbsp;</a></span>forDateString() <span class="overload">[1/2]</span></h2>
+<a id="a165bb7c96c7936fe23ae1032b7f1217a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a165bb7c96c7936fe23ae1032b7f1217a">&#9670;&nbsp;</a></span>forDateString() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -377,7 +377,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> ace_time::LocalDateTime::forDateString </td>
+          <td class="memname"><a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> ace_time::LocalDateTime::forDateString </td>
           <td>(</td>
           <td class="paramtype">const __FlashStringHelper *&#160;</td>
           <td class="paramname"><em>dateString</em></td><td>)</td>
@@ -386,7 +386,7 @@ Friends</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -394,7 +394,7 @@ Friends</h2></td></tr>
 <p>Factory method. </p>
 <p>Create a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> from date string in flash memory F() strings. Mostly for unit testing. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00142">142</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00047">47</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
 
 </div>
 </div>
@@ -424,11 +424,15 @@ Friends</h2></td></tr>
 
 <p>Factory method. </p>
 <p>Create a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> from the ISO 8601 date string. If the string cannot be parsed, then returns <a class="el" href="classace__time_1_1LocalDateTime.html#a5e238445e0b676f3a166e5bdc3794aa9" title="Factory method that returns an instance where isError() returns true.">LocalDateTime::forError()</a>.</p>
-<p>The dateString is expected to be in ISO 8601 format "YYYY-MM-DDThh:mm:ss", but currently, the parser is very lenient. It cares mostly about the positional placement of the various components. It does not validate the separation characters like '-' or ':'. For example, both of the following strings will parse to the exactly same <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> object: "2018-08-31T13:48:01-07:00" and "2018/08/31
-13#48#01-07#00"</p>
-<p>The parsing validation is so weak that the behavior is undefined for most invalid date/time strings. The range of valid dates is from 0001-01-01T00:00:00 to 9999-12-31T23:59:59. </p>
+<p>The parsing validation is so weak that the behavior is undefined for most invalid date/time strings. It cares mostly about the positional placement of the various components. It does not validate the separation characters like '-' or ':'. For example, both of the following strings will parse to the exactly same <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> object: "2018-08-31T13:48:01" and "2018/08/31 13.48.01"</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dateString</td><td>the date and time in ISO 8601 format "YYYY-MM-DDThh:mm:ss". The range of valid dates is from 0001-01-01T00:00:00 to 9999-12-31T23:59:59. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00038">38</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00040">40</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
 
 </div>
 </div>
@@ -460,7 +464,7 @@ Friends</h2></td></tr>
 <p>This allows chaining to another forXxxStringChainable() method.</p>
 <p>This method assumes that the dateString is sufficiently long. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00046">46</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00065">65</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
 
 </div>
 </div>
@@ -508,7 +512,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00064">64</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00063">63</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -549,7 +553,7 @@ Friends</h2></td></tr>
 <p>Factory method that takes the 64-bit number of seconds since Unix <a class="el" href="classace__time_1_1Epoch.html" title="Utility functions for setting, retrieving, and converting the current epoch.">Epoch</a> of 1970-01-01. </p>
 <p>Valid until the 64-bit unixSeconds reaches the equivalent of 2068-01-19T03:14:07 UTC. Returns <a class="el" href="classace__time_1_1LocalDateTime.html#a5e238445e0b676f3a166e5bdc3794aa9" title="Factory method that returns an instance where isError() returns true.">LocalDateTime::forError()</a> if unixSeconds is invalid. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00091">91</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00090">90</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -572,7 +576,7 @@ Friends</h2></td></tr>
 <p>Print <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> to 'printer' in ISO 8601 format. </p>
 <p>This class does not implement the Printable interface to avoid increasing the size of the object from the additional virtual function. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00014">14</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8cpp_source.html#l00016">16</a> of file <a class="el" href="LocalDateTime_8cpp_source.html">LocalDateTime.cpp</a>.</p>
 
 </div>
 </div>
@@ -602,7 +606,7 @@ Friends</h2></td></tr>
 <p>Return number of whole days since AceTime epoch. </p>
 <p>The default epoch is 2000-01-01 00:00:00 UTC, but can be changed using <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a></code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00228">228</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00211">211</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -633,7 +637,7 @@ Friends</h2></td></tr>
 <p>The default epoch is 2000-01-01 00:00:00 UTC, but can be changed using <code><a class="el" href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04" title="Get the current epoch year.">Epoch::currentEpochYear()</a></code>.</p>
 <p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a9c90b1abe7223c1b585bd8f8f89f0516" title="Sentinel epochSeconds which indicates an error.">LocalDate::kInvalidEpochSeconds</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true, or the epochSeconds is out of range. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00247">247</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00230">230</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -664,7 +668,7 @@ Friends</h2></td></tr>
 <p>Returns <a class="el" href="classace__time_1_1LocalDate.html#a2fbdac2dbc536dc1d44ab3cf0602de7a" title="Sentinel unixSeconds64 which indicates an error.">LocalDate::kInvalidUnixSeconds64</a> if <a class="el" href="classace__time_1_1LocalDateTime.html#a42ad78d8e8c81c09494cdf4f0e6de123" title="Return true if any component indicates an error condition.">isError()</a> is true.</p>
 <p>Tip: You can use the command 'date +s -d {iso8601date}' on a Unix box to print the unix seconds of a given ISO8601 date. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00262">262</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00245">245</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>
@@ -706,7 +710,7 @@ Friends</h2></td></tr>
 <p>Return true if two <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> objects are equal in all components. </p>
 <p>Optimized for small changes in the less signficant fields, such as 'second' or 'minute'. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00314">314</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDateTime_8h_source.html#l00297">297</a> of file <a class="el" href="LocalDateTime_8h_source.html">LocalDateTime.h</a>.</p>
 
 </div>
 </div>

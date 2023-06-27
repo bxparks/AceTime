@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -83,10 +83,10 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a97ade70c7e0298971f76b6819cafc8b9"><td class="memItemLeft" align="right" valign="top"><a id="a97ade70c7e0298971f76b6819cafc8b9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">BasicZone</a> (const basic::ZoneInfo *zoneInfo)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9">BasicZone</a> (const <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html">basic::ZoneInfo</a> *zoneInfo)</td></tr>
 <tr class="memdesc:a97ade70c7e0298971f76b6819cafc8b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from a raw basic::ZoneInfo* pointer, intended for manual inspection of a ZoneInfo record. <br /></td></tr>
 <tr class="separator:a97ade70c7e0298971f76b6819cafc8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc1f3d572422df7889c03322369ec12b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">BasicZone</a> (const <a class="el" href="Brokers_8h.html#affb64c0626f033d1db3f771dcbefdf3f">basic::ZoneInfoBroker</a> &amp;zoneInfo)</td></tr>
+<tr class="memitem:abc1f3d572422df7889c03322369ec12b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">BasicZone</a> (const <a class="el" href="brokers_8h.html#a603dfb9dc00b46fe82a19aee5d8fb6a5">basic::ZoneInfoBroker</a> &amp;zoneInfo)</td></tr>
 <tr class="memdesc:abc1f3d572422df7889c03322369ec12b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from a basic::ZoneInfoBroker, used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...">BasicZoneProcessor</a>.  <a href="classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b">More...</a><br /></td></tr>
 <tr class="separator:abc1f3d572422df7889c03322369ec12b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ff08543c32b363a3795fb7a9e7a4241"><td class="memItemLeft" align="right" valign="top"><a id="a3ff08543c32b363a3795fb7a9e7a4241"></a>
@@ -109,10 +109,10 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">zoneId</a> () const</td></tr>
 <tr class="memdesc:a360efba115e043ad28c69511f229454d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the zoneId of the current zoneInfo. <br /></td></tr>
 <tr class="separator:a360efba115e043ad28c69511f229454d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a840ffaef671458bbf3a1544b3f329978"><td class="memItemLeft" align="right" valign="top"><a id="a840ffaef671458bbf3a1544b3f329978"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a840ffaef671458bbf3a1544b3f329978">stdOffsetMinutes</a> () const</td></tr>
-<tr class="memdesc:a840ffaef671458bbf3a1544b3f329978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the STDOFF of the last ZoneEra. <br /></td></tr>
-<tr class="separator:a840ffaef671458bbf3a1544b3f329978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46058583373177d9ae21810c635dc9ca"><td class="memItemLeft" align="right" valign="top"><a id="a46058583373177d9ae21810c635dc9ca"></a>
+<a class="el" href="classace__time_1_1TimeOffset.html">TimeOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a46058583373177d9ae21810c635dc9ca">stdOffset</a> () const</td></tr>
+<tr class="memdesc:a46058583373177d9ae21810c635dc9ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the STDOFF of the last ZoneEra. <br /></td></tr>
+<tr class="separator:a46058583373177d9ae21810c635dc9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11a01b1146ec14f3630fcce74e065ac5"><td class="memItemLeft" align="right" valign="top"><a id="a11a01b1146ec14f3630fcce74e065ac5"></a>
 ace_common::KString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1BasicZone.html#a11a01b1146ec14f3630fcce74e065ac5">kname</a> () const</td></tr>
 <tr class="memdesc:a11a01b1146ec14f3630fcce74e065ac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the name as a KString. <br /></td></tr>
@@ -122,7 +122,7 @@ ace_common::KString&#160;</td><td class="memItemRight" valign="bottom"><a class=
 <div class="textblock"><p>A thin wrapper around a basic::ZoneInfo data structure to provide a stable API access to some useful basic::ZoneInfo data. </p>
 <p>The basic::ZoneInfo data struct is intended to be an opaque type to the users of this library. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00022">22</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00023">23</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abc1f3d572422df7889c03322369ec12b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc1f3d572422df7889c03322369ec12b">&#9670;&nbsp;</a></span>BasicZone()</h2>
@@ -136,7 +136,7 @@ ace_common::KString&#160;</td><td class="memItemRight" valign="bottom"><a class=
         <tr>
           <td class="memname">ace_time::BasicZone::BasicZone </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="Brokers_8h.html#affb64c0626f033d1db3f771dcbefdf3f">basic::ZoneInfoBroker</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="brokers_8h.html#a603dfb9dc00b46fe82a19aee5d8fb6a5">basic::ZoneInfoBroker</a> &amp;&#160;</td>
           <td class="paramname"><em>zoneInfo</em></td><td>)</td>
           <td></td>
         </tr>
@@ -151,7 +151,7 @@ ace_common::KString&#160;</td><td class="memItemRight" valign="bottom"><a class=
 <p>Constructor from a basic::ZoneInfoBroker, used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...">BasicZoneProcessor</a>. </p>
 <p>This allows the implementation details of ZoneInfoBroker to remain hidden. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00036">36</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZone_8h_source.html#l00037">37</a> of file <a class="el" href="BasicZone_8h_source.html">BasicZone.h</a>.</p>
 
 </div>
 </div>
@@ -175,7 +175,7 @@ ace_common::KString&#160;</td><td class="memItemRight" valign="bottom"><a class=
 <p>Print the full zone name to printer. </p>
 <p>Example "America/Los_Angeles". </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZone_8cpp_source.html#l00020">20</a> of file <a class="el" href="BasicZone_8cpp_source.html">BasicZone.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZone_8cpp_source.html#l00018">18</a> of file <a class="el" href="BasicZone_8cpp_source.html">BasicZone.cpp</a>.</p>
 
 </div>
 </div>
@@ -198,7 +198,7 @@ ace_common::KString&#160;</td><td class="memItemRight" valign="bottom"><a class=
 <p>Print the short pretty zone name to the printer. </p>
 <p>Underscores are replaced with spaces. Example "Los Angeles". </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZone_8cpp_source.html#l00027">27</a> of file <a class="el" href="BasicZone_8cpp_source.html">BasicZone.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZone_8cpp_source.html#l00025">25</a> of file <a class="el" href="BasicZone_8cpp_source.html">BasicZone.cpp</a>.</p>
 
 </div>
 </div>

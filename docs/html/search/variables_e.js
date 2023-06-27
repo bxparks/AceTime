@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['transitiontime_640',['transitionTime',['../structace__time_1_1extended_1_1TransitionTemplate.html#a34c175a369df6664710109bdb7643965',1,'ace_time::extended::TransitionTemplate']]],
-  ['transitiontimes_641',['transitionTimeS',['../structace__time_1_1extended_1_1TransitionTemplate.html#a505dc28a40e4b8062531e8bbde8d2a39',1,'ace_time::extended::TransitionTemplate']]],
-  ['transitiontimeu_642',['transitionTimeU',['../structace__time_1_1extended_1_1TransitionTemplate.html#a9a894c82760a54455f1b2aa1aa179f8c',1,'ace_time::extended::TransitionTemplate']]],
-  ['type_643',['type',['../classace__time_1_1FindResult.html#aea0fa44decd41bb509e9353aaf3aa605',1,'ace_time::FindResult']]],
-  ['tzversion_644',['tzVersion',['../structace__time_1_1internal_1_1ZoneContext.html#ad7d26b18392f5c5e70ded256953dd23d',1,'ace_time::internal::ZoneContext']]]
+  ['startdatetime_711',['startDateTime',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#a9c77b33abfc02eb0b1450e7147ea692e',1,'ace_time::extended::MatchingEraTemplate::startDateTime()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#acf25fdb69df5d5f91c856f9e805c3792',1,'ace_time::extended::TransitionTemplate::startDateTime()']]],
+  ['startepochseconds_712',['startEpochSeconds',['../structace__time_1_1basic_1_1TransitionTemplate.html#a2a6fa21f53305bb789f0fa98c68db62f',1,'ace_time::basic::TransitionTemplate::startEpochSeconds()'],['../structace__time_1_1extended_1_1TransitionTemplate.html#a490879be0a08acbf211c0a943d99c36e',1,'ace_time::extended::TransitionTemplate::startEpochSeconds()']]],
+  ['startyear_713',['startYear',['../structace__time_1_1zoneinfohigh_1_1ZoneContext.html#a31b3a7763d36424e9397e200d3aae3f4',1,'ace_time::zoneinfohigh::ZoneContext::startYear()'],['../structace__time_1_1zoneinfolow_1_1ZoneContext.html#ab527da079f8c408bfdab7c3cdf93a466',1,'ace_time::zoneinfolow::ZoneContext::startYear()'],['../structace__time_1_1zoneinfomid_1_1ZoneContext.html#a37b470f8febcbc8681eec318589be87b',1,'ace_time::zoneinfomid::ZoneContext::startYear()']]],
+  ['startyearaccurate_714',['startYearAccurate',['../structace__time_1_1zoneinfohigh_1_1ZoneContext.html#aeb714599e89a1a0a36bba8a9ea2ab96e',1,'ace_time::zoneinfohigh::ZoneContext::startYearAccurate()'],['../structace__time_1_1zoneinfolow_1_1ZoneContext.html#aa9c1dbfd7e0201ef4836085c5e383008',1,'ace_time::zoneinfolow::ZoneContext::startYearAccurate()'],['../structace__time_1_1zoneinfomid_1_1ZoneContext.html#a9b85e85aab65c757ca6abfbc593a771d',1,'ace_time::zoneinfomid::ZoneContext::startYearAccurate()']]],
+  ['stdoffsetseconds_715',['stdOffsetSeconds',['../classace__time_1_1FindResult.html#a2d2eb6055092b450cf39c04579ccb113',1,'ace_time::FindResult']]]
 ];

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -76,56 +76,85 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Copyright (c) 2018 Brian T. Park</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;LocalDate.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// Offsets used to calculate the day of the week of a particular (year, month,</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// day). The element represents the number of days that the first of month of</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// the given index was shifted by the cummulative days from the previous months.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// To determine the &quot;day of the week&quot;, we must normalize the resulting &quot;day of</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// the week&quot; modulo 7.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// January is index 0, but we also use a modified year, where the year starts in</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// March to make leap years easier to handle, so the shift for March=3 is 0.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span> <span class="comment">// printPad2To()</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;common/DateStrings.h&quot;</span> <span class="comment">// DateStrings</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;LocalDate.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// Offsets used to calculate the day of the week of a particular (year, month,</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// day). The element represents the number of days that the first of month of</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// the given index was shifted by the cummulative days from the previous months.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// To determine the &quot;day of the week&quot;, we must normalize the resulting &quot;day of</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// the week&quot; modulo 7.</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// For example:</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//    * atc_days_of_week[3] is 3 because April (index=3) 1st is shifted by 3</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">//      days because March has 31 days (28 + 3).</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//    * atc_days_of_week[4] is 5 because May (index=4) 1st is shifted by 2</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//      additional days from April, because April has 30 days (28 + 2).</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">const</span> uint8_t LocalDate::sDayOfWeek[12] = {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  5 <span class="comment">/*Jan=31*/</span>,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  1 <span class="comment">/*Feb=28*/</span>,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  0 <span class="comment">/*Mar=31, start of &quot;year&quot;*/</span>,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  3 <span class="comment">/*Apr=30*/</span>,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  5 <span class="comment">/*May=31*/</span>,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  1 <span class="comment">/*Jun=30*/</span>,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  3 <span class="comment">/*Jul=31*/</span>,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  6 <span class="comment">/*Aug=31*/</span>,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  2 <span class="comment">/*Sep=30*/</span>,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  4 <span class="comment">/*Oct=31*/</span>,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  0 <span class="comment">/*Nov=30*/</span>,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  2 <span class="comment">/*Dec=31*/</span>,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">// Using 0=Jan offset.</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">const</span> uint8_t LocalDate::sDaysInMonth[12] = {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  31 <span class="comment">/*Jan=31*/</span>,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  28 <span class="comment">/*Feb=28*/</span>,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  31 <span class="comment">/*Mar=31*/</span>,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  30 <span class="comment">/*Apr=30*/</span>,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  31 <span class="comment">/*May=31*/</span>,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  30 <span class="comment">/*Jun=30*/</span>,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  31 <span class="comment">/*Jul=31*/</span>,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  31 <span class="comment">/*Aug=31*/</span>,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  30 <span class="comment">/*Sep=30*/</span>,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  31 <span class="comment">/*Oct=31*/</span>,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  30 <span class="comment">/*Nov=30*/</span>,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  31 <span class="comment">/*Dec=31*/</span>,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// January is index 0, but we also use a modified year, where the year starts in</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// March to make leap years easier to handle, so the shift for March=3 is 0.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// For example:</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//    * atc_days_of_week[3] is 3 because April (index=3) 1st is shifted by 3</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//      days because March has 31 days (28 + 3).</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">//    * atc_days_of_week[4] is 5 because May (index=4) 1st is shifted by 2</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//      additional days from April, because April has 30 days (28 + 2).</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">const</span> uint8_t LocalDate::sDayOfWeek[12] = {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  5 <span class="comment">/*Jan=31*/</span>,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  1 <span class="comment">/*Feb=28*/</span>,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  0 <span class="comment">/*Mar=31, start of &quot;year&quot;*/</span>,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  3 <span class="comment">/*Apr=30*/</span>,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  5 <span class="comment">/*May=31*/</span>,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  1 <span class="comment">/*Jun=30*/</span>,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  3 <span class="comment">/*Jul=31*/</span>,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  6 <span class="comment">/*Aug=31*/</span>,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  2 <span class="comment">/*Sep=30*/</span>,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  4 <span class="comment">/*Oct=31*/</span>,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  0 <span class="comment">/*Nov=30*/</span>,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  2 <span class="comment">/*Dec=31*/</span>,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// Using 0=Jan offset.</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">const</span> uint8_t LocalDate::sDaysInMonth[12] = {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  31 <span class="comment">/*Jan=31*/</span>,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  28 <span class="comment">/*Feb=28*/</span>,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  31 <span class="comment">/*Mar=31*/</span>,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  30 <span class="comment">/*Apr=30*/</span>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  31 <span class="comment">/*May=31*/</span>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  30 <span class="comment">/*Jun=30*/</span>,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  31 <span class="comment">/*Jul=31*/</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  31 <span class="comment">/*Aug=31*/</span>,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  30 <span class="comment">/*Sep=30*/</span>,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  31 <span class="comment">/*Oct=31*/</span>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  30 <span class="comment">/*Nov=30*/</span>,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  31 <span class="comment">/*Dec=31*/</span>,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classace__time_1_1LocalDate.html#a45a92407e489cf352a97ffb09513eaba">   58</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classace__time_1_1LocalDate.html#a45a92407e489cf352a97ffb09513eaba">LocalDate::printTo</a>(Print&amp; printer)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff">isError</a>()) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    printer.print(F(<span class="stringliteral">&quot;&lt;Invalid LocalDate&gt;&quot;</span>));</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="comment">// Date</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keyword">using</span> ace_common::printPad2To;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  printer.print(<a class="code" href="classace__time_1_1LocalDate.html#aa26da19e25f4c8f87d2f36158170f933">year</a>());</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  printer.print(<span class="charliteral">&#39;-&#39;</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  printPad2To(printer, mMonth, <span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  printer.print(<span class="charliteral">&#39;-&#39;</span>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  printPad2To(printer, mDay, <span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  printer.print(<span class="charliteral">&#39; &#39;</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment">// Week day</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <a class="code" href="classace__time_1_1DateStrings.html">DateStrings</a> ds;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  printer.print(ds.<a class="code" href="classace__time_1_1DateStrings.html#a324ee6fb27c9ce6fc16bd95a7ef321bd">dayOfWeekLongString</a>(<a class="code" href="classace__time_1_1LocalDate.html#a340aaa8f1767def162ccaae8c2d3e2c5">dayOfWeek</a>()));</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="ttc" id="aclassace__time_1_1DateStrings_html"><div class="ttname"><a href="classace__time_1_1DateStrings.html">ace_time::DateStrings</a></div><div class="ttdoc">Class that translates a numeric month (1-12) or dayOfWeek (1-7) into a human readable string.</div><div class="ttdef"><b>Definition:</b> <a href="DateStrings_8h_source.html#l00026">DateStrings.h:26</a></div></div>
+<div class="ttc" id="aclassace__time_1_1DateStrings_html_a324ee6fb27c9ce6fc16bd95a7ef321bd"><div class="ttname"><a href="classace__time_1_1DateStrings.html#a324ee6fb27c9ce6fc16bd95a7ef321bd">ace_time::DateStrings::dayOfWeekLongString</a></div><div class="ttdeci">const char * dayOfWeekLongString(uint8_t dayOfWeek)</div><div class="ttdoc">Return the short dayOfWeek name.</div><div class="ttdef"><b>Definition:</b> <a href="DateStrings_8h_source.html#l00056">DateStrings.h:56</a></div></div>
+<div class="ttc" id="aclassace__time_1_1LocalDate_html_a0c718d4fea5ad37c1263766b44b532ff"><div class="ttname"><a href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff">ace_time::LocalDate::isError</a></div><div class="ttdeci">bool isError() const</div><div class="ttdoc">Return true if any component indicates an error condition.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00337">LocalDate.h:337</a></div></div>
+<div class="ttc" id="aclassace__time_1_1LocalDate_html_a340aaa8f1767def162ccaae8c2d3e2c5"><div class="ttname"><a href="classace__time_1_1LocalDate.html#a340aaa8f1767def162ccaae8c2d3e2c5">ace_time::LocalDate::dayOfWeek</a></div><div class="ttdeci">uint8_t dayOfWeek() const</div><div class="ttdoc">Calculate the day of week given the (year, month, day).</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00324">LocalDate.h:324</a></div></div>
+<div class="ttc" id="aclassace__time_1_1LocalDate_html_a45a92407e489cf352a97ffb09513eaba"><div class="ttname"><a href="classace__time_1_1LocalDate.html#a45a92407e489cf352a97ffb09513eaba">ace_time::LocalDate::printTo</a></div><div class="ttdeci">void printTo(Print &amp;printer) const</div><div class="ttdoc">Print LocalDate to 'printer' in ISO 8601 format, along with the day of week.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8cpp_source.html#l00058">LocalDate.cpp:58</a></div></div>
+<div class="ttc" id="aclassace__time_1_1LocalDate_html_aa26da19e25f4c8f87d2f36158170f933"><div class="ttname"><a href="classace__time_1_1LocalDate.html#aa26da19e25f4c8f87d2f36158170f933">ace_time::LocalDate::year</a></div><div class="ttdeci">int16_t year() const</div><div class="ttdoc">Return the year.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00301">LocalDate.h:301</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -68,7 +68,7 @@ $(function() {
 <h3><a id="index_s"></a>- s -</h3><ul>
 <li>second()
 : <a class="el" href="classace__time_1_1LocalDateTime.html#aefbd9c1ce2f10c2f3be02c785a0c956a">ace_time::LocalDateTime</a>
-, <a class="el" href="classace__time_1_1LocalTime.html#ae9cd4e0e411a670b7cac26147c2a3e7b">ace_time::LocalTime</a>
+, <a class="el" href="classace__time_1_1LocalTime.html#ad4ddf0fd1c2263c596a4ee83cf81d5a9">ace_time::LocalTime</a>
 , <a class="el" href="classace__time_1_1OffsetDateTime.html#aea3e2c0b8cfa46fd2b6f1f26dd543eaa">ace_time::OffsetDateTime</a>
 , <a class="el" href="classace__time_1_1TimePeriod.html#a587b3f8a8d4a0ae265177e706fdc3464">ace_time::TimePeriod</a>
 , <a class="el" href="classace__time_1_1ZonedDateTime.html#a99768367d264cb915b924fb9360a641e">ace_time::ZonedDateTime</a>
@@ -76,16 +76,16 @@ $(function() {
 <li>secondsToCurrentEpochFromUnixEpoch64()
 : <a class="el" href="classace__time_1_1Epoch.html#af9d0de190182e5909eabd84d23b5f76d">ace_time::Epoch</a>
 </li>
-<li>setBrokerFactory()
-: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a050dee2a29516b5d40f96fc11fc8c70c">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a25f97436b5609e32fa663cfabcc33062">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
-</li>
 <li>setFreeAgentAsPriorIfValid()
 : <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a3ff1a57981f28513f0990e9214175fb2">ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;</a>
 </li>
+<li>setZoneInfoStore()
+: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a90bf966c9bf8c66e33e6049a45a2bc2e">ace_time::BasicZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aa485e247b729542f6be79f223e7d959e">ace_time::ExtendedZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>
+</li>
 <li>setZoneKey()
-: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8d4ce541670402a2dbb473e7fe6222d4">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
-, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adc346e63c3a99b9b8ef8908cf58c4ddd">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>
+: <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a462bcab4d23d5e283302004e3aac0ae5">ace_time::BasicZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>
+, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4e9384384341b389486456538b6c08b9">ace_time::ExtendedZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>
 , <a class="el" href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">ace_time::ZoneProcessor</a>
 </li>
 <li>sign()
@@ -115,15 +115,23 @@ $(function() {
 , <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a490879be0a08acbf211c0a943d99c36e">ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</a>
 </li>
 <li>startYear
-: <a class="el" href="structace__time_1_1internal_1_1ZoneContext.html#a7859ffdc83bb5269bd265079fcde20e8">ace_time::internal::ZoneContext</a>
+: <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html#a31b3a7763d36424e9397e200d3aae3f4">ace_time::zoneinfohigh::ZoneContext&lt; S &gt;</a>
+, <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#ab527da079f8c408bfdab7c3cdf93a466">ace_time::zoneinfolow::ZoneContext&lt; S &gt;</a>
+, <a class="el" href="structace__time_1_1zoneinfomid_1_1ZoneContext.html#a37b470f8febcbc8681eec318589be87b">ace_time::zoneinfomid::ZoneContext&lt; S &gt;</a>
+</li>
+<li>startYearAccurate
+: <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html#aeb714599e89a1a0a36bba8a9ea2ab96e">ace_time::zoneinfohigh::ZoneContext&lt; S &gt;</a>
+, <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#aa9c1dbfd7e0201ef4836085c5e383008">ace_time::zoneinfolow::ZoneContext&lt; S &gt;</a>
+, <a class="el" href="structace__time_1_1zoneinfomid_1_1ZoneContext.html#a9b85e85aab65c757ca6abfbc593a771d">ace_time::zoneinfomid::ZoneContext&lt; S &gt;</a>
 </li>
 <li>stdOffset()
-: <a class="el" href="classace__time_1_1ZonedExtra.html#a3d8652d05e4825b001abbc2463aeb6e2">ace_time::ZonedExtra</a>
+: <a class="el" href="classace__time_1_1BasicZone.html#a46058583373177d9ae21810c635dc9ca">ace_time::BasicZone</a>
+, <a class="el" href="classace__time_1_1CompleteZone.html#a8cbfeac44575d274ee3c5f0c4d82fc63">ace_time::CompleteZone</a>
+, <a class="el" href="classace__time_1_1ExtendedZone.html#a3911ff1e0109ca46d306875aa9c7e512">ace_time::ExtendedZone</a>
+, <a class="el" href="classace__time_1_1ZonedExtra.html#a3d8652d05e4825b001abbc2463aeb6e2">ace_time::ZonedExtra</a>
 </li>
-<li>stdOffsetMinutes()
-: <a class="el" href="classace__time_1_1BasicZone.html#a840ffaef671458bbf3a1544b3f329978">ace_time::BasicZone</a>
-, <a class="el" href="classace__time_1_1ExtendedZone.html#ae46b04e3822af7a77dcad85662428516">ace_time::ExtendedZone</a>
-, <a class="el" href="classace__time_1_1FindResult.html#a9437e8d65cff03a0d482fc2e63663ef1">ace_time::FindResult</a>
+<li>stdOffsetSeconds
+: <a class="el" href="classace__time_1_1FindResult.html#a2d2eb6055092b450cf39c04579ccb113">ace_time::FindResult</a>
 </li>
 </ul>
 </div><!-- contents -->

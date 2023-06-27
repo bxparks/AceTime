@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['match_619',['match',['../structace__time_1_1extended_1_1TransitionTemplate.html#af39b0cf9cf43ddd39feecec6ca483a20',1,'ace_time::extended::TransitionTemplate']]],
-  ['maxtransitions_620',['maxTransitions',['../structace__time_1_1internal_1_1ZoneContext.html#ad80e6f8f245fa2892ad3551459ff00ae',1,'ace_time::internal::ZoneContext']]],
-  ['mepochyear_621',['mEpochYear',['../classace__time_1_1ZoneProcessor.html#ab6c3aaf365c46bffc72f6c852ff4779c',1,'ace_time::ZoneProcessor']]],
-  ['month_622',['month',['../structace__time_1_1basic_1_1TransitionTemplate.html#a10415486cabd71d413f6ff942abb938b',1,'ace_time::basic::TransitionTemplate']]],
-  ['mtype_623',['mType',['../classace__time_1_1ZoneProcessor.html#a698fea5dd3a2c2b403b501d49ff3fe8f',1,'ace_time::ZoneProcessor']]],
-  ['myear_624',['mYear',['../classace__time_1_1ZoneProcessor.html#a5b939ab666db193d3bf2bba8f298e736',1,'ace_time::ZoneProcessor']]],
-  ['mzonekey_625',['mZoneKey',['../classace__time_1_1TimeZone.html#a8eafcad4aa772eb9ea6cbee9ba7110d8',1,'ace_time::TimeZone']]],
-  ['mzoneprocessor_626',['mZoneProcessor',['../classace__time_1_1TimeZone.html#a3380618145722bb6a76108db95153e42',1,'ace_time::TimeZone']]]
+  ['lastdeltaseconds_683',['lastDeltaSeconds',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#afd69d2dec49b08444013a44f97427ff7',1,'ace_time::extended::MatchingEraTemplate']]],
+  ['lastoffsetseconds_684',['lastOffsetSeconds',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#a9a5a7207fb49c2f42b0c580a597640f9',1,'ace_time::extended::MatchingEraTemplate']]],
+  ['letterindex_685',['letterIndex',['../structace__time_1_1zoneinfohigh_1_1ZoneRule.html#a68a3027f733008b27c4531fd6686ccee',1,'ace_time::zoneinfohigh::ZoneRule::letterIndex()'],['../structace__time_1_1zoneinfolow_1_1ZoneRule.html#a68e20407c104d333cb533b7e5b4b96e4',1,'ace_time::zoneinfolow::ZoneRule::letterIndex()'],['../structace__time_1_1zoneinfomid_1_1ZoneRule.html#a9a9c8b46ac2b11e028f357c139eecd36',1,'ace_time::zoneinfomid::ZoneRule::letterIndex()']]],
+  ['letters_686',['letters',['../structace__time_1_1zoneinfohigh_1_1ZoneContext.html#a6320c4a53adfea13b44f69ae6c26ee65',1,'ace_time::zoneinfohigh::ZoneContext::letters()'],['../structace__time_1_1zoneinfolow_1_1ZoneContext.html#a296aaac5f8849b06b3c568208d6ab677',1,'ace_time::zoneinfolow::ZoneContext::letters()'],['../structace__time_1_1zoneinfomid_1_1ZoneContext.html#a40e32eb8ae7107feb94d4b9bd50b8fb8',1,'ace_time::zoneinfomid::ZoneContext::letters()']]]
 ];

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -207,7 +207,7 @@ class ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;
 
 <p>A heap manager which is specialized and tuned to manage a collection of Transitions, keeping track of unused, used, and active states, using a fixed array of Transitions. </p>
 <p>Its main purpose is to provide some illusion of dynamic memory allocation without actually performing any dynamic memory allocation.</p>
-<p>We create a fixed sized array for the total pool, determined by the template parameter SIZE, then manage the various sub-pools of Transition objects. The allocation of the various sub-pools is intricately tied to the precise pattern of creation and release of the various Transition objects within the <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z...">ExtendedZoneProcessor</a> class.</p>
+<p>We create a fixed sized array for the total pool, determined by the template parameter SIZE, then manage the various sub-pools of Transition objects. The allocation of the various sub-pools is intricately tied to the precise pattern of creation and release of the various Transition objects within the <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses the extended::ZoneXxxBrokers cla...">ExtendedZoneProcessor</a> class.</p>
 <p>There are 4 pools indicated by the following half-open (inclusive to exclusive) index ranges:</p>
 <p>1) Active pool: [0, mIndexPrior) 2) Prior pool: [mIndexPrior, mIndexCandidates), either 0 or 1 element 3) Candidate pool: [mIndexCandidates, mIndexFree) 4) Free agent pool: [mIndexFree, mAllocSize), 0 or 1 element</p>
 <p>At the completion of the ExtendedZoneProcessor::init(LocalDate&amp; ld) method, the Active pool will contain the active Transitions relevant to the 'year' defined by the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>. The Prior and Candidate pools will be empty, with the Free pool taking up the remaining space.</p>
@@ -221,7 +221,7 @@ class ace_time::extended::TransitionStorageTemplate&lt; SIZE, ZEB, ZPB, ZRB &gt;
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00352">352</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00361">361</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a64209f8ee979ac7b223bdc8bbe64bd46"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a64209f8ee979ac7b223bdc8bbe64bd46">&#9670;&nbsp;</a></span>Transition</h2>
@@ -240,7 +240,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta.">TransitionTemplate</a> used by this class. </p>
 <p>This should be treated as a private, it is exposed only for testing purposes. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00358">358</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00367">367</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -261,7 +261,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html" title="The result of the findTransitionForDateTime(const LocalDatetime&amp; ldt) method which can return 0,...">TransitionForDateTimeTemplate</a> used by this class. </p>
 <p>This should be treated as a private, it is exposed only for testing purposes. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00372">372</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00381">381</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -282,7 +282,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Template instantiation of <a class="el" href="structace__time_1_1extended_1_1TransitionForSecondsTemplate.html" title="Tuple of a matching Transition and its &#39;fold&#39;.">TransitionForSecondsTemplate</a> used by this class. </p>
 <p>This should be treated as a private, it is exposed only for testing purposes. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00365">365</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00374">374</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -316,7 +316,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Every MatchingEra will have at least one Transition.</p>
 <dl class="section return"><dt>Returns</dt><dd>the last Transition that was added </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00528">528</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00537">537</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -348,7 +348,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Immediately add the free agent Transition at index mIndexFree to the Active pool. </p>
 <p>Then increment mIndexFree to consume the free agent from the Free pool. This assumes that the Pending and Candidate pool are empty, which makes the Active pool come immediately before the Free pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00452">452</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00461">461</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -380,7 +380,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the free agent Transition at index mIndexFree to the Candidate pool, sorted by transitionTime. </p>
 <p>Then increment mIndexFree by one to remove the free agent from the Free pool. Essentially this is an Insertion Sort keyed by the 'transitionTime' (ignoring the DateTuple.suffix). </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00502">502</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00511">511</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -412,7 +412,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Add the current prior into the Candidates pool. </p>
 <p>Prior is always just before the start of the Candidate pool, so we just need to shift back the start index of the Candidate pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00492">492</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00501">501</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -445,7 +445,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the candidate Transitions matching the given dateTime. </p>
 <p>The search may return 0, 1 or 2 Transitions, depending on whether the dateTime falls in a gap or overlap. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00660">660</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00669">669</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -478,7 +478,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the Transition matching the given epochSeconds. </p>
 <p>Return nullptr if no matching Transition found. If a zone does not have any transition according to TZ Database, the AceTimeTools/transformer.py script adds an "anchor" transition at the "beginning of time" which happens to be the year 1872 (because the year is stored as an int8_t). Therefore, this method should never return a nullptr for a well-formed ZoneInfo file. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00562">562</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00571">571</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -510,7 +510,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return the maximum number of transitions which was allocated. </p>
 <p>If this is greater than SIZE, it indicates that the Transition mPool overflowed. This method is intended for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00749">749</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00758">758</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -542,7 +542,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Return a pointer to the first Transition in the free pool. </p>
 <p>If this transition is not used, then it's ok to just drop it. The next time <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a447f3b08c7aff5b53129076487ab85c6" title="Return a pointer to the first Transition in the free pool.">getFreeAgent()</a> is called, the same Transition will be returned. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00429">429</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00438">438</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -574,7 +574,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Initialize all pools to 0 size, usually when a new year is initialized. </p>
 <p>The mAllocSize is not reset, so that we can determine the maximum allocation size across multiple years. Call <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0982f4f9aaa073bce690d78d8f3141c4" title="Reset the current allocation size.">resetAllocSize()</a> manually to reset the mAllocSize. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00383">383</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00392">392</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -606,7 +606,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Verify that the indexes are valid. </p>
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00716">716</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00725">725</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -638,7 +638,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Allocate a free Transition then add it to the Prior pool. </p>
 <p>This assumes that the Prior pool and Candidate pool were both empty before calling this method. Shift the Candidate pool and Free pool up by one. Return a handle (pointer to pointer) to the Transition, so that the prior Transition can be swapped with another Transition, while keeping the handle valid. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00467">467</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00476">476</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -670,7 +670,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Reset the current allocation size. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00742">742</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00751">751</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -702,7 +702,7 @@ template&lt;uint8_t SIZE, typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>Empty the Candidate pool by resetting the various indexes. </p>
 <p>If every iteration of createTransitionsForMatch() finishes with <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#a0b23350e74c9e433d6d7d76111aeccfa" title="Immediately add the free agent Transition at index mIndexFree to the Active pool.">addFreeAgentToActivePool()</a> or <a class="el" href="classace__time_1_1extended_1_1TransitionStorageTemplate.html#aaa860da6313337525d7fe83f532994b0" title="Add active candidates into the Active pool, and collapse the Candidate pool.">addActiveCandidatesToActivePool()</a>, it may be possible to remove this. But it's safer to reset the indexes upon each iteration. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00405">405</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00414">414</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>

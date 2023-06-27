@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -83,9 +83,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adbc28d673a3bcd5062bc063859b25e2a"><td class="memItemLeft" align="right" valign="top"><a id="adbc28d673a3bcd5062bc063859b25e2a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DateTuple</b> (int16_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod)</td></tr>
-<tr class="separator:adbc28d673a3bcd5062bc063859b25e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3248061e505e3ee3e65930950979594c"><td class="memItemLeft" align="right" valign="top"><a id="a3248061e505e3ee3e65930950979594c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DateTuple</b> (int16_t y, uint8_t mon, uint8_t d, int32_t secs, uint8_t mod)</td></tr>
+<tr class="separator:a3248061e505e3ee3e65930950979594c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa991fc734c0f703f2afa4133822fb6b"><td class="memItemLeft" align="right" valign="top"><a id="afa991fc734c0f703f2afa4133822fb6b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">log</a> () const</td></tr>
 <tr class="memdesc:afa991fc734c0f703f2afa4133822fb6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used only for debugging. <br /></td></tr>
@@ -102,12 +102,12 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>month</b></td></tr
 <tr class="memitem:a972ac0f47b09c43f683c9e582a2f0d3e"><td class="memItemLeft" align="right" valign="top"><a id="a972ac0f47b09c43f683c9e582a2f0d3e"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>day</b></td></tr>
 <tr class="separator:a972ac0f47b09c43f683c9e582a2f0d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14599c40ff6101b0c5e57be1f211f8b6"><td class="memItemLeft" align="right" valign="top"><a id="a14599c40ff6101b0c5e57be1f211f8b6"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>seconds</b></td></tr>
+<tr class="separator:a14599c40ff6101b0c5e57be1f211f8b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f37a6663f2125891b25f9eba26720f5"><td class="memItemLeft" align="right" valign="top"><a id="a2f37a6663f2125891b25f9eba26720f5"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>suffix</b></td></tr>
 <tr class="separator:a2f37a6663f2125891b25f9eba26720f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1722826bca320b30820a9d4d4978c65"><td class="memItemLeft" align="right" valign="top"><a id="ac1722826bca320b30820a9d4d4978c65"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>minutes</b></td></tr>
-<tr class="separator:ac1722826bca320b30820a9d4d4978c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A tuple that represents a date and time. </p>

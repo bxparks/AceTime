@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -142,10 +142,10 @@ $(function() {
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      }</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <span class="keywordflow">if</span> (b.isNull()) <span class="keywordflow">return</span> 1;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      int16_t offsetA = a.stdOffsetMinutes();</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      int16_t offsetB = b.stdOffsetMinutes();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="keywordflow">if</span> (offsetA &lt; offsetB) <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keywordflow">if</span> (offsetA &gt; offsetB) <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <a class="code" href="classace__time_1_1TimeOffset.html">TimeOffset</a> offsetA = a.stdOffset();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <a class="code" href="classace__time_1_1TimeOffset.html">TimeOffset</a> offsetB = b.stdOffset();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="keywordflow">if</span> (offsetA.<a class="code" href="classace__time_1_1TimeOffset.html#a91835a600c3d1a29a94b3fb38ea32e14">toSeconds</a>() &lt; offsetB.<a class="code" href="classace__time_1_1TimeOffset.html#a91835a600c3d1a29a94b3fb38ea32e14">toSeconds</a>()) <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keywordflow">if</span> (offsetA.<a class="code" href="classace__time_1_1TimeOffset.html#a91835a600c3d1a29a94b3fb38ea32e14">toSeconds</a>() &gt; offsetB.<a class="code" href="classace__time_1_1TimeOffset.html#a91835a600c3d1a29a94b3fb38ea32e14">toSeconds</a>()) <span class="keywordflow">return</span> 1;</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">return</span> a.kname().compareTo(b.kname());</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
@@ -162,6 +162,8 @@ $(function() {
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassace__time_1_1TimeOffset_html"><div class="ttname"><a href="classace__time_1_1TimeOffset.html">ace_time::TimeOffset</a></div><div class="ttdoc">A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC,...</div><div class="ttdef"><b>Definition:</b> <a href="TimeOffset_8h_source.html#l00056">TimeOffset.h:56</a></div></div>
+<div class="ttc" id="aclassace__time_1_1TimeOffset_html_a91835a600c3d1a29a94b3fb38ea32e14"><div class="ttname"><a href="classace__time_1_1TimeOffset.html#a91835a600c3d1a29a94b3fb38ea32e14">ace_time::TimeOffset::toSeconds</a></div><div class="ttdeci">int32_t toSeconds() const</div><div class="ttdoc">Return the time offset as seconds.</div><div class="ttdef"><b>Definition:</b> <a href="TimeOffset_8h_source.html#l00131">TimeOffset.h:131</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneSorterByOffsetAndName_html"><div class="ttname"><a href="classace__time_1_1ZoneSorterByOffsetAndName.html">ace_time::ZoneSorterByOffsetAndName</a></div><div class="ttdoc">ZoneSorterByOffsetAndName, templatized on BasicZoneManager or ExtendedZoneManager.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneSorterByOffsetAndName_8h_source.html#l00022">ZoneSorterByOffsetAndName.h:22</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneSorterByOffsetAndName_html_a432477df0841504524e8a43655e8080c"><div class="ttname"><a href="classace__time_1_1ZoneSorterByOffsetAndName.html#a432477df0841504524e8a43655e8080c">ace_time::ZoneSorterByOffsetAndName::sortIndexes</a></div><div class="ttdeci">void sortIndexes(uint16_t indexes[], uint16_t size) const</div><div class="ttdoc">Sort the given array of indexes by UTC offset, then by name.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneSorterByOffsetAndName_8h_source.html#l00043">ZoneSorterByOffsetAndName.h:43</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneSorterByOffsetAndName_html_a4d102dc457046f81cb9187179e55e519"><div class="ttname"><a href="classace__time_1_1ZoneSorterByOffsetAndName.html#a4d102dc457046f81cb9187179e55e519">ace_time::ZoneSorterByOffsetAndName::compareZone</a></div><div class="ttdeci">static int compareZone(const Z &amp;a, const Z &amp;b)</div><div class="ttdoc">Return &lt;0, 0, or &gt;0 depending on whether Zone a is &lt;, ==, or &gt; than Zone b.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneSorterByOffsetAndName_8h_source.html#l00089">ZoneSorterByOffsetAndName.h:89</a></div></div>

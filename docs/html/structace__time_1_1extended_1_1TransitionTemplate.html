@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -103,10 +103,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stru
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ab20415cc943f084830c923064781427b"><td class="memItemLeft" align="right" valign="top"><a id="ab20415cc943f084830c923064781427b"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ab20415cc943f084830c923064781427b">logHourMinute</a> (int16_t minutes)</td></tr>
-<tr class="memdesc:ab20415cc943f084830c923064781427b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print minutes as [+/-]hh:mm. <br /></td></tr>
-<tr class="separator:ab20415cc943f084830c923064781427b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aece16a4947b2037b2123e55e08674021"><td class="memItemLeft" align="right" valign="top"><a id="aece16a4947b2037b2123e55e08674021"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#aece16a4947b2037b2123e55e08674021">logHourMinuteSecond</a> (int32_t seconds)</td></tr>
+<tr class="memdesc:aece16a4947b2037b2123e55e08674021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print seconds as [+/-]hh:mm[:ss]. <br /></td></tr>
+<tr class="separator:aece16a4947b2037b2123e55e08674021"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0548d8b979589c23845944acb4b238cb"><td class="memItemLeft" align="right" valign="top"><a id="a0548d8b979589c23845944acb4b238cb"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a0548d8b979589c23845944acb4b238cb">printTransitions</a> (const char *prefix, const <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">TransitionTemplate</a> *const *begin, const <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">TransitionTemplate</a> *const *end)</td></tr>
 <tr class="memdesc:a0548d8b979589c23845944acb4b238cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print an iterable of Transitions from 'begin' to 'end'. <br /></td></tr>
@@ -145,20 +145,16 @@ union {</td></tr>
 <a class="el" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a490879be0a08acbf211c0a943d99c36e">startEpochSeconds</a></td></tr>
 <tr class="memdesc:a490879be0a08acbf211c0a943d99c36e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated transition time of the given rule. <br /></td></tr>
 <tr class="separator:a490879be0a08acbf211c0a943d99c36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74c3bdbaa5e0a4a8e7e483bae29387fb"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a74c3bdbaa5e0a4a8e7e483bae29387fb">offsetMinutes</a></td></tr>
-<tr class="memdesc:a74c3bdbaa5e0a4a8e7e483bae29387fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base offset minutes, not the total effective UTC offset.  <a href="structace__time_1_1extended_1_1TransitionTemplate.html#a74c3bdbaa5e0a4a8e7e483bae29387fb">More...</a><br /></td></tr>
-<tr class="separator:a74c3bdbaa5e0a4a8e7e483bae29387fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9e5b29eca212f58b3af5d3b8cd39351"><td class="memItemLeft" align="right" valign="top"><a id="ae9e5b29eca212f58b3af5d3b8cd39351"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ae9e5b29eca212f58b3af5d3b8cd39351">deltaMinutes</a></td></tr>
-<tr class="memdesc:ae9e5b29eca212f58b3af5d3b8cd39351"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DST delta minutes. <br /></td></tr>
-<tr class="separator:ae9e5b29eca212f58b3af5d3b8cd39351"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a190b27d79a82643e36feda0800fac78d"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a190b27d79a82643e36feda0800fac78d">offsetSeconds</a></td></tr>
+<tr class="memdesc:a190b27d79a82643e36feda0800fac78d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base offset minutes, not the total effective UTC offset.  <a href="structace__time_1_1extended_1_1TransitionTemplate.html#a190b27d79a82643e36feda0800fac78d">More...</a><br /></td></tr>
+<tr class="separator:a190b27d79a82643e36feda0800fac78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc0d3b2ac6794663f27e114b8651a9c"><td class="memItemLeft" align="right" valign="top"><a id="abfc0d3b2ac6794663f27e114b8651a9c"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#abfc0d3b2ac6794663f27e114b8651a9c">deltaSeconds</a></td></tr>
+<tr class="memdesc:abfc0d3b2ac6794663f27e114b8651a9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DST delta seconds. <br /></td></tr>
+<tr class="separator:abfc0d3b2ac6794663f27e114b8651a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad65c299286c1f8a96ff214ccddffd3f1"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#ad65c299286c1f8a96ff214ccddffd3f1">abbrev</a> [internal::kAbbrevSize]</td></tr>
 <tr class="memdesc:ad65c299286c1f8a96ff214ccddffd3f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated effective time zone abbreviation, e.g.  <a href="structace__time_1_1extended_1_1TransitionTemplate.html#ad65c299286c1f8a96ff214ccddffd3f1">More...</a><br /></td></tr>
 <tr class="separator:ad65c299286c1f8a96ff214ccddffd3f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62e9a52a0d0d11548a80a44097b88fe6"><td class="memItemLeft" align="right" valign="top"><a id="a62e9a52a0d0d11548a80a44097b88fe6"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a62e9a52a0d0d11548a80a44097b88fe6">letter</a></td></tr>
-<tr class="memdesc:a62e9a52a0d0d11548a80a44097b88fe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storage for the 'letter' field if 'rule' is not null. <br /></td></tr>
-<tr class="separator:a62e9a52a0d0d11548a80a44097b88fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0efbc1dfd746654c57444eabf4facae5"><td class="memItemLeft" ><a id="a0efbc1dfd746654c57444eabf4facae5"></a>
 union {</td></tr>
 <tr class="memitem:a34e20170f8556805d01035bdbdeecd11"><td class="memItemLeft" >&#160;&#160;&#160;bool&#160;&#160;&#160;<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a233a4be454269e7ef0a46489306df669">isValidPrior</a></td></tr>
@@ -177,9 +173,9 @@ struct ace_time::extended::TransitionTemplate&lt; ZEB, ZPB, ZRB &gt;</h3>
 
 <p>Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta. </p>
 <p>The start of the interval is given by 'transitionTime' which comes from the TZ Database file. The actual start and until time of the interval (in the local time zone) is given by 'startDateTime' and 'untilDateTime'.</p>
-<p>There are 2 types of Transition instances: 1) Simple, indicated by 'rule' == nullptr. The base UTC offsetMinutes is given by match-&gt;offsetMinutes. The additional DST delta is given by match-&gt;deltaMinutes. 2) Named, indicated by 'rule' != nullptr. The base UTC offsetMinutes is given by match-&gt;offsetMinutes. The additional DST delta is given by rule-&gt;deltaMinutes.</p>
-<p>Some of the instance variables (e.g. 'isValidPrior', 'compareStatus', 'transitionTime', 'transitionTimeS', 'transitionTimeU', '<a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html#a62e9a52a0d0d11548a80a44097b88fe6" title="Storage for the &#39;letter&#39; field if &#39;rule&#39; is not null.">letter()</a>' and 'format()') are transient parameters which are in the implementation of the TransitionStorage::init() method.</p>
-<p>Other variables (e.g. 'startDateTime', 'startEpochSeconds', 'offsetMinutes', 'deltaMinutes', 'abbrev', 'letterBuf') are essential parameters which are required to find a matching Transition and construct the corresponding <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone object that supports the zon...">ZonedDateTime</a>.</p>
+<p>There are 2 types of Transition instances: 1) Simple, indicated by 'rule' == nullptr. The base UTC offsetSeconds is given by match-&gt;offsetSeconds. The additional DST delta is given by match-&gt;deltaSeconds. 2) Named, indicated by 'rule' != nullptr. The base UTC offsetSeconds is given by match-&gt;offsetSeconds. The additional DST delta is given by rule-&gt;deltaSeconds.</p>
+<p>Some of the instance variables (e.g. 'isValidPrior', 'compareStatus', 'transitionTime', 'transitionTimeS', 'transitionTimeU', 'letter()' and 'format()') are transient parameters which are in the implementation of the TransitionStorage::init() method.</p>
+<p>Other variables (e.g. 'startDateTime', 'startEpochSeconds', 'offsetSeconds', 'deltaSeconds', 'abbrev', 'letterBuf') are essential parameters which are required to find a matching Transition and construct the corresponding <a class="el" href="classace__time_1_1ZonedDateTime.html" title="The date (year, month, day), time (hour, minute, second), and a timeZone object that supports the zon...">ZonedDateTime</a>.</p>
 <p>Ordering of fields are optimized along 4-byte boundaries to help 32-bit processors without making the program size bigger for 8-bit processors.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -207,9 +203,9 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 </div><div class="memdoc">
 
 <p>The calculated effective time zone abbreviation, e.g. </p>
-<p>"PST" or "PDT". </p>
+<p>"PST" or "PDT". Initially this string buffer temporarily holds the <code>ZoneRule.letter()</code> string, until <code>createAbbreviation()</code> is called, which consumes the <code>letter</code> can creates the abbreviation. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00191">191</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00196">196</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
@@ -230,12 +226,12 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 <p>During findCandidateTransitions(), this flag indicates whether the current transition is a valid "prior" transition that occurs before other transitions. </p>
 <p>It is set by setFreeAgentAsPriorIfValid() if the transition is a prior transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00203">203</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00205">205</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>
 
 </div>
 </div>
-<a id="a74c3bdbaa5e0a4a8e7e483bae29387fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74c3bdbaa5e0a4a8e7e483bae29387fb">&#9670;&nbsp;</a></span>offsetMinutes</h2>
+<a id="a190b27d79a82643e36feda0800fac78d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a190b27d79a82643e36feda0800fac78d">&#9670;&nbsp;</a></span>offsetSeconds</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,14 +239,14 @@ template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
 template&lt;typename ZEB , typename ZPB , typename ZRB &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int16_t <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">ace_time::extended::TransitionTemplate</a>&lt; ZEB, ZPB, ZRB &gt;::offsetMinutes</td>
+          <td class="memname">int32_t <a class="el" href="structace__time_1_1extended_1_1TransitionTemplate.html">ace_time::extended::TransitionTemplate</a>&lt; ZEB, ZPB, ZRB &gt;::offsetSeconds</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The base offset minutes, not the total effective UTC offset. </p>
-<p>Note that this is different than basic::Transition::offsetMinutes used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...">BasicZoneProcessor</a> which is the total effective offsetMinutes. (It may be possible to make this into an effective offsetMinutes (i.e. offsetMinutes</p><ul>
-<li>deltaMinutes) but it does not seem worth making that change right now.) </li>
+<p>Note that this is different than basic::Transition::offsetSeconds used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...">BasicZoneProcessor</a> which is the total effective offsetSeconds. (It may be possible to make this into an effective offsetSeconds (i.e. offsetSeconds</p><ul>
+<li>deltaSeconds) but it does not seem worth making that change right now.) </li>
 </ul>
 
 <p class="definition">Definition at line <a class="el" href="Transition_8h_source.html#l00185">185</a> of file <a class="el" href="Transition_8h_source.html">Transition.h</a>.</p>

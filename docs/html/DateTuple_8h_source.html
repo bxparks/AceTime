@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -101,115 +101,167 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structace__time_1_1extended_1_1DateTuple.html">   36</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a> {</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>(int16_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod):</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      year(y), month(mon), day(d), suffix(mod), minutes(min) {}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  int16_t year; <span class="comment">// [-1,10000]</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  uint8_t month; <span class="comment">// [1,12]</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  uint8_t day; <span class="comment">// [1,31]</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  uint8_t suffix; <span class="comment">// kSuffixS, kSuffixW, kSuffixU</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  int16_t minutes; <span class="comment">// negative values allowed</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">   49</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">log</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordtype">int</span> hour = minutes / 60;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordtype">int</span> minute = minutes - hour * 60;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordtype">char</span> c = <span class="stringliteral">&quot;wsu&quot;</span>[(suffix&gt;&gt;4)];</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      logging::printf(<span class="stringliteral">&quot;%04d-%02u-%02uT%02d:%02d%c&quot;</span>,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;          year, month, day, hour, minute, c);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span> (a.year &lt; b.year) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordflow">if</span> (a.year &gt; b.year) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">if</span> (a.month &lt; b.month) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">if</span> (a.month &gt; b.month) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">if</span> (a.day &lt; b.day) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span> (a.day &gt; b.day) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span> (a.minutes &lt; b.minutes) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">if</span> (a.minutes &gt; b.minutes) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&gt;=(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">return</span> ! (a &lt; b);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&lt;=(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">return</span> ! (b &lt; a);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="structace__time_1_1extended_1_1DateTuple.html">DateTuple</a>(int16_t y, uint8_t mon, uint8_t d, int32_t secs, uint8_t mod)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      : year(y), month(mon), day(d), seconds(secs), suffix(mod)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  {}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  int16_t year; <span class="comment">// [-1,10000]</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  uint8_t month; <span class="comment">// [1,12]</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  uint8_t day; <span class="comment">// [1,31]</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  int32_t seconds; <span class="comment">// negative values allowed</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  uint8_t suffix; <span class="comment">// kSuffixS, kSuffixW, kSuffixU</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">   50</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">log</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span> (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      int16_t minutes = seconds / 60;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      int8_t second = seconds - int32_t(60) * minutes;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      int8_t hour = minutes / 60;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      int8_t minute = minutes - hour * 60;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordtype">char</span> c = <span class="stringliteral">&quot;wsu&quot;</span>[(suffix&gt;&gt;4)];</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">if</span> (second) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        logging::printf(<span class="stringliteral">&quot;%04d-%02u-%02uT%02d:%02d:%02d%c&quot;</span>,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            year, month, day, hour, minute, second, c);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        logging::printf(<span class="stringliteral">&quot;%04d-%02u-%02uT%02d:%02d%c&quot;</span>,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            year, month, day, hour, minute, c);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">if</span> (a.year &lt; b.year) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">if</span> (a.year &gt; b.year) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordflow">if</span> (a.month &lt; b.month) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">if</span> (a.month &gt; b.month) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">if</span> (a.day &lt; b.day) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">if</span> (a.day &gt; b.day) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">if</span> (a.seconds &lt; b.seconds) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">if</span> (a.seconds &gt; b.seconds) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&gt;(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordflow">return</span> (b &lt; a);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&gt;=(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordflow">return</span> ! (a &lt; b);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">return</span> a.year == b.year</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      &amp;&amp; a.month == b.month</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      &amp;&amp; a.day == b.day</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      &amp;&amp; a.minutes == b.minutes</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      &amp;&amp; a.suffix == b.suffix;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> normalizeDateTuple(DateTuple* dt) {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="keyword">const</span> int16_t kOneDayAsMinutes = 60 * 24;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keywordflow">if</span> (dt-&gt;minutes &lt;= -kOneDayAsMinutes) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    LocalDate ld = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(dt-&gt;year, dt-&gt;month, dt-&gt;day);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    local_date_mutation::decrementOneDay(ld);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    dt-&gt;year = ld.year();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    dt-&gt;month = ld.month();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    dt-&gt;day = ld.day();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    dt-&gt;minutes += kOneDayAsMinutes;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (kOneDayAsMinutes &lt;= dt-&gt;minutes) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    LocalDate ld = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(dt-&gt;year, dt-&gt;month, dt-&gt;day);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    local_date_mutation::incrementOneDay(ld);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    dt-&gt;year = ld.year();</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    dt-&gt;month = ld.month();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    dt-&gt;day = ld.day();</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    dt-&gt;minutes -= kOneDayAsMinutes;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// do nothing</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">inline</span> <a class="code" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> subtractDateTuple(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  int32_t epochDaysA = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      a.year, a.month, a.day).<a class="code" href="classace__time_1_1LocalDate.html#ab3b76c692aee5e652225616eb871bcae">toEpochDays</a>();</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  int32_t epochDaysB = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      b.year, b.month, b.day).<a class="code" href="classace__time_1_1LocalDate.html#ab3b76c692aee5e652225616eb871bcae">toEpochDays</a>();</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="comment">// Perform the subtraction of the days first, before converting to seconds, to</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="comment">// prevent overflow if a.year or b.year is more than 68 years from the current</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="comment">// epoch year.</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keywordflow">return</span> (epochDaysA - epochDaysB) * 86400 + (a.minutes - b.minutes) * 60;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keyword">inline</span> CompareStatus compareDateTupleFuzzy(</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">const</span> DateTuple&amp; t,</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">const</span> DateTuple&amp; start,</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">const</span> DateTuple&amp; until) {</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment">// Use int32_t because a delta year of 2730 or greater will exceed</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="comment">// the range of an int16_t.</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  int32_t tMonths = t.year * (int32_t) 12 + t.month;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  int32_t startMonths = start.year * (int32_t) 12 + start.month;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keywordflow">if</span> (tMonths &lt; startMonths - 1) <span class="keywordflow">return</span> CompareStatus::kPrior;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  int32_t untilMonths = until.year * 12 + until.month;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="keywordflow">if</span> (untilMonths + 1 &lt; tMonths) <span class="keywordflow">return</span> CompareStatus::kFarFuture;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keywordflow">return</span> CompareStatus::kWithinMatch;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;} <span class="comment">// namespace extended</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;} <span class="comment">// namespace ace_time</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclassace__time_1_1LocalDate_html_a03470885c11a33172e869825327b3058"><div class="ttname"><a href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">ace_time::LocalDate::forComponents</a></div><div class="ttdeci">static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day)</div><div class="ttdoc">Factory method using separated year, month and day fields.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00156">LocalDate.h:156</a></div></div>
-<div class="ttc" id="aclassace__time_1_1LocalDate_html_ab3b76c692aee5e652225616eb871bcae"><div class="ttname"><a href="classace__time_1_1LocalDate.html#ab3b76c692aee5e652225616eb871bcae">ace_time::LocalDate::toEpochDays</a></div><div class="ttdeci">int32_t toEpochDays() const</div><div class="ttdoc">Return number of days since the current epoch year sCurrentEpochYear.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00355">LocalDate.h:355</a></div></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&lt;=(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">return</span> ! (b &lt; a);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator&gt;(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keywordflow">return</span> (b &lt; a);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">return</span> a.year == b.year</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      &amp;&amp; a.month == b.month</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      &amp;&amp; a.day == b.day</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      &amp;&amp; a.seconds == b.seconds</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      &amp;&amp; a.suffix == b.suffix;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> normalizeDateTuple(DateTuple* dt) {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keyword">const</span> int32_t kOneDayAsSeconds = int32_t(60) * 60 * 24;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordflow">if</span> (dt-&gt;seconds &lt;= -kOneDayAsSeconds) {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    LocalDate ld = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(dt-&gt;year, dt-&gt;month, dt-&gt;day);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    local_date_mutation::decrementOneDay(ld);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    dt-&gt;year = ld.year();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    dt-&gt;month = ld.month();</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    dt-&gt;day = ld.day();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    dt-&gt;seconds += kOneDayAsSeconds;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (kOneDayAsSeconds &lt;= dt-&gt;seconds) {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    LocalDate ld = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(dt-&gt;year, dt-&gt;month, dt-&gt;day);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    local_date_mutation::incrementOneDay(ld);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    dt-&gt;year = ld.year();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    dt-&gt;month = ld.month();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    dt-&gt;day = ld.day();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    dt-&gt;seconds -= kOneDayAsSeconds;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">// do nothing</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> expandDateTuple(</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keyword">const</span> DateTuple* tt,</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    int32_t offsetSeconds,</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    int32_t deltaSeconds,</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    DateTuple* ttw,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    DateTuple* tts,</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    DateTuple* ttu) {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="keywordflow">if</span> (tt-&gt;suffix == <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#a9f2c5445bedb8f518bad0efde56d5f8b">ZoneContext::kSuffixS</a>) {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    *tts = *tt;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    *ttu = {tt-&gt;year, tt-&gt;month, tt-&gt;day,</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        tt-&gt;seconds - offsetSeconds,</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#aeadf61ad6a34a0be1918eac804c83165">ZoneContext::kSuffixU</a>};</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    *ttw = {tt-&gt;year, tt-&gt;month, tt-&gt;day,</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        tt-&gt;seconds + deltaSeconds,</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#ab58c37f12c76ba6d1b0a69be289c97b8">ZoneContext::kSuffixW</a>};</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (tt-&gt;suffix == <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#aeadf61ad6a34a0be1918eac804c83165">ZoneContext::kSuffixU</a>) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    *ttu = *tt;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    *tts = {tt-&gt;year, tt-&gt;month, tt-&gt;day,</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        tt-&gt;seconds + offsetSeconds,</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#a9f2c5445bedb8f518bad0efde56d5f8b">ZoneContext::kSuffixS</a>};</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    *ttw = {tt-&gt;year, tt-&gt;month, tt-&gt;day,</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        tt-&gt;seconds + (offsetSeconds + deltaSeconds),</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#ab58c37f12c76ba6d1b0a69be289c97b8">ZoneContext::kSuffixW</a>};</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">// Explicit set the suffix to &#39;w&#39; in case it was something else.</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    *ttw = *tt;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    ttw-&gt;suffix = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#ab58c37f12c76ba6d1b0a69be289c97b8">ZoneContext::kSuffixW</a>;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    *tts = {tt-&gt;year, tt-&gt;month, tt-&gt;day,</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        tt-&gt;seconds - deltaSeconds,</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#a9f2c5445bedb8f518bad0efde56d5f8b">ZoneContext::kSuffixS</a>};</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    *ttu = {tt-&gt;year, tt-&gt;month, tt-&gt;day,</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        tt-&gt;seconds - (deltaSeconds + offsetSeconds),</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#aeadf61ad6a34a0be1918eac804c83165">ZoneContext::kSuffixU</a>};</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  }</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  normalizeDateTuple(ttw);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  normalizeDateTuple(tts);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  normalizeDateTuple(ttu);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;}</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="keyword">inline</span> <a class="code" href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">acetime_t</a> subtractDateTuple(<span class="keyword">const</span> DateTuple&amp; a, <span class="keyword">const</span> DateTuple&amp; b) {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  int32_t epochDaysA = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      a.year, a.month, a.day).<a class="code" href="classace__time_1_1LocalDate.html#ab3b76c692aee5e652225616eb871bcae">toEpochDays</a>();</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  int32_t epochDaysB = <a class="code" href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">LocalDate::forComponents</a>(</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      b.year, b.month, b.day).<a class="code" href="classace__time_1_1LocalDate.html#ab3b76c692aee5e652225616eb871bcae">toEpochDays</a>();</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <span class="comment">// Perform the subtraction of the days first, before converting to seconds, to</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="comment">// prevent overflow if a.year or b.year is more than 68 years from the current</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="comment">// epoch year.</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  <span class="keywordflow">return</span> (epochDaysA - epochDaysB) * 86400 + a.seconds - b.seconds;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;}</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keyword">inline</span> CompareStatus compareDateTupleFuzzy(</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keyword">const</span> DateTuple&amp; t,</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">const</span> DateTuple&amp; start,</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">const</span> DateTuple&amp; until) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="comment">// Use int32_t because a delta year of 2730 or greater will exceed</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  <span class="comment">// the range of an int16_t.</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  int32_t tMonths = t.year * (int32_t) 12 + t.month;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  int32_t startMonths = start.year * (int32_t) 12 + start.month;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <span class="keywordflow">if</span> (tMonths &lt; startMonths - 1) <span class="keywordflow">return</span> CompareStatus::kPrior;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  int32_t untilMonths = until.year * 12 + until.month;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordflow">if</span> (untilMonths + 1 &lt; tMonths) <span class="keywordflow">return</span> CompareStatus::kFarFuture;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="keywordflow">return</span> CompareStatus::kWithinMatch;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;}</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;} <span class="comment">// namespace extended</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;} <span class="comment">// namespace ace_time</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassace__time_1_1LocalDate_html_a03470885c11a33172e869825327b3058"><div class="ttname"><a href="classace__time_1_1LocalDate.html#a03470885c11a33172e869825327b3058">ace_time::LocalDate::forComponents</a></div><div class="ttdeci">static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day)</div><div class="ttdoc">Factory method using separated year, month and day fields.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00153">LocalDate.h:153</a></div></div>
+<div class="ttc" id="aclassace__time_1_1LocalDate_html_ab3b76c692aee5e652225616eb871bcae"><div class="ttname"><a href="classace__time_1_1LocalDate.html#ab3b76c692aee5e652225616eb871bcae">ace_time::LocalDate::toEpochDays</a></div><div class="ttdeci">int32_t toEpochDays() const</div><div class="ttdoc">Return number of days since the current epoch year sCurrentEpochYear.</div><div class="ttdef"><b>Definition:</b> <a href="LocalDate_8h_source.html#l00352">LocalDate.h:352</a></div></div>
 <div class="ttc" id="acommon_8h_html_a9c5a9893b2588031b6ab56826dec303a"><div class="ttname"><a href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">ace_time::acetime_t</a></div><div class="ttdeci">int32_t acetime_t</div><div class="ttdoc">Type for the number of seconds from epoch.</div><div class="ttdef"><b>Definition:</b> <a href="common_8h_source.html#l00024">common.h:24</a></div></div>
 <div class="ttc" id="astructace__time_1_1extended_1_1DateTuple_html"><div class="ttname"><a href="structace__time_1_1extended_1_1DateTuple.html">ace_time::extended::DateTuple</a></div><div class="ttdoc">A tuple that represents a date and time.</div><div class="ttdef"><b>Definition:</b> <a href="DateTuple_8h_source.html#l00036">DateTuple.h:36</a></div></div>
-<div class="ttc" id="astructace__time_1_1extended_1_1DateTuple_html_afa991fc734c0f703f2afa4133822fb6b"><div class="ttname"><a href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">ace_time::extended::DateTuple::log</a></div><div class="ttdeci">void log() const</div><div class="ttdoc">Used only for debugging.</div><div class="ttdef"><b>Definition:</b> <a href="DateTuple_8h_source.html#l00049">DateTuple.h:49</a></div></div>
+<div class="ttc" id="astructace__time_1_1extended_1_1DateTuple_html_afa991fc734c0f703f2afa4133822fb6b"><div class="ttname"><a href="structace__time_1_1extended_1_1DateTuple.html#afa991fc734c0f703f2afa4133822fb6b">ace_time::extended::DateTuple::log</a></div><div class="ttdeci">void log() const</div><div class="ttdoc">Used only for debugging.</div><div class="ttdef"><b>Definition:</b> <a href="DateTuple_8h_source.html#l00050">DateTuple.h:50</a></div></div>
+<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZoneContext_html_a9f2c5445bedb8f518bad0efde56d5f8b"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#a9f2c5445bedb8f518bad0efde56d5f8b">ace_time::zoneinfolow::ZoneContext::kSuffixS</a></div><div class="ttdeci">static const uint8_t kSuffixS</div><div class="ttdoc">Represents 's' or standard time.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00065">ZoneInfoLow.h:65</a></div></div>
+<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZoneContext_html_ab58c37f12c76ba6d1b0a69be289c97b8"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#ab58c37f12c76ba6d1b0a69be289c97b8">ace_time::zoneinfolow::ZoneContext::kSuffixW</a></div><div class="ttdeci">static const uint8_t kSuffixW</div><div class="ttdoc">Represents 'w' or wall time.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00062">ZoneInfoLow.h:62</a></div></div>
+<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZoneContext_html_aeadf61ad6a34a0be1918eac804c83165"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZoneContext.html#aeadf61ad6a34a0be1918eac804c83165">ace_time::zoneinfolow::ZoneContext::kSuffixU</a></div><div class="ttdeci">static const uint8_t kSuffixU</div><div class="ttdoc">Represents 'u' or UTC time.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00068">ZoneInfoLow.h:68</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
