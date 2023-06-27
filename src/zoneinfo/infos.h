@@ -24,7 +24,11 @@ using ZoneInfo = zoneinfolow::ZoneInfo<Basic, ZoneContext>;
 
 }
 
-// Data structures for ExtendedZoneProcessor
+// Data structures for ExtendedZoneProcessor. The ExtendedZoneProcessor
+// uses the *same* storage format as BasicZoneProcessor (i.e. zoneinfolow)
+// to save flash memory. It turns out that all timezones after the year 2000
+// have parameters which can be accurately captured using the low-resolution
+// zoneinfolow data types instead of the zoneinfomid data types.
 namespace extended {
 
 class Extended {}; // dummy sentinel class
