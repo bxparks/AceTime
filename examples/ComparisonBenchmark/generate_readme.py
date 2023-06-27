@@ -24,9 +24,13 @@ esp32_results = check_output(
 print(f"""\
 # Comparison Benchmark
 
-Here are the results from `ComparisonBenchmark.ino` for various boards.
+Here are the results from `ComparisonBenchmark.ino` which compares the execution
+time of date-time conversion functions (`LocalDateTime::toEpochSeconds()`,
+`LocalDateTime::forEpochSeconds()`) from the AceTime library with the
+equilvalent functions (`makeTime()`, `breakTime()`) from the [Arduino
+Time](https://github.com/PaulStoffregen/Time) library.
 
-**Version**: AceTime v2.2.3
+**Version**: AceTime v2.3.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
