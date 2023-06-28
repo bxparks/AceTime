@@ -4,16 +4,16 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <tzonedbx/zone_policies.h>
-#include <tzonedbx/zone_infos.h>
+#include <zonedbxtesting/zone_policies.h>
+#include <zonedbxtesting/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::tzonedbx::kZoneAmerica_Chicago;
-using ace_time::tzonedbx::kZoneAmerica_Denver;
-using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedbx::kZoneAmerica_New_York;
-using ace_time::tzonedbx::kZoneAfrica_Casablanca;
-using ace_time::tzonedbx::kZonePacific_Apia;
+using ace_time::zonedbxtesting::kZoneAmerica_Chicago;
+using ace_time::zonedbxtesting::kZoneAmerica_Denver;
+using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbxtesting::kZoneAmerica_New_York;
+using ace_time::zonedbxtesting::kZoneAfrica_Casablanca;
+using ace_time::zonedbxtesting::kZonePacific_Apia;
 
 // --------------------------------------------------------------------------
 
@@ -57,15 +57,15 @@ test(ZonedDateTimeExtendedTest, forComponents_isError) {
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // Cannot create dates roughly before ZoneContext.startYear.
-  ZonedDateTime dt = ZonedDateTime::forComponents(1970, 3, 11, 1, 59, 59, tz);
+  // outside [0, 10000) range, should generate error
+  ZonedDateTime dt = ZonedDateTime::forComponents(-200, 3, 11, 1, 59, 59, tz);
   const OffsetDateTime &odt = dt.offsetDateTime();
   assertTrue(odt.isError());
   const LocalDateTime &ldt = dt.localDateTime();
   assertTrue(ldt.isError());
   assertTrue(dt.isError());
 
-  // Cannot create dates roughly after ZoneContext.untilYear.
+  // outside [0, 10000) range, should generate error
   dt = ZonedDateTime::forComponents(10001, 3, 11, 1, 59, 59, tz);
   assertTrue(dt.isError());
 }

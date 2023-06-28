@@ -7,9 +7,9 @@
 //     --action zonedb
 //     --language arduino
 //     --scope basic
-//     --generate_int16_years
+//     --db_namespace zonedb
 //     --start_year 2000
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -25,52 +25,61 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2023c
 //
-// Supported Zones: 446 (226 zones, 220 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 448 (228 zones, 220 links)
+// Unsupported Zones: 148 (122 zones, 26 links)
+//
+// Requested Years: [2000,2200]
+// Accurate Years: [2000,32767]
 //
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2023]
+// Lower/Upper Truncated: [True,False]
+//
 // Estimator Years: [1950,2025]
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 238
-//   Policies: 63
-//   Rules: 362
+//   Infos: 448
+//   Eras: 240
+//   Policies: 65
+//   Rules: 367
 //
 // Memory (8-bits):
-//   Rules: 3982
-//   Policies: 189
-//   Eras: 2856
-//   Zones: 2938
+//   Context: 16
+//   Rules: 3303
+//   Policies: 195
+//   Eras: 2640
+//   Zones: 2964
 //   Links: 2860
-//   Registry: 892
-//   Formats: 465
-//   Letters: 11
+//   Registry: 896
+//   Formats: 467
+//   Letters: 29
 //   Fragments: 116
-//   Names: 4144 (original: 6503)
-//   TOTAL: 18453
+//   Names: 4162 (original: 6534)
+//   TOTAL: 17648
 //
 // Memory (32-bits):
-//   Rules: 4344
-//   Policies: 504
-//   Eras: 3808
-//   Zones: 5424
+//   Context: 24
+//   Rules: 4404
+//   Policies: 520
+//   Eras: 3840
+//   Zones: 5472
 //   Links: 5280
-//   Registry: 1784
-//   Formats: 465
-//   Letters: 17
+//   Registry: 1792
+//   Formats: 467
+//   Letters: 41
 //   Fragments: 138
-//   Names: 4144 (original: 6503)
-//   TOTAL: 25908
+//   Names: 4162 (original: 6534)
+//   TOTAL: 26140
 //
 // DO NOT EDIT
 
 #ifndef ACE_TIME_ZONEDB_ZONE_INFOS_H
 #define ACE_TIME_ZONEDB_ZONE_INFOS_H
 
-#include <zoneinfo/ZoneInfo.h>
+#include <zoneinfo/infos.h>
+
+class __FlashStringHelper;
 
 namespace ace_time {
 namespace zonedb {
@@ -80,14 +89,13 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
-extern const char kTzDatabaseVersion[];
+extern const __FlashStringHelper* const kTzDatabaseVersion;
 
 // Metadata about the zonedb files.
-extern const internal::ZoneContext kZoneContext;
+extern const basic::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 226
-// Supported eras: 238
+// Supported zones: 228
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -101,11 +109,13 @@ extern const basic::ZoneInfo kZoneAfrica_Monrovia; // Africa/Monrovia
 extern const basic::ZoneInfo kZoneAfrica_Nairobi; // Africa/Nairobi
 extern const basic::ZoneInfo kZoneAfrica_Ndjamena; // Africa/Ndjamena
 extern const basic::ZoneInfo kZoneAfrica_Tunis; // Africa/Tunis
+extern const basic::ZoneInfo kZoneAfrica_Windhoek; // Africa/Windhoek
 extern const basic::ZoneInfo kZoneAmerica_Adak; // America/Adak
 extern const basic::ZoneInfo kZoneAmerica_Anchorage; // America/Anchorage
 extern const basic::ZoneInfo kZoneAmerica_Asuncion; // America/Asuncion
 extern const basic::ZoneInfo kZoneAmerica_Barbados; // America/Barbados
 extern const basic::ZoneInfo kZoneAmerica_Belem; // America/Belem
+extern const basic::ZoneInfo kZoneAmerica_Belize; // America/Belize
 extern const basic::ZoneInfo kZoneAmerica_Bogota; // America/Bogota
 extern const basic::ZoneInfo kZoneAmerica_Boise; // America/Boise
 extern const basic::ZoneInfo kZoneAmerica_Campo_Grande; // America/Campo_Grande
@@ -331,11 +341,13 @@ const uint32_t kZoneIdAfrica_Monrovia = 0x0ce90385; // Africa/Monrovia
 const uint32_t kZoneIdAfrica_Nairobi = 0xa87ab57e; // Africa/Nairobi
 const uint32_t kZoneIdAfrica_Ndjamena = 0x9fe09898; // Africa/Ndjamena
 const uint32_t kZoneIdAfrica_Tunis = 0x79378e6d; // Africa/Tunis
+const uint32_t kZoneIdAfrica_Windhoek = 0x789c9bd3; // Africa/Windhoek
 const uint32_t kZoneIdAmerica_Adak = 0x97fe49d7; // America/Adak
 const uint32_t kZoneIdAmerica_Anchorage = 0x5a79260e; // America/Anchorage
 const uint32_t kZoneIdAmerica_Asuncion = 0x50ec79a6; // America/Asuncion
 const uint32_t kZoneIdAmerica_Barbados = 0xcbbc3b04; // America/Barbados
 const uint32_t kZoneIdAmerica_Belem = 0x97da580b; // America/Belem
+const uint32_t kZoneIdAmerica_Belize = 0x93256c81; // America/Belize
 const uint32_t kZoneIdAmerica_Bogota = 0x93d7bc62; // America/Bogota
 const uint32_t kZoneIdAmerica_Boise = 0x97dfc8d8; // America/Boise
 const uint32_t kZoneIdAmerica_Campo_Grande = 0xfec3e7a6; // America/Campo_Grande
@@ -1017,11 +1029,13 @@ const uint8_t kZoneBufSizeAfrica_Monrovia = 1;  // Africa/Monrovia in 1949
 const uint8_t kZoneBufSizeAfrica_Nairobi = 1;  // Africa/Nairobi in 1949
 const uint8_t kZoneBufSizeAfrica_Ndjamena = 1;  // Africa/Ndjamena in 1949
 const uint8_t kZoneBufSizeAfrica_Tunis = 5;  // Africa/Tunis in 2005
+const uint8_t kZoneBufSizeAfrica_Windhoek = 4;  // Africa/Windhoek in 1994
 const uint8_t kZoneBufSizeAmerica_Adak = 6;  // America/Adak in 2008
 const uint8_t kZoneBufSizeAmerica_Anchorage = 6;  // America/Anchorage in 2008
 const uint8_t kZoneBufSizeAmerica_Asuncion = 5;  // America/Asuncion in 2000
 const uint8_t kZoneBufSizeAmerica_Barbados = 2;  // America/Barbados in 1949
 const uint8_t kZoneBufSizeAmerica_Belem = 1;  // America/Belem in 1949
+const uint8_t kZoneBufSizeAmerica_Belize = 2;  // America/Belize in 1949
 const uint8_t kZoneBufSizeAmerica_Bogota = 2;  // America/Bogota in 1949
 const uint8_t kZoneBufSizeAmerica_Boise = 6;  // America/Boise in 2008
 const uint8_t kZoneBufSizeAmerica_Campo_Grande = 6;  // America/Campo_Grande in 2003
@@ -1235,7 +1249,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 124
+// Unsupported zones: 122
 //---------------------------------------------------------------------------
 
 // Africa/Cairo {policy 'Egypt' not found}
@@ -1245,7 +1259,6 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // Africa/Khartoum {UNTIL contains month/day/time}
 // Africa/Sao_Tome {UNTIL contains month/day/time}
 // Africa/Tripoli {UNTIL contains month/day/time}
-// Africa/Windhoek {policy 'Namibia' not found}
 // America/Araguaina {UNTIL contains month/day/time}
 // America/Argentina/Buenos_Aires {UNTIL contains month/day/time}
 // America/Argentina/Catamarca {UNTIL contains month/day/time}
@@ -1261,7 +1274,6 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // America/Argentina/Ushuaia {UNTIL contains month/day/time}
 // America/Bahia {UNTIL contains month/day/time}
 // America/Bahia_Banderas {UNTIL contains month/day/time}
-// America/Belize {policy 'Belize' not found}
 // America/Boa_Vista {UNTIL contains month/day/time}
 // America/Cambridge_Bay {UNTIL contains month/day/time}
 // America/Cancun {UNTIL contains month/day/time}
@@ -1365,10 +1377,20 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 7
+// Notable zones: 9
 //---------------------------------------------------------------------------
 
 // Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
+// Africa/Windhoek {
+//   Namibia {
+//     LETTER 'CAT' not single character,
+//     LETTER 'WAT' not single character,
+//     SAVE '-1:00' is a negative DST,
+//   }
+// }
+// America/Belize {
+//   Belize {LETTER 'CST' not single character}
+// }
 // America/Moncton {
 //   Moncton {AT '0:01' not multiple of :15 min}
 // }

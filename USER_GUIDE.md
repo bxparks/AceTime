@@ -4,21 +4,21 @@ The primary purpose of AceTime classes is to convert between an integer
 representing the number of seconds since the AceTime Epoch (2050-01-01T00:00:00
 UTC) and the equivalent human-readable components in different timezones.
 The epoch year is adjustable using the `Epoch::currentEpochYear(year)`. This
-sets the epoch to be {year}-01-01T00:00:00 UTC
+sets the epoch to be `{year}-01-01T00:00:00 UTC`.
 
 The epoch seconds is represented by an `int32_t` integer (instead of an
 `int64_t` used in most modern timezone libraries) to save resources on 8-bit
-processors. The range of a 32-bit integer is about 132 years which allows most
-features of the AceTime library to work across about a 100-year interval
-straddling the current epoch year.
+processors without native 64-bit integer instructions. The range of a 32-bit
+integer is about 136 years which allows most features of the AceTime library to
+work across at least about a 120-year interval straddling the current epoch
+year.
 
-The IANA TZ database is programmatically generated into the `src/zonedb` and
-`src/zonedbx` subdirectory from the raw IANA TZ files. The database entries are
-valid from the years `[2000,10000)`. By adjusting the `currentEpochYear()`, the
-library will work across any 100 year interval across the 8000 year range of the
-TZ database.
+The IANA TZ database is programmatically generated into 3 predefined databases:
+`src/zonedb`, `src/zonedbx`, and `src/zonedbc` subdirectories. Different
+databases have different accuracy ranges, and are designed to work with
+different `ZoneProcessor` and `ZoneManager` classes.
 
-**Version**: 2.2.3 (2023-05-31, TZDB 2023c)
+**Version**: 2.3.0 (2023-06-27, TZDB 2023c)
 
 **Related Documents**:
 
@@ -75,12 +75,12 @@ TZ database.
     * [ZoneDB](#ZoneDB)
         * [Basic zonedb](#BasicZonedb)
         * [Extended zonedbx](#ExtendedZonedbx)
-        * [BasicZone and ExtendedZone](#BasicZoneAndExtendedZone)
+        * [Complete zonedbc](#CompleteZonedbc)
+        * [External Zone Classes](#ExternalZone)
         * [TZ Database Version](#TzDatabaseVersion)
         * [Zone Info Year Range](#ZoneInfoYearRange)
     * [Zones and Links](#ZonesAndLinks)
-        * [Unified Links](#UnifiedLinks)
-        * [Custom Zone Registry](#CustomZoneRegistry)
+    * [Custom Zone Registry](#CustomZoneRegistry)
 * [Zone Sorting](#ZoneSorting)
 * [Print To String](#PrintToString)
 * [Mutations](#Mutations)
@@ -100,20 +100,23 @@ TZ database.
 
 The Date, Time, and TimeZone classes provide an abstraction layer to make it
 easier to use and manipulate date and time fields, in different time zones. It
-is difficult to organize the various parts of this library in the most easily
+is difficult to organize the various parts of this library in an easily
 digestible way, but perhaps they can be categorized into three parts:
 
 * Simple Date and Time classes for converting date and time fields to and
-  from the "epoch seconds",
-* TimeZone related classes which come in 2 forms:
-    * classes that extend the simple Date and Time classes that account for time
-      zones which can be described in a time zone database (e.g. `TimeZone`,
-     `ZonedDateTime`, `ZoneProcessor`)
-    * classes and types that manage the TZ Database and provide access to its
-      data (e.g. `ZoneManager`, `ZoneInfo`, `ZoneId`)
-* The ZoneInfo Database generated from the IANA TZ Database that contains UTC
-  offsets and the rules for determining when DST transitions occur for a
-  particular time zone
+  from the "epoch seconds", for example:
+    - `acetime_t`
+    - `LocalDate`, `LocalTime`, `LocalDateTime`, `OffsetDateTime`
+    - `TimeOffset`, `TimePeriod`
+* TimeZone related classes, for example:
+    - `TimeZone`, `ZoneInfo`
+    - `ZonedDateTime`, `ZonedExtra`
+    - `BasicZoneProcessor`, `ExtendedZoneProcessor`, `CompleteZoneProcessor`
+    - `BasicZoneManager`, `ExtendedZoneManager`, `CompleteZoneManager`
+* ZoneInfo Databases generated from the IANA TZ Database
+    * contains UTC offsets and the DST transition rules
+    * `zonedb/`, `zonedbx/`, `zonedbc/` databases
+    * registries: `kZoneRegistry`, `kZoneAndLinkRegistry`
 
 <a name="DateAndTimeOverview"></a>
 ### Date and Time Overview
@@ -156,10 +159,11 @@ Most timezone related functions of the library use the `int32_t` epochseconds
 for its internal calculations, so the date range should be constrained to +/- 68
 years of the current epoch. The timezone calculations require some additional
 buffers at the edges of the range (1-3 years), so the actual range of validity
-is about +/- 65 years. To be very conservative, client applications are advised
-to limit the date range to about 100 years, in other words, about +/- 50 years
-from the current epoch year. Using the default epoch year of 2050, the
-recommended range is `[2000,2100)`.
+is about +/- 65 years. To be conservative, client applications are advised to
+limit the date range to about 100-120 years, in other words, about +/- 50 to 60
+years from the current epoch year. Using the default epoch year of 2050, the
+recommended range is `[2000,2100)` because a 100-year interval is easy to
+remember.
 
 <a name="TimeZoneOverview"></a>
 ### TimeZone Overview
@@ -178,15 +182,22 @@ different algorithms to process this database:
       by the IANA TZ Database
 * `ExtendedZoneProcessor`
     * bigger and more complex and handles the entire TZ database
+* `CompleteZoneProcessor`
+    * same as `ExtendedZoneProcessor` but handles the timezones defined by the
+      `acetime::zonedbc` database, over a much larger year interval
+      `[0001,10000)`.
 
-Access to the two sets data in the ZoneInfo Database is provided by:
+Access to the 3 sets data in the ZoneInfo Database is provided by:
 
 * `BasicZoneManager`:
-    * contains a registry of the basic ZoneInfo data structures
+    * holds a registry of the basic ZoneInfo data structures
     * holds a cache of `BasicZoneProcessor`
 * `ExtendedZoneManager`:
-    * contains a registry of the extended ZoneInfo data structures
-    * the holds a cache of `ExtendedZoneProcessor`
+    * holds a registry of the extended ZoneInfo data structures
+    * holds a cache of `ExtendedZoneProcessor`
+* `CompleteZoneManager`:
+    * holds a registry of the extended ZoneInfo data structures
+    * holds a cache of `CompleteZoneProcessor`
 
 <a name="ZoneInfoDatabaseOverview"></a>
 ### ZoneInfo Database Overview
@@ -197,20 +208,25 @@ the IANA TZ Database). The ZoneInfo Database contains statically defined C++
 data structures, which each timezone in the TZ Database being represented by a
 `ZoneInfo` data structure.
 
-Two slightly different sets of ZoneInfo entries are generated, under 2 different
-directories, using 2 different C++ namespaces to avoid cross-contamination:
+Three slightly different sets of ZoneInfo entries are generated:
 
 * [zonedb/zone_infos.h](src/zonedb/zone_infos.h)
     * intended for `BasicZoneProcessor` or `BasicZoneManager`
-    * 266 zones and 183 links (as of version 2021a) from the year 2000 until
-      10000, about 70% of the full IANA TZ Database
+    * 448 zones and links (as of version 2023c) over the year `[2000,10000)`
     * contains `kZone*` declarations (e.g. `kZoneAmerica_Los_Angeles`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAmerica_Los_Angeles`)
-    * slightly smaller and slightly faster
+    * slightly smaller and slightly faster, but does not supported detection of
+      overlaps and gaps perfectly
 * [zonedbx/zone_infos.h](src/zonedbx/zone_infos.h)
     * intended for `ExtendedZoneProcessor` or `ExtendedZoneManager`
-    * all 386 zones and 207 links (as of version 2021a) in the IANA TZ Database
-      from the year 2000 until 10000
+    * all 596 (as of version 2023c) in the IANA TZ Database over the years
+      `[2000,10000)`
+    * contains `kZone*` declarations (e.g. `kZoneAfrica_Casablanca`)
+    * contains `kZoneId*` identifiers (e.g. `kZoneIdAfrica_Casablanca`)
+* [zonedbc/zone_infos.h](src/zonedbc/zone_infos.h)
+    * intended for `CompleteZoneProcessor` or `CompleteZoneManager`
+    * all 596 (as of version 2023c) in the IANA TZ Database over the years of
+      `[0001,10000)`
     * contains `kZone*` declarations (e.g. `kZoneAfrica_Casablanca`)
     * contains `kZoneId*` identifiers (e.g. `kZoneIdAfrica_Casablanca`)
 
@@ -219,21 +235,17 @@ information are defined in the following namespaces. They are not expected to be
 used by application developers under normal circumstances, so these are listed
 here for reference:
 
-* `ace_time::basic::ZoneContext`
-* `ace_time::basic::ZoneEra`
-* `ace_time::basic::ZoneInfo`
-* `ace_time::basic::ZonePolicy`
-* `ace_time::basic::ZoneRule`
-* `ace_time::extended::ZoneContext`
-* `ace_time::extended::ZoneInfo`
-* `ace_time::extended::ZoneEra`
-* `ace_time::extended::ZonePolicy`
-* `ace_time::extended::ZoneRule`
+* `ace_time::basic::ZoneXxx`
+* `ace_time::extended::ZoneXxx`
+* `ace_time::complete::ZoneXxx`
 
-The ZoneInfo entries (and their associated `ZoneProcessor` classes) have a
-resolution of 1 minute, which is sufficient to represent all UTC offsets and DST
-shifts of all timezones after 1972 (Africa/Monrovia seems like the last timezone
-to conform to a one-minute resolution on Jan 7, 1972).
+The `basic::ZoneInfo` and `extended::ZoneInfo` classes (and their associated
+`ZoneProcessor` classes) have a resolution of 1 minute, which is sufficient to
+represent all UTC offsets and DST shifts of all timezones after 1972
+(Africa/Monrovia seems like the last timezone to conform to a one-minute
+resolution on Jan 7, 1972). The `complete::ZoneInfo` classes have a resolution
+of 1 second, which allows them to represent all timezones, for all years in the
+TZ database, over the years `[0001,10000)`.
 
 It is expected that most applications using AceTime will use only a small number
 of timezones at the same time (1 to 4 zones have been extensively tested) and
@@ -252,7 +264,7 @@ network or to save to EEPROM.
 The AceTime library provides each timezone with an alternative `zoneId`
 identifier of type `uint32_t` which is guaranteed to be unique and stable. For
 example, the zoneId for `"America/Los_Angeles"` is provided by
-`zonedb::kZoneIdAmerica_Los_Angeles` or `zonedbx::kZoneIdAmerica_Los_Angele`
+`zonedb::kZoneIdAmerica_Los_Angeles` or `zonedbx::kZoneIdAmerica_Los_Angeles`
 which both have the value `0xb7f7e8f2`. A `TimeZone` object can be saved as a
 `zoneId` and then recreated using the `BasicZoneManager::createForZoneId()`
 or `ExtendedZoneManager::createForZoneId()` method.
@@ -269,18 +281,13 @@ the following `using` directive:
 using namespace ace_time;
 ```
 
-To use the Basic ZoneInfo data structures needed by `BasicZoneProcessor` and
-`BasicZoneManager`, you will need:
+To use the appropriate ZoneInfo data structures needed by the ZoneProcessor and
+ZoneManager you will need *one* of the following:
 
 ```C++
 using namespace ace_time::zonedb;
-```
-
-To use the Extended ZoneInfo data structures needed by `ExtendedZoneProcessor`
-and `ExtendedZoneManager`, you will need:
-
-```C++
 using namespace ace_time::zonedbx;
+using namespace ace_time::zonedbc;
 ```
 
 The following C++ namespaces are usually internal implementation details
@@ -289,7 +296,8 @@ which are not normally needed by the end users:
 * `ace_time::basic`: for creating custom zone registries for `BasicZoneManager`
 * `ace_time::extended`: for creating custom zone registries for
   `ExtendedZoneManager`
-* `ace_time::internal`
+* `ace_time::complete`: for creating custom zone registries for
+  `CompleteZoneManager`
 
 <a name="DateTimeClasses"></a>
 ## Date and Time Classes
@@ -307,13 +315,13 @@ typedef int32_t acetime_t;
 }
 ```
 
-This represents the number of seconds since the Epoch. In AceTime, the
-Epoch is defined by default to be 2050-01-01 00:00:00 UTC time. In contrast, the
-Unix Epoch is defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a
-32-bit signed integer, the largest value is 2,147,483,647. Therefore, the
-largest date that can be represented as an epoch seconds is 2118-01-20T03:14:07
-UTC. However for various reasons, client applications are recommended to stay
-within a 100-year interval `[2000,2100)`.
+This represents the number of seconds since the Epoch. In AceTime, the Epoch is
+defined by default to be 2050-01-01 00:00:00 UTC time (and can be changed using
+the `Epoch::currentEpochYear()` function). In contrast, the Unix Epoch is
+defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a 32-bit signed
+integer, the largest value is 2,147,483,647. With the default epoch year of
+2050, the largest date that can be represented as an epoch seconds is
+2118-01-20T03:14:07 UTC.
 
 The `acetime_t` is analogous to the `time_t` type in the standard C library,
 with several major differences:
@@ -331,7 +339,7 @@ with several major differences:
 It is possible to convert between a `time_t` and an `acetime_t` by adding or
 subtracting the number of seconds between the 2 Epoch dates. This value is given
 by `Epoch::secondsToCurrentEpochFromUnixEpoch64()` which returns an `int64_t`
-value to allow epoch years greater than 2028. If the date is within +/- 50 years
+value to allow epoch years greater than 2038. If the date is within +/- 60 years
 of the current epoch year, then the resulting epoch seconds will fit inside a
 `int32_t` integer. Helper methods are available on various classes to avoid
 manual conversion between these 2 epochs: `forUnixSeconds64()` and
@@ -379,9 +387,9 @@ Normally, the current epoch year is expected to be unchanged using the default
 2050, or changed just once at the initialization phase of the application.
 However in some situations, the client app may call `Epoch::currentEpochYear()`
 during its runtime to extend the range of the years of interest. The
-`BasicZoneProcessor` and `ExtendedZoneProcessor` objects will automatically
-invalidate and regenerate its internal transition cache when the epoch year is
-modified.
+`BasicZoneProcessor`, `ExtendedZoneProcessor` and `CompleteZoneProcessor`
+objects will automatically invalidate and regenerate its internal transition
+cache when the epoch year is modified.
 
 <a name="LocalDateAndLocalTime"></a>
 ### LocalDate and LocalTime
@@ -734,12 +742,12 @@ different error conditions.
 
 A `TimeOffset` class represents an amount of time shift from a reference point.
 This is usually used to represent a timezone's standard UTC offset or its DST
-offset in the summer. The time resolution of this class changed from 15 minutes
-(using a single byte `int8_t` implementation prior to v0.7) to 1 minute (using a
-2-byte `int16_t` implementation since v0.7). The range of an `int16_t` is
-[-32768, +32767], but -32768 is used to indicate an error condition, so the
-actual range is [-32767, +32767] minutes. In practice, the range of values
-actually used is probably within [-48, +48] hours, or [-2880, +2800] minutes
+offset in the summer. The time resolution of this class has progressively become
+finer as this library handles more obscure timezones, causing the object to
+become larger. Early versions used a single byte for a 15-minute resolution,
+then 2 bytes for a 1-minute resolution, and now 4 bytes to capture 1-second
+resolution. It now has a range of +/- 49710 days, which is more than enough
+to handle the STD or DST offset of any timezone.
 
 ```C++
 namespace ace_time {
@@ -748,11 +756,16 @@ class TimeOffset {
   public:
     static TimeOffset forHours(int8_t hours);
     static TimeOffset forMinutes(int16_t minutes);
+    static TimeOffset forSeconds(int32_t seconds);
+
     static TimeOffset forHourMinute(int8_t hour, int8_t minute);
+    static TimeOffset forHourMinuteSecond(
+        int8_t hour, int8_t minute, int8_t second);
 
     int16_t toMinutes() const;
     int32_t toSeconds() const;
     void toHourMinute(int8_t& hour, int8_t& minute) const;
+    void toHourMinuteSecond(int8_t& hour, int8_t& minute, int8_t second) const;
 
     bool isZero() const;
     bool isError() const;
@@ -789,7 +802,7 @@ When a method in some class (e.g. `OffsetDateTime` or `ZonedDateTime` below)
 returns a `TimeOffset`, it is useful to indicate an error condition by returning
 the special value created by the factory method `TimeOffset::forError()`. This
 special error marker has the property that `TimeOffset::isError()` returns
-`true`. Internally, this is an instance whose internal integer is -32768.
+`true`.
 
 The convenience method `TimeOffset::isZero()` returns `true` if the offset has a
 zero offset. This is often used to determine if a timezone is currently
@@ -916,6 +929,9 @@ Both meanings of "time zone" are supported by the `TimeZone` class using
   can be encoded with (relatively) simple rules from the ZoneInfo Database
 * `ExtendedZoneProcessor::kTypeExtended` (4): utilizes a `ExtendedZoneProcessor`
   which can handle all zones and links in the ZoneInfo Database
+* `CompleteZoneProcessor::kTypeComplete` (5): utilizes a `CompleteZoneProcessor`
+  which can handle all zones and links in the ZoneInfo Database, over the
+  entire year range `[0001,10000)`
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
@@ -927,6 +943,7 @@ hold a reference to:
 * nothing (`kTypeManual`),
 * one `BasicZoneProcessor` object, (`kTypeBasic`), or
 * one `ExtendedZoneProcessor` object (`kTypeExtended`)
+* one `CompleteZoneProcessor` object (`kTypeComplete`)
 
 ```
                0..1
@@ -934,8 +951,10 @@ TimeZone <>-------- ZoneProcessor
                          ^
                          |
                    .-----+-----.
-                   |           |
-    BasicZoneProcessor       ExtendedZoneProcessor
+                   |     |     |
+    BasicZoneProcessor   |    ExtendedZoneProcessor
+                         |
+                 CompleteZoneProcessor
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -969,6 +988,10 @@ class TimeZone {
     static TimeZone forZoneInfo(
         const extended::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor);
+
+    static TimeZone forZoneInfo(
+        const complete::ZoneInfo* zoneInfo,
+        CompleteZoneProcessor* zoneProcessor);
 
     static TimeZone forUtc();
 
@@ -1022,11 +1045,11 @@ The following methods apply only to instances of the type `kTypeManual`:
     * returns true if the dstOffset is not zero
     * returns false if not `kTypeManual`
 
-The following methods apply to a `kTypeBasic` or `kTypeExtended`:
+The following methods apply to a `kTypeBasic`, `kTypeExtended`, `kTypeComplete`:
 
 * `forZoneInfo(zoneInfo, zoneProcessor)`
     * Create an instance of from the given `ZoneInfo*` pointer (e.g.
-      `basic::kZoneAmerica_Los_Angeles`, or
+      `complete::kZoneAmerica_Los_Angeles`, or
       `extended::kZoneAmerica_Los_Angeles`)
 * `getZoneId()`
     * Returns a `uint32_t` integer which is a unique and stable identifier for
@@ -1040,25 +1063,15 @@ The following methods apply to any type of `TimeZone`:
       time. This method is used by `ZonedDateTime::forComponents()` and is
       exposed mostly for debugging.
     * The `fold` parameter of the `localDateTime` will be used by the
-      `ExtendedZoneProcessor` to disambiguate date-time in the gap or overlap
-      selecting the first (0) or second (1) transition line.
+      `ExtendedZoneProcessor` and `CompleteZoneProcessor` to disambiguate
+      date-time in the gap or overlap selecting the first (0) or second (1)
+      transition line.
     * The `BasicZoneProcessor` does not support the `fold` parameter so will
       ignore it.
 * `getOffsetDateTime(epochSeconds)`
     * Returns the `OffsetDateTime` that matches the given `epochSeconds`.
     * The `OffsetDateTime::fold` parameter indicates whether the date-time
       occurred the first time (0), or the second time (1)
-* `getZonedExtra(localDateTime)`
-    * Returns the `ZonedExtra` instance at the given `localDateTime`.
-    * `ZonedExtra` contains additional information about the timezone, such as
-      the `ZonedExtra::stdOffset()`, `ZonedExtra::dstOffset()`, and the
-      `ZonedExtra::abbrev()`
-    * It may be more convenient to use the `ZonedExtra::forLocalDateTime()`
-      factory method instead. See [ZonedExtra](#ZonedExtra) section below.
-* `getZonedExtra(epochSeconds)`
-    * Returns the `ZonedExtra` instance at the given `epochSeconds`.
-    * It may be more convenient to use the `ZonedExtra::forEpochSeconds()`
-      factory method instead. See [ZonedExtra](#ZonedExtra) section below.
 * `printTo()`
     * Prints the fully-qualified unique name for the time zone. For example,
       `"UTC"`, `"-08:00"`, `"-08:00(DST)"`, `"America/Los_Angeles"`.
@@ -1257,14 +1270,92 @@ void someFunction() {
 }
 ```
 
+<a name="CompleteTimeZone"></a>
+#### Complete TimeZone (kTypeComplete)
+
+This TimeZone is created using two objects:
+* the `complete::ZoneInfo` data objects contained in
+  [zonedbc/zone_infos.h](src/zonedbc/zone_infos.h)
+* an external instance of `CompleteZoneProcessor` needed for calculating zone
+  transitions
+
+```C++
+CompleteZoneProcessor zoneProcessor;
+
+void someFunction() {
+  auto tz = TimeZone::forZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+  ...
+}
+```
+(Notice that we use the `zonedbc::` namespace instead of the `zonedb::`
+namespace. Although the data structures in the 2 namespaces are identical
+currently (v1.2) but the *values* inside the data structure fields are not
+the same, and they are interpreted differently.)
+
+As of version 2021a of the IANA TZ Database, *all* 386 Zone and 207 Link entries
+from the following TZ files are supported: `africa`, `antarctica`, `asia`,
+`australasia`, `backward`, `etcetera`, `europe`, `northamerica`, `southamerica`.
+There are 3 files which are not processed (`backzone`, `systemv`, `factory`)
+because they don't seem to contain anything useful.
+
+The zone infos which can be used by `CompleteZoneProcessor` are in the
+`zonedbc::` namespace instead of the `zonedb::` namespace. Some examples of the
+zone infos which exists in `zonedbc::` but not in `zonedb::` are:
+
+* `zonedbc::kZoneAfrica_Casablanca`
+* `zonedbc::kZoneAmerica_Argentina_San_Luis`
+* `zonedbc::kZoneAmerica_Indiana_Petersburg`
+* `zonedbc::kZoneAsia_Hebron`
+* `zonedbc::kZoneEurope_Moscow`
+
+The following example creates a `TimeZone` which describes
+`America/Los_Angeles`. A `TimeZone` instance is normally expected to be just
+passed into a `ZonedDateTime` object through a factory method, but there are
+a few ways that a `TimeZone` object can be used directly. See the
+[ZonedExtra](#ZonedExtra) section below for more information:
+
+```C++
+CompleteZoneProcessor zoneProcessor;
+
+void someFunction() {
+  ...
+  TimeZone tz = TimeZone::forZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+
+  // 2018-03-11T01:59:59-08:00 was still in STD time
+  {
+    auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+      TimeOffset::forHours(-8));
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -08:00
+  }
+
+  // one second later, 2018-03-11T02:00:00-08:00 was in DST time
+  {
+    auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+      TimeOffset::forHours(-8));
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    ZonedExtra ze = tz.getZonedExtra(epochSeconds);
+    TimeOffset offset = ze.timeOffset(); // returns -07:00
+  }
+  ...
+}
+```
+
 <a name="TimeZoneTypeRecommendations"></a>
 ### TimeZone Type Recommendations
 
-There are 3 major types of `TimeZone` objects:
+There are 4 major types of `TimeZone` objects:
 
 * `kTypeManual`: STD and DST offsets are fixed
 * `kTypeBasic`: uses `BasicZoneProcessor`
 * `kTypeExtended`: uses `ExtendedZoneProcessor`
+* `kTypeComplete`: uses `CompleteZoneProcessor`
+
+**tl;dr**: Most client applications should probably use `kTypeExtended`,
+`ExtendedZoneProcessor`, `ExtendedZoneManager`, and the `zonedbx` database.
 
 The `kTypeManual` was added mostly for completeness and for testing purposes. I
 do not expect most applications to use the `kTypeManual`, because the primary
@@ -1289,22 +1380,28 @@ overlap using the `fold` parameter. The `BasicZoneProcessor` ignores the `fold`
 parameter and makes educated guesses when the `LocalDateTime` falls in a gap or
 an overlap.
 
-The biggest difference between `BasicZoneProcessor` and `ExtendedZoneProcessor`
-is the amount of flash and static memory consumed. The `ExtendedZoneProcessor`
+The `CompleteZoneProcessor` is identical to the `ExtendedZoneProcessor`, but it
+uses the high resolution `zonedbc` database. The high resolution format of the
+database allows all timezones to be represented with an accuracy range of
+`[0001,10000)`.
+
+The biggest difference between the `BasicZoneProcessor`,
+`ExtendedZoneProcessor`, and `CompleteZoneProcessor` is the amount of flash and
+static memory consumed. The `ExtendedZoneProcessor` and `CompleteZoneProcessor`
 consumes [4 times](examples/AutoBenchmark/README.md) more static memory than
 `BasicZoneProcessor` and is a bit slower. For most 32-bit processors, this will
-not be an issue, so the `ExtendedZoneProcessor` is recommended. For 8-bit
-processors, the `BasicZoneProcessor` consumes a lot less resources, so if your
-timezone is supported, then it may be the appropriate choice. In most cases, I
-think the `ExtendedZoneProcessor` should be preferred unless memory resources
-are so constrained that `BasicZoneProcessor` must be used.
+not be an issue, so the `ExtendedZoneProcessor` or `CompleteZoneProcessor` is
+recommended. For 8-bit processors, the `BasicZoneProcessor` consumes a lot less
+resources, so if your timezone is supported, then it may be the appropriate
+choice. In most cases, I think the `ExtendedZoneProcessor` should be preferred
+unless memory resources are so constrained that `BasicZoneProcessor` must be
+used.
 
-Instead of managing the `BasicZoneProcessor` or `ExtendedZoneProcessor`
-manually, you can use the `ZoneManager` to manage a database of `ZoneInfo`
-entries, and a cache of multiple `ZoneProcessor`s, and bind the `TimeZone` to
-its `ZoneInfo` and its `ZoneProcessor` more dynamically through the
-`ZoneManager`. See the section [ZoneManager](#ZoneManager) below for more
-information.
+Instead of managing the zone processors manually, you can use the `ZoneManager`
+to manage a database of `ZoneInfo` entries, and a cache of multiple
+`ZoneProcessor`s, and bind the `TimeZone` to its `ZoneInfo` and its
+`ZoneProcessor` more dynamically through the `ZoneManager`. See the section
+[ZoneManager](#ZoneManager) below for more information.
 
 <a name="ZonedDateTime"></a>
 ### ZonedDateTime
@@ -1370,7 +1467,6 @@ class ZonedDateTime {
 
     int8_t compareTo(const ZonedDateTime& that) const;
     void printTo(Print& printer) const;
-
     ...
 };
 
@@ -1433,11 +1529,11 @@ limited as follows.
 does *not* recognize the IANA TZ Database identifier (e.g.
 `[America/Los_Angeles]`). To handle the time zone identifier correctly, the
 library needs to load the entire TZ Database into memory and use the
-`ZoneManager` to manage the `BasicZoneProcessor` or `ExtendedZoneProcessor`
-objects dynamically. But the dataset is too large to fit on most AVR
-microcontrollers with only 32kB of flash memory, so we currently do not support
-this dynamic lookup. The `ZonedDateTime::timeZone()` will return Manual
-`TimeZone` whose `TimeZone::getType()` returns `TimeZone::kTypeManual`.
+`ZoneManager` to manage the `BasicZoneProcessor`, `ExtendedZoneProcessor`, or
+`CompleteZoneProcessor` objects dynamically. But the dataset is too large to fit
+on most AVR microcontrollers with only 32kB of flash memory, so we currently do
+not support this dynamic lookup. The `ZonedDateTime::timeZone()` will return
+Manual `TimeZone` whose `TimeZone::getType()` returns `TimeZone::kTypeManual`.
 
 <a name="TimeZoneConversion"></a>
 #### Conversion to Other Time Zones
@@ -1446,15 +1542,15 @@ You can convert a given `ZonedDateTime` object into a representation in a
 different time zone using the `DateTime::convertToTimeZone()` method:
 
 ```C++
-static BasicZoneProcessor processorLosAngeles;
-static BasicZoneProcessor processorZurich;
+static ExtendedZoneProcessor processorLosAngeles;
+static ExtendedZoneProcessor processorZurich;
 
 void someFunction() {
   ...
   auto tzLosAngeles = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles, &processorLosAngeles);
+      &zonedbx::kZoneAmerica_Los_Angeles, &processorLosAngeles);
   auto tzZurich = TimeZone::forZoneInfo(
-      &zonedb::kZoneEurope_Zurich, &processorZurich);
+      &zonedbx::kZoneEurope_Zurich, &processorZurich);
 
   // Europe/Zurich, 2018-01-01T09:20:00+01:00
   auto zurichTime = ZonedDateTime::forComponents(
@@ -1474,15 +1570,14 @@ components (year, month, day, hour, minute, seconds) will be different.
 #### DST Transition Caching
 
 The conversion from an epochSeconds to date-time components using
-`ZonedDateTime::forEpochSeconds()` is an expensive operation
-that requires the computation of the relevant DST transitions for the given
-epochSeconds or date-time components. To improve performance, the
-`BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal transition
-caching based on the `year` component. This optimizes the most commonly expected
-use case where the epochSeconds is incremented by a clock (e.g. `SystemClock`)
-every second, and is converted to human-readable date-time components once a
-second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
-improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
+`ZonedDateTime::forEpochSeconds()` is an expensive operation that requires the
+computation of the relevant DST transitions for the given epochSeconds or
+date-time components. To improve performance, the ZoneProcessors implement
+internal transition caching based on the `year` component. This optimizes the
+most commonly expected use case where the epochSeconds is incremented by a clock
+(e.g. `SystemClock`) every second, and is converted to human-readable date-time
+components once a second. According to [AutoBenchmark](examples/AutoBenchmark/),
+the cache improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
 processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
 
 <a name="ZonedExtra"></a>
@@ -1524,10 +1619,10 @@ class ZonedExtra {
     explicit ZonedExtra() {}
     explicit ZonedExtra(
         uint8_t type,
-        int16_t stdOffsetMinutes,
-        int16_t dstOffsetMinutes,
-        int16_t reqStdOffsetMinutes,
-        int16_t reqDstOffsetMinutes,
+        int32_t stdOffsetSeconds,
+        int32_t dstOffsetSeconds,
+        int32_t reqStdOffsetSeconds,
+        int32_t reqDstOffsetSeconds,
         const char* abbrev);
 
     bool isError() const;
@@ -1617,11 +1712,11 @@ The `isError()` method returns true if the given `LocalDateTime` or
 ### ZoneManager
 
 The `TimeZone::forZoneInfo()` methods are simple to use but have the
-disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor` needs to
-be created manually for each `TimeZone` instance. This works well for a single
-time zone, but if you have an application that needs 3 or more time zones, this
-can become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
-dynamically, say, from its fully qualified name (e.g. `"America/Los_Angeles"`).
+disadvantage that the ZoneProcessors need to be created manually for each
+`TimeZone` instance. This works well for a single time zone, but if you have an
+application that needs 3 or more time zones, this can become cumbersome. Also,
+it is difficult to reconstruct a `TimeZone` dynamically, say, from its fully
+qualified name (e.g. `"America/Los_Angeles"`).
 
 The `ZoneManager` solves these problems by implementing 2 features:
 
@@ -1633,7 +1728,7 @@ The `ZoneManager` solves these problems by implementing 2 features:
 <a name="ClassHierarchy"></a>
 #### Class Hierarchy
 
-Three implementations of the `ZoneManager` are provided. Prior to v1.9, they
+Four implementations of the `ZoneManager` are provided. Prior to v1.9, they
 were organized into a hierarchy with a top-level `ZoneManager` interface with
 pure virtual functions. However, in v1.9, the top-level `ZoneManager` interface
 was removed and all functions became nonvirtual. This saves about 1100-1200
@@ -1670,7 +1765,7 @@ class ExtendedZoneManager {
     ExtendedZoneManager(
         uint16_t registrySize,
         const extended::ZoneInfo* const* zoneRegistry,
-        BasicZoneProcessorCacheBase& zoneProcessorCache
+        ExtendedZoneProcessorCacheBase& zoneProcessorCache
     );
 
     uint16_t zoneRegistrySize() const;
@@ -1688,6 +1783,29 @@ class ExtendedZoneManager {
     ExtendedZone getZoneForIndex(uint16_t index) const;
 };
 
+class CompleteZoneManager {
+  public:
+    CompleteZoneManager(
+        uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry,
+        CompleteZoneProcessorCacheBase& zoneProcessorCache
+    );
+
+    uint16_t zoneRegistrySize() const;
+
+    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    TimeZone createForZoneId(uint32_t id);
+    TimeZone createForZoneIndex(uint16_t index);
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
+    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+
+    uint16_t indexForZoneName(const char* name) const;
+    uint16_t indexForZoneId(uint32_t id) const;
+
+    CompleteZoneProcessor* getZoneProcessor(const char* name);
+    CompleteZone getZoneForIndex(uint16_t index) const;
+};
+
 class ManualZoneManager {
   public:
     uint16_t zoneRegistrySize() const;
@@ -1701,37 +1819,51 @@ class ManualZoneManager {
 <a name="DefaultRegistries"></a>
 #### Default Registries
 
-The constructors for `BasicZoneManager` and `ExtendedZoneManager` take a
-`zoneRegistry` and its `zoneRegistrySize`, and optionally the `linkRegistry` and
-`linkRegistrySize` parameters. The AceTime library comes with a set of
-pre-defined default Zone and Link registries which are defined by the following
-header files. These header files are automatically included in the `<AceTime.h>`
-header:
+The constructors for `BasicZoneManager`, `ExtendedZoneManager`, and
+`CompleteZoneManager` take a `zoneRegistry` and its `zoneRegistrySize`, and
+optionally the `linkRegistry` and `linkRegistrySize` parameters. The AceTime
+library comes with a set of pre-defined default Zone and Link registries which
+are defined by the following header files. These header files are automatically
+included in the `<AceTime.h>` header:
 
 * [zonedb/zone_registry.h](src/zonedb/zone_registry.h)
     * Zones and Links supported by `BasicZoneManager`
-    * `ace_time::zonedb` namespace
+    * `ace_time::zonedb::kZoneAndLinkRegistry`
+    * `ace_time::zonedb::kZoneAndLinkRegistrySize`
 * [zonedbx/zone_registry.h](src/zonedbx/zone_registry.h)
     * Zones and Links supported by `ExtendedZoneManager`
-    * `ace_time::zonedbx` namespace
+    * `ace_time::zonedbx::kZoneAndLinkRegistry`
+    * `ace_time::zonedbx::kZoneAndLinkRegistrySize`
+* [zonedbc/zone_registry.h](src/zonedbx/zone_registry.h)
+    * Zones and Links supported by `CompleteZoneManager`
+    * `ace_time::zonedbc::kZoneAndLinkRegistry`
+    * `ace_time::zonedbc::kZoneAndLinkRegistrySize`
 
+Each database also defines a smaller registry named `kZoneRegistry` and
+`kZoneRegistrySize`. These contain only the Zone entries from the IANA TZ
+database, not the Link entries. However, for the perspective of the end-user,
+there is no difference between a Zone entry and a Link entry. Therefore, I
+recommend that client applications always use the `kZoneAndLinkRegistry` to
+support all timezone identifiers defined by the IANA TZ database.
 
 <a name="ZoneProcessorCache"></a>
 #### ZoneProcessorCache
 
-The `BasicZoneManager` and the `ExtendedZoneManager` classes need to be given an
-instance of a `BasicZoneProcessorCache<CACHE_SIZE>` or
-`ExtendedZoneProcessorCache<CACHE_SIZE>` object.
+The `BasicZoneManager`, `ExtendedZoneManager`, and `CompleteZoneManager` classes
+need to be given an instance of its ZoneProcessorCache, a
+`BasicZoneProcessorCache<CACHE_SIZE>`, `ExtendedZoneProcessorCache<CACHE_SIZE>`,
+`CompleteZoneProcessorCache<CACHE_SIZE>`:
 
 ```C++
 BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
 ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
+CompleteZoneProcessorCache<CACHE_SIZE> completeZoneProcessorCache;
 ```
 
-These used to be defined internally inside the `BasicZoneManager` and
-`ExtendedZoneManager` classes. But when they were refactored to be
-non-polymorphic to save flash memory, it was easier to extract the
-ZoneProcessorCache objects into separate classes to be passed into the
+These used to be defined internally inside the `BasicZoneManager`,
+`ExtendedZoneManager`, and `CompleteZoneManager` classes. But when they were
+refactored to be non-polymorphic to save flash memory, it was easier to extract
+the ZoneProcessorCache objects into separate classes to be passed into the
 ZoneManager classes.
 
 The `CACHE_SIZE` template parameter is an integer that specifies the size of the
@@ -1740,44 +1872,38 @@ application is expected to use *at the same time*. If your app never changes its
 time zone after initialization, then this can be `<1>` (although in this case,
 you may not even want to use the `ZoneManager`). If your app allows the user to
 dynamically change the time zone (e.g. from a menu of time zones), then this
-should be at least `<2>` (to allow the system to compare the old time zone to
-the new time zone selected by the user). In general, the `CACHE_SIZE` should be
-set to the number of timezones displayed to the user concurrently, plus an
-additional 1 if the user is able to change the timezone dynamically.
+should be at least `<2>`. This allows the system to maintain 2 active
+`ZoneProcessors` to quickly compare the old time zone to the new time zone
+selected by the user. In general, the `CACHE_SIZE` should be set to the number
+of timezones displayed to the user concurrently, plus an additional 1 if the
+user is able to change the timezone dynamically.
 
 <a name="ZoneManagerCreation"></a>
 #### ZoneManager Creation
 
-If you decide to use the default registries, there are 4 possible configurations
-of the ZoneManager constructors as shown below. The following also shows the
-number of zones and links supported by each configuration, as well as the flash
-memory consumption of each configuration, as determined by
-[MemoryBenchmark](examples/MemoryBenchmark). These numbers are correct as of
-v1.6 with TZDB version 2021a:
+The ZoneManager object (except for `ManualZoneManager`) is initialized with
+a zone registry and its zone cache, like this:
 
 ```C++
 static const uint8_t CACHE_SIZE = 2; // tuned for application
 
-BasicZoneProcessorCache<CACHE_SIZE> basicZoneProcessorCache;
-ExtendedZoneProcessorCache<CACHE_SIZE> extendedZoneProcessorCache;
-
-// BasicZoneManager, Zones and Links
-// 266 zones, 183 links
-// 25.7 kB (8-bits)
-// 33.2 kB (32-bits)
+BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 BasicZoneManager zoneManager(
     zonedb::kZoneAndLinkRegistrySize,
     zonedb::kZoneAndLinkRegistry,
-    basicZoneProcessorCache);
+    zoneProcessorCache);
 
-// ExtendedZoneManager, Zones and Fat Links
-// 386 Zones, 207 fat Links
-// 38.2 kB (8-bits)
-// 48.7 kB (32-bits)
+ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 ExtendedZoneManager zoneManager(
     zonedbx::kZoneAndLinkRegistrySize,
     zonedbx::kZoneAndLinkRegistry,
-    extendedZoneProcessorCache);
+    zoneProcessorCache);
+
+CompleteZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
+CompleteZoneManager zoneManager(
+    zonedbc::kZoneAndLinkRegistrySize,
+    zonedbc::kZoneAndLinkRegistry,
+    zoneProcessorCache);
 ```
 
 Once the `ZoneManager` is configured with the appropriate registries, you can
@@ -1825,9 +1951,10 @@ void someFunction() {
 }
 ```
 
-I think the only time the `createForZoneName()` might be useful is if
-the user was allowed to type in the zone name, and you wanted to create a
-`TimeZone` from the string typed in by the user.
+I think the only time the `createForZoneName()` would be necessary is when the
+user is allowed to type in the zone name, or the timezone name is provided by an
+outside source (e.g. text of date-time components) and the `TimeZone` needs to
+be created from the user-provided string.
 
 <a name="CreateForZoneId"></a>
 #### createForZoneId()
@@ -1835,16 +1962,18 @@ the user was allowed to type in the zone name, and you wanted to create a
 Each zone in the `zonedb::` and `zonedbx::` database is given a unique
 and stable zoneId. There are at least 3 ways to extract this zoneId:
 
-* the `kZoneId{zone name}` constants in `src/zonedb/zone_infos.h`
-  and `src/zonedbx/zone_infos.h`:
+* the `kZoneId{zone name}` constants in `src/zonedb/zone_infos.h`,
+  `src/zonedbx/zone_infos.h`, and `src/zonedbc/zone_infos.h`:
     * `const uint32_t kZoneIdAmerica_New_York = 0x1e2a7654; // America/New_York`
     * `const uint32_t kZoneIdAmerica_Los_Angeles = 0xb7f7e8f2; // America/Los_Angeles`
     * ...
 * the `TimeZone::getZoneId()` method:
     * `uint32_t zoneId = tz.getZoneId();`
-* the `ZoneInfo` pointer using the `BasicZone()` helper object:
+* the `ZoneInfo` pointer using the `BasicZone()`, `ExtendedZone`, and
+  `CompleteZone` helper object:
     * `uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();`
     * `uint32_t zoneId = ExtendedZone(&zonedbx::kZoneAmerica_Los_Angeles).zoneId();`
+    * `uint32_t zoneId = CompleteZone(&zonedbc::kZoneAmerica_Los_Angeles).zoneId();`
 
 The `ZoneManager::createForZoneId()` method returns the `TimeZone` object
 corresponding to the given `zoneId`:
@@ -1891,14 +2020,14 @@ to be a problem.
 Another useful feature of `ZoneManager::createForZoneId()` over
 `createForZoneInfo()` is that `createForZoneId()` lives at the root
 `ZoneManager` interface. In contrast, there are 2 different versions of
-`createForZoneInfo()` which live in the corresponding implementation classes
-(`BasicZoneManager` and `ExtendedZoneManager`) because each version needs a
-different `ZoneInfo` type (`basic::ZoneInfo` and `extended::ZoneInfo`). If your
-code has a reference or pointer to the top-level `ZoneManager` interface, then
-it will be far easier to create a `TimeZone` using `createForZoneId()`. You do
-pay a penalty in efficiency because `createForZoneId()` must scan the database,
-where as `createForZoneInfo()` does not perform a search since it has direct
-access to the `ZoneInfo` data structure.
+`createForZoneInfo()` which live in the corresponding ZoneManager implementation
+classes because each version needs a different `ZoneInfo` type
+(`basic::ZoneInfo` and `extended::ZoneInfo`). If your code has a reference or
+pointer to the top-level `ZoneManager` interface, then it will be far easier to
+create a `TimeZone` using `createForZoneId()`. You do pay a penalty in
+efficiency because `createForZoneId()` must scan the database, where as
+`createForZoneInfo()` does not perform a search since it has direct access to
+the `ZoneInfo` data structure.
 
 <a name="CreateForZoneIndex"></a>
 #### createForZoneIndex()
@@ -1930,11 +2059,11 @@ In other words, it can only create `TimeZone` objects with fixed standard and
 DST offsets.
 
 This class reduces the amount of conditional code (using `#if` statements)
-needed in applications which are normally targeted to use `BasicZoneManager` and
-`ExtendedZoneManager`, but are sometimes targeted to small-memory
-microcontrollers (typically AVR chips), for testing purposes for example. This
-class allows many of the function and constructor signatures to remain the same,
-reducing the amount of conditional code.
+needed in applications which are normally targeted to use `BasicZoneManager`,
+`ExtendedZoneManager`, or `CompleteZoneManager`, but are sometimes targeted to
+small-memory microcontrollers (typically AVR chips), for testing purposes for
+example. This class allows many of the function and constructor signatures to
+remain the same, reducing the amount of conditional code.
 
 If an application is specifically targeted to a low-memory chip, and it is known
 at compile-time that only `TimeZone::kTypeManual` are supported, then you should
@@ -1944,17 +2073,16 @@ factory method directory.
 <a name="HandlingGapsAndOverlaps"></a>
 ### Handling Gaps and Overlaps
 
-(Added in v1.10)
-
-Better control over DST gaps and overlaps was added in v1.10 using the
-techniques described by the [PEP 495](https://www.python.org/dev/peps/pep-0495/)
-document in Python 3.6.
+Better control over DST gaps and overlaps was added using the techniques
+described by the [PEP 495](https://www.python.org/dev/peps/pep-0495/) document
+in Python 3.6.
 
 1) An additional parameter called `fold` was added to the `LocalTime`,
    `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime` classes.
-2) Support for the `fold` parameter was added to `ExtendedZoneProcessor`. The
-  `BasicZoneProcessor` does *not* support the `fold` parameter and will ignore
-  it.
+2) Support for the `fold` parameter was added to `ExtendedZoneProcessor` and
+   `CompleteZoneProcessor`.
+3) The `BasicZoneProcessor` does *not* support the `fold` parameter and will
+   ignore it.
 
 <a name="ProblemsWithGapsAndOverlaps"></a>
 #### Problems with Gaps and Overlaps
@@ -2064,10 +2192,10 @@ document, but here is an ASCII diagram for reference:
 ```
               ^
 LocalDateTime |
-              |                  (overlap)   /
-          2am |                      /|    /
-              |                    /  |  /
-          1am |                  /    |/
+              |                         (overlap)   /
+          2am |                             /|    /
+              |                           /  |  /
+          1am |                         /    |/
               |          /
               |        /
           3am |       |
@@ -2077,7 +2205,7 @@ LocalDateTime |
               |    /
               |  /
               +----------------------------------------->
-              spring-forward      fall-backward
+              spring-forward            fall-backward
 
                           UTC/epochSeconds
 ```
@@ -2252,100 +2380,143 @@ Serial.printTo(dt); Serial.println();
 The data structures that describe the zoneinfo database are in
 [src/zoneinfo](src/zoneinfo) directory. The exact nature of how the zoneinfo
 files are stored and retrieved is an implementation detail that is subject to
-periodic improvements.
-
-Starting with v0.4, zoneinfo entries are stored in in flash memory instead of
-static RAM using the
+periodic improvements. The earliest versions stored the zoneinfo database in
+memory, which quickly overwhelmed the limited static memory size (e.g. 2kB) of
+8-bit processors. Currently, the zone database entries are stored in in flash
+memory instead of static RAM using the
 [PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
-keyword on microcontrollers which support this feature.
+keyword on microcontrollers which support this feature (AVR, ESP8266).
 
 The following classes represent the various objects stored in `PROGMEM`, and are
-defined in the `zoneinfo/ZoneInfo.h` and `zoneinfo/ZonePolicy.h` files:
+defined in the `zoneinfo/ZoneInfoXxx.h` header files:
 
+* `ZoneContext`
 * `ZoneRule`
-* `ZonePolicy`: a collection of `ZoneRule`
+* `ZonePolicy`: referencing a collection of `ZoneRule`
 * `ZoneEra`
-* `ZoneInfo`: a collection of `ZoneEra`
+* `ZoneInfo`: referencing a collection of `ZoneEra`
+
+In v2.3, three versions of these ZoneInfo records were created, to support the 3
+different zonedb types:
+
+* `ace_time::basic::ZoneXxx` - used with `BasicZoneProcessor`
+* `ace_time::extended::ZoneXxx` - used with `ExtendedZoneProcessor`
+* `ace_time::complete::ZoneXxx` - used with `CompleteZoneProcessor`
 
 Information stored in `PROGMEM` must be retrieved using special functions (e.g.
 `pgm_read_byte()`, `pgm_read_word()`, etc). A thin layer of indirection is
 provided to hide the implementation details of these access functions. The
 abstraction layer is provided by `zoneinfo/Brokers.h`:
 
+* `ZoneContextBroker`
 * `ZoneRuleBroker`
 * `ZonePolicyBroker`
 * `ZoneEraBroker`
 * `ZoneInfoBroker`
+* `ZoneRegistryBroker`
+* `ZoneInfoStore` - a factory of `ZoneInfoBroker`
 
-There are 2 sets of these broker classes, duplicated into 2 different C++
+There are 3 sets of these broker classes, duplicated into 2 different C++
 namespaces:
 
-* `ace_time::basic::ZoneRuleBroker`
-* ...
-* `ace_time::extended::ZoneRuleBroker`
-* ...
+* `ace_time::basic::ZoneXxxBroker`
+* `ace_time::extended::ZoneXxxBroker`
+* `ace_time::complete::ZoneXxxBroker`
 
 The separate namespaces allows compile-time verification that the correct
-`zonedb[x]` database is used with the correct `BasicZoneProcessor` or
-`ExtendedZoneProcessor`.
+`zonedb*` database is used with the correct `BasicZoneProcessor`,
+`ExtendedZoneProcessor`, or `CompleteZoneProcessor`.
 
 <a name="ZoneDB"></a>
 ### ZoneDB
 
-There are 4 zonedb databases provided by default:
+There are 6 zonedb databases provided in this library. Three are meant for
+general consumption:
 
-* `zonedb`: for `BasicZoneProcessor`
-* `zonedbx`: for `ExtendedZoneProcessor`
-* `tzonedb`: for unit tests
-* `tzonedbx`: for unit tests
+* `zonedb` for `BasicZoneProcessor`
+* `zonedbx` for `ExtendedZoneProcessor`
+* `zonedbc` for `CompleteZoneProcessor`
+
+These 3 are meant for unit tests:
+
+* `zonedbtesting` for `BasicZoneProcessor`
+* `zonedbxtesting` for `ExtendedZoneProcessor`
+* `zonedbctesting` for `CompleteZoneProcessor`
 
 <a name="BasicZonedb"></a>
 #### Basic zonedb
 
-The `zonedb/` entries do not support all the timezones in the IANA TZ Database.
-If a zone is excluded, the reason for the exclusion can be found at the
-bottom of the [zonedb/zone_infos.h](src/zonedb/zone_infos.h) file.
-The criteria for selecting the Basic `zonedb` entries are embedded
-in the `transformer.py` script and summarized in
-[BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
+The `zonedb/` database is intended to contain timezones which are compatible
+with the `BasicZoneProcessor` and `BasicZoneManager` classes. The database
+format is optimized for small size, at the expense of excluding some timezones
+with complex DST saving rules. If a zone is excluded, the reason for the
+exclusion can be found at the bottom of the
+[zonedb/zone_infos.h](src/zonedb/zone_infos.h) file. The criteria for selecting
+the Basic `zonedb` entries are embedded in the `transformer.py` script and
+summarized in [BasicZoneProcessor.h](src/ace_time/BasicZoneProcessor.h):
 
-* the DST offset is a multiple of 15-minutes (all current timezones satisfy
-  this)
-* the STDOFF offset is a multiple of 1-minute (all current timezones
+* the year fields are stores as 8-bit integer offsets (from a base year of 2100)
+  instead of using the full 16-bit integer
+    * this limits the year range to `[1974,2225]`
+* the DST offset is a multiple of 15-minutes ranging from -1:00 to 2:45
+* the STDOFF offset is a multiple of 1-minute (all timezones after year 2000
   satisfy this)
 * the AT or UNTIL fields must occur at one-year boundaries (this is the biggest
   filter)
-* the LETTER field must contain only a single character
+* the LETTER field can be an arbitrary string
 * the UNTIL time suffix can only be 'w' (not 's' or 'u')
 * there can be only one DST transition in a single month
 
-As of version v1.11.4 (with TZDB 2022b), this database contains 237 Zone entries
-and 215 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v2.3 (with TZDB 2022c), the `zonedb` database contains 446 Zones
+and Links (out of a total of 596), supporting the years roughly `[2000,2200]`.
 
 <a name="ExtendedZonedbx"></a>
 #### Extended zonedbx
 
-The goal of the `zonedbx/` entries is to support all zones listed in the TZ
-Database. Currently, as of version 2021a of the IANA TZ Database, this goal is
-met from the year 2000 to 2049 inclusive. Some restrictions of this database
-are:
+The goal of the `zonedbx/` database is to support all zones listed in the TZ
+Database for modern years using the `ExtendedZoneProcessor` and
+`ExtendedZoneManager` classes. The year range is restricted to `[2000,32765]`.
 
+* the year fields are stores as 8-bit integer offsets (from a base year of 2100)
+  instead of using the full 16-bit integer
+    * this limits the year range to `[1974,2225]`
 * the DST offset is a multiple of 15-minutes ranging from -1:00 to 2:45
   (all timezones from about 1972 support this)
-* the STDOFF offset is a multiple of 1-minute
+* the STDOFF offset is a multiple of 1-minute (all timezones after year 2000
+  satisfy this)
 * the AT and UNTIL fields are multiples of 1-minute
-* the LETTER field can be arbitrary strings
+* the UNTIL time suffix can be 'w', 's, or 'u'
+* the LETTER field can be an arbitrary string
 
-As of version v1.11.4 (with TZDB 2022b), this database contains all 356 Zone
-entries and 239 Link entries, supported from the year 2000 to 2049 (inclusive).
+As of version v2.3 (with TZDB 2022c), the `zonedbx` database contains all 596
+Zones and Links, over all years in the range of `[2000,32765]`.
+
+<a name="CompleteZonedbc"></a>
+#### Complete zonedbc
+
+The goal of the `zonedbc/` database is to support all zones listed in the TZ
+Database, for all years in that database, from 1844 onwards without limit,
+using the `CompleteZoneProcessor` and the `CompleteZoneManager` classes. This is
+the largest of the 3 zonedb databases. Its features are:
+
+* the year fields are stored as 16-bit signed integers, which allows any year
+  from `[-32767,32765]` (-32768, +32766, +32767 are used for internal purposes)
+* the DST offset can be a multiple of 1-minute, which is satisfied by all
+  timezones across all years
+* the STDOFF ofset can be an arbitrary multiple of 1-second
+* the AT and UNTIL fields can be an arbitrary multiple of 1-second
+* the UNTIL time suffix can be 'w', 's, or 'u'
+* the LETTER field can be an arbitrary string
+
+As of version v2.3 (with TZDB 2023c), the `zonedbc` database contains all 596
+Zone and Link entries, supporting all years in the range of `[0001,10000)`.
 
 <a name="TzDatabaseVersion"></a>
 #### TZ Database Version
 
 The IANA TZ Database is updated continually. As of this writing, the latest
-stable version is 2021a. When a new version of the database is released, I
-regenerate the ZoneInfo entries under the `src/zonedb/` and
-`src/zonedbx/` directories.
+stable version is 2023c. When a new version of the database is released, I
+regenerate the ZoneInfo entries under the `src/zonedXxx/` directories.
 
 The current TZ Database version can be programmatically accessed using the
 `kTzDatabaseVersion` constant:
@@ -2356,69 +2527,85 @@ using namespace ace_time;
 
 void printVersionTzVersions() {
     Serial.print("zonedb TZ version: ");
-    Serial.println(zonedb::kTzDatabaseVersion); // e.g. "2020d"
+    Serial.println(zonedb::kTzDatabaseVersion); // e.g. "2023c"
 
     Serial.print("zonedbx TZ version: ");
-    Serial.println(zonedbx::kTzDatabaseVersion); // e.g. "2020d"
+    Serial.println(zonedbx::kTzDatabaseVersion); // e.g. "2023c"
+
+    Serial.print("zonedbc TZ version: ");
+    Serial.println(zonedbc::kTzDatabaseVersion); // e.g. "2023c"
 }
 ```
 
-It is technically possible for the 2 versions to be different, but since they
+It is theoretically possible for the 3 versions to be different, but since they
 are generated by the same set of scripts, I expect they will always be the same.
 
 <a name="ZoneInfoYearRange"></a>
 #### ZoneInfo Year Range
 
-As mentioned above, both the `zonedb` and `zonedbx` databases are generated with
-a specific `startYear` and `untilYear` range. If you try to create a
-`ZonedDateTime` object outside of the year range, the constructed object will be
-`ZonedDateTime::forError()` whose `isError()` method returns `true`.
+The zonedb databases are generated with a specific requested `startYear` and
+`untilYear` range, which filters out DST transitions rules before `startYear`
+and after `untilYear`. Currently (as of 2023c) the first transition in the IANA
+TZ database is in 1844 and the last transition in 2087. If the `startYear` is
+before 1844, then the AceTime library will be accurate for all years down to the
+year 0001. Similarly, if the requested `untilYear` is after 2087, then the
+library will be accurate for all years up to year 10000.
 
-Applications can access the valid `startYear` and `untilYear` of the `zonedb` or
-`zonedbx` databases through the `kZoneContext` data structure:
+To convey the actual range of years for which the library is accurate, 2 new
+parameters were added in v2.3: `startYearAccurate` and `untilYearAccurate`. The
+`[startYearAccurate,untilYearAccurate)` range determines the years which the
+database is known to be accurate. The value of `kMinYear (-32767)` means
+`-Infinity`, and the value of `kMaxUntilYear (+32767)`means `+Infinity`.
+
+The limit of `[0001,10000)` is imposed by the `LocalDate` class for practical
+reasons to limit the number of digits in a year to 4-digits, and because certain
+internal algorithms do not work for negative years.
+
+It is possible to access the various `startYear` and `untilYear` of the zonedb
+databases through the `ZoneContextBroker` class, but this is not something that
+was intended to be used by the client application:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 
 void printStartAndUntilYears() {
-    Serial.print("zonedb: startYear: ");
-    Serial.print(zonedb::kZoneContext.startYear); // e.g. 2000
-    Serial.print("; untilYear: ");
-    Serial.println(zonedb::kZoneContext.untilYear); // e.g. 2100
+    ace_time::extended::ZoneInfoBroker info(&zonedbx::kZoneAmerica_Los_Angeles);
+    extended::ZoneContextBroker context = info.zoneContext();
 
-    Serial.print("zonedbx: startYear: ");
-    Serial.print(zonedbx::kZoneContext.startYear); // e.g. 2000
+    Serial.print("startYear: ");
+    Serial.print(context.startYear()); // e.g. 2000
+
     Serial.print("; untilYear: ");
-    Serial.println(zonedbx::kZoneContext.untilYear); // e.g. 2100
+    Serial.println(context.untilYear()); // e.g. 2100
+
+    Serial.print("startYearAccurate: ");
+    Serial.print(context.startYearAccurate()); // e.g. 2000
+
+    Serial.print("; untilYearAccurate: ");
+    Serial.println(context.untilYearAccurate()); // e.g. +32767
 }
 ```
 
-I looked into supporting some sort of "graceful degradation" mode of the
-`ZonedDateTime` class, where creating instances before `startYear` or after
-`untilYear` would actually succeed, even though those instances would have some
-undefined errors due to incorrect or missing DST offsets. However, so much of
-the code in `BasicZoneProcessor` and `ExtendedZonedProcessor` depend on the
-intricate details of the ZoneInfo entries being in a valid state, I could not
-guarantee that a catastrophic situation (e.g. infinite loop) could be avoided
-outside of the safe zone. Therefore, attempting to create a `ZonedTimeDate`
-object outside of the supported `startYear` and `untilYear` range will always
-return an error object. Applications should either check the year range first
-before creating a `ZonedDateTime` object, or check the
-`ZonedDateTime::isError()` method after creation.
+The library supports some amount of "graceful degradation". When the
+`ZonedDateTime` class is created outside the
+`[startYearAccurate,untilYearAccurate)` range, the datetime object is still
+usable but its accuracy may be diminished if the DST transitions of the specific
+timezone were filtered out of the zone database.
 
-<a name="BasicZoneAndExtendedZone"></a>
-#### BasicZone and ExtendedZone
+<a name="ExternalZone"></a>
+#### External Zone Classes
 
-The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
-objects are meant to be *opaque* and simply passed into the `TimeZone`
-class (which in turn, passes the pointer into the `BasicZoneProcessor` and
-`ExtendedZoneProcessor` objects.) The internal formats of the `ZoneInfo`
-structures may change without warning, and users of this library should not
-access its internal data members directly.
+The `basic::ZoneInfo`, `extended::ZoneInfo`, and `complete::ZoneInfo` objects
+are meant to be used as *opaque* pointers and simply passed into the `TimeZone`
+class (which in turn, passes the pointer into the corresponding `ZoneProcessor`
+objects.) The internal formats of the `ZoneInfo` structures may change without
+warning, and users of this library should not access its internal data members
+directly.
 
-Two helper classes, `BasicZone` and `ExtendedZone`, provide stable access to
-some of the internal fields:
+Instead, client applications should use the `BasicZone`, `ExtendedZone`, and
+`CompleteZone` classes which aims to provide stable external access to some of
+the internal fields of the `ZoneInfo` class:
 
 ```C++
 namespace ace_time {
@@ -2429,13 +2616,12 @@ class BasicZone {
 
     bool isNull() const;
     uint32_t zoneId() const;
-    int16_t stdOffsetMinutes() const;
+    TimeOffset stdOffset() const;
     ace_common::KString kname() const;
 
     void printNameTo(Print& printer) const;
     void printShortNameTo(Print& printer) const;
 };
-
 
 class ExtendedZone {
   public:
@@ -2443,7 +2629,20 @@ class ExtendedZone {
 
     bool isNull() const;
     uint32_t zoneId() const;
-    int16_t stdOffsetMinutes() const;
+    TimeOffset stdOffset() const;
+    ace_common::KString kname() const;
+
+    void printNameTo(Print& printer) const;
+    void printShortNameTo(Print& printer) const;
+}
+
+class CompleteZone {
+  public:
+    CompleteZone(const complete::ZoneInfo* zoneInfo);
+
+    bool isNull() const;
+    uint32_t zoneId() const;
+    TimeOffset stdOffset() const;
     ace_common::KString kname() const;
 
     void printNameTo(Print& printer) const;
@@ -2455,7 +2654,7 @@ The `isNull()` method returns true if the object is a wrapper around a
 `nullptr`. This is often used to indicate an error condition, or a "Not Found"
 condition.
 
-The `stdOffsetMinutes()` method returns the standard (i.e. normal time, not DST
+The `stdOffset()` method returns the standard (i.e. normal time, not DST
 summer time) timezone offset of the zone for the last occurring `ZoneEra` record
 in the database. In almost all cases, this should correspond to the current
 standard timezone, unless the timezone is scheduled to changes its standard
@@ -2472,19 +2671,19 @@ The `printNameTo()` method prints the full zone name (e.g.
 `America/Los_Angeles`), and `printShortNameTo()` prints only the last component
 (e.g. `Los_Angeles`).
 
-The `BasicZone` and `ExtendedZone` objects are meant to be used transiently,
-created on the stack then thrown away. For example:
+These objects are meant to be used transiently, created on the stack then thrown
+away. For example:
 
 ```C++
-const basic::ZoneInfo* zoneInfo = ...;
-BasicZone(zoneInfo).printNameTo(Serial);
+const extended::ZoneInfo* zoneInfo = ...;
+ExtendedZone(zoneInfo).printNameTo(Serial);
 Serial.println();
 ```
 
-Both `BasicZone` and `ExtendedZone` are light-weight wrapper objects around a
-`const ZoneInfo*` pointer. In fact, they are so light-weight that the C++
-compiler should be able to optimize away both wrapper classes entirely, so that
-they are equivalent to using the `const ZoneInfo*` pointer directly.
+These classes are light-weight wrapper objects around a `const ZoneInfo*`
+pointer. In fact, they are so light-weight that the C++ compiler should be able
+to optimize away both wrapper classes entirely, so that they are equivalent to
+using the `const ZoneInfo*` pointer directly.
 
 If you need to copy the zone names into memory, use the `PrintStr<N>` class from
 the AceCommon library (https://github.com/bxparks/AceCommon) to print the
@@ -2495,9 +2694,9 @@ zone name into the memory buffer, then extract the string from the buffer:
 using ace_common::PrintStr;
 ...
 
-const basic::ZoneInfo* zoneInfo = ...;
+const extended::ZoneInfo* zoneInfo = ...;
 PrintStr<32> printStr; // buffer of 32 bytes on the stack
-BasicZone(zoneInfo).printNameTo(printStr);
+ExtendedZone(zoneInfo).printNameTo(printStr);
 
 const char* name = printStr.cstr();
 // do stuff with 'name', but only while 'printStr' is alive
@@ -2511,35 +2710,41 @@ See also the [Print To String](#PrintToString) section below.
 
 The IANA TZ database contains 2 types of timezones:
 
-* Zones, implemented by the `ZONE` keyword
-* Links, implemented by the `LINK` keyword
+- Zones, implemented by the `ZONE` keyword
+- Links, implemented by the `LINK` keyword
 
 A Zone entry is the canonical name of a given time zone in the IANA database
 (e.g. `America/Los_Angeles`). A Link entry is an alias, an alternate name, for a
 canonical entry (e.g. `US/Pacific` which points to `America/Los_Angeles`).
 
-<a name="UnifiedLinks"></a>
-#### Unified Links
+The semantics of a Link entry in the TZDB have changed recently, so that Links
+should be considered to be first class citizens compared to Zone entries. Prior
+to v2.3, Link entries could be implemented as "symbolic links" to Zones. After
+on or after v2.3, Link entries are now implemented as "hard links" to Zone
+entries, with most of the code unaware of the difference between the two. This
+simplifies the implementation code.
 
-Prior to v2.1, AceTime treated Links slightly differently than Zones, providing
-4 different implementations over several version. After v2.1, Links are
-considered to be identical to Zones, because the TZDB considers both of them to
-be first-class citizens. For most 32-bit processors with enough flash memory,
-the `kZoneAndLinkRegistry` should be used. The `kZoneRegistry` containing
-only the Zone entries is maintained mostly for backwards compatibility and
-testing purposes.
+The `zonedbXxx/zone_registry.h` file provides 2 registries:
 
-Most methods on the `TimeZone` class apply to both Zone and Link time zones.
-There are 2 methods on the `TimeZone` class which apply only to Links:
+- `kZoneRegistry`: contains only Zones
+- `kZoneAndLinkRegistry`: contains both Zones and Links
+
+For most applications, the `kZoneAndLinkRegistry` should be used. The
+`kZoneRegistry` is primarily retained for for backwards compatibility, and to
+reduce the parameter space of the validation tests so that they can complete
+faster.
+
+All methods on the `TimeZone` class apply to both Zone and Link time zones. The
+client application will not be able to distinguish between the two. There are 2
+methods on the `TimeZone` class which apply only to Links:
 
 ```C++
 class TimeZone {
   public:
-    ...
     bool isLink() const;
     printTargetNameTo(Print& printer) const;
-    ...
 };
+```
 
 The `TimeZone::isLink()` method returns `true` if the current time zone is a
 Link entry instead of a Zone entry. For example `US/Pacific` is a link to
@@ -2553,70 +2758,51 @@ the time zone `US/Pacific` (which is a Link to `America/Los_Angeles`):
 * `printTargetNameTo(Print&)` prints "America/Los_Angeles"
 
 <a name="CustomZoneRegistry"></a>
-#### Custom Zone Registry
+### Custom Zone Registry
 
 On small microcontrollers, the default zone registries (`kZoneRegistry` and
 `kZoneAndLinkRegistry`) may be too large. The `ZoneManager` can be configured
 with a custom zone registry. It needs to be given an array of `ZoneInfo`
-pointers when constructed. For example, here is a `BasicZoneManager` with only 4
-zones from the `zonedb::` data set:
+pointers when constructed. For example, here is a `ExtendedZoneManager` with 4
+zones from the `zonedbx::` data set:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 ...
-static const basic::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
-  &zonedb::kZoneAmerica_Los_Angeles,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_New_York,
-};
-
-static const uint16_t kZoneRegistrySize =
-    sizeof(kZoneRegistry) / sizeof(basic::ZoneInfo*);
-
-static const uint16_t CACHE_SIZE = 2;
-static BasicZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
-static BasicZoneManager zoneManager(
-    kZoneRegistrySize, kZoneRegistry, zoneProcessorCache);
-```
-
-Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
-data set:
-
-```C++
-#include <AceTime.h>
-using namespace ace_time;
-...
-static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
+static const extended::ZoneInfo* const kCustomRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Los_Angeles,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Chicago,
   &zonedbx::kZoneAmerica_New_York,
 };
 
-static const uint16_t kZoneRegistrySize =
-    sizeof(kZoneRegistry) / sizeof(extended::ZoneInfo*);
+static const uint16_t kCustomRegistrySize =
+    sizeof(kCustomRegistry) / sizeof(extended::ZoneInfo*);
 
 static const uint16_t CACHE_SIZE = 2;
 static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
 static ExtendedZoneManager zoneManager(
-    kZoneRegistrySize, kZoneRegistry, zoneProcessorCache);
+    kCustomRegistrySize, kCustomRegistry, zoneProcessorCache);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
 [compat.h](src/ace_time/common/compat.h) and indicates whether the `ZoneInfo`
 entries are stored in normal RAM or flash memory (i.e. `PROGMEM`). It **must**
-be used for custom zoneRegistries because the `BasicZoneManager` and
-`ExtendedZoneManager` expect to find them in static RAM or flash memory
-according to this macro.
+be used for custom zoneRegistries because the ZoneManagers expect to find them
+in static RAM or flash memory according to this macro.
 
-See examples in various unit tests:
+An example is shown in:
+
+* [examples/CustomZoneRegistry](examples/CustomZoneRegistry)
+
+Various unit tests also use custom registries:
 
 * [tests/ZoneRegistrarTest](tests/ZoneRegistrarTest)
 * [tests/TimeZoneTest](tests/TimeZoneTest)
 * [tests/ZonedDateTimeBasicTest](tests/ZonedDateTimeBasicTest)
 * [tests/ZonedDateTimeExtendedTest](tests/ZonedDateTimeExtendedTest)
+* [tests/ZonedDateTimeCompleteTest](tests/ZonedDateTimeCompleteTest)
 
 (**TBD**: I think it would be useful to create a script that can generate the
 C++ code representing these custom zone registries from a list of zones.)
@@ -3088,6 +3274,7 @@ bool LocalDateTime::isError() const;
 bool OffsetDatetime::isError() const;
 bool ZonedDateTime::isError() const;
 bool TimeOffset::isError() const;
+bool TimeZone::isError() const;
 ```
 
 A well-crafted application should check for these error conditions before
@@ -3150,26 +3337,27 @@ Serial.println(dt.isError() ? "true" : "false");
           leap second aware, so the `epochSeconds` will continue to be ahead of
           UTC by one second even after synchronization.
 * `acetime_t`
-    * AceTime uses an epoch of 2050-01-01T00:00:00 UTC by default. The epoch can
-      be changed using the `Epoch::currentEpochYear(year)` function.
+    * AceTime uses a default epoch of 2050-01-01T00:00:00 UTC by default. The
+      epoch can be changed using the `Epoch::currentEpochYear(year)` function.
     * The `acetime_t` type is a 32-bit signed integer whose smallest value
       is `-2^31` and largest value is `2^31-1`. However, the smallest value is
       used to indicate an internal "Error" condition, therefore the actual
       smallest `acetime_t` is `-2^31+1`. Therefore, the smallest and largest
-      dates that can be represented by `acetime_t` is theoreticall
-      1981-12-13T20:45:53 UTC to 2018-01-20T03:14:07 UTC (inclusive).
-    * To be conversative, users of this library should limit the range of the
-      epoch seconds to +/- 50 years of the current epoch, in other words,
-      `[2000,2100)`.
-* `TimeOffset`
-    * Implemented using `int16_t` in 1 minute increments.
+      dates that can be represented by `acetime_t` is theoretically
+      1981-12-13T20:45:53 UTC to 2118-01-20T03:14:07 UTC (inclusive).
+    * To be conservative, users of this library should limit the range of the
+      epoch seconds to +/- 60 years of the current epoch, in other words,
+      `[1990,2110)`, or even easier to remember, `[2000,2100)`.
 * `LocalDate`, `LocalDateTime`
-    * The `year` component is valid in the range of `[1, 9999]`.
-    * The `year = 0` is used internally to represent `-Infinity`. This should
-      not be visible to the end-user.
-    * The `year = 10000` is used internally to represent `+Infinity`. This
-      should not be visible to the end-user.
-    * The `year = INT32_MIN` is used to represent an error condition.
+    * The class checks that the `year` component in the range of `[0,
+      10000]`, which is a smaller range than the `[-32767,32765]` range
+      supported by the various `zonedb`, `zonedbx`, `zonedbc` databases.
+    * The `isError()` returns `true` outside of the `[0,10000]` year range.
+    * Due to the interaction of complex boundary effects, the actual range of
+      accuracy of various algorithms in this library is probably `[1, 9999]`.
+      Client applications should stay within this range.
+    * This limit allows the library to assume that the year can always be
+      formatted into 4-digits.
 * `forDateString()`
     * Various classes provide a `forDateString()` method to construct
       the object from a human-readable string. These methods are mostly meant to
@@ -3180,11 +3368,10 @@ Serial.println(dt.isError() ? "true" : "false");
       not load the entire TZ Database due to memory constraints of most Arduino
       boards.
 * `TimeZone`
-    * It might be possible to use both a basic `TimeZone` created using a
-      `zonedb::ZoneInfo` entry, and an extended `TimeZone` using a
-      `zonedbx::ZoneInfo` entry, together in a single program. However, this is
-      not a configuration that is expected to be used often, so it has not been
-      tested well, if at all.
+    * It might be possible to use different `TimeZone` instances created
+      different zonedb database (i.e. `zonedb`, `zonedbx`, `zonedbc`).
+      However, this is not a configuration that is expected to be used often, so
+      it has not been tested well, if at all.
     * One potential problem is that the equality of two `TimeZone` depends only
       on the `zoneId`, so a Basic `TimeZone` created with a
       `zonedb::kZoneAmerica_Los_Angeles` will be considered equal to an Extended
@@ -3205,24 +3392,31 @@ Serial.println(dt.isError() ? "true" : "false");
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `ZonedDateTime` Must Be Within +/- ~50 years of the AceTime Epoch
-    * The internal time zone calculations use the same `int32_t` type as
-      the `acetime_t` epoch seconds. This has a range of about 136 years.
-    * To be safe, the `ZoneDateTime` objects should be restricted to about +/-
-      50 years of the epoch defined by `Epoch::currentEpochYear()`.
+* `ZonedDateTime` objects should remain within roughly +/- 60 years of the
+  current AceTime Epoch.
+    * Otherwise, internal integer variables may overflow without warning
+      and incorrect results may be calculated.
+    * The internal time zone calculations use the same `int32_t` type as the
+      `acetime_t` epoch seconds. This has a range of about 136 years.
 * `BasicZoneProcessor`
-    * Supports 1-minute resolution for AT and UNTIL fields.
-    * Supports only a 15-minute resolution for the STDOFF and DST offset fields.
-    * Sufficient to support large number of timezones since the year 2000.
+    * Supports 1-minute resolution for the AT, UNTIL, STDOFF fields.
+    * Supports only a 15-minute resolution for the DST offset field.
+    * Sufficient to support ~450 zones out of ~600 total,
+      from the year 2000 onwards.
 * `ExtendedZoneProcessor`
-    * Has a 1-minute resolution for AT, UNTIL and STDOFF fields.
-    * Supports only a 15-minute resolution for DST field.
-    * All timezones after 1974 has DST offsets in 15-minutes increments.
-* `zonedb/` and `zonedbx/` ZoneInfo entries
-    * These statically defined data structures are loaded into flash memory
-      using the `PROGMEM` keyword.
-        * The vast majority of the data structure fields will stay in flash
-          memory and not copied into RAM.
+    * Supports 1-second resolution for the AT, UNTIL, STDOFF, but the
+      `zonedbx` database supports only 1-minute resolution of these fields.
+    * Supports 1-second resolution for the DST offset field, but the `zonedbx`
+      database supports only a 15-minute resolution of this field.
+    * These restricts do not impact any timezones on or after the year 1974, and
+      the `zonedbx` database starts at the year 2000.
+* `CompleteZoneProcessor`
+    * Is identical to `ExtendedZonProcessor`, but is able to use the
+      high-resolution `zonedbc` database.
+    * Supports all timezones for all years over `[0001,10000)`.
+* `zonedb/`, `zonedbx/`, `zonedbc` databases
+    * These data structures are loaded into flash memory using the `PROGMEM`
+      keyword.
     * The ZoneInfo entries have *not* been compressed using bit-fields.
         * It may be possible to decrease the size of the full database using
           these compression techniques. However, compression will increase the
@@ -3239,49 +3433,21 @@ Serial.println(dt.isError() ? "true" : "false");
           the next month in the case of `>=`). However, shifting into the
           previous year or the next year is not supported.
         * The `tzcompiler.py` will exclude and flag the Rules which could
-          potentially shift to a different year. As of version 2022f, no such
-          Rule seems to exist.
-* Arduino Zero and SAMD21 Boards
-    * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
-      no longer fully supported because:
-        * I am no longer able to upload firmware to my SAMD21 boards
-        * The Arduino samd Core v1.8.10 migrated to the
-          [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api).
-          Unfortunately the ArduinoCore-API is not supported by AceTime.
-    * If you are using an original Arduino Zero and using the "Native USB Port",
-      you may encounter problems with nothing showing up on the Serial Monitor.
-        * The original Arduino Zero has [2 USB
-          ports](https://www.arduino.cc/en/Guide/ArduinoZero). The Programming
-          port is connected to `Serial` object and the Native port is connected
-          to `SerialUSB` object. You can select either the "Arduino/Genuino Zero
-          (Programming Port)" or the "Arduino/Genuino Zero (Native USB Port)" on
-          the Board Manager selector in the Arduino IDEA. Unfortunately, if you
-          select "(Native USB Port)", the `SERIAL_MONITOR_PORT` macro *should*
-          be defined to be `SerialUSB`, but it continues to point to `Serial`,
-          which means that nothing will show up on the Serial Monitor.
-        * You may be able to fix this by setting
-          `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
-          `src/ace_time/common/compat.h`. (I do not test this option often, so
-          it may be broken.)
-    * If you are using a SAMD21 development or breakout board, or one of the
-      many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
-      have), I have been unable to find a board configuration that is an exact
-      match. You have a few choices:
-        * If you are running the [AceTime unit tests](tests/), you need to
-          have a working `SERIAL_PORT_MONITOR`, so the "Arduino MKR ZERO" board
-          might work better, instead of the "Arduino Zero (Native USB Port)"
+          potentially shift to a different year.
+        * No such Rule has been observed as of 2023c.
+* SAMD21 Boards
+    * SAMD21 boards using the traditional Arduino API are supported.
+        * For example, Adafruit ItsyBitsy M0, Seeeduino XIAO M0.
+    * SAMD boards using the Arduino samd Core >= 1.8.10 are explicitly
+      blacklisted, because they use the
+      [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api) which
+      is not compatible with this library.
+    * Arduino Zero is moved to Tier 3 (may work but not supported).
+        * I don't own an Arduino Zero, so I cannot validate anything on that
           board.
-        * If you are running an app that requires proper pin configuration,
-          it seems that the `Arduino MKR ZERO" configuration is not correct for
-          this clone board. You need to go back to the "Arduino/Genuino Zero
-          (Native USB Port)" board configuration.
-        * You may also try installing the [SparkFun
-          Boards](https://github.com/sparkfun/Arduino_Boards) and select
-          the "SparkFun SAMD21 Mini Breakout" board. The advantage of using
-          this configuration is that the `SERIAL_PORT_MONITOR` is configured
-          properly as well as the port pin numbers. However, I have found that
-          the USB connection can be a bit flaky.
-    * The `MKR Zero` board generates far faster code (30%?) than the `SparkFun
-      SAMD21 Mini Breakout` board. The `MKR Zero` could be using a different
-      (more recent?) version of the GCC tool chain. I have not investigated
-      this.
+        * It has [2 USB ports](https://www.arduino.cc/en/Guide/ArduinoZero)
+          which is too confusing.
+        * You may be able to fix some of the serial port problem by setting
+          `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
+          `src/ace_time/common/compat.h`. But I do not test this option often,
+          so it may be broken.

@@ -7,8 +7,9 @@
 #define ACE_TIME_EXTENDED_ZONE_H
 
 #include <AceCommon.h> // KString
-#include "../zoneinfo/ZoneInfo.h"
-#include "../zoneinfo/Brokers.h"
+#include "../zoneinfo/infos.h"
+#include "../zoneinfo/brokers.h"
+#include "TimeOffset.h"
 
 class Print;
 
@@ -60,18 +61,18 @@ class ExtendedZone {
     }
 
     /** Return the STDOFF of the last ZoneEra. */
-    int16_t stdOffsetMinutes() const {
+    TimeOffset stdOffset() const {
       uint8_t numEras = mZoneInfoBroker.numEras();
       extended::ZoneEraBroker zeb = mZoneInfoBroker.era(numEras - 1);
-      return zeb.offsetMinutes();
+      return TimeOffset::forSeconds(zeb.offsetSeconds());
     }
 
     /** Return the name as a KString. */
     ace_common::KString kname() const {
       const auto* name = isNull() ? nullptr : mZoneInfoBroker.name();
-      const internal::ZoneContext* zoneContext = mZoneInfoBroker.zoneContext();
+      extended::ZoneContextBroker zoneContext = mZoneInfoBroker.zoneContext();
       return ace_common::KString(
-          name, zoneContext->fragments, zoneContext->numFragments);
+          name, zoneContext.fragments(), zoneContext.numFragments());
     }
 
   private:

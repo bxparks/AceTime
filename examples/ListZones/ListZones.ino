@@ -132,7 +132,7 @@ void printZones(uint16_t elapsedMillis, uint16_t indexes[], uint16_t size) {
   // "UTC-08:00 America/Los_Angeles"
   for (uint16_t i = 0; i < size; i++) {
     ExtendedZone zone = zoneManager.getZoneForIndex(indexes[i]);
-    TimeOffset stdOffset = TimeOffset::forMinutes(zone.stdOffsetMinutes());
+    TimeOffset stdOffset = zone.stdOffset();
 
     SERIAL_PORT_MONITOR.print(F("UTC"));
     stdOffset.printTo(SERIAL_PORT_MONITOR);

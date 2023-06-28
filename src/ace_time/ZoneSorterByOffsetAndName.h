@@ -96,10 +96,10 @@ class ZoneSorterByOffsetAndName {
       }
       if (b.isNull()) return 1;
 
-      int16_t offsetA = a.stdOffsetMinutes();
-      int16_t offsetB = b.stdOffsetMinutes();
-      if (offsetA < offsetB) return -1;
-      if (offsetA > offsetB) return 1;
+      TimeOffset offsetA = a.stdOffset();
+      TimeOffset offsetB = b.stdOffset();
+      if (offsetA.toSeconds() < offsetB.toSeconds()) return -1;
+      if (offsetA.toSeconds() > offsetB.toSeconds()) return 1;
       return a.kname().compareTo(b.kname());
     }
 

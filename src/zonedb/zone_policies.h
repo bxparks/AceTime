@@ -7,9 +7,9 @@
 //     --action zonedb
 //     --language arduino
 //     --scope basic
-//     --generate_int16_years
+//     --db_namespace zonedb
 //     --start_year 2000
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -25,59 +25,65 @@
 //
 // from https://github.com/eggert/tz/releases/tag/2023c
 //
-// Supported Zones: 446 (226 zones, 220 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 448 (228 zones, 220 links)
+// Unsupported Zones: 148 (122 zones, 26 links)
+//
+// Requested Years: [2000,2200]
+// Accurate Years: [2000,32767]
 //
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2023]
+// Lower/Upper Truncated: [True,False]
+//
 // Estimator Years: [1950,2025]
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 238
-//   Policies: 63
-//   Rules: 362
+//   Infos: 448
+//   Eras: 240
+//   Policies: 65
+//   Rules: 367
 //
 // Memory (8-bits):
-//   Rules: 3982
-//   Policies: 189
-//   Eras: 2856
-//   Zones: 2938
+//   Context: 16
+//   Rules: 3303
+//   Policies: 195
+//   Eras: 2640
+//   Zones: 2964
 //   Links: 2860
-//   Registry: 892
-//   Formats: 465
-//   Letters: 11
+//   Registry: 896
+//   Formats: 467
+//   Letters: 29
 //   Fragments: 116
-//   Names: 4144 (original: 6503)
-//   TOTAL: 18453
+//   Names: 4162 (original: 6534)
+//   TOTAL: 17648
 //
 // Memory (32-bits):
-//   Rules: 4344
-//   Policies: 504
-//   Eras: 3808
-//   Zones: 5424
+//   Context: 24
+//   Rules: 4404
+//   Policies: 520
+//   Eras: 3840
+//   Zones: 5472
 //   Links: 5280
-//   Registry: 1784
-//   Formats: 465
-//   Letters: 17
+//   Registry: 1792
+//   Formats: 467
+//   Letters: 41
 //   Fragments: 138
-//   Names: 4144 (original: 6503)
-//   TOTAL: 25908
+//   Names: 4162 (original: 6534)
+//   TOTAL: 26140
 //
 // DO NOT EDIT
 
 #ifndef ACE_TIME_ZONEDB_ZONE_POLICIES_H
 #define ACE_TIME_ZONEDB_ZONE_POLICIES_H
 
-#include <zoneinfo/ZonePolicy.h>
+#include <zoneinfo/infos.h>
 
 namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Supported policies: 63
-// Supported rules: 362
+// Supported policies: 65
 //---------------------------------------------------------------------------
 
 extern const basic::ZonePolicy kZonePolicyAN;
@@ -90,6 +96,7 @@ extern const basic::ZonePolicy kZonePolicyArmenia;
 extern const basic::ZonePolicy kZonePolicyAus;
 extern const basic::ZonePolicy kZonePolicyAzer;
 extern const basic::ZonePolicy kZonePolicyBarb;
+extern const basic::ZonePolicy kZonePolicyBelize;
 extern const basic::ZonePolicy kZonePolicyBrazil;
 extern const basic::ZonePolicy kZonePolicyC_Eur;
 extern const basic::ZonePolicy kZonePolicyCO;
@@ -124,6 +131,7 @@ extern const basic::ZonePolicy kZonePolicyMoncton;
 extern const basic::ZonePolicy kZonePolicyMongol;
 extern const basic::ZonePolicy kZonePolicyNC;
 extern const basic::ZonePolicy kZonePolicyNZ;
+extern const basic::ZonePolicy kZonePolicyNamibia;
 extern const basic::ZonePolicy kZonePolicyNic;
 extern const basic::ZonePolicy kZonePolicyPRC;
 extern const basic::ZonePolicy kZonePolicyPakistan;
@@ -146,7 +154,7 @@ extern const basic::ZonePolicy kZonePolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported policies: 71
+// Unsupported policies: 69
 //---------------------------------------------------------------------------
 
 // Albania {unused}
@@ -154,7 +162,6 @@ extern const basic::ZonePolicy kZonePolicyZion;
 // Arg {unused}
 // Austria {unused}
 // Belgium {unused}
-// Belize {LETTER 'CST' too long}
 // Bermuda {unused}
 // Bulg {unused}
 // CA {unused}
@@ -191,7 +198,6 @@ extern const basic::ZonePolicy kZonePolicyZion;
 // NBorneo {unused}
 // NT_YK {unused}
 // NYC {unused}
-// Namibia {LETTER 'CAT' too long}
 // Palestine {Found 2 transitions in year/month '2040-10'}
 // Perry {unused}
 // Pike {unused}

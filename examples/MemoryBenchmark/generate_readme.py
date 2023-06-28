@@ -29,7 +29,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v2.2.3
+**Version**: AceTime v2.3.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -91,7 +91,7 @@ ASCII table.
   `ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption
   by 250-400 bytes for 32-bit processors. Don't know why. (Very little
   difference for 8-bit AVR).
-* Adding a `BrokerFactory` layer of indirection (to support more complex
+* Adding a `ZoneInfoStore` layer of indirection (to support more complex
   ZoneProcessors and Brokers) causes flash memory to go up by 100-200 bytes.
 
 **v1.6:**
@@ -262,21 +262,61 @@ ASCII table.
     * STM32duino Boards 2.5.0
     * ESP32 Boards 2.0.9
 
+**v2.3.0**
+* Implement 1-second resolution in ExtendedZoneProcessor (decoupled from
+  zonedbx storage format).
+    * Increases flash usage by ~1kB on 8-bit processors, but only 0-100 bytes
+      on 32-bit processors.
+    * Enables it to be also used as the CompleteZoneProcessor class.
+* Implement CompleteZoneProcessor as a specialization of ExtendedZoneProcessor.
+    * Enables the creation of `zonedbc` database which contains all TZDB
+      timezones, for all years going back to 1844, the earliest transition in
+      the TZDB.
+    * The flash consumption of zonedbc is roughly 2X of zonedbx.
+* Revert `zonedb` to use 8-bit year fields.
+    * Increases flash memory consumption for BasicZoneManager w/ 1 zone by
+      around 150 bytes.
+    * Decreases flash memory cosumption for BasicZoneManager w/ all timezones by
+      800-900 bytes.
+* Revert `zonedbx` to use 8-bit year fields.
+    * Increase flash memory consumption of ExtendedZoneManager w/ 1 zone by
+      around 220 bytes.
+    * Decreases flash memory cosumption for ExtendedZoneManager w/ all timezones
+      by ~2000 bytes.
+* Move ZoneContext and its string arrays into PROGMEM.
+    * Reduces RAM usage by 150-200 bytes on AVR and ESP8266 processors.
+* Merge `createAbbreviation()` of BasicZoneProcessor and ExtendedZoneProcessor
+    * `BasicZoneProcessor`: Slight (30-60 bytes) increase in flash memory,
+      no change in RAM usage.
+    * `ExtendedZoneProcessor`: Slight (30-60 bytes) increase in flash memory.
+      But saves ~16 bytes of RAM for 8-bit, ~64 bytes of RAM for 32-bit.
+* Support multi-character `ZoneRule.letter` field
+    * Enables `Africa/Windhoek` and `America/Belize` in the `zonedb` database
+      used with `BasicZoneProcessor`.
+    * Increases flash memory for `zonedb` by ~150 bytes on 8-bit, ~200 on 32-bit
+      processors.
+
 # Legend
 
-* [1] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [1] Delta flash and ram consumption for `Basic ZoneSorterByName` and
+  `Basic ZoneSorterByOffsetAndName` are calculated by subtracting the
   `BasicZoneManager (1 zone)` numbers, to isolate the memory consumption
   of just the sorter classes.
-* [2] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [2] Delta flash and ram consumption for `Extended ZoneSorterByName` and
+  `Extended ZoneSorterByOffsetAndName` are calculated by subtracting the
   `ExtendedZoneManager (1 zone)` numbers, to isolate the memory
   consumption of just the sorter classes.
+* [3] Delta flash and ram consumption for `Complete ZoneSorterByName` and
+  `Complete ZoneSorterByOffsetAndName` are calculated by subtracting the
+  `CompleteZoneManager (1 zone)` numbers, to isolate the memory
+  consumption of just the sorter classes.
+* An entry of `-1` indicates that the memory usage exceeded the maximum of the
+  microcontroller and the compiler did not generate the desired information.
 
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Arduino AVR Boards 1.8.6
 
 ```
@@ -286,7 +326,7 @@ ASCII table.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -296,7 +336,7 @@ ASCII table.
 ## Seeed Studio XIAO SAMD21
 
 * SAMD21, 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.19, Arduino CLI 0.31.1
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Seeeduino SAMD Boards 1.8.4
 
 ```
@@ -306,20 +346,17 @@ ASCII table.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * STM32duino 2.5.0
 
 ```
 {stm32_results}
 ```
 
-An entry of `-1` indicates that the memory usage exceeded the maximum of the
-microcontroller and the compiler did not generate the desired information.
-
 ## SAMD51 (Adafruit ItsyBitsy M4)
 
 * SAMD51, 120 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Adafruit SAMD 1.7.11
 
 ```
@@ -328,7 +365,7 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * ESP8266 Boards 3.0.2
 
 ```
@@ -338,14 +375,10 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * ESP32 Boards 2.0.9
 
 ```
 {esp32_results}
 ```
-
-RAM usage remains constant as more objects are created, which indicates that an
-initial pool of a certain minimum size is created regardless of the actual RAM
-usage by objects.
 """)

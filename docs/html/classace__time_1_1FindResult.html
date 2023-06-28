@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -89,20 +89,20 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a1d1d9075a9afd269a7da33acc640a9ab"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#a1d1d9075a9afd269a7da33acc640a9ab">fold</a> = 0</td></tr>
 <tr class="memdesc:a1d1d9075a9afd269a7da33acc640a9ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">For findByLocalDateTime(), when type==kTypeOverlap, this is a copy of the requested <a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40" title="Return the fold.">LocalDateTime::fold</a> parameter.  <a href="classace__time_1_1FindResult.html#a1d1d9075a9afd269a7da33acc640a9ab">More...</a><br /></td></tr>
 <tr class="separator:a1d1d9075a9afd269a7da33acc640a9ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9437e8d65cff03a0d482fc2e63663ef1"><td class="memItemLeft" align="right" valign="top"><a id="a9437e8d65cff03a0d482fc2e63663ef1"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#a9437e8d65cff03a0d482fc2e63663ef1">stdOffsetMinutes</a> = 0</td></tr>
-<tr class="memdesc:a9437e8d65cff03a0d482fc2e63663ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">STD offset of the resulting <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and fixed offset from UTC (timeOffset).">OffsetDateTime</a>. <br /></td></tr>
-<tr class="separator:a9437e8d65cff03a0d482fc2e63663ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bcce5a5c8039f6669fcc91b61926e3d"><td class="memItemLeft" align="right" valign="top"><a id="a4bcce5a5c8039f6669fcc91b61926e3d"></a>
-int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#a4bcce5a5c8039f6669fcc91b61926e3d">dstOffsetMinutes</a> = 0</td></tr>
-<tr class="memdesc:a4bcce5a5c8039f6669fcc91b61926e3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">DST offset of the resulting <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and fixed offset from UTC (timeOffset).">OffsetDateTime</a>. <br /></td></tr>
-<tr class="separator:a4bcce5a5c8039f6669fcc91b61926e3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b85a4eb01b435551b0f2298318cd3db"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#a8b85a4eb01b435551b0f2298318cd3db">reqStdOffsetMinutes</a> = 0</td></tr>
-<tr class="memdesc:a8b85a4eb01b435551b0f2298318cd3db"><td class="mdescLeft">&#160;</td><td class="mdescRight">STD offset of the Transition which matched the epochSeconds requested by findByEpochSeconds(), or the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> requested by findByLocalDateTime().  <a href="classace__time_1_1FindResult.html#a8b85a4eb01b435551b0f2298318cd3db">More...</a><br /></td></tr>
-<tr class="separator:a8b85a4eb01b435551b0f2298318cd3db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab306e11a047e780cd345a21f1edda280"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#ab306e11a047e780cd345a21f1edda280">reqDstOffsetMinutes</a> = 0</td></tr>
-<tr class="memdesc:ab306e11a047e780cd345a21f1edda280"><td class="mdescLeft">&#160;</td><td class="mdescRight">DST offset of the Transition which matched the epochSeconds requested by findByEpochSeconds(), or the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> requested by findByLocalDateTime().  <a href="classace__time_1_1FindResult.html#ab306e11a047e780cd345a21f1edda280">More...</a><br /></td></tr>
-<tr class="separator:ab306e11a047e780cd345a21f1edda280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d2eb6055092b450cf39c04579ccb113"><td class="memItemLeft" align="right" valign="top"><a id="a2d2eb6055092b450cf39c04579ccb113"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#a2d2eb6055092b450cf39c04579ccb113">stdOffsetSeconds</a> = 0</td></tr>
+<tr class="memdesc:a2d2eb6055092b450cf39c04579ccb113"><td class="mdescLeft">&#160;</td><td class="mdescRight">STD offset of the resulting <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and fixed offset from UTC (timeOffset).">OffsetDateTime</a>. <br /></td></tr>
+<tr class="separator:a2d2eb6055092b450cf39c04579ccb113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7487628edd6bfc55afc928d9dc69b9c0"><td class="memItemLeft" align="right" valign="top"><a id="a7487628edd6bfc55afc928d9dc69b9c0"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#a7487628edd6bfc55afc928d9dc69b9c0">dstOffsetSeconds</a> = 0</td></tr>
+<tr class="memdesc:a7487628edd6bfc55afc928d9dc69b9c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">DST offset of the resulting <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day), time (hour, minute, second) and fixed offset from UTC (timeOffset).">OffsetDateTime</a>. <br /></td></tr>
+<tr class="separator:a7487628edd6bfc55afc928d9dc69b9c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7cc7f53ebb1b6ff6ab16865840495a4"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#ae7cc7f53ebb1b6ff6ab16865840495a4">reqStdOffsetSeconds</a> = 0</td></tr>
+<tr class="memdesc:ae7cc7f53ebb1b6ff6ab16865840495a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">STD offset of the Transition which matched the epochSeconds requested by findByEpochSeconds(), or the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> requested by findByLocalDateTime().  <a href="classace__time_1_1FindResult.html#ae7cc7f53ebb1b6ff6ab16865840495a4">More...</a><br /></td></tr>
+<tr class="separator:ae7cc7f53ebb1b6ff6ab16865840495a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c821e98b0e12c76900a56020afb841e"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#a8c821e98b0e12c76900a56020afb841e">reqDstOffsetSeconds</a> = 0</td></tr>
+<tr class="memdesc:a8c821e98b0e12c76900a56020afb841e"><td class="mdescLeft">&#160;</td><td class="mdescRight">DST offset of the Transition which matched the epochSeconds requested by findByEpochSeconds(), or the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> requested by findByLocalDateTime().  <a href="classace__time_1_1FindResult.html#a8c821e98b0e12c76900a56020afb841e">More...</a><br /></td></tr>
+<tr class="separator:a8c821e98b0e12c76900a56020afb841e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf56ea188f29e6dde228ba2bdf70d05e"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1FindResult.html#adf56ea188f29e6dde228ba2bdf70d05e">abbrev</a> = &quot;&quot;</td></tr>
 <tr class="memdesc:adf56ea188f29e6dde228ba2bdf70d05e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the abbreviation stored in the transient Transition::abbrev variable.  <a href="classace__time_1_1FindResult.html#adf56ea188f29e6dde228ba2bdf70d05e">More...</a><br /></td></tr>
 <tr class="separator:adf56ea188f29e6dde228ba2bdf70d05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +126,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 <div class="textblock"><p>Result of a search for transition at a specific epochSeconds or a specific <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>. </p>
 <p>More than one transition can match if the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> occurs during an overlap (e.g. during a "fall back" from DST to STD). </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00024">24</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00023">23</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="adf56ea188f29e6dde228ba2bdf70d05e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf56ea188f29e6dde228ba2bdf70d05e">&#9670;&nbsp;</a></span>abbrev</h2>
@@ -143,7 +143,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 <p>Pointer to the abbreviation stored in the transient Transition::abbrev variable. </p>
 <p>The calling code should copy the string into a local buffer quickly, before any other timezone calculations are performed. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00116">116</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00115">115</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -163,45 +163,45 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 <p>For all other resulting types, including kTypeGap, this will be set to 0.</p>
 <p>For findByEpochSeconds(), when type==kTypeOverlap, this defines whether the corresponding <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> occurs the first time (0) or the second time (1). For all other resulting type, this will be set to 0. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00077">77</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00076">76</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
-<a id="ab306e11a047e780cd345a21f1edda280"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab306e11a047e780cd345a21f1edda280">&#9670;&nbsp;</a></span>reqDstOffsetMinutes</h2>
+<a id="a8c821e98b0e12c76900a56020afb841e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c821e98b0e12c76900a56020afb841e">&#9670;&nbsp;</a></span>reqDstOffsetSeconds</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t ace_time::FindResult::reqDstOffsetMinutes = 0</td>
+          <td class="memname">int32_t ace_time::FindResult::reqDstOffsetSeconds = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>DST offset of the Transition which matched the epochSeconds requested by findByEpochSeconds(), or the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> requested by findByLocalDateTime(). </p>
-<p>This may be different than the dstOffsetMinutes when findByLocalDateTime() returns kTypeGap. For all other resulting types from findByEpochSeconds(), and for all resulting types from findByLocalDateTime(), the reqStdOffsetMinutes will be the same as dstOffsetMinutes. </p>
+<p>This may be different than the dstOffsetSeconds when findByLocalDateTime() returns kTypeGap. For all other resulting types from findByEpochSeconds(), and for all resulting types from findByLocalDateTime(), the reqStdOffsetSeconds will be the same as dstOffsetSeconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00109">109</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00108">108</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
-<a id="a8b85a4eb01b435551b0f2298318cd3db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b85a4eb01b435551b0f2298318cd3db">&#9670;&nbsp;</a></span>reqStdOffsetMinutes</h2>
+<a id="ae7cc7f53ebb1b6ff6ab16865840495a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7cc7f53ebb1b6ff6ab16865840495a4">&#9670;&nbsp;</a></span>reqStdOffsetSeconds</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t ace_time::FindResult::reqStdOffsetMinutes = 0</td>
+          <td class="memname">int32_t ace_time::FindResult::reqStdOffsetSeconds = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>STD offset of the Transition which matched the epochSeconds requested by findByEpochSeconds(), or the <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> requested by findByLocalDateTime(). </p>
-<p>This may be different than the stdOffsetMinutes when findByLocalDateTime() returns kTypeGap. For all other resulting types from findByEpochSeconds(), and for all resulting types from findByLocalDateTime(), the reqStdOffsetMinutes will be the same as stdOffsetMinutes. </p>
+<p>This may be different than the stdOffsetSeconds when findByLocalDateTime() returns kTypeGap. For all other resulting types from findByEpochSeconds(), and for all resulting types from findByLocalDateTime(), the reqStdOffsetSeconds will be the same as stdOffsetSeconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00096">96</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00095">95</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -230,8 +230,8 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 </li>
 <li>kTypeGap:<ul>
 <li><a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> occurs in a gap.</li>
-<li><a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40" title="Return the fold.">LocalDateTime::fold</a>=0 returns the earlier transition in reqStdOffsetMinutes and reqDstOffsetMinutes, and the later transition in stdOffsetMinutes and dstOffsetMinutes.</li>
-<li><a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40" title="Return the fold.">LocalDateTime::fold</a>=1 returns the later transition in reqStdOffsetMinutes and reqDstOffsetMinutes, and the earlier transition in stdOffsetMinutes and dstOffsetMinutes.</li>
+<li><a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40" title="Return the fold.">LocalDateTime::fold</a>=0 returns the earlier transition in reqStdOffsetSeconds and reqDstOffsetSeconds, and the later transition in stdOffsetSeconds and dstOffsetSeconds.</li>
+<li><a class="el" href="classace__time_1_1LocalDateTime.html#a6d082508f73c7a9dbca81c0a2287eb40" title="Return the fold.">LocalDateTime::fold</a>=1 returns the later transition in reqStdOffsetSeconds and reqDstOffsetSeconds, and the earlier transition in stdOffsetSeconds and dstOffsetSeconds.</li>
 </ul>
 </li>
 <li>kTypeOverlap:<ul>
@@ -261,7 +261,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>kType
 </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00066">66</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00065">65</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>

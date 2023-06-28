@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['comparestatus_566',['compareStatus',['../structace__time_1_1extended_1_1TransitionTemplate.html#aae2c4839632ac512eaf4981945d2bc57',1,'ace_time::extended::TransitionTemplate']]],
-  ['curr_567',['curr',['../structace__time_1_1extended_1_1TransitionForSecondsTemplate.html#a6456944c5e8a22ed24d11d3354657101',1,'ace_time::extended::TransitionForSecondsTemplate::curr()'],['../structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html#aba98c7341bab47473bc87eca7b38ba44',1,'ace_time::extended::TransitionForDateTimeTemplate::curr()']]]
+  ['baseyear_623',['baseYear',['../structace__time_1_1zoneinfohigh_1_1ZoneContext.html#a36162a7743a06f25891186b7a2904a7c',1,'ace_time::zoneinfohigh::ZoneContext::baseYear()'],['../structace__time_1_1zoneinfolow_1_1ZoneContext.html#a2906a90fb8a3f2fa7d312d34159fc469',1,'ace_time::zoneinfolow::ZoneContext::baseYear()'],['../structace__time_1_1zoneinfomid_1_1ZoneContext.html#a0e81ff02828c78c40f5cb8a2ded514b6',1,'ace_time::zoneinfomid::ZoneContext::baseYear()']]]
 ];

@@ -6,12 +6,10 @@
 #ifndef ACE_TIME_BASIC_ZONE_PROCESSOR_H
 #define ACE_TIME_BASIC_ZONE_PROCESSOR_H
 
-#include <string.h> // strchr()
 #include <stdint.h>
-#include <AceCommon.h> // copyReplaceChar()
-#include "../zoneinfo/ZonePolicy.h"
-#include "../zoneinfo/ZoneInfo.h"
-#include "../zoneinfo/Brokers.h"
+#include <AceCommon.h> // strncpy_T()
+#include "../zoneinfo/infos.h"
+#include "../zoneinfo/brokers.h"
 #include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
 #include "TimeOffset.h"
@@ -46,7 +44,7 @@ namespace basic {
  *
  * The 'era' and 'rule' variables' intermediate values calculated during the
  * init() phase. They are used to calculate the 'year', 'startEpochSeconds',
- * 'offsetMinutes', 'deltaMinutes', and 'abbrev' parameters which are used
+ * 'offsetSeconds', 'deltaSeconds', and 'abbrev' parameters which are used
  * during findMatch() lookup. This separation helps in moving the ZoneInfo and
  * ZonePolicy data structures into PROGMEM.
  *
@@ -193,7 +191,7 @@ inline int8_t compareYearMonth(int16_t aYear, uint8_t aMonth,
  *
  * Not thread-safe.
  *
- * @tparam BF type of BrokerFactory, needed for implementations that require
+ * @tparam ZIS type of ZoneInfoStore, needed for implementations that require
  *    more complex brokers, and allows this template class to be independent
  *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
@@ -201,7 +199,7 @@ inline int8_t compareYearMonth(int16_t aYear, uint8_t aMonth,
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZIS, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class BasicZoneProcessorTemplate: public ZoneProcessor {
   public:
     /** Exposed only for testing purposes. */
@@ -239,6 +237,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * since that seems to match closely to what most people would expect to
      * happen in a gap or overlap (e.g. In the gap of 2am->3am, a 2:30am would
      * get shifted to 3:30am.)
+     *
+     * This algorithm will detect a FindResult::kTypeGap, but it will not be
+     * able to distinguish between a kTypeExact and kTypeOverlap.
      */
     FindResult findByLocalDateTime(
         const LocalDateTime& ldt) const override {
@@ -250,40 +251,43 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       acetime_t epochSeconds0 = ldt.toEpochSeconds();
       auto result0 = findByEpochSeconds(epochSeconds0);
       if (result0.type == FindResult::kTypeNotFound) return result;
-      auto offset0 = TimeOffset::forMinutes(
-          result0.reqStdOffsetMinutes + result0.reqDstOffsetMinutes);
+      auto offset0 = TimeOffset::forSeconds(
+          result0.reqStdOffsetSeconds + result0.reqDstOffsetSeconds);
 
       // 1) Use offset0 to get the next epochSeconds and offset.
       auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
       acetime_t epochSeconds1 = odt.toEpochSeconds();
       auto result1 = findByEpochSeconds(epochSeconds1);
       if (result1.type == FindResult::kTypeNotFound) return result;
-      auto offset1 = TimeOffset::forMinutes(
-          result1.reqStdOffsetMinutes + result1.reqDstOffsetMinutes);
+      auto offset1 = TimeOffset::forSeconds(
+          result1.reqStdOffsetSeconds + result1.reqDstOffsetSeconds);
 
       // 2) Use offset1 to get the next epochSeconds and offset.
       odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
       acetime_t epochSeconds2 = odt.toEpochSeconds();
       auto result2 = findByEpochSeconds(epochSeconds2);
       if (result2.type == FindResult::kTypeNotFound) return result;
-      auto offset2 = TimeOffset::forMinutes(
-          result2.reqStdOffsetMinutes + result2.reqDstOffsetMinutes);
+      auto offset2 = TimeOffset::forSeconds(
+          result2.reqStdOffsetSeconds + result2.reqDstOffsetSeconds);
 
       // If offset1 and offset2 are equal, then we have an equilibrium
-      // and odt(1) must equal odt(2), so we can just return the last odt.
+      // and odt(1) must equal odt(2).
       if (offset1 == offset2) {
-        // pass, pick any of result1 or result2
+        // I think this happens for kTypeExact or kTypeOverlap, but the current
+        // algorithm cannot distinguish between the two, so let's pretend that
+        // it is kTypeExact. Pick either of result1 or result2.
         result = result1;
       } else {
-        // Pick the req{Std,Dst}OffsetMinute that generates the later
-        // epochSeconds (the earlier transition), but convert into the
-        // LocalDateTime of the earlier epochSeconds (the later transition).
-        // TODO: This does not produce the desired result inside a DST gap.
+        // If the offsets don't match, then I think we have a kTypeGap.
+        // Pick the stdOffset and dstOffset that generate the later epochSeconds
+        // (the earlier transition), but convert into the LocalDateTime of the
+        // earlier epochSeconds (the later transition).
         if (epochSeconds1 > epochSeconds2) {
           result = result1;
         } else {
           result = result2;
         }
+        result.type = FindResult::kTypeGap;
       }
 
       return result;
@@ -294,11 +298,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       const Transition* transition = getTransition(epochSeconds);
       if (!transition) return result;
 
-      result.dstOffsetMinutes = transition->deltaMinutes;
-      result.stdOffsetMinutes = transition->offsetMinutes
-          - transition->deltaMinutes;
-      result.reqStdOffsetMinutes = result.stdOffsetMinutes;
-      result.reqDstOffsetMinutes = result.dstOffsetMinutes;
+      result.dstOffsetSeconds = transition->deltaMinutes * kSecPerMin;
+      result.stdOffsetSeconds = (transition->offsetMinutes
+          - transition->deltaMinutes) * kSecPerMin;
+      result.reqStdOffsetSeconds = result.stdOffsetSeconds;
+      result.reqDstOffsetSeconds = result.dstOffsetSeconds;
       result.type = FindResult::kTypeExact;
       result.abbrev = transition->abbrev;
 
@@ -320,10 +324,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (! mBrokerFactory) return;
+      if (! mZoneInfoStore) return;
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
-      mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
+      mZoneInfoBroker = mZoneInfoStore->createZoneInfoBroker(zoneKey);
       mYear = LocalDate::kInvalidYear;
       mNumTransitions = 0;
     }
@@ -347,34 +351,34 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Set the broker factory at runtime. This is an advanced usage where the
-     * custom subclass of ExtendedZoneProcessorTemplate does not know its broker
-     * factory at compile time, so it must be set at runtime through this
+     * Set the zone info store at runtime. This is an advanced usage where the
+     * custom subclass of ExtendedZoneProcessorTemplate does not know its zone
+     * info store at compile time, so it must be set at runtime through this
      * method.
      */
-    void setBrokerFactory(const BF* brokerFactory) {
-      mBrokerFactory = brokerFactory;
+    void setZoneInfoStore(const ZIS* zoneInfoStore) {
+      mZoneInfoStore = zoneInfoStore;
     }
 
   protected:
 
     /**
-     * Constructor. When first initialized inside a cache, the brokerFactory may
+     * Constructor. When first initialized inside a cache, the zoneInfoStore may
      * be set to nullptr, and the zoneKey should be ignored.
      *
      * @param type indentifier for the specific subclass of ZoneProcessor (e.g.
      *    Basic versus Extended) mostly used for debugging
-     * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
+     * @param zoneInfoStore pointer to a ZoneInfoStore that creates a ZIB
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
      */
     explicit BasicZoneProcessorTemplate(
         uint8_t type,
-        const BF* brokerFactory /*nullable*/,
+        const ZIS* zoneInfoStore /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
-        mBrokerFactory(brokerFactory)
+        mZoneInfoStore(zoneInfoStore)
     {
       setZoneKey(zoneKey);
     }
@@ -458,6 +462,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
+      // Restrict to [1,9999], even though LocalDate should be able to handle
+      // [0,10000].
+      if (year <= LocalDate::kMinYear || LocalDate::kMaxYear <= year) {
+        return false;
+      }
+
       if (isFilled(year)) return true;
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
         logging::printf("initForLocalDate(): %d (new year %d)\n",
@@ -467,11 +477,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       mYear = year;
       mEpochYear = Epoch::currentEpochYear();
       mNumTransitions = 0; // clear cache
-
-      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
-          || mZoneInfoBroker.zoneContext()->untilYear < year) {
-        return false;
-      }
 
       ZEB priorEra = addTransitionPriorToYear(year);
       ZEB currentEra = addTransitionsForYear(year, priorEra);
@@ -686,9 +691,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      *    month from the rule using the expression ((rule) ? rule.inMonth() :
      *    1).
      * @param era the ZoneEra which defined this transition, used to extract
-     *    the offsetMinutes() and deltaMinutes()
+     *    the offsetSeconds() and deltaSeconds()
      * @param rule the ZoneRule which defined this transition, used to
-     *    extract deltaMinutes(), letter()
+     *    extract deltaSeconds(), letter()
      */
     void addTransition(int16_t year, uint8_t month, const ZEB& era,
           const ZRB& rule) const {
@@ -711,7 +716,14 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       // would mean maintaining another version of zone_processor.py.
       if (mNumTransitions >= kMaxCacheEntries) return;
 
-      // insert new element at the end of the list
+      // Insert new element at the end of the list.
+      // NOTE: It is probably tempting to pass a pointer (or reference) to
+      // mTransitions[mNumTransitions] into createTransition(), instead of
+      // returning it by value. However, MemoryBenchmark shows that directly
+      // updating the Transition through the pointer increases flash memory
+      // consumption by ~110 bytes on AVR processors. It seems that creating a
+      // local copy of Transition on the stack, filling it, and then copying it
+      // by value takes fewer instructions.
       mTransitions[mNumTransitions] = createTransition(year, month, era, rule);
       mNumTransitions++;
 
@@ -730,47 +742,46 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Create a Transition with the 'deltaMinutes' and 'offsetMInutes' filled
+     * Create a Transition with the 'deltaSeconds' and 'offsetSeconds' filled
      * in so that subsequent processing does not need to retrieve those again
      * (potentially from PROGMEM).
      */
     static Transition createTransition(int16_t year, uint8_t month,
         const ZEB& era, const ZRB& rule) {
 
+      Transition transition;
       int16_t deltaMinutes;
-      const char* letter;
       uint8_t mon;
       if (rule.isNull()) {
         mon = 1; // RULES is either '-' or 'hh:mm' so takes effect in Jan
-        deltaMinutes = era.deltaMinutes();
-        letter = "";
+        deltaMinutes = era.deltaSeconds() / kSecPerMin;
+        transition.abbrev[0] = '\0';
       } else {
         mon = rule.inMonth();
-        deltaMinutes = rule.deltaMinutes();
-        letter = rule.letter();
+        deltaMinutes = rule.deltaSeconds() / kSecPerMin;
+        ace_common::strncpy_T(
+            transition.abbrev, rule.letter(), internal::kAbbrevSize - 1);
+        transition.abbrev[internal::kAbbrevSize - 1] = '\0';
       }
       // Clobber the month if specified.
       if (month != 0) {
         mon = month;
       }
-      int16_t offsetMinutes = era.offsetMinutes() + deltaMinutes;
+      int16_t offsetMinutes = era.offsetSeconds() / kSecPerMin + deltaMinutes;
 
-      return {
-        era,
-        rule,
-        0 /*epochSeconds*/,
-        offsetMinutes,
-        deltaMinutes,
-        year,
-        mon,
-        {letter[0]}, // only single letters are allowed in Basic
-      };
+      transition.era = era;
+      transition.rule = rule;
+      transition.startEpochSeconds = 0;
+      transition.offsetMinutes = offsetMinutes;
+      transition.deltaMinutes = deltaMinutes;
+      transition.year = year;
+      transition.month = mon;
+      return transition;
     }
 
     /**
-     * Find the ZoneEra which applies to the given year. The era will
-     * satisfy (year < ZoneEra.untilYear). Since the largest
-     * untilYear is 127, the largest supported 'year' is 2126.
+     * Find the ZoneEra which applies to the given year. The era will satisfy
+     * (year < ZoneEra.untilYear).
      */
     static ZEB findZoneEra(const ZIB& info, int16_t year) {
       for (uint8_t i = 0; i < info.numEras(); i++) {
@@ -783,7 +794,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Calculate the startEpochSeconds of each Transition. (previous, this also
-     * calculated the offsetMinutes and deltaMinutes as well, but it turned out
+     * calculated the offsetSeconds and deltaSeconds as well, but it turned out
      * that they could be calculated early in createTransition()). The start
      * time of a given transition is defined as the "wall clock", which means
      * that it is defined in terms of the *previous* Transition.
@@ -833,11 +844,11 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           // requires the offset of the previous transition.
           const int16_t prevOffsetMinutes = calcRuleOffsetMinutes(
               prevTransition->offsetMinutes,
-              transition.era.offsetMinutes(),
+              transition.era.offsetSeconds() / kSecPerMin,
               transition.rule.atTimeSuffix());
 
           // startDateTime
-          const uint16_t minutes = transition.rule.atTimeMinutes();
+          const uint16_t minutes = transition.rule.atTimeSeconds() / 60;
           const uint8_t atHour = minutes / 60;
           const uint8_t atMinute = minutes % 60;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
@@ -859,9 +870,9 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      */
     static int16_t calcRuleOffsetMinutes(int16_t prevEffectiveOffsetMinutes,
         int16_t currentBaseOffsetMinutes, uint8_t atSuffix) {
-      if (atSuffix == internal::ZoneContext::kSuffixW) {
+      if (atSuffix == basic::ZoneContext::kSuffixW) {
         return prevEffectiveOffsetMinutes;
-      } else if (atSuffix == internal::ZoneContext::kSuffixS) {
+      } else if (atSuffix == basic::ZoneContext::kSuffixS) {
         return currentBaseOffsetMinutes;
       } else { // 'u', 'g' or 'z'
         return 0;
@@ -881,82 +892,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /** Calculate the time zone abbreviation of the current transition. */
     static void calcAbbreviation(Transition* transition) {
-      createAbbreviation(
+      internal::createAbbreviation(
           transition->abbrev,
           internal::kAbbrevSize,
           transition->era.format(),
           transition->deltaMinutes,
-          transition->abbrev[0]);
-    }
-
-    /**
-     * Create the time zone abbreviation in dest from the format string
-     * (e.g. "P%T", "E%T"), the time zone deltaMinutes (!= 0 means DST), and the
-     * replacement letter (e.g. 'S', 'D', '\0' (represented as '-' in the
-     * Rule.LETTER entry). If the Zone.RULES column is '-' or 'hh:mm', then
-     * 'letter' will be set to '\0' also, although AceTimetools/transformer.py
-     * should have detected this condition and filtered that zone out.
-     *
-     * 1) If the FORMAT contains a '%', then:
-     *    1a) If the letter is '\0', then the '%' is removed. This indicates the
-     *    Zone.Rule was ('-', 'hh:mm'), or Rule.LETTER was a '-'.
-     *    1b) Else the 'letter' is a single letter (e.g. 'S', 'D', etc) from the
-     *    Rule.LETTER column, so replace '%' with with the given 'letter'.
-     *
-     * 2) If the FORMAT contains a '/', then, ignore the 'letter' and just
-     * use deltaMinutes in the following way:
-     *    2a) If deltaMinutes is 0, pick the first component, i.e. before the
-     *    '/'.
-     *    2b) Else deltaMinutes != 0, pick the second component, i.e. after the
-     *    '/'.
-     *
-     * The above algorithm supports the following edge cases from the TZ
-     * Database:
-     *
-     * A) Asia/Dushanbe in 1991 has a ZoneEra with a fixed hh:mm in the RULES
-     * and a '/' in the FORMAT, the fixed hh:mm selects the DST abbreviation
-     * in FORMAT. (This seems have been fixed in TZDB sometime before 2022g).
-     *
-     * B) Africa/Johannesburg 1942-1944 where the RULES which contains a
-     * reference to named RULEs with DST transitions but there is no '/' or '%'
-     * to distinguish between the 2.
-     *
-     * @param dest destination string buffer
-     * @param destSize size of buffer
-     * @param format encoded abbreviation, '%' is a character substitution
-     * @param deltaMinutes the additional delta minutes std offset
-     *    (0 for standard, != 0 for DST)
-     * @param letter during standard or DST time. If Zone.RULES is a named rule,
-     *    this is the value of the Rule.LETTER field (e.g. 'S', 'D') or '\0' for
-     *    '-'. string), If Zone.RULES is '-' or 'hh:mm' indicating a fixed
-     *    offset, then 'letter' will also be set to '\0'.
-     */
-    static void createAbbreviation(char* dest, uint8_t destSize,
-        const char* format, int16_t deltaMinutes, char letter) {
-      // Check if FORMAT contains a '%'.
-      if (strchr(format, '%') != nullptr) {
-        ace_common::copyReplaceChar(dest, destSize, format, '%', letter);
-      } else {
-        // Check if FORMAT contains a '/'.
-        const char* slashPos = strchr(format, '/');
-        if (slashPos != nullptr) {
-          if (deltaMinutes == 0) {
-            uint8_t headLength = (slashPos - format);
-            if (headLength >= destSize) headLength = destSize - 1;
-            memcpy(dest, format, headLength);
-            dest[headLength] = '\0';
-          } else {
-            uint8_t tailLength = strlen(slashPos+1);
-            if (tailLength >= destSize) tailLength = destSize - 1;
-            memcpy(dest, slashPos+1, tailLength);
-            dest[tailLength] = '\0';
-          }
-        } else {
-          // Just copy the FORMAT disregarding the deltaMinutes and letter.
-          strncpy(dest, format, destSize - 1);
-          dest[destSize - 1] = '\0';
-        }
-      }
+          transition->abbrev);
     }
 
     /** Search the cache and find closest Transition. */
@@ -971,7 +912,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       return closestMatch;
     }
 
-    const BF* mBrokerFactory; // nullable
+  private:
+    static const int32_t kSecPerMin = 60;
+
+    const ZIS* mZoneInfoStore; // nullable
     ZIB mZoneInfoBroker;
 
     mutable uint8_t mNumTransitions = 0;
@@ -983,7 +927,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
  * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
  */
 class BasicZoneProcessor: public BasicZoneProcessorTemplate<
-    basic::BrokerFactory,
+    basic::ZoneInfoStore,
     basic::ZoneInfoBroker,
     basic::ZoneEraBroker,
     basic::ZonePolicyBroker,
@@ -995,16 +939,16 @@ class BasicZoneProcessor: public BasicZoneProcessorTemplate<
 
     explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr)
       : BasicZoneProcessorTemplate<
-          basic::BrokerFactory,
+          basic::ZoneInfoStore,
           basic::ZoneInfoBroker,
           basic::ZoneEraBroker,
           basic::ZonePolicyBroker,
           basic::ZoneRuleBroker>(
-              kTypeBasic, &mBrokerFactory, (uintptr_t) zoneInfo)
+              kTypeBasic, &mZoneInfoStore, (uintptr_t) zoneInfo)
     {}
 
   private:
-    basic::BrokerFactory mBrokerFactory;
+    basic::ZoneInfoStore mZoneInfoStore;
 };
 
 } // namespace ace_time

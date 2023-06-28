@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['fold_571',['fold',['../structace__time_1_1extended_1_1TransitionForSecondsTemplate.html#a5f50181f97738068d94fb7bef9337080',1,'ace_time::extended::TransitionForSecondsTemplate::fold()'],['../classace__time_1_1FindResult.html#a1d1d9075a9afd269a7da33acc640a9ab',1,'ace_time::FindResult::fold()']]],
-  ['fragments_572',['fragments',['../structace__time_1_1internal_1_1ZoneContext.html#a96b167f783962436b6c1b78f0924a46e',1,'ace_time::internal::ZoneContext']]]
+  ['era_630',['era',['../structace__time_1_1basic_1_1TransitionTemplate.html#a5211a848e5d854af448d81faaa612d35',1,'ace_time::basic::TransitionTemplate::era()'],['../structace__time_1_1extended_1_1MatchingEraTemplate.html#a5e03aa70d8760e9229b415729186334f',1,'ace_time::extended::MatchingEraTemplate::era()']]],
+  ['eras_631',['eras',['../structace__time_1_1zoneinfohigh_1_1ZoneInfo.html#a7f7908d4aa2006b4734c401b1fe3ffd0',1,'ace_time::zoneinfohigh::ZoneInfo::eras()'],['../structace__time_1_1zoneinfolow_1_1ZoneInfo.html#a79da91854cc5260a9dd7c4fd95721f80',1,'ace_time::zoneinfolow::ZoneInfo::eras()'],['../structace__time_1_1zoneinfomid_1_1ZoneInfo.html#a83b31d9634bbbca459a54f883172cb3f',1,'ace_time::zoneinfomid::ZoneInfo::eras()']]]
 ];

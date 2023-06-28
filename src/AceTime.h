@@ -25,10 +25,8 @@
 #endif
 
 #include "zoneinfo/compat.h"
-#include "zoneinfo/ZoneContext.h"
-#include "zoneinfo/ZoneInfo.h"
-#include "zoneinfo/ZonePolicy.h"
-#include "zoneinfo/ZoneRegistrar.h"
+#include "zoneinfo/infos.h"
+#include "zoneinfo/brokers.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/EpochConverterJulian.h"
@@ -45,7 +43,9 @@
 #include "ace_time/ZoneProcessor.h"
 #include "ace_time/BasicZoneProcessor.h"
 #include "ace_time/ExtendedZoneProcessor.h"
+#include "ace_time/CompleteZoneProcessor.h"
 #include "ace_time/ZoneProcessorCache.h"
+#include "ace_time/ZoneRegistrar.h"
 #include "ace_time/ZoneManager.h"
 #include "ace_time/ZoneSorterByName.h"
 #include "ace_time/ZoneSorterByOffsetAndName.h"
@@ -64,9 +64,12 @@
 #include "zonedbx/zone_policies.h"
 #include "zonedbx/zone_infos.h"
 #include "zonedbx/zone_registry.h"
+#include "zonedbc/zone_policies.h"
+#include "zonedbc/zone_infos.h"
+#include "zonedbc/zone_registry.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 20203
-#define ACE_TIME_VERSION_STRING "2.2.3"
+#define ACE_TIME_VERSION 20300
+#define ACE_TIME_VERSION_STRING "2.3.0"
 
 #endif

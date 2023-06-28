@@ -10,7 +10,6 @@
 
 using namespace ace_time;
 using namespace ace_time::extended;
-using ace_time::internal::ZoneContext;
 using ace_time::testing::EpochYearContext;
 
 //---------------------------------------------------------------------------
@@ -354,25 +353,25 @@ test(TransitionStorageTest, findTransitionForDateTime) {
 
   // Transition 1: [2000-01-02 01:00, 2001-04-01 02:00), before spring forward
   Transition* freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2000, 1, 2, 1*60, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2000, 1, 2, 1*60*60, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {2001, 4, 1, 2*60, ZoneContext::kSuffixW};
+  freeAgent->untilDateTime = {2001, 4, 1, 2*60*60, ZoneContext::kSuffixW};
   freeAgent->compareStatus = CompareStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
   // Transition 2: [2001-04-01 03:00, 2002-10-27 02:00), spring forward to
   // fall back, creating a gap from Transition 1.
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2001, 4, 1, 3*60, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2001, 4, 1, 3*60*60, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
-  freeAgent->untilDateTime = {2002, 10, 27, 2*60, ZoneContext::kSuffixW};
+  freeAgent->untilDateTime = {2002, 10, 27, 2*60*60, ZoneContext::kSuffixW};
   freeAgent->compareStatus = CompareStatus::kWithinMatch;
   storage.addFreeAgentToCandidatePool();
 
   // Transition 3: [2002-10-27 01:00, 2003-12-31 00:00), after fall back,
   // creating an overlap with Transition 2.
   freeAgent = storage.getFreeAgent();
-  freeAgent->transitionTime = {2002, 10, 27, 1*60, ZoneContext::kSuffixW};
+  freeAgent->transitionTime = {2002, 10, 27, 1*60*60, ZoneContext::kSuffixW};
   freeAgent->startDateTime = freeAgent->transitionTime;
   freeAgent->untilDateTime = {2003, 12, 13, 0, ZoneContext::kSuffixW};
   freeAgent->compareStatus = CompareStatus::kWithinMatch;

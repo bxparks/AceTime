@@ -24,6 +24,13 @@
 #define FEATURE_EXTENDED_ZONE_MANAGER_ZONES_AND_LINKS 15
 #define FEATURE_EXTENDED_ZONE_SORTER_BY_NAME 16
 #define FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME 17
+#define FEATURE_COMPLETE_TIME_ZONE 18
+#define FEATURE_COMPLETE_TIME_ZONE2 19
+#define FEATURE_COMPLETE_ZONE_MANAGER_ONE 20
+#define FEATURE_COMPLETE_ZONE_MANAGER_ZONES 21
+#define FEATURE_COMPLETE_ZONE_MANAGER_ZONES_AND_LINKS 22
+#define FEATURE_COMPLETE_ZONE_SORTER_BY_NAME 23
+#define FEATURE_COMPLETE_ZONE_SORTER_BY_OFFSET_AND_NAME 24
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -56,6 +63,7 @@ volatile int16_t year = 2019;
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, TimeZone());
 #elif FEATURE == FEATURE_MANUAL_ZONE_MANAGER
   ManualZoneManager manager;
+
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE
   BasicZoneProcessor processor;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE2
@@ -115,6 +123,7 @@ volatile int16_t year = 2019;
       kBasicZoneRegistry,
       zoneProcessorCache);
   ZoneSorterByOffsetAndName<BasicZoneManager> zoneSorter(manager);
+
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
   ExtendedZoneProcessor processor;
   auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
@@ -184,6 +193,96 @@ volatile int16_t year = 2019;
       zoneProcessorCache);
   ZoneSorterByOffsetAndName<ExtendedZoneManager> zoneSorter(manager);
 
+#elif FEATURE == FEATURE_COMPLETE_TIME_ZONE
+  #if defined(ARDUINO_ARCH_AVR)
+    #error Unsupported FEATURE on this platform
+  #endif
+  CompleteZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles,
+      &processor);
+#elif FEATURE == FEATURE_COMPLETE_TIME_ZONE2
+  #if defined(ARDUINO_ARCH_AVR)
+    #error Unsupported FEATURE on this platform
+  #endif
+  // Same as FEATURE_COMPLETE_TIME_ZONE but with 2 zones
+  CompleteZoneProcessor processor1;
+  CompleteZoneProcessor processor2;
+  auto tz1 = TimeZone::forZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles,
+      &processor1);
+  auto tz2 = TimeZone::forZoneInfo(&zonedbc::kZoneEurope_Amsterdam,
+      &processor2);
+#elif FEATURE == FEATURE_COMPLETE_ZONE_MANAGER_ONE
+  #if defined(ARDUINO_ARCH_AVR)
+    #error Unsupported FEATURE on this platform
+  #endif
+  static const complete::ZoneInfo* const kCompleteZoneRegistry[]
+      ACE_TIME_PROGMEM = {
+    &zonedbc::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kCompleteZoneRegistrySize =
+      sizeof(kCompleteZoneRegistry) / sizeof(complete::ZoneInfo*);
+  CompleteZoneProcessorCache<1> zoneProcessorCache;
+  CompleteZoneManager manager(
+      kCompleteZoneRegistrySize,
+      kCompleteZoneRegistry,
+      zoneProcessorCache);
+#elif FEATURE == FEATURE_COMPLETE_ZONE_MANAGER_ZONES
+  #if defined(ARDUINO_ARCH_AVR)
+    #error Unsupported FEATURE on this platform
+  #endif
+  CompleteZoneProcessorCache<1> zoneProcessorCache;
+  CompleteZoneManager manager(
+      zonedbc::kZoneRegistrySize,
+      zonedbc::kZoneRegistry,
+      zoneProcessorCache);
+#elif FEATURE == FEATURE_COMPLETE_ZONE_MANAGER_ZONES_AND_LINKS
+  #if defined(ARDUINO_ARCH_AVR)
+    #error Unsupported FEATURE on this platform
+  #endif
+  CompleteZoneProcessorCache<1> zoneProcessorCache;
+  CompleteZoneManager manager(
+      zonedbc::kZoneAndLinkRegistrySize,
+      zonedbc::kZoneAndLinkRegistry,
+      zoneProcessorCache);
+#elif FEATURE == FEATURE_COMPLETE_ZONE_SORTER_BY_NAME
+  #if defined(ARDUINO_ARCH_AVR)
+    #error Unsupported FEATURE on this platform
+  #endif
+  // Construct the same CompleteZoneManager as FEATURE_COMPLETE_TIME_ZONE, then
+  // subtract its memory consumption numbers to isolate just the
+  // ZoneSorterByName.
+  static const complete::ZoneInfo* const kCompleteZoneRegistry[]
+      ACE_TIME_PROGMEM = {
+    &zonedbc::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kCompleteZoneRegistrySize =
+      sizeof(kCompleteZoneRegistry) / sizeof(complete::ZoneInfo*);
+  CompleteZoneProcessorCache<1> zoneProcessorCache;
+  CompleteZoneManager manager(
+      kCompleteZoneRegistrySize,
+      kCompleteZoneRegistry,
+      zoneProcessorCache);
+  ZoneSorterByName<CompleteZoneManager> zoneSorter(manager);
+#elif FEATURE == FEATURE_COMPLETE_ZONE_SORTER_BY_OFFSET_AND_NAME
+  #if defined(ARDUINO_ARCH_AVR)
+    #error Unsupported FEATURE on this platform
+  #endif
+  // Construct the same CompleteZoneManager as FEATURE_COMPLETE_TIME_ZONE, then
+  // subtract its memory consumption numbers to isolate just the
+  // ZoneSorterByOffsetAndName.
+  static const complete::ZoneInfo* const kCompleteZoneRegistry[]
+      ACE_TIME_PROGMEM = {
+    &zonedbc::kZoneAmerica_Los_Angeles,
+  };
+  static const uint16_t kCompleteZoneRegistrySize =
+      sizeof(kCompleteZoneRegistry) / sizeof(complete::ZoneInfo*);
+  CompleteZoneProcessorCache<1> zoneProcessorCache;
+  CompleteZoneManager manager(
+      kCompleteZoneRegistrySize,
+      kCompleteZoneRegistry,
+      zoneProcessorCache);
+  ZoneSorterByOffsetAndName<CompleteZoneManager> zoneSorter(manager);
+
 #endif
 
 // TeensyDuino seems to pull in malloc() and free() when a class with virtual
@@ -224,6 +323,7 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
+
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE
   auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
       &processor);
@@ -271,6 +371,7 @@ void setup() {
   uint16_t indexes[2] = {0, 1};
   zoneSorter.sortIndexes(indexes, 2);
   guard ^= indexes[0];
+
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
@@ -305,6 +406,47 @@ void setup() {
   guard ^= indexes[0];
 #elif FEATURE == FEATURE_EXTENDED_ZONE_SORTER_BY_OFFSET_AND_NAME
   auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+  uint16_t indexes[2] = {0, 1};
+  zoneSorter.sortIndexes(indexes, 2);
+  guard ^= indexes[0];
+
+#elif FEATURE == FEATURE_COMPLETE_TIME_ZONE
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_COMPLETE_TIME_ZONE2
+  auto dt1 = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz1);
+  auto dt2 = dt1.convertToTimeZone(tz2);
+  acetime_t epochSeconds = dt2.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_COMPLETE_ZONE_MANAGER_ONE
+  auto tz = manager.createForZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_COMPLETE_ZONE_MANAGER_ZONES
+  auto tz = manager.createForZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_COMPLETE_ZONE_MANAGER_ZONES_AND_LINKS
+  auto tz = manager.createForZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_COMPLETE_ZONE_SORTER_BY_NAME
+  auto tz = manager.createForZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles);
+  auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
+  uint16_t indexes[2] = {0, 1};
+  zoneSorter.sortIndexes(indexes, 2);
+  guard ^= indexes[0];
+#elif FEATURE == FEATURE_COMPLETE_ZONE_SORTER_BY_OFFSET_AND_NAME
+  auto tz = manager.createForZoneInfo(&zonedbc::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;

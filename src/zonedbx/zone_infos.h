@@ -7,9 +7,9 @@
 //     --action zonedb
 //     --language arduino
 //     --scope extended
-//     --generate_int16_years
+//     --db_namespace zonedbx
 //     --start_year 2000
-//     --until_year 10000
+//     --until_year 2200
 //
 // using the TZ Database files
 //
@@ -28,8 +28,13 @@
 // Supported Zones: 596 (350 zones, 246 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
+// Requested Years: [2000,2200]
+// Accurate Years: [2000,32767]
+//
 // Original Years:  [1844,2087]
 // Generated Years: [1950,2087]
+// Lower/Upper Truncated: [True,False]
+//
 // Estimator Years: [1950,2090]
 // Max Buffer Size: 7
 //
@@ -40,9 +45,10 @@
 //   Rules: 735
 //
 // Memory (8-bits):
-//   Rules: 8085
+//   Context: 16
+//   Rules: 6615
 //   Policies: 249
-//   Eras: 7752
+//   Eras: 7106
 //   Zones: 4550
 //   Links: 3198
 //   Registry: 1192
@@ -50,9 +56,10 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 31468
+//   TOTAL: 29368
 //
 // Memory (32-bits):
+//   Context: 24
 //   Rules: 8820
 //   Policies: 664
 //   Eras: 10336
@@ -63,14 +70,16 @@
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 42996
+//   TOTAL: 43020
 //
 // DO NOT EDIT
 
 #ifndef ACE_TIME_ZONEDBX_ZONE_INFOS_H
 #define ACE_TIME_ZONEDBX_ZONE_INFOS_H
 
-#include <zoneinfo/ZoneInfo.h>
+#include <zoneinfo/infos.h>
+
+class __FlashStringHelper;
 
 namespace ace_time {
 namespace zonedbx {
@@ -80,14 +89,13 @@ namespace zonedbx {
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
-extern const char kTzDatabaseVersion[];
+extern const __FlashStringHelper* const kTzDatabaseVersion;
 
 // Metadata about the zonedb files.
-extern const internal::ZoneContext kZoneContext;
+extern const extended::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 350
-// Supported eras: 646
 //---------------------------------------------------------------------------
 
 extern const extended::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan

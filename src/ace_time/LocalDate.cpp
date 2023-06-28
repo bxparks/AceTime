@@ -3,6 +3,9 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
+#include <Arduino.h>
+#include <AceCommon.h> // printPad2To()
+#include "common/DateStrings.h" // DateStrings
 #include "LocalDate.h"
 
 namespace ace_time {
@@ -51,5 +54,25 @@ const uint8_t LocalDate::sDaysInMonth[12] = {
   30 /*Nov=30*/,
   31 /*Dec=31*/,
 };
+
+void LocalDate::printTo(Print& printer) const {
+  if (isError()) {
+    printer.print(F("<Invalid LocalDate>"));
+    return;
+  }
+
+  // Date
+  using ace_common::printPad2To;
+  printer.print(year());
+  printer.print('-');
+  printPad2To(printer, mMonth, '0');
+  printer.print('-');
+  printPad2To(printer, mDay, '0');
+  printer.print(' ');
+
+  // Week day
+  DateStrings ds;
+  printer.print(ds.dayOfWeekLongString(dayOfWeek()));
+}
 
 }

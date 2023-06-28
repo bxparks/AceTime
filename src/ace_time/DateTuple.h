@@ -36,23 +36,31 @@ enum class CompareStatus : uint8_t {
 struct DateTuple {
   DateTuple() = default;
 
-  DateTuple(int16_t y, uint8_t mon, uint8_t d, int16_t min, uint8_t mod):
-      year(y), month(mon), day(d), suffix(mod), minutes(min) {}
+  DateTuple(int16_t y, uint8_t mon, uint8_t d, int32_t secs, uint8_t mod)
+      : year(y), month(mon), day(d), seconds(secs), suffix(mod)
+  {}
 
   int16_t year; // [-1,10000]
   uint8_t month; // [1,12]
   uint8_t day; // [1,31]
+  int32_t seconds; // negative values allowed
   uint8_t suffix; // kSuffixS, kSuffixW, kSuffixU
-  int16_t minutes; // negative values allowed
 
   /** Used only for debugging. */
   void log() const {
     if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-      int hour = minutes / 60;
-      int minute = minutes - hour * 60;
+      int16_t minutes = seconds / 60;
+      int8_t second = seconds - int32_t(60) * minutes;
+      int8_t hour = minutes / 60;
+      int8_t minute = minutes - hour * 60;
       char c = "wsu"[(suffix>>4)];
-      logging::printf("%04d-%02u-%02uT%02d:%02d%c",
-          year, month, day, hour, minute, c);
+      if (second) {
+        logging::printf("%04d-%02u-%02uT%02d:%02d:%02d%c",
+            year, month, day, hour, minute, second, c);
+      } else {
+        logging::printf("%04d-%02u-%02uT%02d:%02d%c",
+            year, month, day, hour, minute, c);
+      }
     }
   }
 };
@@ -65,8 +73,8 @@ inline bool operator<(const DateTuple& a, const DateTuple& b) {
   if (a.month > b.month) return false;
   if (a.day < b.day) return true;
   if (a.day > b.day) return false;
-  if (a.minutes < b.minutes) return true;
-  if (a.minutes > b.minutes) return false;
+  if (a.seconds < b.seconds) return true;
+  if (a.seconds > b.seconds) return false;
   return false;
 }
 
@@ -87,30 +95,85 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
   return a.year == b.year
       && a.month == b.month
       && a.day == b.day
-      && a.minutes == b.minutes
+      && a.seconds == b.seconds
       && a.suffix == b.suffix;
 }
 
-/** Normalize DateTuple::minutes if its magnitude is more than 24 hours. */
+/**
+ * Normalize DateTuple::seconds if abs(seconds) >= 24 hours. In other words,
+ * we want `-24h < seconds < 24h`, and small negative seconds are allowed.
+ *
+ * For reasons that I don't fully remember, if the `seconds` field is normalized
+ * to enforce `0 <= seconds < 24h`, then the ExtendedZoneProcessor algorithm no
+ * longe works. I think it has something to do with the DateTuple class
+ * representing dates with a `+/-hh:mm` UTC offset, which means that it needs to
+ * accept negative seconds.
+ */
 inline void normalizeDateTuple(DateTuple* dt) {
-  const int16_t kOneDayAsMinutes = 60 * 24;
-  if (dt->minutes <= -kOneDayAsMinutes) {
+  const int32_t kOneDayAsSeconds = int32_t(60) * 60 * 24;
+  if (dt->seconds <= -kOneDayAsSeconds) {
     LocalDate ld = LocalDate::forComponents(dt->year, dt->month, dt->day);
     local_date_mutation::decrementOneDay(ld);
     dt->year = ld.year();
     dt->month = ld.month();
     dt->day = ld.day();
-    dt->minutes += kOneDayAsMinutes;
-  } else if (kOneDayAsMinutes <= dt->minutes) {
+    dt->seconds += kOneDayAsSeconds;
+  } else if (kOneDayAsSeconds <= dt->seconds) {
     LocalDate ld = LocalDate::forComponents(dt->year, dt->month, dt->day);
     local_date_mutation::incrementOneDay(ld);
     dt->year = ld.year();
     dt->month = ld.month();
     dt->day = ld.day();
-    dt->minutes -= kOneDayAsMinutes;
+    dt->seconds -= kOneDayAsSeconds;
   } else {
     // do nothing
   }
+}
+
+/**
+  * Convert the given 'tt', offsetSeconds, and deltaSeconds into the 'w', 's'
+  * and 'u' versions of the DateTuple. It is allowed for 'ttw' to be an alias
+  * of 'tt'.
+  */
+inline void expandDateTuple(
+    const DateTuple* tt,
+    int32_t offsetSeconds,
+    int32_t deltaSeconds,
+    DateTuple* ttw,
+    DateTuple* tts,
+    DateTuple* ttu) {
+
+  if (tt->suffix == ZoneContext::kSuffixS) {
+    *tts = *tt;
+    *ttu = {tt->year, tt->month, tt->day,
+        tt->seconds - offsetSeconds,
+        ZoneContext::kSuffixU};
+    *ttw = {tt->year, tt->month, tt->day,
+        tt->seconds + deltaSeconds,
+        ZoneContext::kSuffixW};
+  } else if (tt->suffix == ZoneContext::kSuffixU) {
+    *ttu = *tt;
+    *tts = {tt->year, tt->month, tt->day,
+        tt->seconds + offsetSeconds,
+        ZoneContext::kSuffixS};
+    *ttw = {tt->year, tt->month, tt->day,
+        tt->seconds + (offsetSeconds + deltaSeconds),
+        ZoneContext::kSuffixW};
+  } else {
+    // Explicit set the suffix to 'w' in case it was something else.
+    *ttw = *tt;
+    ttw->suffix = ZoneContext::kSuffixW;
+    *tts = {tt->year, tt->month, tt->day,
+        tt->seconds - deltaSeconds,
+        ZoneContext::kSuffixS};
+    *ttu = {tt->year, tt->month, tt->day,
+        tt->seconds - (deltaSeconds + offsetSeconds),
+        ZoneContext::kSuffixU};
+  }
+
+  normalizeDateTuple(ttw);
+  normalizeDateTuple(tts);
+  normalizeDateTuple(ttu);
 }
 
 /**
@@ -129,7 +192,7 @@ inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
   // Perform the subtraction of the days first, before converting to seconds, to
   // prevent overflow if a.year or b.year is more than 68 years from the current
   // epoch year.
-  return (epochDaysA - epochDaysB) * 86400 + (a.minutes - b.minutes) * 60;
+  return (epochDaysA - epochDaysB) * 86400 + a.seconds - b.seconds;
 }
 
 /**

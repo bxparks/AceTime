@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['reqdstoffsetminutes_633',['reqDstOffsetMinutes',['../classace__time_1_1FindResult.html#ab306e11a047e780cd345a21f1edda280',1,'ace_time::FindResult']]],
-  ['reqstdoffsetminutes_634',['reqStdOffsetMinutes',['../classace__time_1_1FindResult.html#a8b85a4eb01b435551b0f2298318cd3db',1,'ace_time::FindResult']]],
-  ['rule_635',['rule',['../structace__time_1_1basic_1_1TransitionTemplate.html#a2ce8f0d17f189a25a6f80e9107edb239',1,'ace_time::basic::TransitionTemplate']]]
+  ['prev_706',['prev',['../structace__time_1_1extended_1_1TransitionForDateTimeTemplate.html#a8ad9753b06d605affa441ca051f9cc6e',1,'ace_time::extended::TransitionForDateTimeTemplate']]],
+  ['prevmatch_707',['prevMatch',['../structace__time_1_1extended_1_1MatchingEraTemplate.html#a4ac51091d609bee6d54607d59c26f1d8',1,'ace_time::extended::MatchingEraTemplate']]]
 ];

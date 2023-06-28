@@ -56,56 +56,125 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(TimePeriod): "));
   SERIAL_PORT_MONITOR.println(sizeof(TimePeriod));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessor): "));
-  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor));
+  // Basic
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor));
+  SERIAL_PORT_MONITOR.println(F("Basic:"));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessorCache<1>): "));
-  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessorCache<1>));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneContext));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessorCache<1>): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessorCache<1>));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneManager): "));
-  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneManager));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneManager): "));
-  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager));
-
-  // ace_time::basic and ace_time::extended classes
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(internal::ZoneContext): "));
-  SERIAL_PORT_MONITOR.println(sizeof(internal::ZoneContext));
-
-  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneEra): "));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneEra): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneEra));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneInfo): "));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneInfo): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneInfo));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneRule): "));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneRule): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRule));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZonePolicy): "));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZonePolicy): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZonePolicy));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneRegistrar): "));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneRegistrar): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRegistrar));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessor::Transition): "));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(BasicZoneProcessor): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(BasicZoneProcessorCache<1>): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessorCache<1>));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(BasicZoneManager): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneManager));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(BasicZoneProcessor::Transition): "));
   SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor::Transition));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor::Transition): "));
+  // Extended
+
+  SERIAL_PORT_MONITOR.println(F("Extended:"));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneContext));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneEra));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneInfo));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneRule): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneRule));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZonePolicy): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::ZonePolicy));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneRegistrar): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneRegistrar));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(ExtendedZoneProcessor): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(ExtendedZoneProcessorCache<1>): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessorCache<1>));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(ExtendedZoneManager): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(ExtendedZoneProcessor::Transition): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::Transition));
 
   SERIAL_PORT_MONITOR.print(
-      F("sizeof(ExtendedZoneProcessor::TransitionStorage): "));
+      F("  sizeof(ExtendedZoneProcessor::TransitionStorage): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::TransitionStorage));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor::MatchingEra): "));
+  SERIAL_PORT_MONITOR.print(
+      F("  sizeof(ExtendedZoneProcessor::MatchingEra): "));
   SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor::MatchingEra));
+
+  // Complete
+
+  SERIAL_PORT_MONITOR.println(F("Complete:"));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneContext));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneEra));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneInfo));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneRule): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneRule));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZonePolicy): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::ZonePolicy));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneRegistrar): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneRegistrar));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(CompleteZoneProcessor): "));
+  SERIAL_PORT_MONITOR.println(sizeof(CompleteZoneProcessor));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(CompleteZoneProcessorCache<1>): "));
+  SERIAL_PORT_MONITOR.println(sizeof(CompleteZoneProcessorCache<1>));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(CompleteZoneManager): "));
+  SERIAL_PORT_MONITOR.println(sizeof(CompleteZoneManager));
+
+  SERIAL_PORT_MONITOR.print(F("  sizeof(CompleteZoneProcessor::Transition): "));
+  SERIAL_PORT_MONITOR.println(sizeof(CompleteZoneProcessor::Transition));
+
+  SERIAL_PORT_MONITOR.print(
+      F("  sizeof(CompleteZoneProcessor::TransitionStorage): "));
+  SERIAL_PORT_MONITOR.println(sizeof(CompleteZoneProcessor::TransitionStorage));
+
+  SERIAL_PORT_MONITOR.print(
+      F("  sizeof(CompleteZoneProcessor::MatchingEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(CompleteZoneProcessor::MatchingEra));
+
+  // ace_time::basic and ace_time::extended classes
 
   SERIAL_PORT_MONITOR.println(F("BENCHMARKS"));
   runBenchmarks();

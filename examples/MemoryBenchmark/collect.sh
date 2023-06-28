@@ -16,7 +16,7 @@
 set -eu
 
 PROGRAM_NAME='MemoryBenchmark.ino'
-NUM_FEATURES=17 # excluding the baseline
+NUM_FEATURES=24 # excluding the baseline
 
 # Assume that https://github.com/bxparks/AUniter is installed as a
 # sibling project to AceTime.
@@ -68,6 +68,11 @@ function collect_for_board() {
             # When STM32duino overflows, it does not print any useful info.
             # Print special markers to tell generate_table.awk about the
             # overflow.
+            echo $feature -1 -1 -1 -1 >> $result_file
+
+        elif grep -q 'Unsupported FEATURE' $auniter_out_file; then
+            # Platform does not support this feature, or exceeded the memory
+            # requirements to badly that the compiler just throws up.
             echo $feature -1 -1 -1 -1 >> $result_file
 
         else

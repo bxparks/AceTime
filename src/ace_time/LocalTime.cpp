@@ -3,6 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
+#include <string.h> // strlen()
 #include <AceCommon.h>
 #include "LocalTime.h"
 

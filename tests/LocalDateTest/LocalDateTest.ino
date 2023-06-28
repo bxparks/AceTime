@@ -5,7 +5,7 @@
 #include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
-using ace_time::internal::ZoneContext;
+using ace_time::basic::ZoneContext;
 
 //---------------------------------------------------------------------------
 // LocalDate
@@ -584,6 +584,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

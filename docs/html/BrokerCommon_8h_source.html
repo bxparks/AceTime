@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -84,36 +84,18 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>__FlashStringHelper;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>internal {</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="BrokerCommon_8h.html#a67cab095ae7783a44c76aaabba1a326c">   30</a></span>&#160;<span class="keyword">inline</span> int16_t <a class="code" href="BrokerCommon_8h.html#a67cab095ae7783a44c76aaabba1a326c">toDeltaMinutes</a>(uint8_t deltaCode) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordflow">return</span> ((int16_t)(deltaCode &amp; 0x0f) - 4) * 15;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="BrokerCommon_8h.html#a14deeb14e9d15cbf9b49ca5a75275f28">   40</a></span>&#160;<span class="keyword">inline</span> int16_t <a class="code" href="BrokerCommon_8h.html#a14deeb14e9d15cbf9b49ca5a75275f28">toOffsetMinutes</a>(int8_t offsetCode, uint8_t deltaCode) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> (offsetCode * 15) + (((uint8_t)deltaCode &amp; 0xf0) &gt;&gt; 4);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="BrokerCommon_8h.html#a5f7fe934c97e99cd812171e90c7945cd">   51</a></span>&#160;<span class="keyword">inline</span> uint16_t <a class="code" href="BrokerCommon_8h.html#a5f7fe934c97e99cd812171e90c7945cd">timeCodeToMinutes</a>(uint8_t code, uint8_t modifier) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">return</span> code * (uint16_t) 15 + (modifier &amp; 0x0f);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="BrokerCommon_8h.html#ae980919d070889e10164c643f1411c5f">   60</a></span>&#160;<span class="keyword">inline</span> uint8_t <a class="code" href="BrokerCommon_8h.html#ae980919d070889e10164c643f1411c5f">toSuffix</a>(uint8_t modifier) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">return</span> modifier &amp; 0xf0;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* findShortName(<span class="keyword">const</span> <span class="keywordtype">char</span>* name);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">const</span> __FlashStringHelper* findShortName(<span class="keyword">const</span> __FlashStringHelper* fname);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;} <span class="comment">// internal</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;} <span class="comment">// ace_time</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aBrokerCommon_8h_html_a14deeb14e9d15cbf9b49ca5a75275f28"><div class="ttname"><a href="BrokerCommon_8h.html#a14deeb14e9d15cbf9b49ca5a75275f28">ace_time::internal::toOffsetMinutes</a></div><div class="ttdeci">int16_t toOffsetMinutes(int8_t offsetCode, uint8_t deltaCode)</div><div class="ttdoc">Convert the offsetCode and deltaCode into a signed 16-bit integer that represents the UTCOFF of the Z...</div><div class="ttdef"><b>Definition:</b> <a href="BrokerCommon_8h_source.html#l00040">BrokerCommon.h:40</a></div></div>
-<div class="ttc" id="aBrokerCommon_8h_html_a5f7fe934c97e99cd812171e90c7945cd"><div class="ttname"><a href="BrokerCommon_8h.html#a5f7fe934c97e99cd812171e90c7945cd">ace_time::internal::timeCodeToMinutes</a></div><div class="ttdeci">uint16_t timeCodeToMinutes(uint8_t code, uint8_t modifier)</div><div class="ttdoc">Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT time in ZoneRule in one...</div><div class="ttdef"><b>Definition:</b> <a href="BrokerCommon_8h_source.html#l00051">BrokerCommon.h:51</a></div></div>
-<div class="ttc" id="aBrokerCommon_8h_html_a67cab095ae7783a44c76aaabba1a326c"><div class="ttname"><a href="BrokerCommon_8h.html#a67cab095ae7783a44c76aaabba1a326c">ace_time::internal::toDeltaMinutes</a></div><div class="ttdeci">int16_t toDeltaMinutes(uint8_t deltaCode)</div><div class="ttdoc">Convert the deltaCode in the ZoneInfo or the ZoneRule struct to the actual deltaMinutes.</div><div class="ttdef"><b>Definition:</b> <a href="BrokerCommon_8h_source.html#l00030">BrokerCommon.h:30</a></div></div>
-<div class="ttc" id="aBrokerCommon_8h_html_ae980919d070889e10164c643f1411c5f"><div class="ttname"><a href="BrokerCommon_8h.html#ae980919d070889e10164c643f1411c5f">ace_time::internal::toSuffix</a></div><div class="ttdeci">uint8_t toSuffix(uint8_t modifier)</div><div class="ttdoc">Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can be compared against kSuff...</div><div class="ttdef"><b>Definition:</b> <a href="BrokerCommon_8h_source.html#l00060">BrokerCommon.h:60</a></div></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>zoneinfo {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="BrokerCommon_8h.html#af456517bffcd8ba8b36c388f8ee44a2a">   30</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> kAbbrevSize = 6 + 1;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* findShortName(<span class="keyword">const</span> <span class="keywordtype">char</span>* name);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">const</span> __FlashStringHelper* findShortName(<span class="keyword">const</span> __FlashStringHelper* fname);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// zoneinfo</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;} <span class="comment">// ace_time</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

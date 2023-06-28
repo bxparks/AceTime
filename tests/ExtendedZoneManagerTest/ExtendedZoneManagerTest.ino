@@ -2,26 +2,26 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <tzonedbx/zone_policies.h>
-#include <tzonedbx/zone_infos.h>
+#include <zonedbxtesting/zone_policies.h>
+#include <zonedbxtesting/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::tzonedbx::kZoneAmerica_Chicago;
-using ace_time::tzonedbx::kZoneAmerica_Denver;
-using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
-using ace_time::tzonedbx::kZoneAmerica_New_York;
-using ace_time::tzonedbx::kZoneAmerica_Toronto;
-using ace_time::tzonedbx::kZoneAmerica_Vancouver;
-using ace_time::tzonedbx::kZoneAmerica_Edmonton;
-using ace_time::tzonedbx::kZoneAmerica_Winnipeg;
-using ace_time::tzonedbx::kZoneIdAmerica_Chicago;
-using ace_time::tzonedbx::kZoneIdAmerica_Denver;
-using ace_time::tzonedbx::kZoneIdAmerica_Los_Angeles;
-using ace_time::tzonedbx::kZoneIdAmerica_New_York;
-using ace_time::tzonedbx::kZoneIdAmerica_Toronto;
-using ace_time::tzonedbx::kZoneIdAmerica_Vancouver;
-using ace_time::tzonedbx::kZoneIdAmerica_Edmonton;
-using ace_time::tzonedbx::kZoneIdAmerica_Winnipeg;
+using ace_time::zonedbxtesting::kZoneAmerica_Chicago;
+using ace_time::zonedbxtesting::kZoneAmerica_Denver;
+using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbxtesting::kZoneAmerica_New_York;
+using ace_time::zonedbxtesting::kZoneAmerica_Toronto;
+using ace_time::zonedbxtesting::kZoneAmerica_Vancouver;
+using ace_time::zonedbxtesting::kZoneAmerica_Edmonton;
+using ace_time::zonedbxtesting::kZoneAmerica_Winnipeg;
+using ace_time::zonedbxtesting::kZoneIdAmerica_Chicago;
+using ace_time::zonedbxtesting::kZoneIdAmerica_Denver;
+using ace_time::zonedbxtesting::kZoneIdAmerica_Los_Angeles;
+using ace_time::zonedbxtesting::kZoneIdAmerica_New_York;
+using ace_time::zonedbxtesting::kZoneIdAmerica_Toronto;
+using ace_time::zonedbxtesting::kZoneIdAmerica_Vancouver;
+using ace_time::zonedbxtesting::kZoneIdAmerica_Edmonton;
+using ace_time::zonedbxtesting::kZoneIdAmerica_Winnipeg;
 
 //---------------------------------------------------------------------------
 // Set up a ExtendedZoneManager with a handful of zones.
@@ -241,6 +241,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

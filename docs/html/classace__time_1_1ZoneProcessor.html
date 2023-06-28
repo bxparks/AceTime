@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.2.3</span>
+   &#160;<span id="projectnumber">2.3.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -87,13 +87,15 @@ Inheritance diagram for ace_time::ZoneProcessor:</div>
 <div class="dyncontent">
 <div class="center"><img src="classace__time_1_1ZoneProcessor__inherit__graph.png" border="0" usemap="#aace__time_1_1ZoneProcessor_inherit__map" alt="Inheritance graph"/></div>
 <map name="aace__time_1_1ZoneProcessor_inherit__map" id="aace__time_1_1ZoneProcessor_inherit__map">
-<area shape="rect" title="Base interface for ZoneProcessor classes." alt="" coords="5,192,192,219"/>
+<area shape="rect" title="Base interface for ZoneProcessor classes." alt="" coords="5,253,192,280"/>
 <area shape="rect" href="classace__time_1_1BasicZoneProcessorTemplate.html" title=" " alt="" coords="253,5,548,91"/>
 <area shape="rect" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title=" " alt="" coords="240,115,561,200"/>
-<area shape="rect" href="classace__time_1_1BasicZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="290,224,511,280"/>
-<area shape="rect" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="269,305,532,346"/>
-<area shape="rect" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone..." alt="" coords="622,35,843,61"/>
-<area shape="rect" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses ZoneXxxBrokers which read from z..." alt="" coords="609,144,856,171"/>
+<area shape="rect" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title=" " alt="" coords="240,224,561,309"/>
+<area shape="rect" href="classace__time_1_1BasicZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database." alt="" coords="290,333,511,389"/>
+<area shape="rect" href="classace__time_1_1ExtendedZoneProcessorTemplate.html" title="An implementation of ZoneProcessor that supports for all zones defined by the TZ Database." alt="" coords="267,414,534,455"/>
+<area shape="rect" href="classace__time_1_1BasicZoneProcessor.html" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone..." alt="" coords="623,35,845,61"/>
+<area shape="rect" href="classace__time_1_1CompleteZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses the complete::ZoneXxxBrokers cla..." alt="" coords="609,144,859,171"/>
+<area shape="rect" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses the extended::ZoneXxxBrokers cla..." alt="" coords="611,253,857,280"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -180,7 +182,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>2) Fully implement a polymorphic class hierarchy, lifting various common methods (e.g. <a class="el" href="classace__time_1_1ZoneProcessor.html#a9dbdc5b1a6a760e37470142dc814ae92" title="Return the search results at given LocalDateTime.">findByLocalDateTime()</a>, <a class="el" href="classace__time_1_1ZoneProcessor.html#a1bbfcaab0259f0195496184181a7119a" title="Return the search results at given epochSeconds.">findByEpochSeconds()</a>) into this interface as virtual methods, then add a virtual <a class="el" href="classace__time_1_1ZoneProcessor.html#aa78857884d8b64d4be4b499970d63a70" title="Return true if equal.">equals()</a> method to implement the operator==().</p>
 <p>The problem with Option 1 is that the code for both subclasses would be compiled into the program, even if the application used only one of the subclasses. Instead I use Option 2, using a fully polymorphic class hierarchy, adding 3-4 virtual methods. When a program uses only a single subclass, only that particular subclass is included into the program. Unfortunately, this comes at the cost of forcing programs to use the virtual dispatch at runtime for some of the often-used methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00141">141</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00140">140</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa5a25a2082ceed26ff15eb72cd1c5724"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5a25a2082ceed26ff15eb72cd1c5724">&#9670;&nbsp;</a></span>equalsZoneKey()</h2>
@@ -215,7 +217,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a700795c7fd43f3af82727bf2a461c264">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a700795c7fd43f3af82727bf2a461c264">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1d5077215681ac06c683f633be688fea">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a1d5077215681ac06c683f633be688fea">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a067574153273284c69d5b96c7cf7239c">ace_time::ExtendedZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a067574153273284c69d5b96c7cf7239c">ace_time::ExtendedZoneProcessorTemplate&lt; complete::ZoneInfoStore, complete::ZoneInfoBroker, complete::ZoneEraBroker, complete::ZonePolicyBroker, complete::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a067574153273284c69d5b96c7cf7239c">ace_time::ExtendedZoneProcessorTemplate&lt; extended::ZoneInfoStore, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabf7060714d2385511f615091b6c8932">ace_time::BasicZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabf7060714d2385511f615091b6c8932">ace_time::BasicZoneProcessorTemplate&lt; basic::ZoneInfoStore, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -246,7 +248,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Check if the Transition cache is filled for the given year and current epochYear. </p>
 <p>Checking the epoch year allows the cache to be automatically invalidated and regenerated if the epoch year is changed. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00230">230</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00229">229</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -283,7 +285,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#aefee4d3f9707a59b048619143a6d65b8">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a89e7281bee80ccaab70debdb1a29c1a8">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a6a00b79decbd1217ec8f74be0958040a">ace_time::ExtendedZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a6a00b79decbd1217ec8f74be0958040a">ace_time::ExtendedZoneProcessorTemplate&lt; complete::ZoneInfoStore, complete::ZoneInfoBroker, complete::ZoneEraBroker, complete::ZonePolicyBroker, complete::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a6a00b79decbd1217ec8f74be0958040a">ace_time::ExtendedZoneProcessorTemplate&lt; extended::ZoneInfoStore, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a4de8d0a0d7c7815469f2711026ccd97b">ace_time::BasicZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a4de8d0a0d7c7815469f2711026ccd97b">ace_time::BasicZoneProcessorTemplate&lt; basic::ZoneInfoStore, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -320,7 +322,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9da7621ec900dd2bf4738ef51e6ee879">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a9da7621ec900dd2bf4738ef51e6ee879">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabd83bcfc30eb2e1ddd1b806edf9d362">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabd83bcfc30eb2e1ddd1b806edf9d362">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adcb702e52a47db8c40b4f4c5c9d9cd85">ace_time::ExtendedZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adcb702e52a47db8c40b4f4c5c9d9cd85">ace_time::ExtendedZoneProcessorTemplate&lt; complete::ZoneInfoStore, complete::ZoneInfoBroker, complete::ZoneEraBroker, complete::ZonePolicyBroker, complete::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adcb702e52a47db8c40b4f4c5c9d9cd85">ace_time::ExtendedZoneProcessorTemplate&lt; extended::ZoneInfoStore, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabae57f4ae0d93ef0538e5fb1c7c950b">ace_time::BasicZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#aabae57f4ae0d93ef0538e5fb1c7c950b">ace_time::BasicZoneProcessorTemplate&lt; basic::ZoneInfoStore, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -357,7 +359,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#abbda7626a4f8dba93fa712a9c3da7cb1">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#abbda7626a4f8dba93fa712a9c3da7cb1">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a4bd3dd0b94653799a50d0d87c99f6e2f">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a4bd3dd0b94653799a50d0d87c99f6e2f">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a37cbb4deb934673b66fc882f50207f9b">ace_time::ExtendedZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a37cbb4deb934673b66fc882f50207f9b">ace_time::ExtendedZoneProcessorTemplate&lt; complete::ZoneInfoStore, complete::ZoneInfoBroker, complete::ZoneEraBroker, complete::ZonePolicyBroker, complete::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a37cbb4deb934673b66fc882f50207f9b">ace_time::ExtendedZoneProcessorTemplate&lt; extended::ZoneInfoStore, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#af8a407607fc280a86d47276dddd7128d">ace_time::BasicZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#af8a407607fc280a86d47276dddd7128d">ace_time::BasicZoneProcessorTemplate&lt; basic::ZoneInfoStore, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -396,7 +398,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adc346e63c3a99b9b8ef8908cf58c4ddd">ace_time::ExtendedZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#adc346e63c3a99b9b8ef8908cf58c4ddd">ace_time::ExtendedZoneProcessorTemplate&lt; extended::BrokerFactory, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8d4ce541670402a2dbb473e7fe6222d4">ace_time::BasicZoneProcessorTemplate&lt; BF, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a8d4ce541670402a2dbb473e7fe6222d4">ace_time::BasicZoneProcessorTemplate&lt; basic::BrokerFactory, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4e9384384341b389486456538b6c08b9">ace_time::ExtendedZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4e9384384341b389486456538b6c08b9">ace_time::ExtendedZoneProcessorTemplate&lt; complete::ZoneInfoStore, complete::ZoneInfoBroker, complete::ZoneEraBroker, complete::ZonePolicyBroker, complete::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1ExtendedZoneProcessorTemplate.html#a4e9384384341b389486456538b6c08b9">ace_time::ExtendedZoneProcessorTemplate&lt; extended::ZoneInfoStore, extended::ZoneInfoBroker, extended::ZoneEraBroker, extended::ZonePolicyBroker, extended::ZoneRuleBroker &gt;</a>, <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a462bcab4d23d5e283302004e3aac0ae5">ace_time::BasicZoneProcessorTemplate&lt; ZIS, ZIB, ZEB, ZPB, ZRB &gt;</a>, and <a class="el" href="classace__time_1_1BasicZoneProcessorTemplate.html#a462bcab4d23d5e283302004e3aac0ae5">ace_time::BasicZoneProcessorTemplate&lt; basic::ZoneInfoStore, basic::ZoneInfoBroker, basic::ZoneEraBroker, basic::ZonePolicyBroker, basic::ZoneRuleBroker &gt;</a>.</p>
 
 </div>
 </div>
@@ -424,7 +426,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p><a class="el" href="classace__time_1_1Epoch.html" title="Utility functions for setting, retrieving, and converting the current epoch.">Epoch</a> year that was used to calculate the transitions in the current cache. </p>
 <p>Set to <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180" title="Sentinel year which indicates one or more of the following conditions:">LocalDate::kInvalidYear</a> to indicate invalid cache. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00256">256</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00255">255</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -451,7 +453,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>User-visible indicator of the subclass of <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a>, which implments a specific time-zone algorithm. </p>
 <p>Three common ones are <a class="el" href="classace__time_1_1BasicZoneProcessor.html#a283ca9be07f106494c22eee2729482de" title="Unique TimeZone type identifier for BasicZoneProcessor.">BasicZoneProcessor::kTypeBasic</a> and <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html#ae0cfa8f81df6c2cab008944941153bfd" title="Unique TimeZone type identifier for ExtendedZoneProcessor.">ExtendedZoneProcessor::kTypeExtended</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00244">244</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00243">243</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -478,7 +480,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const
 <p>Year that was used to calculate the transitions in the current cache. </p>
 <p>Set to <a class="el" href="classace__time_1_1LocalDate.html#ad35cfa503eea48ee0d0c3bb3c4b01180" title="Sentinel year which indicates one or more of the following conditions:">LocalDate::kInvalidYear</a> to indicate invalid cache. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00250">250</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneProcessor_8h_source.html#l00249">249</a> of file <a class="el" href="ZoneProcessor_8h_source.html">ZoneProcessor.h</a>.</p>
 
 </div>
 </div>

@@ -4,14 +4,7 @@
 #include <AUnit.h>
 #include <AceTime.h>
 
-using ace_time::internal::findShortName;
-using ace_time::internal::timeCodeToMinutes;
-
-test(timeCodeToMinutes) {
-  uint8_t code = 1;
-  uint8_t modifier = 0x01;
-  assertEqual((uint16_t)16, timeCodeToMinutes(code, modifier));
-}
+using ace_time::zoneinfo::findShortName;
 
 test(findShortStringTest_cstring) {
   assertEqual("", findShortName(""));
@@ -39,6 +32,9 @@ void setup() {
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Leonardo/Micro
+#if defined(EPOXY_DUINO)
+  SERIAL_PORT_MONITOR.setLineModeUnix();
+#endif
 }
 
 void loop() {

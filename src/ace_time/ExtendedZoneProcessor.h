@@ -7,15 +7,11 @@
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_H
 
 #include <stdint.h> // uintptr_t
-#include <string.h> // memcpy(), strncpy()
 #include <AceCommon.h> // copyReplaceString()
-#include "../zoneinfo/compat.h"
-#include "../zoneinfo/ZonePolicy.h"
-#include "../zoneinfo/ZoneInfo.h"
-#include "../zoneinfo/Brokers.h"
+#include "../zoneinfo/infos.h"
+#include "../zoneinfo/brokers.h"
 #include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
-#include "TimeOffset.h"
 #include "LocalDate.h"
 #include "ZoneProcessor.h"
 #include "Transition.h"
@@ -33,17 +29,15 @@ class ExtendedZoneProcessorTest_findCandidateTransitions;
 class ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
 class ExtendedZoneProcessorTest_getTransitionTime;
 class ExtendedZoneProcessorTest_createTransitionForYear;
-class ExtendedZoneProcessorTest_normalizeDateTuple;
-class ExtendedZoneProcessorTest_expandDateTuple;
 class ExtendedZoneProcessorTest_calcInteriorYears;
 class ExtendedZoneProcessorTest_getMostRecentPriorYear;
 class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneProcessorTest_compareTransitionToMatch;
 class ExtendedZoneProcessorTest_processTransitionCompareStatus;
 class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
-class ExtendedZoneProcessorTest_createAbbreviation;
 class ExtendedZoneProcessorTest_setZoneKey;
 class ExtendedTransitionValidation;
+class CompleteTransitionValidation;
 
 class Print;
 
@@ -82,7 +76,7 @@ struct YearMonthTuple {
  *
  * Not thread-safe.
  *
- * @tparam BF type of BrokerFactory, needed for implementations that require
+ * @tparam ZIS type of ZoneInfoStore, needed for implementations that require
  *    more complex brokers, and allows this template class to be independent
  *    of the exact type of the zone primary key
  * @tparam ZIB type of ZoneInfoBroker
@@ -90,7 +84,7 @@ struct YearMonthTuple {
  * @tparam ZPB type of ZonePolicyBroker
  * @tparam ZRB type of ZoneRuleBroker
  */
-template <typename BF, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename ZIS, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
@@ -150,8 +144,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (transitionForDateTime.num == 1) {
         transition = transitionForDateTime.curr;
         result.type = FindResult::kTypeExact;
-        result.reqStdOffsetMinutes = transition->offsetMinutes;
-        result.reqDstOffsetMinutes = transition->deltaMinutes;
+        result.reqStdOffsetSeconds = transition->offsetSeconds;
+        result.reqDstOffsetSeconds = transition->deltaSeconds;
       } else { // num = 0 or 2
         if (transitionForDateTime.prev == nullptr
             || transitionForDateTime.curr == nullptr) {
@@ -164,20 +158,20 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             if (ldt.fold() == 0) {
               // ldt wants to use the 'prev' transition to convert to
               // epochSeconds.
-              result.reqStdOffsetMinutes =
-                  transitionForDateTime.prev->offsetMinutes;
-              result.reqDstOffsetMinutes =
-                  transitionForDateTime.prev->deltaMinutes;
+              result.reqStdOffsetSeconds =
+                  transitionForDateTime.prev->offsetSeconds;
+              result.reqDstOffsetSeconds =
+                  transitionForDateTime.prev->deltaSeconds;
               // But after normalization, it will be shifted into the curr
               // transition, so select 'curr' as the target transition.
               transition = transitionForDateTime.curr;
             } else {
               // ldt wants to use the 'curr' transition to convert to
               // epochSeconds.
-              result.reqStdOffsetMinutes =
-                  transitionForDateTime.curr->offsetMinutes;
-              result.reqDstOffsetMinutes =
-                  transitionForDateTime.curr->deltaMinutes;
+              result.reqStdOffsetSeconds =
+                  transitionForDateTime.curr->offsetSeconds;
+              result.reqDstOffsetSeconds =
+                  transitionForDateTime.curr->deltaSeconds;
               // But after normalization, it will be shifted into the prev
               // transition, so select 'prev' as the target transition.
               transition = transitionForDateTime.prev;
@@ -187,8 +181,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
                 ? transitionForDateTime.prev
                 : transitionForDateTime.curr;
             result.type = FindResult::kTypeOverlap;
-            result.reqStdOffsetMinutes = transition->offsetMinutes;
-            result.reqDstOffsetMinutes = transition->deltaMinutes;
+            result.reqStdOffsetSeconds = transition->offsetSeconds;
+            result.reqDstOffsetSeconds = transition->deltaSeconds;
             result.fold = ldt.fold();
           }
         }
@@ -198,8 +192,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         return result;
       }
 
-      result.stdOffsetMinutes = transition->offsetMinutes;
-      result.dstOffsetMinutes = transition->deltaMinutes;
+      result.stdOffsetSeconds = transition->offsetSeconds;
+      result.dstOffsetSeconds = transition->deltaSeconds;
       result.abbrev = transition->abbrev;
 
       return result;
@@ -223,10 +217,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       const Transition* transition = transitionForSeconds.curr;
       if (!transition) return result;
 
-      result.stdOffsetMinutes = transition->offsetMinutes;
-      result.dstOffsetMinutes = transition->deltaMinutes;
-      result.reqStdOffsetMinutes = transition->offsetMinutes;
-      result.reqDstOffsetMinutes = transition->deltaMinutes;
+      result.stdOffsetSeconds = transition->offsetSeconds;
+      result.dstOffsetSeconds = transition->deltaSeconds;
+      result.reqStdOffsetSeconds = transition->offsetSeconds;
+      result.reqDstOffsetSeconds = transition->deltaSeconds;
       result.abbrev = transition->abbrev;
       result.fold = transitionForSeconds.fold;
       if (transitionForSeconds.num == 2) {
@@ -278,10 +272,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     void setZoneKey(uintptr_t zoneKey) override {
-      if (! mBrokerFactory) return;
+      if (! mZoneInfoStore) return;
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
-      mZoneInfoBroker = mBrokerFactory->createZoneInfoBroker(zoneKey);
+      mZoneInfoBroker = mZoneInfoStore->createZoneInfoBroker(zoneKey);
       mYear = LocalDate::kInvalidYear;
       mNumMatches = 0;
       resetTransitionAllocSize(); // clear the alloc size for new zone
@@ -292,13 +286,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * Set the broker factory at runtime. This is an advanced usage where the
-     * custom subclass of ExtendedZoneProcessorTemplate does not know its broker
-     * factory at compile time, so it must be set at runtime through this
+     * Set the zone info store at runtime. This is an advanced usage where the
+     * custom subclass of ExtendedZoneProcessorTemplate does not know its zone
+     * info store at compile time, so it must be set at runtime through this
      * method.
      */
-    void setBrokerFactory(const BF* brokerFactory) {
-      mBrokerFactory = brokerFactory;
+    void setZoneInfoStore(const ZIS* zoneInfoStore) {
+      mZoneInfoStore = zoneInfoStore;
     }
 
     /**
@@ -317,28 +311,27 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Exposed for debugging.
      */
     bool initForYear(int16_t year) const {
+      // Restrict to [1,9999] even though LocalDate should be able to handle
+      // [0,10000].
+      if (year <= LocalDate::kMinYear || LocalDate::kMaxYear <= year) {
+        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
+          logging::printf(
+              "initForYear(): Year %d outside range [%d, %d]\n",
+              year, LocalDate::kMinYear + 1, LocalDate::kMaxYear - 1);
+        }
+        return false;
+      }
+
       if (isFilled(year)) return true;
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("initForYear(): %d\n", year);
       }
-
       mYear = year;
       mEpochYear = Epoch::currentEpochYear();
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      if (year < mZoneInfoBroker.zoneContext()->startYear - 1
-          || mZoneInfoBroker.zoneContext()->untilYear < year) {
-        if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
-          logging::printf(
-              "initForYear(): Year %d out of valid range [%d, %d)\n",
-              year,
-              mZoneInfoBroker.zoneContext()->startYear,
-              mZoneInfoBroker.zoneContext()->untilYear);
-        }
-        return false;
-      }
-
+      // Fill transitions over a 14-month window straddling the given year.
       extended::YearMonthTuple startYm = { (int16_t) (year - 1), 12 };
       extended::YearMonthTuple untilYm =  { (int16_t) (year + 1), 2 };
 
@@ -386,22 +379,22 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
   protected:
     /**
-     * Constructor. When first initialized inside a cache, the brokerFactory may
+     * Constructor. When first initialized inside a cache, the zoneInfoStore may
      * be set to nullptr, and the zoneKey should be ignored.
      *
      * @param type indentifier for the specific subclass of ZoneProcessor (e.g.
      *    Basic versus Extended) mostly used for debugging
-     * @param brokerFactory pointer to a BrokerFactory that creates a ZIB
+     * @param zoneInfoStore pointer to a ZoneInfoStore that creates a ZIB
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
      */
     explicit ExtendedZoneProcessorTemplate(
         uint8_t type,
-        const BF* brokerFactory /*nullable*/,
+        const ZIS* zoneInfoStore /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
-        mBrokerFactory(brokerFactory)
+        mZoneInfoStore(zoneInfoStore)
     {
       setZoneKey(zoneKey);
     }
@@ -416,17 +409,15 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     friend class ::ExtendedZoneProcessorTest_createTransitionsFromNamedMatch;
     friend class ::ExtendedZoneProcessorTest_getTransitionTime;
     friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
-    friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
-    friend class ::ExtendedZoneProcessorTest_expandDateTuple;
     friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
     friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneProcessorTest_compareTransitionToMatch;
     friend class ::ExtendedZoneProcessorTest_processTransitionCompareStatus;
     friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
-    friend class ::ExtendedZoneProcessorTest_createAbbreviation;
     friend class ::ExtendedZoneProcessorTest_setZoneKey;
     friend class ::ExtendedTransitionValidation;
+    friend class ::CompleteTransitionValidation;
 
     // Disable copy constructor and assignment operator.
     ExtendedZoneProcessorTemplate(
@@ -527,8 +518,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (era.untilMonth() < month) return -1;
       if (era.untilMonth() > month) return 1;
       if (era.untilDay() > 1) return 1;
-      //if (era.untilTimeMinutes() < 0) return -1; // never possible
-      if (era.untilTimeMinutes() > 0) return 1;
+      //if (era.untilTimeSeconds() < 0) return -1; // never possible
+      if (era.untilTimeSeconds() > 0) return 1;
       return 0;
     }
 
@@ -552,13 +543,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
               1,
               1,
               0,
-              internal::ZoneContext::kSuffixW
+              extended::ZoneContext::kSuffixW
             }
           : extended::DateTuple{
               prevMatch->era.untilYear(),
               prevMatch->era.untilMonth(),
               prevMatch->era.untilDay(),
-              (int16_t) prevMatch->era.untilTimeMinutes(),
+              (int32_t) prevMatch->era.untilTimeSeconds(),
               prevMatch->era.untilTimeSuffix()
             };
       extended::DateTuple lowerBound{
@@ -566,7 +557,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         startYm.month,
         1,
         0,
-        internal::ZoneContext::kSuffixW
+        extended::ZoneContext::kSuffixW
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
@@ -576,7 +567,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         era.untilYear(),
         era.untilMonth(),
         era.untilDay(),
-        (int16_t) era.untilTimeMinutes(),
+        (int32_t) era.untilTimeSeconds(),
         era.untilTimeSuffix()
       };
       extended::DateTuple upperBound{
@@ -584,7 +575,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         untilYm.month,
         1,
         0,
-        internal::ZoneContext::kSuffixW
+        extended::ZoneContext::kSuffixW
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
@@ -637,8 +628,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       createTransitionForYear(freeTransition, 0 /*not used*/,
           ZRB() /*rule*/, match);
       freeTransition->compareStatus = extended::CompareStatus::kExactMatch;
-      match->lastOffsetMinutes = freeTransition->offsetMinutes;
-      match->lastDeltaMinutes = freeTransition->deltaMinutes;
+      match->lastOffsetSeconds = freeTransition->offsetSeconds;
+      match->lastDeltaSeconds = freeTransition->deltaSeconds;
       transitionStorage.addFreeAgentToActivePool();
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log();
@@ -689,8 +680,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       }
       Transition* lastTransition =
           transitionStorage.addActiveCandidatesToActivePool();
-      match->lastOffsetMinutes = lastTransition->offsetMinutes;
-      match->lastDeltaMinutes = lastTransition->deltaMinutes;
+      match->lastOffsetSeconds = lastTransition->offsetSeconds;
+      match->lastDeltaSeconds = lastTransition->deltaSeconds;
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         transitionStorage.log();
       }
@@ -804,8 +795,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Populate Transition 't' using the startTime from 'rule' (if it exists)
-     * else from the start time of 'match'. Fills in 'offsetMinutes',
-     * 'deltaMinutes', and 'letter'.
+     * else from the start time of 'match'. Fills in 'offsetSeconds',
+     * 'deltaSeconds', and 'letter'.
      */
     static void createTransitionForYear(
         Transition* t,
@@ -813,7 +804,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const ZRB& rule,
         const MatchingEra* match) {
       t->match = match;
-      t->offsetMinutes = match->era.offsetMinutes();
+      t->offsetSeconds = match->era.offsetSeconds();
     #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
       t->rule = rule;
     #endif
@@ -822,12 +813,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         // Create a Transition using the MatchingEra for the transitionTime.
         // Used for simple MatchingEra.
         t->transitionTime = match->startDateTime;
-        t->deltaMinutes = match->era.deltaMinutes();
-        t->letter = "";
+        t->deltaSeconds = match->era.deltaSeconds();
+        t->abbrev[0] = '\0';
       } else {
         t->transitionTime = getTransitionTime(year, rule);
-        t->deltaMinutes = rule.deltaMinutes();
-        t->letter = rule.letter();
+        t->deltaSeconds = rule.deltaSeconds();
+        ace_common::strncpy_T(
+            t->abbrev, rule.letter(), internal::kAbbrevSize - 1);
+        t->abbrev[internal::kAbbrevSize - 1] = '\0';
       }
     }
 
@@ -874,7 +867,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         year,
         monthDay.month,
         monthDay.day,
-        (int16_t) rule.atTimeMinutes(),
+        (int32_t) rule.atTimeSeconds(),
         rule.atTimeSuffix()
       };
     }
@@ -919,8 +912,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         Transition* curr = *iter;
         expandDateTuple(
             &curr->transitionTime,
-            prev->offsetMinutes,
-            prev->deltaMinutes,
+            prev->offsetSeconds,
+            prev->deltaSeconds,
             &curr->transitionTime,
             &curr->transitionTimeS,
             &curr->transitionTimeU);
@@ -931,52 +924,6 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         Transition::printTransitions("  ", begin, end);
         logging::printf("fixTransitionTimes(): END\n");
       }
-    }
-
-    /**
-     * Convert the given 'tt', offsetMinutes, and deltaMinutes into the 'w', 's'
-     * and 'u' versions of the DateTuple. It is allowed for 'ttw' to be an alias
-     * of 'tt'.
-     */
-    static void expandDateTuple(
-        const extended::DateTuple* tt,
-        int16_t offsetMinutes,
-        int16_t deltaMinutes,
-        extended::DateTuple* ttw,
-        extended::DateTuple* tts,
-        extended::DateTuple* ttu) {
-
-      if (tt->suffix == internal::ZoneContext::kSuffixS) {
-        *tts = *tt;
-        *ttu = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->minutes - offsetMinutes),
-            internal::ZoneContext::kSuffixU};
-        *ttw = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->minutes + deltaMinutes),
-            internal::ZoneContext::kSuffixW};
-      } else if (tt->suffix == internal::ZoneContext::kSuffixU) {
-        *ttu = *tt;
-        *tts = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->minutes + offsetMinutes),
-            internal::ZoneContext::kSuffixS};
-        *ttw = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->minutes + (offsetMinutes + deltaMinutes)),
-            internal::ZoneContext::kSuffixW};
-      } else {
-        // Explicit set the suffix to 'w' in case it was something else.
-        *ttw = *tt;
-        ttw->suffix = internal::ZoneContext::kSuffixW;
-        *tts = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->minutes - deltaMinutes),
-            internal::ZoneContext::kSuffixS};
-        *ttu = {tt->year, tt->month, tt->day,
-            (int16_t) (tt->minutes - (deltaMinutes + offsetMinutes)),
-            internal::ZoneContext::kSuffixU};
-      }
-
-      extended::normalizeDateTuple(ttw);
-      extended::normalizeDateTuple(tts);
-      extended::normalizeDateTuple(ttu);
     }
 
     /**
@@ -1056,14 +1003,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const MatchingEra* match) {
 
       // Find the previous Match offsets.
-      int16_t prevMatchOffsetMinutes;
-      int16_t prevMatchDeltaMinutes;
+      int32_t prevMatchOffsetSeconds;
+      int32_t prevMatchDeltaSeconds;
       if (match->prevMatch) {
-        prevMatchOffsetMinutes = match->prevMatch->lastOffsetMinutes;
-        prevMatchDeltaMinutes = match->prevMatch->lastDeltaMinutes;
+        prevMatchOffsetSeconds = match->prevMatch->lastOffsetSeconds;
+        prevMatchDeltaSeconds = match->prevMatch->lastDeltaSeconds;
       } else {
-        prevMatchOffsetMinutes = match->era.offsetMinutes();
-        prevMatchDeltaMinutes = 0;
+        prevMatchOffsetSeconds = match->era.offsetSeconds();
+        prevMatchDeltaSeconds = 0;
       }
 
       // Expand start times.
@@ -1072,8 +1019,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::DateTuple stu;
       expandDateTuple(
           &match->startDateTime,
-          prevMatchOffsetMinutes,
-          prevMatchDeltaMinutes,
+          prevMatchOffsetSeconds,
+          prevMatchDeltaSeconds,
           &stw,
           &sts,
           &stu);
@@ -1101,9 +1048,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // and 'u' with 'u'.
       const extended::DateTuple& matchUntil = match->untilDateTime;
       const extended::DateTuple* transitionTime;
-      if (matchUntil.suffix == internal::ZoneContext::kSuffixS) {
+      if (matchUntil.suffix == extended::ZoneContext::kSuffixS) {
         transitionTime = &tts;
-      } else if (matchUntil.suffix == internal::ZoneContext::kSuffixU) {
+      } else if (matchUntil.suffix == extended::ZoneContext::kSuffixU) {
         transitionTime = &ttu;
       } else { // assume 'w'
         transitionTime = &ttw;
@@ -1145,10 +1092,10 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         // 2) Calculate the current startDateTime by shifting the
         // transitionTime (represented in the UTC offset of the previous
         // transition) into the UTC offset of the *current* transition.
-        int16_t minutes = tt.minutes + (
-            - prev->offsetMinutes - prev->deltaMinutes
-            + t->offsetMinutes + t->deltaMinutes);
-        t->startDateTime = {tt.year, tt.month, tt.day, minutes, tt.suffix};
+        int32_t seconds = tt.seconds + (
+            - prev->offsetSeconds - prev->deltaSeconds
+            + t->offsetSeconds + t->deltaSeconds);
+        t->startDateTime = {tt.year, tt.month, tt.day, seconds, tt.suffix};
         extended::normalizeDateTuple(&t->startDateTime);
 
         // 3) The epochSecond of the 'transitionTime' is determined by the
@@ -1162,8 +1109,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         // hasn't been clobbered by 'untilDateTime' yet. Not sure if this saves
         // any CPU time though, since we still need to mutiply by 900.
         const extended::DateTuple& st = t->startDateTime;
-        const acetime_t offsetSeconds = (acetime_t) 60
-            * (st.minutes - (t->offsetMinutes + t->deltaMinutes));
+        const acetime_t offsetSeconds =
+            st.seconds - (t->offsetSeconds + t->deltaSeconds);
         LocalDate ld = LocalDate::forComponents(st.year, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
 
@@ -1177,8 +1124,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       extended::DateTuple untilTimeU;
       expandDateTuple(
           &prev->match->untilDateTime,
-          prev->offsetMinutes,
-          prev->deltaMinutes,
+          prev->offsetSeconds,
+          prev->deltaSeconds,
           &untilTimeW,
           &untilTimeS,
           &untilTimeU);
@@ -1197,68 +1144,20 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         Transition* const t = *iter;
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
-            "calcAbbreviations(): format:%s, deltaMinutes:%d, letter:%s\n",
-            t->format(), t->deltaMinutes, t->letter);
+            "calcAbbreviations(): format:%s, deltaSeconds:%d, letter:%s\n",
+            t->format(), t->deltaSeconds, t->abbrev);
         }
-        createAbbreviation(
+        internal::createAbbreviation(
             t->abbrev,
             internal::kAbbrevSize,
             t->format(),
-            t->deltaMinutes,
-            t->letter);
-      }
-    }
-
-    /**
-     * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
-     * that 'letter' is a string.
-     *
-     * @param letterString nullptr if RULES is a '- or an 'hh:mm', an empty
-     * string if the LETTER was a '-', or a pointer to a non-empty string if
-     * LETTER was a 'S', 'D', 'WAT' etc.
-     */
-    static void createAbbreviation(
-        char* dest,
-        uint8_t destSize,
-        const char* format,
-        uint16_t deltaMinutes,
-        const char* letterString) {
-
-      // Check if FORMAT contains a '%'.
-      if (strchr(format, '%') != nullptr) {
-        // Check if RULES column empty, therefore no 'letter'
-        if (letterString == nullptr) {
-          strncpy(dest, format, destSize - 1);
-          dest[destSize - 1] = '\0';
-        } else {
-          ace_common::copyReplaceString(
-              dest, destSize, format, '%', letterString);
-        }
-      } else {
-        // Check if FORMAT contains a '/'.
-        const char* slashPos = strchr(format, '/');
-        if (slashPos != nullptr) {
-          if (deltaMinutes == 0) {
-            uint8_t headLength = (slashPos - format);
-            if (headLength >= destSize) headLength = destSize - 1;
-            memcpy(dest, format, headLength);
-            dest[headLength] = '\0';
-          } else {
-            uint8_t tailLength = strlen(slashPos+1);
-            if (tailLength >= destSize) tailLength = destSize - 1;
-            memcpy(dest, slashPos+1, tailLength);
-            dest[tailLength] = '\0';
-          }
-        } else {
-          // Just copy the FORMAT disregarding deltaMinutes and letterString.
-          strncpy(dest, format, destSize - 1);
-          dest[destSize - 1] = '\0';
-        }
+            t->deltaSeconds,
+            t->abbrev);
       }
     }
 
   private:
-    const BF* mBrokerFactory; // nullable
+    const ZIS* mZoneInfoStore; // nullable
     ZIB mZoneInfoBroker;
 
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
@@ -1267,13 +1166,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     mutable TransitionStorage mTransitionStorage;
 };
 
-
 /**
- * A specific implementation of ExtendedZoneProcessorTemplate that uses
- * ZoneXxxBrokers which read from zonedb files in PROGMEM flash memory.
+ * A specific implementation of ExtendedZoneProcessorTemplate that uses the
+ * extended::ZoneXxxBrokers classes which read from 'zonedbx' files in PROGMEM
+ * flash memory.
  */
 class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
-    extended::BrokerFactory,
+    extended::ZoneInfoStore,
     extended::ZoneInfoBroker,
     extended::ZoneEraBroker,
     extended::ZonePolicyBroker,
@@ -1285,16 +1184,16 @@ class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
 
     explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
       : ExtendedZoneProcessorTemplate<
-          extended::BrokerFactory,
+          extended::ZoneInfoStore,
           extended::ZoneInfoBroker,
           extended::ZoneEraBroker,
           extended::ZonePolicyBroker,
           extended::ZoneRuleBroker>(
-              kTypeExtended, &mBrokerFactory, (uintptr_t) zoneInfo)
+              kTypeExtended, &mZoneInfoStore, (uintptr_t) zoneInfo)
     {}
 
   private:
-    extended::BrokerFactory mBrokerFactory;
+    extended::ZoneInfoStore mZoneInfoStore;
 };
 
 } // namespace ace_time

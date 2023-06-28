@@ -12,7 +12,7 @@ class Print;
 
 namespace ace_time {
 
-// These functions need to set the mMinutes and it seemed inefficient to
+// These functions need to set the mSeconds and it seemed inefficient to
 // go through the factory method and assignment operator, so I expose
 // setMinutes() to them for efficiency.
 class TimeOffset;
@@ -55,15 +55,12 @@ void increment15Minutes(TimeOffset& offset);
  */
 class TimeOffset {
   public:
-    /** Sentinel value that represents an error. */
-    static const int16_t kErrorMinutes = INT16_MIN;
-
     /**
      * Create TimeOffset with the corresponding hour offset. For example,
      * -08:00 is 'forHours(-8)'.
      */
     static TimeOffset forHours(int8_t hours) {
-      return TimeOffset::forMinutes(hours * 60);
+      return TimeOffset::forMinutes(hours * int16_t(60));
     }
 
     /**
@@ -75,19 +72,39 @@ class TimeOffset {
      * -15)'.
      */
     static TimeOffset forHourMinute(int8_t hour, int8_t minute) {
-      int16_t minutes = hour * 60 + minute;
-      return TimeOffset(minutes);
-    }
-
-    /** Create TimeOffset from minutes from 00:00. */
-    static TimeOffset forMinutes(int16_t minutes) {
+      int32_t minutes = (hour * int32_t(60) + minute) * 60;
       return TimeOffset(minutes);
     }
 
     /**
-     * Create from an offset string ("-07:00" or "+01:00"). Intended mostly
-     * for testing purposes.
-     * Returns TimeOffset::forError() if a parsing error occurs.
+     * Create a TimeOffset fro (hour, minute, second) offset. If the offset is
+     * is negative, the negative sign must be added to all fields. For example,
+     * -01:02:03 is created by `forHourMinuteSecond(-1, -2, -3)`.
+     */
+    static TimeOffset forHourMinuteSecond(
+      int8_t hour, int8_t minute, int8_t second) {
+      int32_t seconds = (hour * int32_t(60) + minute) * 60 + second;
+      return TimeOffset(seconds);
+    }
+
+    /** Create TimeOffset from minutes from 00:00. */
+    static TimeOffset forMinutes(int16_t minutes) {
+      return TimeOffset(minutes * int32_t(60));
+    }
+
+    /** Create TimeOffset from seconds from 00:00. */
+    static TimeOffset forSeconds(int32_t seconds) {
+      return TimeOffset(seconds);
+    }
+
+    /**
+     * Create from an offset string (e.g. "-07:00", "+01:00", "-02:15:33").
+     * Intended mostly for testing purposes. Returns TimeOffset::forError() if a
+     * parsing error occurs.
+     *
+     * NOTE: Error checking is not robust, and can be corrupted easily by a
+     * misformatted string, or a string with an invalid number of characters.
+     * This is intended only for debugging purposes, not for production quality.
      */
     static TimeOffset forOffsetString(const char* offsetString);
 
@@ -102,20 +119,16 @@ class TimeOffset {
     static TimeOffset forOffsetStringChainable(const char*& offsetString);
 
     /** Return an error indicator. */
-    static TimeOffset forError() { return TimeOffset(kErrorMinutes); }
+    static TimeOffset forError() { return TimeOffset(kErrorSeconds); }
 
     /** Constructor. Create a time offset of 0. */
     explicit TimeOffset() {}
 
     /** Return the time offset as minutes. */
-    int16_t toMinutes() const {
-      return mMinutes;
-    }
+    int16_t toMinutes() const { return mSeconds / 60; }
 
     /** Return the time offset as seconds. */
-    int32_t toSeconds() const {
-      return (int32_t) 60 * toMinutes();
-    }
+    int32_t toSeconds() const { return mSeconds; }
 
     /**
      * Extract hour and minute representation of the offset. This the inverse
@@ -123,8 +136,22 @@ class TimeOffset {
      * hour and minute components will contain the negative sign.
      */
     void toHourMinute(int8_t& hour, int8_t& minute) const {
-      hour = mMinutes / 60;
-      minute = mMinutes % 60;
+      int32_t minutes = mSeconds / 60;
+      hour = minutes / 60;
+      minute = minutes % 60;
+    }
+
+    /**
+     * Extract hour, minute, second from the offset. Truncation is performed
+     * towards zero, so if the offset seconds is negative, each of the hour,
+     * minute, second fields will be negative.
+     */
+    void toHourMinuteSecond(
+        int8_t& hour, int8_t& minute, int8_t& second) const {
+      int32_t minutes = mSeconds / 60;
+      second = mSeconds % 60;
+      hour = minutes / 60;
+      minute = minutes % 60;
     }
 
     /**
@@ -132,14 +159,19 @@ class TimeOffset {
      * isZero means that it is UTC. If this represents a DST delta offset, then
      * isZero means that the time zone is in standard time.
      */
-    bool isZero() const { return mMinutes == 0; }
+    bool isZero() const { return mSeconds == 0; }
 
     /** Return true if this TimeOffset represents an error. */
     bool isError() const {
-      return mMinutes == kErrorMinutes;
+      return mSeconds == kErrorSeconds;
     }
 
-    /** Print the human readable string. For example, "-08:00". */
+    /**
+     * Print the human readable string, including a "-" or "+" prefix, in the
+     * form of "+/-hh:mm" or "+/-hh:mm:ss". If the 'second' field is 0, then
+     * only the hour and minute fields are printed (e.g. "-08:00"), instead of
+     * all three fields (e.g. "+08:15:20").
+     */
     void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
@@ -153,29 +185,33 @@ class TimeOffset {
     friend void time_offset_mutation::incrementHour(TimeOffset& offset);
     friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
 
-    /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
-    static const uint8_t kTimeOffsetStringLength = 6;
-
     /** Constructor. Create a time offset from the offset minutes. */
-    explicit TimeOffset(int16_t minutes):
-        mMinutes(minutes) {}
+    explicit TimeOffset(int32_t seconds):
+        mSeconds(seconds) {}
 
     /** Set the offset minutes. */
     void setMinutes(int16_t minutes) {
-      mMinutes = minutes;
+      mSeconds = minutes * int32_t(60);
     }
 
+    /** Set the offset seconds. */
+    void setSeconds(int32_t seconds) {
+      mSeconds = seconds;
+    }
+
+  private:
+    /** Sentinel value that represents an error. */
+    static const int32_t kErrorSeconds = INT32_MIN;
+
     /**
-     * Time offset minutes from UTC. In theory, the minutes can range from
-     * [-32768, 32767]. But the value of -32768 is used to represent an
-     * internal error, causing isError() to return true so the valid range is
-     * [-32767, 32767].
+     * Time offset seconds from UTC. The value INT32_MIN is used to represent an
+     * internal error causing isError() to return true.
      */
-    int16_t mMinutes = 0;
+    int32_t mSeconds = 0;
 };
 
 inline bool operator==(const TimeOffset& a, const TimeOffset& b) {
-  return a.mMinutes == b.mMinutes;
+  return a.mSeconds == b.mSeconds;
 }
 
 inline bool operator!=(const TimeOffset& a, const TimeOffset& b) {

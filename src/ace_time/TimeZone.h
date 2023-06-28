@@ -11,6 +11,7 @@
 #include "ZoneProcessor.h"
 #include "BasicZoneProcessor.h"
 #include "ExtendedZoneProcessor.h"
+#include "CompleteZoneProcessor.h"
 #include "TimeZoneData.h"
 #include "ZonedExtra.h"
 
@@ -201,6 +202,25 @@ class TimeZone {
     }
 
     /**
+     * Convenience factory method to create from a zoneInfo and an associated
+     * ExtendedZoneProcessor. The ZoneInfo previously associated with the
+     * given zoneProcessor is overridden.
+     *
+     * @param zoneInfo an extended::ZoneInfo that identifies the zone
+     * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
+     */
+    static TimeZone forZoneInfo(
+        const complete::ZoneInfo* zoneInfo,
+        CompleteZoneProcessor* zoneProcessor
+    ) {
+      return TimeZone(
+          zoneProcessor->getType(),
+          (uintptr_t) zoneInfo,
+          zoneProcessor
+      );
+    }
+
+    /**
      * Factory method to create from a generic zoneKey and a generic
      * zoneProcessor. The 'type' of the TimeZone is extracted from
      * ZoneProcessor::getType(). This is an internal method for use by
@@ -296,10 +316,10 @@ class TimeZone {
           }
           return ZonedExtra(
               ZonedExtra::kTypeExact,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
               abbrev);
 
         default: {
@@ -309,10 +329,10 @@ class TimeZone {
           }
           return ZonedExtra(
             result.type, // ZonedExtra::type is identical to FindResult::type
-            result.stdOffsetMinutes,
-            result.dstOffsetMinutes,
-            result.reqStdOffsetMinutes,
-            result.reqDstOffsetMinutes,
+            result.stdOffsetSeconds,
+            result.dstOffsetSeconds,
+            result.reqStdOffsetSeconds,
+            result.reqDstOffsetSeconds,
             result.abbrev);
         }
       }
@@ -334,10 +354,10 @@ class TimeZone {
           }
           return ZonedExtra(
               ZonedExtra::kTypeExact,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
-              mStdOffsetMinutes,
-              mDstOffsetMinutes,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
+              mStdOffsetMinutes * 60,
+              mDstOffsetMinutes * 60,
               abbrev);
 
         default: {
@@ -348,10 +368,10 @@ class TimeZone {
           }
           return ZonedExtra(
             result.type, // ZonedExtra::type is identical to FindResult::type
-            result.stdOffsetMinutes,
-            result.dstOffsetMinutes,
-            result.reqStdOffsetMinutes,
-            result.reqDstOffsetMinutes,
+            result.stdOffsetSeconds,
+            result.dstOffsetSeconds,
+            result.reqStdOffsetSeconds,
+            result.reqDstOffsetSeconds,
             result.abbrev);
         }
       }
@@ -383,8 +403,8 @@ class TimeZone {
           }
 
           // Convert FindResult into OffsetDateTime using the requested offset.
-          TimeOffset reqOffset = TimeOffset::forMinutes(
-              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
+          TimeOffset reqOffset = TimeOffset::forSeconds(
+              result.reqStdOffsetSeconds + result.reqDstOffsetSeconds);
           odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, reqOffset);
           odt.fold(result.fold);
 
@@ -394,8 +414,8 @@ class TimeZone {
           // dstOffsetMinutes.
           if (result.type == FindResult::kTypeGap) {
             acetime_t epochSeconds = odt.toEpochSeconds();
-            TimeOffset targetOffset = TimeOffset::forMinutes(
-                result.stdOffsetMinutes + result.dstOffsetMinutes);
+            TimeOffset targetOffset = TimeOffset::forSeconds(
+                result.stdOffsetSeconds + result.dstOffsetSeconds);
             odt = OffsetDateTime::forEpochSeconds(epochSeconds, targetOffset);
           }
           break;
@@ -429,8 +449,8 @@ class TimeZone {
             break;
           }
 
-          TimeOffset offset = TimeOffset::forMinutes(
-              result.reqStdOffsetMinutes + result.reqDstOffsetMinutes);
+          TimeOffset offset = TimeOffset::forSeconds(
+              result.reqStdOffsetSeconds + result.reqDstOffsetSeconds);
           odt = OffsetDateTime::forEpochSeconds(
               epochSeconds, offset, result.fold);
           break;
@@ -575,6 +595,7 @@ class TimeZone {
       return mZoneProcessor;
     }
 
+  private:
     uint8_t mType;
 
     // 3 combinations:

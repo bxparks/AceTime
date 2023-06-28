@@ -7,7 +7,6 @@
 #define ACE_TIME_ZONE_PROCESSOR_H
 
 #include "common/common.h" // kAbbrevSize
-#include "TimeOffset.h"
 #include "OffsetDateTime.h"
 
 class Print;
@@ -40,11 +39,11 @@ class FindResult {
      *  * kTypeGap:
      *      * LocalDateTime occurs in a gap.
      *      * LocalDateTime::fold=0 returns the earlier transition in
-     *        reqStdOffsetMinutes and reqDstOffsetMinutes, and the later
-     *        transition in stdOffsetMinutes and dstOffsetMinutes.
+     *        reqStdOffsetSeconds and reqDstOffsetSeconds, and the later
+     *        transition in stdOffsetSeconds and dstOffsetSeconds.
      *      * LocalDateTime::fold=1 returns the later transition in
-     *        reqStdOffsetMinutes and reqDstOffsetMinutes, and the
-     *        earlier transition in stdOffsetMinutes and dstOffsetMinutes.
+     *        reqStdOffsetSeconds and reqDstOffsetSeconds, and the
+     *        earlier transition in stdOffsetSeconds and dstOffsetSeconds.
      *  * kTypeOverlap:
      *      * LocalDateTime matches 2 Transitions.
      *      * LocalDateTime::fold=0 selects the earlier transition.
@@ -77,36 +76,36 @@ class FindResult {
     uint8_t fold = 0;
 
     /** STD offset of the resulting OffsetDateTime. */
-    int16_t stdOffsetMinutes = 0;
+    int32_t stdOffsetSeconds = 0;
 
     /** DST offset of the resulting OffsetDateTime. */
-    int16_t dstOffsetMinutes = 0;
+    int32_t dstOffsetSeconds = 0;
 
     /**
      * STD offset of the Transition which matched the epochSeconds requested by
      * findByEpochSeconds(), or the LocalDateTime requested by
      * findByLocalDateTime().
      *
-     * This may be different than the stdOffsetMinutes when
+     * This may be different than the stdOffsetSeconds when
      * findByLocalDateTime() returns kTypeGap. For all other resulting types
      * from findByEpochSeconds(), and for all resulting types from
-     * findByLocalDateTime(), the reqStdOffsetMinutes will be the same as
-     * stdOffsetMinutes.
+     * findByLocalDateTime(), the reqStdOffsetSeconds will be the same as
+     * stdOffsetSeconds.
      */
-    int16_t reqStdOffsetMinutes = 0;
+    int32_t reqStdOffsetSeconds = 0;
 
     /**
      * DST offset of the Transition which matched the epochSeconds requested by
      * findByEpochSeconds(), or the LocalDateTime requested by
      * findByLocalDateTime().
      *
-     * This may be different than the dstOffsetMinutes when
+     * This may be different than the dstOffsetSeconds when
      * findByLocalDateTime() returns kTypeGap. For all other resulting types
      * from findByEpochSeconds(), and for all resulting types from
-     * findByLocalDateTime(), the reqStdOffsetMinutes will be the same as
-     * dstOffsetMinutes.
+     * findByLocalDateTime(), the reqStdOffsetSeconds will be the same as
+     * dstOffsetSeconds.
      */
-    int16_t reqDstOffsetMinutes = 0;
+    int32_t reqDstOffsetSeconds = 0;
 
     /**
      * Pointer to the abbreviation stored in the transient Transition::abbrev
@@ -292,6 +291,25 @@ struct MonthDay {
   */
 MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
     uint8_t onDayOfWeek, int8_t onDayOfMonth);
+
+/**
+  * Functionally the same as BasicZoneProcessor::createAbbreviation() execpt
+  * that 'letter' is a string.
+  *
+  * @param letterString the string corrresonding to the LETTER field in the
+  * ZoneRule record. It is `nullptr` if ZoneEra.RULES is a '- or an 'hh:mm';
+  * an empty string if the ZoneRule.LETTER was a '-'; or a pointer to a
+  * non-empty string if ZoneRule.LETTER was a 'S', 'D', 'WAT' and so on. It
+  * is possible for `letterString` to be the same buffer as the `dest`
+  * string. Therefore we must copy the `letterString` before overwriting
+  * `dest`.
+  */
+void createAbbreviation(
+    char* dest,
+    uint8_t destSize,
+    const char* format,
+    uint32_t deltaSeconds,
+    const char* letterString);
 
 } // internal
 } // ace_time

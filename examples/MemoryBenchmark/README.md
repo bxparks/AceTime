@@ -5,7 +5,7 @@ memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
 `FEATURE_*` memory usage.
 
-**Version**: AceTime v2.2.3
+**Version**: AceTime v2.3.0
 
 **DO NOT EDIT**: This file was auto-generated using `make README.md`.
 
@@ -67,7 +67,7 @@ ASCII table.
   `ExtendedZoneProcessorTemplate` classes causes reduction of flash consumption
   by 250-400 bytes for 32-bit processors. Don't know why. (Very little
   difference for 8-bit AVR).
-* Adding a `BrokerFactory` layer of indirection (to support more complex
+* Adding a `ZoneInfoStore` layer of indirection (to support more complex
   ZoneProcessors and Brokers) causes flash memory to go up by 100-200 bytes.
 
 **v1.6:**
@@ -238,50 +238,99 @@ ASCII table.
     * STM32duino Boards 2.5.0
     * ESP32 Boards 2.0.9
 
+**v2.3.0**
+* Implement 1-second resolution in ExtendedZoneProcessor (decoupled from
+  zonedbx storage format).
+    * Increases flash usage by ~1kB on 8-bit processors, but only 0-100 bytes
+      on 32-bit processors.
+    * Enables it to be also used as the CompleteZoneProcessor class.
+* Implement CompleteZoneProcessor as a specialization of ExtendedZoneProcessor.
+    * Enables the creation of `zonedbc` database which contains all TZDB
+      timezones, for all years going back to 1844, the earliest transition in
+      the TZDB.
+    * The flash consumption of zonedbc is roughly 2X of zonedbx.
+* Revert `zonedb` to use 8-bit year fields.
+    * Increases flash memory consumption for BasicZoneManager w/ 1 zone by
+      around 150 bytes.
+    * Decreases flash memory cosumption for BasicZoneManager w/ all timezones by
+      800-900 bytes.
+* Revert `zonedbx` to use 8-bit year fields.
+    * Increase flash memory consumption of ExtendedZoneManager w/ 1 zone by
+      around 220 bytes.
+    * Decreases flash memory cosumption for ExtendedZoneManager w/ all timezones
+      by ~2000 bytes.
+* Move ZoneContext and its string arrays into PROGMEM.
+    * Reduces RAM usage by 150-200 bytes on AVR and ESP8266 processors.
+* Merge `createAbbreviation()` of BasicZoneProcessor and ExtendedZoneProcessor
+    * `BasicZoneProcessor`: Slight (30-60 bytes) increase in flash memory,
+      no change in RAM usage.
+    * `ExtendedZoneProcessor`: Slight (30-60 bytes) increase in flash memory.
+      But saves ~16 bytes of RAM for 8-bit, ~64 bytes of RAM for 32-bit.
+* Support multi-character `ZoneRule.letter` field
+    * Enables `Africa/Windhoek` and `America/Belize` in the `zonedb` database
+      used with `BasicZoneProcessor`.
+    * Increases flash memory for `zonedb` by ~150 bytes on 8-bit, ~200 on 32-bit
+      processors.
+
 # Legend
 
-* [1] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [1] Delta flash and ram consumption for `Basic ZoneSorterByName` and
+  `Basic ZoneSorterByOffsetAndName` are calculated by subtracting the
   `BasicZoneManager (1 zone)` numbers, to isolate the memory consumption
   of just the sorter classes.
-* [2] Delta flash and ram consumption for `ZoneSorterByName` and
-  `ZoneSorterByOffsetAndName` are calculated by subtracting the
+* [2] Delta flash and ram consumption for `Extended ZoneSorterByName` and
+  `Extended ZoneSorterByOffsetAndName` are calculated by subtracting the
   `ExtendedZoneManager (1 zone)` numbers, to isolate the memory
   consumption of just the sorter classes.
+* [3] Delta flash and ram consumption for `Complete ZoneSorterByName` and
+  `Complete ZoneSorterByOffsetAndName` are calculated by subtracting the
+  `CompleteZoneManager (1 zone)` numbers, to isolate the memory
+  consumption of just the sorter classes.
+* An entry of `-1` indicates that the memory usage exceeded the maximum of the
+  microcontroller and the compiler did not generate the desired information.
 
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Arduino AVR Boards 1.8.6
 
 ```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               |    474/   11 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          |   1108/   21 |   634/   10 |
-| ZonedDateTime                          |   1440/   28 |   966/   17 |
-| Manual ZoneManager                     |   1398/   13 |   924/    2 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   6892/  356 |  6418/  345 |
-| Basic TimeZone (2 zones)               |   7356/  505 |  6882/  494 |
-| BasicZoneManager (1 zone)              |   7096/  367 |  6622/  356 |
-| BasicZoneManager (all zones)           |  19746/  745 | 19272/  734 |
-| BasicZoneManager (all zones+links)     |  25126/  745 | 24652/  734 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |   7712/  369 |   616/    2 |
-| Basic ZoneSorterByOffsetAndName [1]    |   7884/  369 |   788/    2 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |   9980/  743 |  9506/  732 |
-| Extended TimeZone (2 zones)            |  10496/ 1209 | 10022/ 1198 |
-| ExtendedZoneManager (1 zone)           |  10156/  749 |  9682/  738 |
-| ExtendedZoneManager (all zones)        |  35246/ 1209 | 34772/ 1198 |
-| ExtendedZoneManager (all zones+links)  |  41278/ 1209 | 40804/ 1198 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  10768/  751 |   612/    2 |
-| Extended ZoneSorterByOffsetAndName [2] |  10946/  751 |   790/    2 |
++----------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |        delta |
+|----------------------------------------+--------------+--------------|
+| baseline                               |    474/   11 |      0/    0 |
+|----------------------------------------+--------------+--------------|
+| LocalDateTime                          |   1108/   21 |    634/   10 |
+| ZonedDateTime                          |   1444/   30 |    970/   19 |
+| Manual ZoneManager                     |   1406/   13 |    932/    2 |
+|----------------------------------------+--------------+--------------|
+| Basic TimeZone (1 zone)                |   7624/  208 |   7150/  197 |
+| Basic TimeZone (2 zones)               |   8170/  357 |   7696/  346 |
+| BasicZoneManager (1 zone)              |   7834/  219 |   7360/  208 |
+| BasicZoneManager (all zones)           |  19686/  599 |  19212/  588 |
+| BasicZoneManager (all zones+links)     |  25066/  599 |  24592/  588 |
+|----------------------------------------+--------------+--------------|
+| Basic ZoneSorterByName [1]             |   8608/  221 |    774/    2 |
+| Basic ZoneSorterByOffsetAndName [1]    |   8740/  221 |    906/    2 |
+|----------------------------------------+--------------+--------------|
+| Extended TimeZone (1 zone)             |  11326/  623 |  10852/  612 |
+| Extended TimeZone (2 zones)            |  11924/ 1187 |  11450/ 1176 |
+| ExtendedZoneManager (1 zone)           |  11506/  629 |  11032/  618 |
+| ExtendedZoneManager (all zones)        |  34508/ 1111 |  34034/ 1100 |
+| ExtendedZoneManager (all zones+links)  |  40540/ 1111 |  40066/ 1100 |
+|----------------------------------------+--------------+--------------|
+| Extended ZoneSorterByName [2]          |  12276/  631 |    770/    2 |
+| Extended ZoneSorterByOffsetAndName [2] |  12360/  631 |    854/    2 |
+|----------------------------------------+--------------+--------------|
+| Complete TimeZone (1 zone)             |     -1/   -1 |     -1/   -1 |
+| Complete TimeZone (2 zones)            |     -1/   -1 |     -1/   -1 |
+| CompleteZoneManager (1 zone)           |     -1/   -1 |     -1/   -1 |
+| CompleteZoneManager (all zones)        |     -1/   -1 |     -1/   -1 |
+| CompleteZoneManager (all zones+links)  |     -1/   -1 |     -1/   -1 |
+|----------------------------------------+--------------+--------------|
+| Complete ZoneSorterByName [3]          |     -1/   -1 |      0/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |     -1/   -1 |      0/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -289,36 +338,45 @@ ASCII table.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * SparkFun AVR Boards 1.1.13
 
 ```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               |   3470/  153 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          |   4080/  161 |   610/    8 |
-| ZonedDateTime                          |   4412/  168 |   942/   15 |
-| Manual ZoneManager                     |   4392/  153 |   922/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |   9864/  496 |  6394/  343 |
-| Basic TimeZone (2 zones)               |  10310/  643 |  6840/  490 |
-| BasicZoneManager (1 zone)              |  10068/  507 |  6598/  354 |
-| BasicZoneManager (all zones)           |  22716/  883 | 19246/  730 |
-| BasicZoneManager (all zones+links)     |  28096/  883 | 24626/  730 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  10684/  509 |   616/    2 |
-| Basic ZoneSorterByOffsetAndName [1]    |  10856/  509 |   788/    2 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  12934/  881 |  9464/  728 |
-| Extended TimeZone (2 zones)            |  13452/ 1349 |  9982/ 1196 |
-| ExtendedZoneManager (1 zone)           |  13110/  887 |  9640/  734 |
-| ExtendedZoneManager (all zones)        |  38218/ 1349 | 34748/ 1196 |
-| ExtendedZoneManager (all zones+links)  |  44250/ 1349 | 40780/ 1196 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  13722/  889 |   612/    2 |
-| Extended ZoneSorterByOffsetAndName [2] |  13900/  889 |   790/    2 |
++----------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |        delta |
+|----------------------------------------+--------------+--------------|
+| baseline                               |   3470/  153 |      0/    0 |
+|----------------------------------------+--------------+--------------|
+| LocalDateTime                          |   4080/  161 |    610/    8 |
+| ZonedDateTime                          |   4416/  170 |    946/   17 |
+| Manual ZoneManager                     |   4400/  153 |    930/    0 |
+|----------------------------------------+--------------+--------------|
+| Basic TimeZone (1 zone)                |  10596/  348 |   7126/  195 |
+| Basic TimeZone (2 zones)               |  11124/  495 |   7654/  342 |
+| BasicZoneManager (1 zone)              |  10806/  359 |   7336/  206 |
+| BasicZoneManager (all zones)           |  22656/  737 |  19186/  584 |
+| BasicZoneManager (all zones+links)     |  28036/  737 |  24566/  584 |
+|----------------------------------------+--------------+--------------|
+| Basic ZoneSorterByName [1]             |  11580/  361 |    774/    2 |
+| Basic ZoneSorterByOffsetAndName [1]    |  11712/  361 |    906/    2 |
+|----------------------------------------+--------------+--------------|
+| Extended TimeZone (1 zone)             |  14282/  763 |  10812/  610 |
+| Extended TimeZone (2 zones)            |  14878/ 1325 |  11408/ 1172 |
+| ExtendedZoneManager (1 zone)           |  14462/  769 |  10992/  616 |
+| ExtendedZoneManager (all zones)        |  37478/ 1249 |  34008/ 1096 |
+| ExtendedZoneManager (all zones+links)  |  43510/ 1249 |  40040/ 1096 |
+|----------------------------------------+--------------+--------------|
+| Extended ZoneSorterByName [2]          |  15232/  771 |    770/    2 |
+| Extended ZoneSorterByOffsetAndName [2] |  15316/  771 |    854/    2 |
+|----------------------------------------+--------------+--------------|
+| Complete TimeZone (1 zone)             |     -1/   -1 |     -1/   -1 |
+| Complete TimeZone (2 zones)            |     -1/   -1 |     -1/   -1 |
+| CompleteZoneManager (1 zone)           |     -1/   -1 |     -1/   -1 |
+| CompleteZoneManager (all zones)        |     -1/   -1 |     -1/   -1 |
+| CompleteZoneManager (all zones+links)  |     -1/   -1 |     -1/   -1 |
+|----------------------------------------+--------------+--------------|
+| Complete ZoneSorterByName [3]          |     -1/   -1 |      0/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |     -1/   -1 |      0/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -326,36 +384,45 @@ ASCII table.
 ## Seeed Studio XIAO SAMD21
 
 * SAMD21, 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.19, Arduino CLI 0.31.1
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Seeeduino SAMD Boards 1.8.4
 
 ```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               |  34068/    0 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  34372/    0 |   304/    0 |
-| ZonedDateTime                          |  35140/    0 |  1072/    0 |
-| Manual ZoneManager                     |  35124/    0 |  1056/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |  38652/    0 |  4584/    0 |
-| Basic TimeZone (2 zones)               |  38988/    0 |  4920/    0 |
-| BasicZoneManager (1 zone)              |  38756/    0 |  4688/    0 |
-| BasicZoneManager (all zones)           |  55540/    0 | 21472/    0 |
-| BasicZoneManager (all zones+links)     |  63788/    0 | 29720/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  39220/    0 |   464/    0 |
-| Basic ZoneSorterByOffsetAndName [1]    |  39268/    0 |   512/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  40700/    0 |  6632/    0 |
-| Extended TimeZone (2 zones)            |  41044/    0 |  6976/    0 |
-| ExtendedZoneManager (1 zone)           |  40804/    0 |  6736/    0 |
-| ExtendedZoneManager (all zones)        |  73652/    0 | 39584/    0 |
-| ExtendedZoneManager (all zones+links)  |  82884/    0 | 48816/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  41276/    0 |   472/    0 |
-| Extended ZoneSorterByOffsetAndName [2] |  41324/    0 |   520/    0 |
++----------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |        delta |
+|----------------------------------------+--------------+--------------|
+| baseline                               |  34068/    0 |      0/    0 |
+|----------------------------------------+--------------+--------------|
+| LocalDateTime                          |  34372/    0 |    304/    0 |
+| ZonedDateTime                          |  35116/    0 |   1048/    0 |
+| Manual ZoneManager                     |  35100/    0 |   1032/    0 |
+|----------------------------------------+--------------+--------------|
+| Basic TimeZone (1 zone)                |  38916/    0 |   4848/    0 |
+| Basic TimeZone (2 zones)               |  39276/    0 |   5208/    0 |
+| BasicZoneManager (1 zone)              |  39020/    0 |   4952/    0 |
+| BasicZoneManager (all zones)           |  54948/    0 |  20880/    0 |
+| BasicZoneManager (all zones+links)     |  63196/    0 |  29128/    0 |
+|----------------------------------------+--------------+--------------|
+| Basic ZoneSorterByName [1]             |  39508/    0 |    488/    0 |
+| Basic ZoneSorterByOffsetAndName [1]    |  39572/    0 |    552/    0 |
+|----------------------------------------+--------------+--------------|
+| Extended TimeZone (1 zone)             |  41028/    0 |   6960/    0 |
+| Extended TimeZone (2 zones)            |  41396/    0 |   7328/    0 |
+| ExtendedZoneManager (1 zone)           |  41132/    0 |   7064/    0 |
+| ExtendedZoneManager (all zones)        |  71796/    0 |  37728/    0 |
+| ExtendedZoneManager (all zones+links)  |  81020/    0 |  46952/    0 |
+|----------------------------------------+--------------+--------------|
+| Extended ZoneSorterByName [2]          |  41620/    0 |    488/    0 |
+| Extended ZoneSorterByOffsetAndName [2] |  41684/    0 |    552/    0 |
+|----------------------------------------+--------------+--------------|
+| Complete TimeZone (1 zone)             |  41548/    0 |   7480/    0 |
+| Complete TimeZone (2 zones)            |  42780/    0 |   8712/    0 |
+| CompleteZoneManager (1 zone)           |  41652/    0 |   7584/    0 |
+| CompleteZoneManager (all zones)        | 121348/    0 |  87280/    0 |
+| CompleteZoneManager (all zones+links)  | 130580/    0 |  96512/    0 |
+|----------------------------------------+--------------+--------------|
+| Complete ZoneSorterByName [3]          |  42140/    0 |    488/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |  42196/    0 |    544/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -363,112 +430,136 @@ ASCII table.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * STM32duino 2.5.0
 
 ```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               |  21492/ 3840 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  21848/ 3856 |   356/   16 |
-| ZonedDateTime                          |  21928/ 3872 |   436/   32 |
-| Manual ZoneManager                     |  22528/ 3848 |  1036/    8 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |  26060/ 4056 |  4568/  216 |
-| Basic TimeZone (2 zones)               |  26404/ 4264 |  4912/  424 |
-| BasicZoneManager (1 zone)              |  26180/ 4076 |  4688/  236 |
-| BasicZoneManager (all zones)           |  43228/ 4076 | 21736/  236 |
-| BasicZoneManager (all zones+links)     |  51760/ 4076 | 30268/  236 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  26624/ 4080 |   444/    4 |
-| Basic ZoneSorterByOffsetAndName [1]    |  26696/ 4080 |   516/    4 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  27876/ 4468 |  6384/  628 |
-| Extended TimeZone (2 zones)            |  28224/ 5088 |  6732/ 1248 |
-| ExtendedZoneManager (1 zone)           |  27992/ 4476 |  6500/  636 |
-| ExtendedZoneManager (all zones)        |  61280/ 4476 | 39788/  636 |
-| ExtendedZoneManager (all zones+links)  |  70852/ 4476 | 49360/  636 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  28436/ 4480 |   444/    4 |
-| Extended ZoneSorterByOffsetAndName [2] |  28508/ 4480 |   516/    4 |
++----------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |        delta |
+|----------------------------------------+--------------+--------------|
+| baseline                               |  21492/ 3840 |      0/    0 |
+|----------------------------------------+--------------+--------------|
+| LocalDateTime                          |  21848/ 3856 |    356/   16 |
+| ZonedDateTime                          |  21928/ 3872 |    436/   32 |
+| Manual ZoneManager                     |  22504/ 3848 |   1012/    8 |
+|----------------------------------------+--------------+--------------|
+| Basic TimeZone (1 zone)                |  26308/ 4056 |   4816/  216 |
+| Basic TimeZone (2 zones)               |  26680/ 4264 |   5188/  424 |
+| BasicZoneManager (1 zone)              |  26428/ 4076 |   4936/  236 |
+| BasicZoneManager (all zones)           |  42732/ 4076 |  21240/  236 |
+| BasicZoneManager (all zones+links)     |  51264/ 4076 |  29772/  236 |
+|----------------------------------------+--------------+--------------|
+| Basic ZoneSorterByName [1]             |  26896/ 4080 |    468/    4 |
+| Basic ZoneSorterByOffsetAndName [1]    |  26972/ 4080 |    544/    4 |
+|----------------------------------------+--------------+--------------|
+| Extended TimeZone (1 zone)             |  28176/ 4580 |   6684/  740 |
+| Extended TimeZone (2 zones)            |  28548/ 5312 |   7056/ 1472 |
+| ExtendedZoneManager (1 zone)           |  28292/ 4588 |   6800/  748 |
+| ExtendedZoneManager (all zones)        |  59532/ 4588 |  38040/  748 |
+| ExtendedZoneManager (all zones+links)  |  69104/ 4588 |  47612/  748 |
+|----------------------------------------+--------------+--------------|
+| Extended ZoneSorterByName [2]          |  28756/ 4592 |    464/    4 |
+| Extended ZoneSorterByOffsetAndName [2] |  28828/ 4592 |    536/    4 |
+|----------------------------------------+--------------+--------------|
+| Complete TimeZone (1 zone)             |  28712/ 4580 |   7220/  740 |
+| Complete TimeZone (2 zones)            |  29948/ 5312 |   8456/ 1472 |
+| CompleteZoneManager (1 zone)           |  28828/ 4588 |   7336/  748 |
+| CompleteZoneManager (all zones)        | 108964/ 4588 |  87472/  748 |
+| CompleteZoneManager (all zones+links)  | 118536/ 4588 |  97044/  748 |
+|----------------------------------------+--------------+--------------|
+| Complete ZoneSorterByName [3]          |  29292/ 4592 |    464/    4 |
+| Complete ZoneSorterByOffsetAndName [3] |  29364/ 4592 |    536/    4 |
 +---------------------------------------------------------------------+
 
 ```
-
-An entry of `-1` indicates that the memory usage exceeded the maximum of the
-microcontroller and the compiler did not generate the desired information.
 
 ## SAMD51 (Adafruit ItsyBitsy M4)
 
 * SAMD51, 120 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * Adafruit SAMD 1.7.11
 
 ```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               |  10580/    0 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          |  10880/    0 |   300/    0 |
-| ZonedDateTime                          |  11600/    0 |  1020/    0 |
-| Manual ZoneManager                     |  11592/    0 |  1012/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                |  15164/    0 |  4584/    0 |
-| Basic TimeZone (2 zones)               |  15516/    0 |  4936/    0 |
-| BasicZoneManager (1 zone)              |  15284/    0 |  4704/    0 |
-| BasicZoneManager (all zones)           |  32072/    0 | 21492/    0 |
-| BasicZoneManager (all zones+links)     |  40320/    0 | 29740/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             |  15752/    0 |   468/    0 |
-| Basic ZoneSorterByOffsetAndName [1]    |  15796/    0 |   512/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             |  16984/    0 |  6404/    0 |
-| Extended TimeZone (2 zones)            |  17336/    0 |  6756/    0 |
-| ExtendedZoneManager (1 zone)           |  17100/    0 |  6520/    0 |
-| ExtendedZoneManager (all zones)        |  49952/    0 | 39372/    0 |
-| ExtendedZoneManager (all zones+links)  |  59180/    0 | 48600/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          |  17568/    0 |   468/    0 |
-| Extended ZoneSorterByOffsetAndName [2] |  17612/    0 |   512/    0 |
++----------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |        delta |
+|----------------------------------------+--------------+--------------|
+| baseline                               |  10580/    0 |      0/    0 |
+|----------------------------------------+--------------+--------------|
+| LocalDateTime                          |  10872/    0 |    292/    0 |
+| ZonedDateTime                          |  11544/    0 |    964/    0 |
+| Manual ZoneManager                     |  11536/    0 |    956/    0 |
+|----------------------------------------+--------------+--------------|
+| Basic TimeZone (1 zone)                |  15388/    0 |   4808/    0 |
+| Basic TimeZone (2 zones)               |  15756/    0 |   5176/    0 |
+| BasicZoneManager (1 zone)              |  15508/    0 |   4928/    0 |
+| BasicZoneManager (all zones)           |  31444/    0 |  20864/    0 |
+| BasicZoneManager (all zones+links)     |  39692/    0 |  29112/    0 |
+|----------------------------------------+--------------+--------------|
+| Basic ZoneSorterByName [1]             |  15996/    0 |    488/    0 |
+| Basic ZoneSorterByOffsetAndName [1]    |  16048/    0 |    540/    0 |
+|----------------------------------------+--------------+--------------|
+| Extended TimeZone (1 zone)             |  17296/    0 |   6716/    0 |
+| Extended TimeZone (2 zones)            |  17672/    0 |   7092/    0 |
+| ExtendedZoneManager (1 zone)           |  17412/    0 |   6832/    0 |
+| ExtendedZoneManager (all zones)        |  48076/    0 |  37496/    0 |
+| ExtendedZoneManager (all zones+links)  |  57304/    0 |  46724/    0 |
+|----------------------------------------+--------------+--------------|
+| Extended ZoneSorterByName [2]          |  17900/    0 |    488/    0 |
+| Extended ZoneSorterByOffsetAndName [2] |  17952/    0 |    540/    0 |
+|----------------------------------------+--------------+--------------|
+| Complete TimeZone (1 zone)             |  17792/    0 |   7212/    0 |
+| Complete TimeZone (2 zones)            |  19028/    0 |   8448/    0 |
+| CompleteZoneManager (1 zone)           |  17908/    0 |   7328/    0 |
+| CompleteZoneManager (all zones)        |  97608/    0 |  87028/    0 |
+| CompleteZoneManager (all zones+links)  | 106840/    0 |  96260/    0 |
+|----------------------------------------+--------------+--------------|
+| Complete ZoneSorterByName [3]          |  18396/    0 |    488/    0 |
+| Complete ZoneSorterByOffsetAndName [3] |  18444/    0 |    536/    0 |
 +---------------------------------------------------------------------+
 
 ```
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * ESP8266 Boards 3.0.2
 
 ```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               | 260089/27892 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          | 292761/28732 | 32672/  840 |
-| ZonedDateTime                          | 267785/28732 |  7696/  840 |
-| Manual ZoneManager                     | 261713/27900 |  1624/    8 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                | 266985/28708 |  6896/  816 |
-| Basic TimeZone (2 zones)               | 267481/28916 |  7392/ 1024 |
-| BasicZoneManager (1 zone)              | 267145/28732 |  7056/  840 |
-| BasicZoneManager (all zones)           | 284233/28732 | 24144/  840 |
-| BasicZoneManager (all zones+links)     | 292761/28732 | 32672/  840 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             | 267785/28732 |   640/    0 |
-| Basic ZoneSorterByOffsetAndName [1]    | 267913/28732 |   768/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 269025/29300 |  8936/ 1408 |
-| Extended TimeZone (2 zones)            | 269601/29916 |  9512/ 2024 |
-| ExtendedZoneManager (1 zone)           | 269185/29308 |  9096/ 1416 |
-| ExtendedZoneManager (all zones)        | 302497/29308 | 42408/ 1416 |
-| ExtendedZoneManager (all zones+links)  | 312065/29308 | 51976/ 1416 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 269809/29308 |   624/    0 |
-| Extended ZoneSorterByOffsetAndName [2] | 269841/29308 |   656/    0 |
++----------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |        delta |
+|----------------------------------------+--------------+--------------|
+| baseline                               | 260089/27892 |      0/    0 |
+|----------------------------------------+--------------+--------------|
+| LocalDateTime                          | 260613/27912 |    524/   20 |
+| ZonedDateTime                          | 261573/27928 |   1484/   36 |
+| Manual ZoneManager                     | 261553/27900 |   1464/    8 |
+|----------------------------------------+--------------+--------------|
+| Basic TimeZone (1 zone)                | 267117/28528 |   7028/  636 |
+| Basic TimeZone (2 zones)               | 267533/28736 |   7444/  844 |
+| BasicZoneManager (1 zone)              | 267277/28552 |   7188/  660 |
+| BasicZoneManager (all zones)           | 283613/28552 |  23524/  660 |
+| BasicZoneManager (all zones+links)     | 292141/28552 |  32052/  660 |
+|----------------------------------------+--------------+--------------|
+| Basic ZoneSorterByName [1]             | 268029/28552 |    752/    0 |
+| Basic ZoneSorterByOffsetAndName [1]    | 268157/28552 |    880/    0 |
+|----------------------------------------+--------------+--------------|
+| Extended TimeZone (1 zone)             | 269653/29152 |   9564/ 1260 |
+| Extended TimeZone (2 zones)            | 270069/29880 |   9980/ 1988 |
+| ExtendedZoneManager (1 zone)           | 269813/29160 |   9724/ 1268 |
+| ExtendedZoneManager (all zones)        | 301077/29160 |  40988/ 1268 |
+| ExtendedZoneManager (all zones+links)  | 310645/29160 |  50556/ 1268 |
+|----------------------------------------+--------------+--------------|
+| Extended ZoneSorterByName [2]          | 270549/29160 |    736/    0 |
+| Extended ZoneSorterByOffsetAndName [2] | 270613/29160 |    800/    0 |
+|----------------------------------------+--------------+--------------|
+| Complete TimeZone (1 zone)             | 270145/29508 |  10056/ 1616 |
+| Complete TimeZone (2 zones)            | 271425/30236 |  11336/ 2344 |
+| CompleteZoneManager (1 zone)           | 270289/29516 |  10200/ 1624 |
+| CompleteZoneManager (all zones)        | 350449/29516 |  90360/ 1624 |
+| CompleteZoneManager (all zones+links)  | 360017/29516 |  99928/ 1624 |
+|----------------------------------------+--------------+--------------|
+| Complete ZoneSorterByName [3]          | 271041/29516 |    752/    0 |
+| Complete ZoneSorterByOffsetAndName [3] | 271089/29516 |    800/    0 |
 +---------------------------------------------------------------------+
 
 ```
@@ -476,41 +567,46 @@ microcontroller and the compiler did not generate the desired information.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.31.0
+* Arduino IDE 1.8.19, Arduino CLI 0.33.0
 * ESP32 Boards 2.0.9
 
 ```
-+---------------------------------------------------------------------+
-| Functionality                          |  flash/  ram |       delta |
-|----------------------------------------+--------------+-------------|
-| baseline                               | 228345/21976 |     0/    0 |
-|----------------------------------------+--------------+-------------|
-| LocalDateTime                          | 230565/21984 |  2220/    8 |
-| ZonedDateTime                          | 231713/22000 |  3368/   24 |
-| Manual ZoneManager                     | 231721/21976 |  3376/    0 |
-|----------------------------------------+--------------+-------------|
-| Basic TimeZone (1 zone)                | 235813/22184 |  7468/  208 |
-| Basic TimeZone (2 zones)               | 236397/22392 |  8052/  416 |
-| BasicZoneManager (1 zone)              | 235985/22208 |  7640/  232 |
-| BasicZoneManager (all zones)           | 253025/22208 | 24680/  232 |
-| BasicZoneManager (all zones+links)     | 261553/22208 | 33208/  232 |
-|----------------------------------------+--------------+-------------|
-| Basic ZoneSorterByName [1]             | 236529/22208 |   544/    0 |
-| Basic ZoneSorterByOffsetAndName [1]    | 236573/22208 |   588/    0 |
-|----------------------------------------+--------------+-------------|
-| Extended TimeZone (1 zone)             | 237737/22600 |  9392/  624 |
-| Extended TimeZone (2 zones)            | 238297/23216 |  9952/ 1240 |
-| ExtendedZoneManager (1 zone)           | 237889/22608 |  9544/  632 |
-| ExtendedZoneManager (all zones)        | 271169/22608 | 42824/  632 |
-| ExtendedZoneManager (all zones+links)  | 280737/22608 | 52392/  632 |
-|----------------------------------------+--------------+-------------|
-| Extended ZoneSorterByName [2]          | 238429/22608 |   540/    0 |
-| Extended ZoneSorterByOffsetAndName [2] | 238477/22608 |   588/    0 |
++----------------------------------------------------------------------+
+| Functionality                          |  flash/  ram |        delta |
+|----------------------------------------+--------------+--------------|
+| baseline                               | 228345/21976 |      0/    0 |
+|----------------------------------------+--------------+--------------|
+| LocalDateTime                          | 230757/21984 |   2412/    8 |
+| ZonedDateTime                          | 231737/22000 |   3392/   24 |
+| Manual ZoneManager                     | 231749/21976 |   3404/    0 |
+|----------------------------------------+--------------+--------------|
+| Basic TimeZone (1 zone)                | 235929/22184 |   7584/  208 |
+| Basic TimeZone (2 zones)               | 236365/22392 |   8020/  416 |
+| BasicZoneManager (1 zone)              | 236097/22208 |   7752/  232 |
+| BasicZoneManager (all zones)           | 252401/22208 |  24056/  232 |
+| BasicZoneManager (all zones+links)     | 260929/22208 |  32584/  232 |
+|----------------------------------------+--------------+--------------|
+| Basic ZoneSorterByName [1]             | 236649/22208 |    552/    0 |
+| Basic ZoneSorterByOffsetAndName [1]    | 236729/22208 |    632/    0 |
+|----------------------------------------+--------------+--------------|
+| Extended TimeZone (1 zone)             | 238173/22712 |   9828/  736 |
+| Extended TimeZone (2 zones)            | 238577/23440 |  10232/ 1464 |
+| ExtendedZoneManager (1 zone)           | 238309/22720 |   9964/  744 |
+| ExtendedZoneManager (all zones)        | 269541/22720 |  41196/  744 |
+| ExtendedZoneManager (all zones+links)  | 279125/22720 |  50780/  744 |
+|----------------------------------------+--------------+--------------|
+| Extended ZoneSorterByName [2]          | 238861/22720 |    552/    0 |
+| Extended ZoneSorterByOffsetAndName [2] | 238937/22720 |    628/    0 |
+|----------------------------------------+--------------+--------------|
+| Complete TimeZone (1 zone)             | 238669/22712 |  10324/  736 |
+| Complete TimeZone (2 zones)            | 239941/23440 |  11596/ 1464 |
+| CompleteZoneManager (1 zone)           | 238805/22720 |  10460/  744 |
+| CompleteZoneManager (all zones)        | 318933/22720 |  90588/  744 |
+| CompleteZoneManager (all zones+links)  | 328501/22720 | 100156/  744 |
+|----------------------------------------+--------------+--------------|
+| Complete ZoneSorterByName [3]          | 239357/22720 |    552/    0 |
+| Complete ZoneSorterByOffsetAndName [3] | 239429/22720 |    624/    0 |
 +---------------------------------------------------------------------+
 
 ```
-
-RAM usage remains constant as more objects are created, which indicates that an
-initial pool of a certain minimum size is created regardless of the actual RAM
-usage by objects.
 

@@ -2,11 +2,11 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <tzonedbx/zone_policies.h>
-#include <tzonedbx/zone_infos.h>
+#include <zonedbxtesting/zone_policies.h>
+#include <zonedbxtesting/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::tzonedbx::kZoneAmerica_Los_Angeles;
+using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
 
@@ -27,19 +27,19 @@ test(ZonedExtra, accessors) {
   ZonedExtra ze(1, 2, 3, 4, 5, s);
 
   assertEqual(ze.type(), 1);
-  assertEqual(ze.stdOffset().toMinutes(), 2);
-  assertEqual(ze.dstOffset().toMinutes(), 3);
-  assertEqual(ze.timeOffset().toMinutes(), 2+3);
-  assertEqual(ze.reqStdOffset().toMinutes(), 4);
-  assertEqual(ze.reqDstOffset().toMinutes(), 5);
-  assertEqual(ze.reqTimeOffset().toMinutes(), 4+5);
+  assertEqual(ze.stdOffset().toSeconds(), 2);
+  assertEqual(ze.dstOffset().toSeconds(), 3);
+  assertEqual(ze.timeOffset().toSeconds(), 2+3);
+  assertEqual(ze.reqStdOffset().toSeconds(), 4);
+  assertEqual(ze.reqDstOffset().toSeconds(), 5);
+  assertEqual(ze.reqTimeOffset().toSeconds(), 4+5);
   assertEqual(ze.abbrev(), "test");
 }
 
 test(ZonedExtra, forEpochSeconds) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &tzonedbx::kZoneAmerica_Los_Angeles,
+      &zonedbxtesting::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
   // Find epochSeconds for the gap at 02:01, use fold=1 uses the second
@@ -81,7 +81,7 @@ test(ZonedExtra, forEpochSeconds) {
 test(ZonedExtra, forLocalDateTime) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &tzonedbx::kZoneAmerica_Los_Angeles,
+      &zonedbxtesting::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
   // 02:01 in the gap with fold=0 selects the first transition, then normalizes
@@ -118,7 +118,7 @@ test(ZonedExtra, forLocalDateTime) {
 test(ZonedExtra, forComponents) {
   ExtendedZoneProcessor zoneProcessor;
   TimeZone tz = TimeZone::forZoneInfo(
-      &tzonedbx::kZoneAmerica_Los_Angeles,
+      &zonedbxtesting::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
   // 02:01 in the gap with fold=0 selects the first transition, then normalizes

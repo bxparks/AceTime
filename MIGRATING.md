@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+* [Migrating to v2.3.0](#MigratingToVersion220)
 * [Migrating to v2.2.0](#MigratingToVersion220)
 * [Migrating to v2.1.0](#MigratingToVersion210)
     * [Unified Links](#UnifiedLinks)
@@ -18,6 +19,90 @@
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion230"></a>
+## Migrating to v2.3.0
+
+The internal implementation details of various classes have changed
+substantially. Fortunately, most of the externally exposed API have remained
+unchanged. The following are some potential problems:
+
+The `TimeOffset` class is now implemented as an `int32_t` in units of 1-second,
+instead of an `int16_t` in units of 1-minute. Several new methods have been
+added:
+
+```C++
+class TimeOffset {
+  public:
+    ...
+    static TimeOffset forSeconds(int32_t seconds);
+
+    static TimeOffset forHourMinuteSecond(
+        int8_t hour, int8_t minute, int8_t second);
+
+    void toHourMinuteSecond(int8_t& hour, int8_t& minute, int8_t second) const;
+    ...
+};
+```
+
+The `ExtendedZoneProcessor` has an internal resolution of 1-second, instead
+of the previous 1-minute. This allows it to support all timezones before 1972,
+some of whom used STDOFF values in units of seconds instead of minutes. For
+example, `Africa/Monrovia` used a STDOFF of `-00:44:30` until 1972-01-07, when
+switched to a STDOFF of `00:00`. It was the last timezone to switch to a STDOFF
+in multiple of whole minutes. (Many others using STDOFF in units of seconds are
+noted in the comments at the bottom of the
+[zonedbc/zone_info.cpp](src/zonedbc/zone_infos.cpp) file.) But the important
+thing to note is that the external API of `ExtendedZoneProcessor` did not
+change, so this refactoring should be invisible to the downstream clients.
+
+There are now 3 different flash memory storage formats for the zoneinfo
+database, defined in [infos.h](src/zoneinfo/infos.h):
+
+- `basic::ZoneXxx`
+- `extended::ZoneXxx`
+- `complete::ZoneXxx`
+
+(See [DEVELOPER.md](DEVELOPER.md) for their internal details.)
+
+The `internal::ZoneContext` object has been moved into `PROGMEM` flash memory to
+be consistent with all other `ZoneXxx` objects, and separated into the 3
+namespaces above: `basic::ZoneContext`, `extended::ZoneContext`, and
+`complete::ZoneContext`. The `letters` and `fragments` string arrays were
+also moved into `PROGMEM` which saves 150-200 bytes of static RAM on AVR
+processors.
+
+It was not originally intended for downstream client applications to access the
+`ZoneContext` object directly. The low-level storage layer is encapsulated from
+the client application through the broker layer, which includes a new
+`ZoneContextBroker` class:
+
+- `basic::ZoneXxxBroker`
+- `extended::ZoneXxxBroker`
+- `complete::ZoneXxxBroker`
+
+With the migration of `ZoneContext` into `zoneinfo` and the creation of
+`ZoneContextBroker`, the broker layer now fully encapsulates the low-level
+storage layer.
+
+The `CompleteZoneProcessor`, `CompleteZoneManager`, and the `zonedbc` database
+support the entire IANA TZ database, from the earliest DST transition in 1844 to
+the last transition in 2087 (as of TZDB 2023c). This causes the `zonedbc`
+database to be more than 2X larger (~90 kB) than the `zonedbx` database (~40
+kB). It is likely that very few applications will need support for the years
+going back to 1844. So most applications are recommended to use the
+`ExtendedZoneProcessor`, `ExtendedZoneManager` and the `zonedbx` database, which
+are valid for all timezones after the year 2000.
+
+The primary motivation for creating the `zonedbc` database was to validate the
+AceTime timezone algorithms against third party libraries, for all timezones,
+across all years defined by the IANA TZ database. The `zonedbx` and the `zonedb`
+databases are subsets of the full `zonedbc` database, and they have been
+validated to produce identical results over the overlapping subsets. Therefore,
+we can be confident that all algorithms (`BasicZoneProcessor`,
+`ExtendedZoneProcessor`, `CompleteZoneProcessor`) and databases (`zonedb`,
+`zonedbx`, `zonedbc`) in the AceTime library are consistent with these third
+party libraries.
 
 <a name="MigratingToVersion220"></a>
 ## Migrating to v2.2
