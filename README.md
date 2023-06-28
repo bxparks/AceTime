@@ -73,7 +73,7 @@ This library can be an alternative to the Arduino Time
 
 **Major Changes in v2.3**: Add `CompleteZoneProcessor`, `CompleteZoneManager`,
 and the `zonedbc` database to support all timezones, for all transitions defined
-in the IANA TZ database (`[1844,2087]), and extending the validity of timezone
+in the IANA TZ database (`[1844,2087]`), and extending the validity of timezone
 calculations from `[2000,10000)` to `[0001,10000)`.
 
 **Version**: 2.3.0 (2023-06-27, TZDB version 2023c)
