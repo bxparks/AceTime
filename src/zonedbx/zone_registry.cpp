@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,9 +23,9 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
-// Supported Zones: 596 (350 zones, 246 links)
+// Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
 // Requested Years: [2000,2200]
@@ -40,7 +40,7 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 646
+//   Eras: 655
 //   Policies: 83
 //   Rules: 735
 //
@@ -48,29 +48,29 @@
 //   Context: 16
 //   Rules: 6615
 //   Policies: 249
-//   Eras: 7106
-//   Zones: 4550
-//   Links: 3198
+//   Eras: 7205
+//   Zones: 4563
+//   Links: 3185
 //   Registry: 1192
 //   Formats: 597
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 29368
+//   TOTAL: 29467
 //
 // Memory (32-bits):
 //   Context: 24
 //   Rules: 8820
 //   Policies: 664
-//   Eras: 10336
-//   Zones: 8400
-//   Links: 5904
+//   Eras: 10480
+//   Zones: 8424
+//   Links: 5880
 //   Registry: 2384
 //   Formats: 597
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 43020
+//   TOTAL: 43164
 //
 // DO NOT EDIT
 
@@ -84,7 +84,7 @@ namespace zonedbx {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const extended::ZoneInfo* const kZoneRegistry[350] ACE_TIME_PROGMEM = {
+const extended::ZoneInfo* const kZoneRegistry[351] ACE_TIME_PROGMEM = {
   &kZoneAmerica_St_Johns, // 0x04b14e6e, America/St_Johns
   &kZoneAmerica_North_Dakota_New_Salem, // 0x04f9958e, America/North_Dakota/New_Salem
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
@@ -187,6 +187,7 @@ const extended::ZoneInfo* const kZoneRegistry[350] ACE_TIME_PROGMEM = {
   &kZoneAsia_Nicosia, // 0x4b0fcf78, Asia/Nicosia
   &kZoneAmerica_Chicago, // 0x4b92b5d4, America/Chicago
   &kZoneAustralia_Sydney, // 0x4d1e9776, Australia/Sydney
+  &kZoneAntarctica_Vostok, // 0x4f966fd4, Antarctica/Vostok
   &kZoneAustralia_Brisbane, // 0x4fedc9c0, Australia/Brisbane
   &kZoneAmerica_Asuncion, // 0x50ec79a6, America/Asuncion
   &kZoneAsia_Karachi, // 0x527f5245, Asia/Karachi
@@ -613,7 +614,7 @@ const extended::ZoneInfo* const kZoneAndLinkRegistry[596] ACE_TIME_PROGMEM = {
   &kZoneAustralia_Sydney, // 0x4d1e9776, Australia/Sydney
   &kZoneNZ_CHAT, // 0x4d42afda, NZ-CHAT -> Pacific/Chatham
   &kZoneUS_Arizona, // 0x4ec52670, US/Arizona -> America/Phoenix
-  &kZoneAntarctica_Vostok, // 0x4f966fd4, Antarctica/Vostok -> Asia/Urumqi
+  &kZoneAntarctica_Vostok, // 0x4f966fd4, Antarctica/Vostok
   &kZoneUS_Aleutian, // 0x4fe013ef, US/Aleutian -> America/Adak
   &kZoneAustralia_Brisbane, // 0x4fedc9c0, Australia/Brisbane
   &kZoneAmerica_Catamarca, // 0x5036e963, America/Catamarca -> America/Argentina/Catamarca

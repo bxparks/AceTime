@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbxtesting/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbxtesting
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -25,10 +25,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
 // Supported Zones: 16 (15 zones, 1 links)
-// Unsupported Zones: 580 (335 zones, 245 links)
+// Unsupported Zones: 580 (336 zones, 244 links)
 //
 // Requested Years: [1980,2200]
 // Accurate Years: [1980,32767]
@@ -174,7 +174,7 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 335
+// Unsupported zones: 336
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -311,6 +311,7 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 // Antarctica/Palmer {Zone missing from include list}
 // Antarctica/Rothera {Zone missing from include list}
 // Antarctica/Troll {Zone missing from include list}
+// Antarctica/Vostok {Zone missing from include list}
 // Asia/Almaty {Zone missing from include list}
 // Asia/Amman {Zone missing from include list}
 // Asia/Anadyr {Zone missing from include list}
@@ -531,7 +532,7 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 
 
 //---------------------------------------------------------------------------
-// Unsupported links: 245
+// Unsupported links: 244
 //---------------------------------------------------------------------------
 
 // Africa/Accra {Link missing from include list}
@@ -621,7 +622,6 @@ const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 // Antarctica/McMurdo {Link missing from include list}
 // Antarctica/South_Pole {Link missing from include list}
 // Antarctica/Syowa {Link missing from include list}
-// Antarctica/Vostok {Link missing from include list}
 // Arctic/Longyearbyen {Link missing from include list}
 // Asia/Aden {Link missing from include list}
 // Asia/Ashkhabad {Link missing from include list}

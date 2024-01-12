@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbc/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbc
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope complete
@@ -23,9 +23,9 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
-// Supported Zones: 596 (350 zones, 246 links)
+// Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
 // Requested Years: [1800,2200]
@@ -40,7 +40,7 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 1949
+//   Eras: 1961
 //   Policies: 134
 //   Rules: 2238
 //
@@ -48,29 +48,29 @@
 //   Context: 16
 //   Rules: 26856
 //   Policies: 402
-//   Eras: 29235
-//   Zones: 4550
-//   Links: 3198
+//   Eras: 29415
+//   Zones: 4563
+//   Links: 3185
 //   Registry: 1192
 //   Formats: 1032
 //   Letters: 160
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 72440
+//   TOTAL: 72620
 //
 // Memory (32-bits):
 //   Context: 24
 //   Rules: 26856
 //   Policies: 1072
-//   Eras: 38980
-//   Zones: 8400
-//   Links: 5904
+//   Eras: 39220
+//   Zones: 8424
+//   Links: 5880
 //   Registry: 2384
 //   Formats: 1032
 //   Letters: 216
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 90695
+//   TOTAL: 90935
 //
 // DO NOT EDIT
 
@@ -95,7 +95,7 @@ extern const __FlashStringHelper* const kTzDatabaseVersion;
 extern const complete::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 350
+// Supported zones: 351
 //---------------------------------------------------------------------------
 
 extern const complete::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -244,6 +244,7 @@ extern const complete::ZoneInfo kZoneAntarctica_Mawson; // Antarctica/Mawson
 extern const complete::ZoneInfo kZoneAntarctica_Palmer; // Antarctica/Palmer
 extern const complete::ZoneInfo kZoneAntarctica_Rothera; // Antarctica/Rothera
 extern const complete::ZoneInfo kZoneAntarctica_Troll; // Antarctica/Troll
+extern const complete::ZoneInfo kZoneAntarctica_Vostok; // Antarctica/Vostok
 extern const complete::ZoneInfo kZoneAsia_Almaty; // Asia/Almaty
 extern const complete::ZoneInfo kZoneAsia_Amman; // Asia/Amman
 extern const complete::ZoneInfo kZoneAsia_Anadyr; // Asia/Anadyr
@@ -598,6 +599,7 @@ const uint32_t kZoneIdAntarctica_Mawson = 0x399cd863; // Antarctica/Mawson
 const uint32_t kZoneIdAntarctica_Palmer = 0x40962f4f; // Antarctica/Palmer
 const uint32_t kZoneIdAntarctica_Rothera = 0x0e86d203; // Antarctica/Rothera
 const uint32_t kZoneIdAntarctica_Troll = 0xe33f085b; // Antarctica/Troll
+const uint32_t kZoneIdAntarctica_Vostok = 0x4f966fd4; // Antarctica/Vostok
 const uint32_t kZoneIdAsia_Almaty = 0xa61f41fa; // Asia/Almaty
 const uint32_t kZoneIdAsia_Amman = 0x148d21bc; // Asia/Amman
 const uint32_t kZoneIdAsia_Anadyr = 0xa63cebd1; // Asia/Anadyr
@@ -805,7 +807,7 @@ const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 246
+// Supported links: 245
 //---------------------------------------------------------------------------
 
 extern const complete::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -895,7 +897,6 @@ extern const complete::ZoneInfo kZoneAntarctica_DumontDUrville; // Antarctica/Du
 extern const complete::ZoneInfo kZoneAntarctica_McMurdo; // Antarctica/McMurdo -> Pacific/Auckland
 extern const complete::ZoneInfo kZoneAntarctica_South_Pole; // Antarctica/South_Pole -> Pacific/Auckland
 extern const complete::ZoneInfo kZoneAntarctica_Syowa; // Antarctica/Syowa -> Asia/Riyadh
-extern const complete::ZoneInfo kZoneAntarctica_Vostok; // Antarctica/Vostok -> Asia/Urumqi
 extern const complete::ZoneInfo kZoneArctic_Longyearbyen; // Arctic/Longyearbyen -> Europe/Berlin
 extern const complete::ZoneInfo kZoneAsia_Aden; // Asia/Aden -> Asia/Riyadh
 extern const complete::ZoneInfo kZoneAsia_Ashkhabad; // Asia/Ashkhabad -> Asia/Ashgabat
@@ -1145,7 +1146,6 @@ const uint32_t kZoneIdAntarctica_DumontDUrville = 0x5a3c656c; // Antarctica/Dumo
 const uint32_t kZoneIdAntarctica_McMurdo = 0x6eeb5585; // Antarctica/McMurdo
 const uint32_t kZoneIdAntarctica_South_Pole = 0xcd96b290; // Antarctica/South_Pole
 const uint32_t kZoneIdAntarctica_Syowa = 0xe330c7e1; // Antarctica/Syowa
-const uint32_t kZoneIdAntarctica_Vostok = 0x4f966fd4; // Antarctica/Vostok
 const uint32_t kZoneIdArctic_Longyearbyen = 0xd23e7859; // Arctic/Longyearbyen
 const uint32_t kZoneIdAsia_Aden = 0x1fa7084a; // Asia/Aden
 const uint32_t kZoneIdAsia_Ashkhabad = 0x15454f09; // Asia/Ashkhabad
@@ -1441,7 +1441,7 @@ const uint8_t kZoneBufSizeAmerica_Santarem = 6;  // America/Santarem in 1964
 const uint8_t kZoneBufSizeAmerica_Santiago = 6;  // America/Santiago in 1969
 const uint8_t kZoneBufSizeAmerica_Santo_Domingo = 4;  // America/Santo_Domingo in 1970
 const uint8_t kZoneBufSizeAmerica_Sao_Paulo = 6;  // America/Sao_Paulo in 1964
-const uint8_t kZoneBufSizeAmerica_Scoresbysund = 5;  // America/Scoresbysund in 1980
+const uint8_t kZoneBufSizeAmerica_Scoresbysund = 6;  // America/Scoresbysund in 2024
 const uint8_t kZoneBufSizeAmerica_Sitka = 6;  // America/Sitka in 1983
 const uint8_t kZoneBufSizeAmerica_St_Johns = 6;  // America/St_Johns in 1918
 const uint8_t kZoneBufSizeAmerica_Swift_Current = 5;  // America/Swift_Current in 1946
@@ -1460,6 +1460,7 @@ const uint8_t kZoneBufSizeAntarctica_Mawson = 2;  // Antarctica/Mawson in 1954
 const uint8_t kZoneBufSizeAntarctica_Palmer = 6;  // Antarctica/Palmer in 1965
 const uint8_t kZoneBufSizeAntarctica_Rothera = 2;  // Antarctica/Rothera in 1976
 const uint8_t kZoneBufSizeAntarctica_Troll = 6;  // Antarctica/Troll in 2005
+const uint8_t kZoneBufSizeAntarctica_Vostok = 3;  // Antarctica/Vostok in 1994
 const uint8_t kZoneBufSizeAsia_Almaty = 6;  // Asia/Almaty in 1991
 const uint8_t kZoneBufSizeAsia_Amman = 6;  // Asia/Amman in 2014
 const uint8_t kZoneBufSizeAsia_Anadyr = 6;  // Asia/Anadyr in 1991

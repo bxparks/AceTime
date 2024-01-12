@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbc/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbc
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope complete
@@ -23,9 +23,9 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
-// Supported Zones: 596 (350 zones, 246 links)
+// Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
 // Requested Years: [1800,2200]
@@ -40,7 +40,7 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 1949
+//   Eras: 1961
 //   Policies: 134
 //   Rules: 2238
 //
@@ -48,29 +48,29 @@
 //   Context: 16
 //   Rules: 26856
 //   Policies: 402
-//   Eras: 29235
-//   Zones: 4550
-//   Links: 3198
+//   Eras: 29415
+//   Zones: 4563
+//   Links: 3185
 //   Registry: 1192
 //   Formats: 1032
 //   Letters: 160
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 72440
+//   TOTAL: 72620
 //
 // Memory (32-bits):
 //   Context: 24
 //   Rules: 26856
 //   Policies: 1072
-//   Eras: 38980
-//   Zones: 8400
-//   Links: 5904
+//   Eras: 39220
+//   Zones: 8424
+//   Links: 5880
 //   Registry: 2384
 //   Formats: 1032
 //   Letters: 216
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 90695
+//   TOTAL: 90935
 //
 // DO NOT EDIT
 
@@ -85,7 +85,7 @@ namespace zonedbc {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-static const char kVersionString[] ACE_TIME_PROGMEM = "2023c";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2023d";
 const __FlashStringHelper* const kTzDatabaseVersion =
     (const __FlashStringHelper*) kVersionString;
 
@@ -199,8 +199,8 @@ const complete::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 350
-// Eras: 1949
+// Zones: 351
+// Eras: 1961
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -11420,7 +11420,7 @@ const complete::ZoneInfo kZoneAmerica_North_Dakota_New_Salem ACE_TIME_PROGMEM = 
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nuuk
-// Eras: 4
+// Eras: 5
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAmerica_Nuuk[] ACE_TIME_PROGMEM = {
@@ -11450,12 +11450,25 @@ static const complete::ZoneEra kZoneEraAmerica_Nuuk[] ACE_TIME_PROGMEM = {
     480 /*untilTimeCode (7200/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
-  //             -3:00    EU    -03/-02    2023 Oct 29  1:00u
+  //             -3:00    EU    -03/-02    2023 Mar 26  1:00u
   {
     &kZonePolicyEU /*zonePolicy*/,
     "-03/-02" /*format*/,
     -720 /*offsetCode (-10800/15)*/,
     0 /*offsetRemainder (-10800%15)*/,
+    0 /*deltaMinutes*/,
+    2023 /*untilYear*/,
+    3 /*untilMonth*/,
+    26 /*untilDay*/,
+    240 /*untilTimeCode (3600/15)*/,
+    32 /*untilTimeModifier (kAtcSuffixU + seconds=0)*/,
+  },
+  //             -2:00    -    -02    2023 Oct 29  1:00u
+  {
+    nullptr /*zonePolicy*/,
+    "-02" /*format*/,
+    -480 /*offsetCode (-7200/15)*/,
+    0 /*offsetRemainder (-7200%15)*/,
     0 /*deltaMinutes*/,
     2023 /*untilYear*/,
     10 /*untilMonth*/,
@@ -11485,7 +11498,7 @@ const complete::ZoneInfo kZoneAmerica_Nuuk ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Nuuk /*name*/,
   0x9805b5a9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  4 /*numEras*/,
+  5 /*numEras*/,
   kZoneEraAmerica_Nuuk /*eras*/,
   nullptr /*targetInfo*/,
 };
@@ -13171,7 +13184,7 @@ const complete::ZoneInfo kZoneAmerica_Sao_Paulo ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Scoresbysund
-// Eras: 4
+// Eras: 5
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAmerica_Scoresbysund[] ACE_TIME_PROGMEM = {
@@ -13214,12 +13227,25 @@ static const complete::ZoneEra kZoneEraAmerica_Scoresbysund[] ACE_TIME_PROGMEM =
     0 /*untilTimeCode (0/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
-  //             -1:00    EU    -01/+00
+  //             -1:00    EU    -01/+00 2024 Mar 31
   {
     &kZonePolicyEU /*zonePolicy*/,
     "-01/+00" /*format*/,
     -240 /*offsetCode (-3600/15)*/,
     0 /*offsetRemainder (-3600%15)*/,
+    0 /*deltaMinutes*/,
+    2024 /*untilYear*/,
+    3 /*untilMonth*/,
+    31 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             -2:00    EU    -02/-01
+  {
+    &kZonePolicyEU /*zonePolicy*/,
+    "-02/-01" /*format*/,
+    -480 /*offsetCode (-7200/15)*/,
+    0 /*offsetRemainder (-7200%15)*/,
     0 /*deltaMinutes*/,
     32767 /*untilYear*/,
     1 /*untilMonth*/,
@@ -13236,7 +13262,7 @@ const complete::ZoneInfo kZoneAmerica_Scoresbysund ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Scoresbysund /*name*/,
   0x123f8d2a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  4 /*numEras*/,
+  5 /*numEras*/,
   kZoneEraAmerica_Scoresbysund /*eras*/,
   nullptr /*targetInfo*/,
 };
@@ -14360,7 +14386,7 @@ const complete::ZoneInfo kZoneAmerica_Yakutat ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Casey
-// Eras: 13
+// Eras: 18
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
@@ -14520,12 +14546,77 @@ static const complete::ZoneEra kZoneEraAntarctica_Casey[] ACE_TIME_PROGMEM = {
     4 /*untilTimeCode (60/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
-  //             11:00    -    +11
+  //             11:00    -    +11    2021 Mar 14  0:00
   {
     nullptr /*zonePolicy*/,
     "+11" /*format*/,
     2640 /*offsetCode (39600/15)*/,
     0 /*offsetRemainder (39600%15)*/,
+    0 /*deltaMinutes*/,
+    2021 /*untilYear*/,
+    3 /*untilMonth*/,
+    14 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //              8:00    -    +08    2021 Oct  3  0:01
+  {
+    nullptr /*zonePolicy*/,
+    "+08" /*format*/,
+    1920 /*offsetCode (28800/15)*/,
+    0 /*offsetRemainder (28800%15)*/,
+    0 /*deltaMinutes*/,
+    2021 /*untilYear*/,
+    10 /*untilMonth*/,
+    3 /*untilDay*/,
+    4 /*untilTimeCode (60/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             11:00    -    +11    2022 Mar 13  0:00
+  {
+    nullptr /*zonePolicy*/,
+    "+11" /*format*/,
+    2640 /*offsetCode (39600/15)*/,
+    0 /*offsetRemainder (39600%15)*/,
+    0 /*deltaMinutes*/,
+    2022 /*untilYear*/,
+    3 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //              8:00    -    +08    2022 Oct  2  0:01
+  {
+    nullptr /*zonePolicy*/,
+    "+08" /*format*/,
+    1920 /*offsetCode (28800/15)*/,
+    0 /*offsetRemainder (28800%15)*/,
+    0 /*deltaMinutes*/,
+    2022 /*untilYear*/,
+    10 /*untilMonth*/,
+    2 /*untilDay*/,
+    4 /*untilTimeCode (60/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             11:00    -    +11    2023 Mar  9  3:00
+  {
+    nullptr /*zonePolicy*/,
+    "+11" /*format*/,
+    2640 /*offsetCode (39600/15)*/,
+    0 /*offsetRemainder (39600%15)*/,
+    0 /*deltaMinutes*/,
+    2023 /*untilYear*/,
+    3 /*untilMonth*/,
+    9 /*untilDay*/,
+    720 /*untilTimeCode (10800/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //              8:00    -    +08
+  {
+    nullptr /*zonePolicy*/,
+    "+08" /*format*/,
+    1920 /*offsetCode (28800/15)*/,
+    0 /*offsetRemainder (28800%15)*/,
     0 /*deltaMinutes*/,
     32767 /*untilYear*/,
     1 /*untilMonth*/,
@@ -14542,7 +14633,7 @@ const complete::ZoneInfo kZoneAntarctica_Casey ACE_TIME_PROGMEM = {
   kZoneNameAntarctica_Casey /*name*/,
   0xe2022583 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  13 /*numEras*/,
+  18 /*numEras*/,
   kZoneEraAntarctica_Casey /*eras*/,
   nullptr /*targetInfo*/,
 };
@@ -15041,6 +15132,91 @@ const complete::ZoneInfo kZoneAntarctica_Troll ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   2 /*numEras*/,
   kZoneEraAntarctica_Troll /*eras*/,
+  nullptr /*targetInfo*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Antarctica/Vostok
+// Eras: 5
+//---------------------------------------------------------------------------
+
+static const complete::ZoneEra kZoneEraAntarctica_Vostok[] ACE_TIME_PROGMEM = {
+  // 0 - -00 1957 Dec 16
+  {
+    nullptr /*zonePolicy*/,
+    "-00" /*format*/,
+    0 /*offsetCode (0/15)*/,
+    0 /*offsetRemainder (0%15)*/,
+    0 /*deltaMinutes*/,
+    1957 /*untilYear*/,
+    12 /*untilMonth*/,
+    16 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             7:00    -    +07    1994 Feb
+  {
+    nullptr /*zonePolicy*/,
+    "+07" /*format*/,
+    1680 /*offsetCode (25200/15)*/,
+    0 /*offsetRemainder (25200%15)*/,
+    0 /*deltaMinutes*/,
+    1994 /*untilYear*/,
+    2 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             0    -    -00    1994 Nov
+  {
+    nullptr /*zonePolicy*/,
+    "-00" /*format*/,
+    0 /*offsetCode (0/15)*/,
+    0 /*offsetRemainder (0%15)*/,
+    0 /*deltaMinutes*/,
+    1994 /*untilYear*/,
+    11 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             7:00    -    +07    2023 Dec 18  2:00
+  {
+    nullptr /*zonePolicy*/,
+    "+07" /*format*/,
+    1680 /*offsetCode (25200/15)*/,
+    0 /*offsetRemainder (25200%15)*/,
+    0 /*deltaMinutes*/,
+    2023 /*untilYear*/,
+    12 /*untilMonth*/,
+    18 /*untilDay*/,
+    480 /*untilTimeCode (7200/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             5:00    -    +05
+  {
+    nullptr /*zonePolicy*/,
+    "+05" /*format*/,
+    1200 /*offsetCode (18000/15)*/,
+    0 /*offsetRemainder (18000%15)*/,
+    0 /*deltaMinutes*/,
+    32767 /*untilYear*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+
+};
+
+static const char kZoneNameAntarctica_Vostok[] ACE_TIME_PROGMEM = "\x03" "Vostok";
+
+const complete::ZoneInfo kZoneAntarctica_Vostok ACE_TIME_PROGMEM = {
+  kZoneNameAntarctica_Vostok /*name*/,
+  0x4f966fd4 /*zoneId*/,
+  &kZoneContext /*zoneContext*/,
+  5 /*numEras*/,
+  kZoneEraAntarctica_Vostok /*eras*/,
   nullptr /*targetInfo*/,
 };
 
@@ -32543,7 +32719,7 @@ const complete::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 246
+// Links: 245
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -33336,7 +33512,7 @@ const complete::ZoneInfo kZoneAmerica_Godthab ACE_TIME_PROGMEM = {
   kZoneNameAmerica_Godthab /*name*/,
   0x8f7eba1f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  4 /*numEras*/,
+  5 /*numEras*/,
   kZoneEraAmerica_Nuuk /*eras*/,
   &kZoneAmerica_Nuuk /*targetInfo*/,
 };
@@ -33849,21 +34025,6 @@ const complete::ZoneInfo kZoneAntarctica_Syowa ACE_TIME_PROGMEM = {
   2 /*numEras*/,
   kZoneEraAsia_Riyadh /*eras*/,
   &kZoneAsia_Riyadh /*targetInfo*/,
-};
-
-//---------------------------------------------------------------------------
-// Link name: Antarctica/Vostok -> Asia/Urumqi
-//---------------------------------------------------------------------------
-
-static const char kZoneNameAntarctica_Vostok[] ACE_TIME_PROGMEM = "\x03" "Vostok";
-
-const complete::ZoneInfo kZoneAntarctica_Vostok ACE_TIME_PROGMEM = {
-  kZoneNameAntarctica_Vostok /*name*/,
-  0x4f966fd4 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
-  kZoneEraAsia_Urumqi /*eras*/,
-  &kZoneAsia_Urumqi /*targetInfo*/,
 };
 
 //---------------------------------------------------------------------------

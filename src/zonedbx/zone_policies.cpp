@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,9 +23,9 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
-// Supported Zones: 596 (350 zones, 246 links)
+// Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
 // Requested Years: [2000,2200]
@@ -40,7 +40,7 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 646
+//   Eras: 655
 //   Policies: 83
 //   Rules: 735
 //
@@ -48,29 +48,29 @@
 //   Context: 16
 //   Rules: 6615
 //   Policies: 249
-//   Eras: 7106
-//   Zones: 4550
-//   Links: 3198
+//   Eras: 7205
+//   Zones: 4563
+//   Links: 3185
 //   Registry: 1192
 //   Formats: 597
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 29368
+//   TOTAL: 29467
 //
 // Memory (32-bits):
 //   Context: 24
 //   Rules: 8820
 //   Policies: 664
-//   Eras: 10336
-//   Zones: 8400
-//   Links: 5904
+//   Eras: 10480
+//   Zones: 8424
+//   Links: 5880
 //   Registry: 2384
 //   Formats: 597
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 43020
+//   TOTAL: 43164
 //
 // DO NOT EDIT
 
@@ -7899,6 +7899,18 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     7 /*letterIndex ("S")*/,
   },
+  // Rule Palestine    2072    max    -    Oct    Sat<=30    2:00    0    -
+  {
+    -28 /*fromYearTiny (2072)*/,
+    126 /*toYearTiny (32766)*/,
+    10 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    -30 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    0 /*atTimeModifier (kSuffixW + minute=0)*/,
+    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
+    0 /*letterIndex ("")*/,
+  },
   // Rule Palestine    2073    only    -    Sep     2    2:00    0    -
   {
     -27 /*fromYearTiny (2073)*/,
@@ -7970,18 +7982,6 @@ static const extended::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*atTimeModifier (kSuffixW + minute=0)*/,
     8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
     7 /*letterIndex ("S")*/,
-  },
-  // Rule Palestine    2075    max    -    Oct    Sat<=30    2:00    0    -
-  {
-    -25 /*fromYearTiny (2075)*/,
-    126 /*toYearTiny (32766)*/,
-    10 /*inMonth*/,
-    6 /*onDayOfWeek*/,
-    -30 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
-    0 /*letterIndex ("")*/,
   },
   // Rule Palestine    2076    only    -    Jul    25    2:00    0    -
   {

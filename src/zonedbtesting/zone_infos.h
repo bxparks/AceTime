@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbtesting/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbtesting
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -25,10 +25,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
 // Supported Zones: 12 (11 zones, 1 links)
-// Unsupported Zones: 584 (339 zones, 245 links)
+// Unsupported Zones: 584 (340 zones, 244 links)
 //
 // Requested Years: [1980,2200]
 // Accurate Years: [1980,32767]
@@ -162,7 +162,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 339
+// Unsupported zones: 340
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -302,6 +302,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Antarctica/Palmer {Zone missing from include list}
 // Antarctica/Rothera {Zone missing from include list}
 // Antarctica/Troll {Zone missing from include list}
+// Antarctica/Vostok {Zone missing from include list}
 // Asia/Almaty {Zone missing from include list}
 // Asia/Amman {Zone missing from include list}
 // Asia/Anadyr {Zone missing from include list}
@@ -514,7 +515,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
 //---------------------------------------------------------------------------
-// Unsupported links: 245
+// Unsupported links: 244
 //---------------------------------------------------------------------------
 
 // Africa/Accra {Link missing from include list}
@@ -604,7 +605,6 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Antarctica/McMurdo {Link missing from include list}
 // Antarctica/South_Pole {Link missing from include list}
 // Antarctica/Syowa {Link missing from include list}
-// Antarctica/Vostok {Link missing from include list}
 // Arctic/Longyearbyen {Link missing from include list}
 // Asia/Aden {Link missing from include list}
 // Asia/Ashkhabad {Link missing from include list}

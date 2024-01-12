@@ -1,6 +1,13 @@
 # Changelog
 
 * Unreleased
+    * Upgrade TZDB to 2023d
+        * https://mm.icann.org/pipermail/tz-announce/2023-December/000080.html
+        * "Ittoqqortoormiit, Greenland changes time zones on 2024-03-31. Vostok,
+          Antarctica changed time zones on 2023-12-18. Casey, Antarctica changed
+          time zones five times since 2020. Code and data fixes for Palestine
+          timestamps starting in 2072. A new data file zonenow.tab for
+          timestamps starting now."
 * 2.3.0 (2023-06-27, TZDB version 2023c)
     * Create [CustomZoneRegistry](examples/CustomZoneRegistry/) example
       to illustrate how to use a custom registry.
