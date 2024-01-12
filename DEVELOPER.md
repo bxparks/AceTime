@@ -36,7 +36,7 @@ library.
 On 2021-08-25, the scripts under `./tools` were moved into the
 [AceTimeTools](https://github.com/bxparks/AceTimeTools/) project, and the
 integration tests under `./tests/validation` were moved into the
-[AceTimeValidations](https://github.com/bxparks/AceTimeValidation) project. Then
+[AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project. Then
 on 2021-09-08, the Python timezone classes (`zone_processor.py`, `acetz.py`,
 etc) were moved into the
 [acetimepy](https://github.com/bxparks/acetimepy) project.
@@ -798,60 +798,84 @@ About 2-4 times a year, a new TZDB version is released. Here are some notes
 (mostly for myself) on how to create a new release after a new TZDB version is
 available.
 
-* Update the TZDB repo (https://github.com/eggert/tz). This should be a
+- Update the TZDB repo (https://github.com/eggert/tz). This should be a
   sibling to the `AceTime` repo (since it will cause the least problems
   for various internal scripts):
-    * `$ cd ../tz`
-    * `$ git pull`
-    * Check that the correct tag is pulled (e.g. `2020c` tag if that's the
+    - `$ cd ../tz`
+    - `$ git pull`
+    - Check that the correct tag is pulled (e.g. `2020c` tag if that's the
       version that we want to upgrade to).
-* Update the Hinnant date repo (https://github.com:HowardHinnant/date). This
+- Update the Hinnant date repo (https://github.com:HowardHinnant/date). This
   should be a sibling to the `AceTime` repo:
-    * `$ cd ../date`
-    * `$ git pull`
-* Update the zonedb files for acetimepy (needed by AcetzBasicTest and
+    - `$ cd ../date`
+    - `$ git pull`
+- Update the zonedb files for `acetimepy` (needed by AcetzBasicTest and
   AcetzExtendedTest):
-    * `$ cd acetimepy/src/acetime/zonedb`
-    * Update the `TZ_VERSION` variable in `Makefile`.
-    * `$ make`
-* Verify that `AceTimeValidation` passes (which compares AceTime with
-  acetimepy and the Hinnant `date` library):
-    * `$ cd ../AceTimeValidation`
-    * Update the `TZ_VERSION` variable in the following files:
-        * `tests/AcetzBasicTest/Makefile`
-        * `tests/AcetExtendedzTest/Makefile`
-        * `tests/HinnantBasicTest/Makefile`
-        * `tests/HinnantExtendedTest/Makefile`
-    * `$ make clean`
-    * `$ make validations`
-    * `$ make runvalidations`
-* Update the various zoneinfo files for AceTime:
-    * `$ cd AceTime/src`
-    * Update the `TZ_VERSION` variable in `Makefile`.
-    * `$ make`
-* Update CHANGELOGs
-    * AceTime/CHANGELOG.md
-    * acetimepy/CHANGELOG.md
-    * AceTimeValidation/CHANGELOG.md
-* Commit the changes to git
-    * `$ git add ...`
-    * `$ git commit -m "..."`
+    - `$ cd acetimepy/src/acetime`
+    - `$ vi zonedb*/Makefile`
+        - Update the `TZ_VERSION` variable in the various makefiles.
+    - `$ make zonedbs`
+- Update the zonedb files for `acetimec` (needed by AcetimecBasicTest and
+  AcetimecExtendedTest)
+    - `$ cd acetimec/src`
+    - `$ vi zonedb*/Makefile`
+        - Update the `TZ_VERSION` variable in the various makefiles.
+    - `$ make zonedbs`
+    - `$ make` to update the `acetimec.a` lib file
+- Recompile the binaries in `AceTimeValidation` tools
+    - `$ cd AceTimeValidation/tools`
+    - `$ make clean`
+    - `$ make`
+- Verify that `AceTimeValidation` passes. This compares AceTime with 3 other
+  libraries: acetimec, acetimepy, and the Hinnant `date` library:
+    - `$ cd AceTimeValidation/tests`
+    - `$ make clean`
+    - `$ vi {Acetimec,Acetz,Hinnant}{Basic,Extended}*/Makefile`
+        - Update the `TZ_VERSION` variable in the following:
+        - `AcetimecBasicTest/Makefile`
+        - `AcetimecExtendedTest/Makefile`
+        - `AcetzBasicTest/Makefile`
+        - `AcetzExtendedTest/Makefile`
+        - `HinnantBasicTest/Makefile`
+        - `HinnantExtendedTest/Makefile`
+    - Validate against one library, acetimec:
+        - `$ vi AcetimecExtendedTest/Makefile`
+        - `$ make -C AcetimecExtendedTest clean`
+        - `$ make -C AcetimecExtendedTest all`
+        - `$ make -C AcetimecExtendedTest run`
+    - Validate against the other libraries:
+        - `$ make clean`
+        - `$ make -j4 tests`
+        - `$ make runtests`
+- Update the various zoneinfo files for AceTime:
+    - `$ cd AceTime/src`
+    - `$ vi zonedb*/Makefile`
+        - Update the `TZ_VERSION` variable in the makefiles.
+    - `$ make zonedbs`
+- Update CHANGELOGs
+    - AceTime/CHANGELOG.md
+    - acetimec/CHANGELOG.md
+    - acetimepy/CHANGELOG.md
+    - AceTimeValidation/CHANGELOG.md
+- Commit the changes to git
+    - `$ git add ...`
+    - `$ git commit -m "..."`
 
 There are 12 other validation tests in the AceTimeValidation project that
 compare AceTime with various other third party libraries:
 
-* `DateUtilBasicTest`
-* `DateUtilExtendedTest`
-* `GoBasicTest`
-* `GoExtendedTest`
-* `JavaBasicTest`
-* `JavaExtendedTest`
-* `NodaBasicTest`
-* `NodaExtendedTest`
-* `PytzBasicTest`
-* `PytzExtendedTest`
-* `ZoneInfoBasicTest`
-* `ZoneInfoExtendedTest`
+- `DateUtilBasicTest`
+- `DateUtilExtendedTest`
+- `GoBasicTest`
+- `GoExtendedTest`
+- `JavaBasicTest`
+- `JavaExtendedTest`
+- `NodaBasicTest`
+- `NodaExtendedTest`
+- `PytzBasicTest`
+- `PytzExtendedTest`
+- `ZoneInfoBasicTest`
+- `ZoneInfoExtendedTest`
 
 Unfortunately, they all seem to use the underlying TZDB version provided by the
 Operating System, and I have not been able to figure out how to manually update
@@ -861,78 +885,78 @@ fail until the underlying timezone database of the OS is updated.
 <a name="ReleaseProcess"></a>
 ## Release Process
 
-* Update `examples/MemoryBenchmark` and `examples/AutoBenchmark`.
-* Update and commit the version numbers in various files:
-    * `src/AceTime.h`
-    * `README.md`
-    * `USER_GUIDE.md`
-    * `MIGRATING.md`
-    * `CHANGELOG.md`
-    * `docs/doxygen.cfg`
-    * `library.properties`
-    * `$ git commit -m "..."`
-    * `$ git push`
-* Update and commit the Doxygen docs. This is done as a separate git commit
+- Update `examples/MemoryBenchmark` and `examples/AutoBenchmark`.
+- Update and commit the version numbers in various files:
+    - `src/AceTime.h`
+    - `README.md`
+    - `USER_GUIDE.md`
+    - `MIGRATING.md`
+    - `CHANGELOG.md`
+    - `docs/doxygen.cfg`
+    - `library.properties`
+    - `$ git commit -m "..."`
+    - `$ git push`
+- Update and commit the Doxygen docs. This is done as a separate git commit
   because the Doxygen changes are often so large that they obscure all other
   important changes to the code base:
-    * `$ cd docs`
-    * `$ make clean`
-    * `$ make`
-    * `$ git add .`
-    * `$ git commit -m "..."`
-    * `$ git push`
-* (Optional) Create a new Release of acetimepy
-    * (This should be done first, before AceTime)
-    * Go to https://github.com/bxparks/acetimepy
-    * Bump version number on `develop`.
-    * Merge `develop` into `master`.
-    * Click on "Releases"
-    * Click on "Draft a new release"
-    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    * Enter the release title.
-    * Enter the release notes. I normally just copy and paste the latest changes
+    - `$ cd docs`
+    - `$ make clean`
+    - `$ make`
+    - `$ git add .`
+    - `$ git commit -m "..."`
+    - `$ git push`
+- (Optional) Create a new Release of acetimepy
+    - (This should be done first, before AceTime)
+    - Go to https://github.com/bxparks/acetimepy
+    - Bump version number on `develop`.
+    - Merge `develop` into `master`.
+    - Click on "Releases"
+    - Click on "Draft a new release"
+    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
+    - Enter the release title.
+    - Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
-    * Click Publish release.
-* (Optional) Create a new Release of AceTimeTools
-    * (Depends on acetimepy)
-    * Go to https://github.com/bxparks/AceTimeTools
-    * Click on "Releases"
-    * Click on "Draft a new release"
-    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    * Enter the release title.
-    * Enter the release notes. I normally just copy and paste the latest changes
+    - Click Publish release.
+- (Optional) Create a new Release of AceTimeTools
+    - (Depends on acetimepy)
+    - Go to https://github.com/bxparks/AceTimeTools
+    - Click on "Releases"
+    - Click on "Draft a new release"
+    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
+    - Enter the release title.
+    - Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
-    * Click Publish release.
-* (Optional) Create a new Release of AceTimeValidation.
-    * (Depends on acetimepy)
-    * Go to https://github.com/bxparks/AceTimeTools
-    * Click on "Releases"
-    * Click on "Draft a new release"
-    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    * Enter the release title.
-    * Enter the release notes. I normally just copy and paste the latest changes
+    - Click Publish release.
+- (Optional) Create a new Release of AceTimeValidation.
+    - (Depends on acetimepy)
+    - Go to https://github.com/bxparks/AceTimeTools
+    - Click on "Releases"
+    - Click on "Draft a new release"
+    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
+    - Enter the release title.
+    - Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
-    * Click Publish release.
-* Create a new Release of AceTime (third, depends on AceTimeValidation).
-    * (Depends on acetimepy, AceTimeValidation)
-    * Go to https://github.com/bxparks/AceTime
-    * Merge the `develop` branch into `master` by creating a Pull Request.
-    * Approve and merge the PR.
-    * Click on "Releases"
-    * Click on "Draft a new release"
-    * Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    * Enter the release title.
-    * Enter the release notes. I normally just copy and paste the latest changes
+    - Click Publish release.
+- Create a new Release of AceTime (third, depends on AceTimeValidation).
+    - (Depends on acetimepy, AceTimeValidation)
+    - Go to https://github.com/bxparks/AceTime
+    - Merge the `develop` branch into `master` by creating a Pull Request.
+    - Approve and merge the PR.
+    - Click on "Releases"
+    - Click on "Draft a new release"
+    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
+    - Enter the release title.
+    - Enter the release notes. I normally just copy and paste the latest changes
       from `CHANGELOG.md`.
-    * Click Publish release.
-* Add corresponding tags on acetimepy, AceTimeTools and AceTimeValidation
+    - Click Publish release.
+- Add corresponding tags on acetimepy, AceTimeTools and AceTimeValidation
   for reference.
-    * acetimepy
-        * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
-        * `$ git push --tags`
-    * AceTimeTools
-        * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
-        * `$ git push --tags`
-    * AceTimeValidation
-        * `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
-        * `$ git push --tags`
+    - acetimepy
+        - `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
+        - `$ git push --tags`
+    - AceTimeTools
+        - `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
+        - `$ git push --tags`
+    - AceTimeValidation
+        - `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
+        - `$ git push --tags`
