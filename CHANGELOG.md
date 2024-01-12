@@ -1,6 +1,7 @@
 # Changelog
 
 * Unreleased
+* 2.3.1 (2024-01-12, TZDB version 2023d)
     * Upgrade TZDB to 2023d
         * https://mm.icann.org/pipermail/tz-announce/2023-December/000080.html
         * "Ittoqqortoormiit, Greenland changes time zones on 2024-03-31. Vostok,

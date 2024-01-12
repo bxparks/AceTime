@@ -76,7 +76,7 @@ and the `zonedbc` database to support all timezones, for all transitions defined
 in the IANA TZ database (`[1844,2087]`), and extending the validity of timezone
 calculations from `[2000,10000)` to `[0001,10000)`.
 
-**Version**: 2.3.0 (2023-06-27, TZDB version 2023c)
+**Version**: 2.3.1 (2024-01-12, TZDB version 2023d)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
