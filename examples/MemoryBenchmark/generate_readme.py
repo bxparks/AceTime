@@ -362,6 +362,7 @@ ASCII table.
 ```
 {samd51_results}
 ```
+
 ## ESP8266
 
 * NodeMCU 1.0, 80MHz ESP8266

@@ -28,7 +28,6 @@ class BasicZoneProcessorTest_findZoneEra;
 class BasicZoneProcessorTest_init_primitives;
 class BasicZoneProcessorTest_initForLocalDate;
 class BasicZoneProcessorTest_setZoneKey;
-class BasicZoneProcessorTest_createAbbreviation;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
 class Print;
@@ -391,7 +390,6 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_init_primitives;
     friend class ::BasicZoneProcessorTest_initForLocalDate;
     friend class ::BasicZoneProcessorTest_setZoneKey;
-    friend class ::BasicZoneProcessorTest_createAbbreviation;
     friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
     /**
@@ -886,18 +884,14 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       }
 
       for (uint8_t i = 0; i < mNumTransitions; i++) {
-        calcAbbreviation(&mTransitions[i]);
+        Transition* transition = &mTransitions[i];
+        internal::createAbbreviation(
+            transition->abbrev,
+            internal::kAbbrevSize,
+            transition->era.format(),
+            transition->deltaMinutes,
+            transition->abbrev);
       }
-    }
-
-    /** Calculate the time zone abbreviation of the current transition. */
-    static void calcAbbreviation(Transition* transition) {
-      internal::createAbbreviation(
-          transition->abbrev,
-          internal::kAbbrevSize,
-          transition->era.format(),
-          transition->deltaMinutes,
-          transition->abbrev);
     }
 
     /** Search the cache and find closest Transition. */

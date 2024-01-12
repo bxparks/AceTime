@@ -190,8 +190,8 @@ struct TransitionTemplate {
   /**
    * The calculated effective time zone abbreviation, e.g. "PST" or "PDT".
    * Initially this string buffer temporarily holds the `ZoneRule.letter()`
-   * string, until `createAbbreviation()` is called, which consumes the `letter`
-   * can creates the abbreviation.
+   * string, until `createAbbreviation()` consumes the `letter` and creates the
+   * actual abbreviation.
    */
   char abbrev[internal::kAbbrevSize];
 

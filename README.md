@@ -76,7 +76,7 @@ and the `zonedbc` database to support all timezones, for all transitions defined
 in the IANA TZ database (`[1844,2087]`), and extending the validity of timezone
 calculations from `[2000,10000)` to `[0001,10000)`.
 
-**Version**: 2.3.0 (2023-06-27, TZDB version 2023c)
+**Version**: 2.3.1 (2024-01-12, TZDB version 2023d)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -990,11 +990,12 @@ The following boards are *not* supported and are explicitly blacklisted to allow
 the compiler to print useful error messages instead of hundreds of lines of
 compiler errors:
 
-* Any platform using the ArduinoCore-API
-  (https://github.com/arduino/ArduinoCore-api), such as:
-    * megaAVR (e.g. Nano Every)
-    * SAMD21 boards w/ `arduino:samd` version >= 1.8.10 (e.g. Nano 33 IoT,
-      MKRZero, etc)
+* Any platform using the
+  [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api). For example:
+    * Arduino Nano Every
+    * Arduino Nano 33 IoT
+    * Arduino MKRZero
+    * Arduino UNO R4
     * Raspberry Pi Pico RP2040
 
 <a name="ToolChain"></a>
@@ -1020,8 +1021,15 @@ This library is *not* compatible with:
 * Any platform using the
   [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api), for example:
     * [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
-    * [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
+        * Nano Every
     * [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
+        * MKRZero
+        * Nano 33 IoT
+    * [ArduinoCore-renesas](https://github.com/arduino/ArduinoCore-renesas)
+        * Arduino UNO R4
+    * [Arduino-Pico](https://github.com/earlephilhower/arduino-pico)
+        * Raspberry Pi Pico (RP2040)
+    * [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
 
 It should work with [PlatformIO](https://platformio.org/) but I have
 not tested it.

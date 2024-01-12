@@ -29,6 +29,8 @@ nano.txt:
 micro.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon -o $@ --eof END micro:ACM0
 
+# Seeeduino XIAO M0 seems to need a short delay after flashing to detect its
+# serial port.
 samd21.txt:
 	$(AUNITER_DIR)/auniter.sh --cli upmon --delay 1 -o $@ --eof END xiao:ACM0
 

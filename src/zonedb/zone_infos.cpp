@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,10 +23,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
-// Supported Zones: 448 (228 zones, 220 links)
-// Unsupported Zones: 148 (122 zones, 26 links)
+// Supported Zones: 446 (227 zones, 219 links)
+// Unsupported Zones: 150 (124 zones, 26 links)
 //
 // Requested Years: [2000,2200]
 // Accurate Years: [2000,32767]
@@ -39,8 +39,8 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 448
-//   Eras: 240
+//   Infos: 446
+//   Eras: 239
 //   Policies: 65
 //   Rules: 367
 //
@@ -48,29 +48,29 @@
 //   Context: 16
 //   Rules: 3303
 //   Policies: 195
-//   Eras: 2640
-//   Zones: 2964
-//   Links: 2860
-//   Registry: 896
+//   Eras: 2629
+//   Zones: 2951
+//   Links: 2847
+//   Registry: 892
 //   Formats: 467
 //   Letters: 29
 //   Fragments: 116
-//   Names: 4162 (original: 6534)
-//   TOTAL: 17648
+//   Names: 4140 (original: 6495)
+//   TOTAL: 17585
 //
 // Memory (32-bits):
 //   Context: 24
 //   Rules: 4404
 //   Policies: 520
-//   Eras: 3840
-//   Zones: 5472
-//   Links: 5280
-//   Registry: 1792
+//   Eras: 3824
+//   Zones: 5448
+//   Links: 5256
+//   Registry: 1784
 //   Formats: 467
 //   Letters: 41
 //   Fragments: 138
-//   Names: 4162 (original: 6534)
-//   TOTAL: 26140
+//   Names: 4140 (original: 6495)
+//   TOTAL: 26046
 //
 // DO NOT EDIT
 
@@ -85,7 +85,7 @@ namespace zonedb {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-static const char kVersionString[] ACE_TIME_PROGMEM = "2023c";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2023d";
 const __FlashStringHelper* const kTzDatabaseVersion =
     (const __FlashStringHelper*) kVersionString;
 
@@ -149,8 +149,8 @@ const basic::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
 };
 
 //---------------------------------------------------------------------------
-// Zones: 228
-// Eras: 240
+// Zones: 227
+// Eras: 239
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -2462,38 +2462,6 @@ const basic::ZoneInfo kZoneAmerica_Sao_Paulo ACE_TIME_PROGMEM = {
   &kZoneContext /*zoneContext*/,
   1 /*numEras*/,
   kZoneEraAmerica_Sao_Paulo /*eras*/,
-  nullptr /*targetInfo*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: America/Scoresbysund
-// Eras: 1
-//---------------------------------------------------------------------------
-
-static const basic::ZoneEra kZoneEraAmerica_Scoresbysund[] ACE_TIME_PROGMEM = {
-  //             -1:00    EU    -01/+00
-  {
-    &kZonePolicyEU /*zonePolicy*/,
-    "-01/+00" /*format*/,
-    -4 /*offsetCode*/,
-    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
-  },
-
-};
-
-static const char kZoneNameAmerica_Scoresbysund[] ACE_TIME_PROGMEM = "\x02" "Scoresbysund";
-
-const basic::ZoneInfo kZoneAmerica_Scoresbysund ACE_TIME_PROGMEM = {
-  kZoneNameAmerica_Scoresbysund /*name*/,
-  0x123f8d2a /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAmerica_Scoresbysund /*eras*/,
   nullptr /*targetInfo*/,
 };
 
@@ -7596,7 +7564,7 @@ const basic::ZoneInfo kZoneWET ACE_TIME_PROGMEM = {
 
 
 //---------------------------------------------------------------------------
-// Links: 220
+// Links: 219
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -8707,21 +8675,6 @@ const basic::ZoneInfo kZoneAntarctica_Syowa ACE_TIME_PROGMEM = {
   1 /*numEras*/,
   kZoneEraAsia_Riyadh /*eras*/,
   &kZoneAsia_Riyadh /*targetInfo*/,
-};
-
-//---------------------------------------------------------------------------
-// Link name: Antarctica/Vostok -> Asia/Urumqi
-//---------------------------------------------------------------------------
-
-static const char kZoneNameAntarctica_Vostok[] ACE_TIME_PROGMEM = "\x03" "Vostok";
-
-const basic::ZoneInfo kZoneAntarctica_Vostok ACE_TIME_PROGMEM = {
-  kZoneNameAntarctica_Vostok /*name*/,
-  0x4f966fd4 /*zoneId*/,
-  &kZoneContext /*zoneContext*/,
-  1 /*numEras*/,
-  kZoneEraAsia_Urumqi /*eras*/,
-  &kZoneAsia_Urumqi /*targetInfo*/,
 };
 
 //---------------------------------------------------------------------------

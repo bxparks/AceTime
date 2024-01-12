@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbxtesting/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbxtesting
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -25,10 +25,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
 // Supported Zones: 16 (15 zones, 1 links)
-// Unsupported Zones: 580 (335 zones, 245 links)
+// Unsupported Zones: 580 (336 zones, 244 links)
 //
 // Requested Years: [1980,2200]
 // Accurate Years: [1980,32767]
@@ -87,7 +87,7 @@ namespace zonedbxtesting {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-static const char kVersionString[] ACE_TIME_PROGMEM = "2023c";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2023d";
 const __FlashStringHelper* const kTzDatabaseVersion =
     (const __FlashStringHelper*) kVersionString;
 

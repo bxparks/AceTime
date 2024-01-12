@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2023c
+//     --tz_version 2023d
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,10 +23,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023c
+// from https://github.com/eggert/tz/releases/tag/2023d
 //
-// Supported Zones: 448 (228 zones, 220 links)
-// Unsupported Zones: 148 (122 zones, 26 links)
+// Supported Zones: 446 (227 zones, 219 links)
+// Unsupported Zones: 150 (124 zones, 26 links)
 //
 // Requested Years: [2000,2200]
 // Accurate Years: [2000,32767]
@@ -39,8 +39,8 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 448
-//   Eras: 240
+//   Infos: 446
+//   Eras: 239
 //   Policies: 65
 //   Rules: 367
 //
@@ -48,29 +48,29 @@
 //   Context: 16
 //   Rules: 3303
 //   Policies: 195
-//   Eras: 2640
-//   Zones: 2964
-//   Links: 2860
-//   Registry: 896
+//   Eras: 2629
+//   Zones: 2951
+//   Links: 2847
+//   Registry: 892
 //   Formats: 467
 //   Letters: 29
 //   Fragments: 116
-//   Names: 4162 (original: 6534)
-//   TOTAL: 17648
+//   Names: 4140 (original: 6495)
+//   TOTAL: 17585
 //
 // Memory (32-bits):
 //   Context: 24
 //   Rules: 4404
 //   Policies: 520
-//   Eras: 3840
-//   Zones: 5472
-//   Links: 5280
-//   Registry: 1792
+//   Eras: 3824
+//   Zones: 5448
+//   Links: 5256
+//   Registry: 1784
 //   Formats: 467
 //   Letters: 41
 //   Fragments: 138
-//   Names: 4162 (original: 6534)
-//   TOTAL: 26140
+//   Names: 4140 (original: 6495)
+//   TOTAL: 26046
 //
 // DO NOT EDIT
 
@@ -84,7 +84,7 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[228] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
   &kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
   &kZoneAmerica_Hermosillo, // 0x065d21c4, America/Hermosillo
@@ -101,7 +101,6 @@ const basic::ZoneInfo* const kZoneRegistry[228] ACE_TIME_PROGMEM = {
   &kZoneAustralia_Melbourne, // 0x0fe559a3, Australia/Melbourne
   &kZoneAmerica_Sao_Paulo, // 0x1063bfc9, America/Sao_Paulo
   &kZoneAmerica_Indiana_Vevay, // 0x10aca054, America/Indiana/Vevay
-  &kZoneAmerica_Scoresbysund, // 0x123f8d2a, America/Scoresbysund
   &kZoneAsia_Samarkand, // 0x13ae5104, Asia/Samarkand
   &kZoneAsia_Dhaka, // 0x14c07b8b, Asia/Dhaka
   &kZoneAsia_Dubai, // 0x14c79f77, Asia/Dubai
@@ -319,7 +318,7 @@ const basic::ZoneInfo* const kZoneRegistry[228] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneGB, // 0x005973ae, GB -> Europe/London
   &kZoneNZ, // 0x005974ad, NZ -> Pacific/Auckland
   &kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur -> Asia/Singapore
@@ -364,7 +363,6 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Sao_Paulo, // 0x1063bfc9, America/Sao_Paulo
   &kZoneEurope_Amsterdam, // 0x109395c2, Europe/Amsterdam -> Europe/Brussels
   &kZoneAmerica_Indiana_Vevay, // 0x10aca054, America/Indiana/Vevay
-  &kZoneAmerica_Scoresbysund, // 0x123f8d2a, America/Scoresbysund
   &kZoneAsia_Samarkand, // 0x13ae5104, Asia/Samarkand
   &kZoneAsia_Dacca, // 0x14bcac5e, Asia/Dacca -> Asia/Dhaka
   &kZoneAsia_Dhaka, // 0x14c07b8b, Asia/Dhaka
@@ -450,7 +448,6 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[448] ACE_TIME_PROGMEM = {
   &kZoneAustralia_Sydney, // 0x4d1e9776, Australia/Sydney
   &kZoneNZ_CHAT, // 0x4d42afda, NZ-CHAT -> Pacific/Chatham
   &kZoneUS_Arizona, // 0x4ec52670, US/Arizona -> America/Phoenix
-  &kZoneAntarctica_Vostok, // 0x4f966fd4, Antarctica/Vostok -> Asia/Urumqi
   &kZoneUS_Aleutian, // 0x4fe013ef, US/Aleutian -> America/Adak
   &kZoneAustralia_Brisbane, // 0x4fedc9c0, Australia/Brisbane
   &kZoneAmerica_Asuncion, // 0x50ec79a6, America/Asuncion
