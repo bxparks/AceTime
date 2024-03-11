@@ -21,7 +21,7 @@ jobs:
     # manually.
     steps:
     - name: Checkout AceTime
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Checkout Additional Repos
       run: |
@@ -37,10 +37,10 @@ jobs:
         git clone --depth 1 https://github.com/bxparks/acetimepy
         git clone https://github.com/eggert/tz
 
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.7'
+        python-version: '3.10'
 
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
