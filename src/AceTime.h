@@ -69,7 +69,7 @@
 #include "zonedbc/zone_registry.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 20301
-#define ACE_TIME_VERSION_STRING "2.3.1"
+#define ACE_TIME_VERSION 20302
+#define ACE_TIME_VERSION_STRING "2.3.2"
 
 #endif
