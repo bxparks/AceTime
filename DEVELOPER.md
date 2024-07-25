@@ -839,7 +839,6 @@ available.
         - `HinnantBasicTest/Makefile`
         - `HinnantExtendedTest/Makefile`
     - Validate against one library, acetimec:
-        - `$ vi AcetimecExtendedTest/Makefile`
         - `$ make -C AcetimecExtendedTest clean`
         - `$ make -C AcetimecExtendedTest all`
         - `$ make -C AcetimecExtendedTest run`
@@ -853,13 +852,18 @@ available.
         - Update the `TZ_VERSION` variable in the makefiles.
     - `$ make zonedbs`
 - Update CHANGELOGs
+    - Copy a summary of the TZDB release notes from
+      https://mm.icann.org/pipermail/tz-announce/ to the various CHANGELOG.md
+      files.
     - AceTime/CHANGELOG.md
     - acetimec/CHANGELOG.md
     - acetimepy/CHANGELOG.md
     - AceTimeValidation/CHANGELOG.md
-- Commit the changes to git
+- Commit and push the changes for the following repos: AceTime, acetimec,
+  acetimepy, AceTimeValidation
     - `$ git add ...`
     - `$ git commit -m "..."`
+    - `$ git push`
 
 There are 12 other validation tests in the AceTimeValidation project that
 compare AceTime with various other third party libraries:
