@@ -8,6 +8,7 @@
           forward a week later after Ramadan. zic no longer pretends to support
           indefinite-past DST. localtime no longer mishandles Ciudad Juárez in
           2422."
+    - Increase minimum python version to 3.10.
 - 2.3.1 (2024-01-12, TZDB version 2023d)
     - Upgrade TZDB to 2023d
         - https://mm.icann.org/pipermail/tz-announce/2023-December/000080.html
