@@ -27,7 +27,7 @@ library.
     * [Step 3: Fix Transition Times](#Step3FixTransitionTimes)
     * [Step 4: Generate Start Until Times](#Step4GenerateStartUntilTimes)
     * [Step 5: Calculate Abbreviations](#Step5CalculateAbbreviations)
-* [Upgrading ZoneInfo Files to a New TZDB Version](#UpgradingZoneInfoFiles)
+* [Upgrading TZDB](#UpgradingZoneInfoFiles)
 * [Release Process](#ReleaseProcess)
 
 <a name="ProjectRepoDependency"></a>
@@ -792,7 +792,7 @@ field is a static array of 7 characters (to account for the terminating NUL
 character).
 
 <a name="UpgradingZoneInfoFiles"></a>
-## Upgrading ZoneInfo Files to a New TZDB Version
+## Upgrading TZDB
 
 About 2-4 times a year, a new TZDB version is released. Here are some notes
 (mostly for myself) on how to create a new release after a new TZDB version is
@@ -805,16 +805,17 @@ available.
     - `$ git pull`
     - Check that the correct tag is pulled (e.g. `2020c` tag if that's the
       version that we want to upgrade to).
-- Update the Hinnant date repo (https://github.com:HowardHinnant/date). This
+- Update the Hinnant `date` repo (https://github.com:HowardHinnant/date). This
   should be a sibling to the `AceTime` repo:
     - `$ cd ../date`
     - `$ git pull`
 - Update the zonedb files for `acetimepy` (needed by AcetzBasicTest and
   AcetzExtendedTest):
-    - `$ cd acetimepy/src/acetime`
-    - `$ vi zonedb*/Makefile`
+    - `$ cd acetimepy`
+    - `$ vi src/zonedb*/Makefile`
         - Update the `TZ_VERSION` variable in the various makefiles.
     - `$ make zonedbs`
+    - `$ make all`
 - Update the zonedb files for `acetimec` (needed by AcetimecBasicTest and
   AcetimecExtendedTest)
     - `$ cd acetimec/src`
@@ -822,12 +823,30 @@ available.
         - Update the `TZ_VERSION` variable in the various makefiles.
     - `$ make zonedbs`
     - `$ make` to update the `acetimec.a` lib file
+    - `$ cd ../tests`
+    - `$ make -j2`
+    - `$ make runtests`
+- Update the zonedb files for `acetimego`
+    - `$ cd acetimego`
+    - `$ vi zonedb*/Makefile`
+        - Update the `TZ_VERSION` variable in the various makefiles.
+    - `$ make zonedbs`
+    - `$ make all`
+    - `$ make test`
+- Update the zonedb files for `AceTime`:
+    - `$ cd AceTime/src`
+    - `$ vi zonedb*/Makefile`
+        - Update the `TZ_VERSION` variable in the makefiles.
+    - `$ make zonedbs`
+    - `$ cd ../tests`
+    - `$ make clean`
+    - `$ make -j2 tests`
+    - `$ make runtests`
 - Recompile the binaries in `AceTimeValidation` tools
     - `$ cd AceTimeValidation/tools`
     - `$ make clean`
-    - `$ make`
-- Verify that `AceTimeValidation` passes. This compares AceTime with 3 other
-  libraries: acetimec, acetimepy, and the Hinnant `date` library:
+    - `$ make -j2`
+- Verify that `AceTimeValidation/tests` pass.
     - `$ cd AceTimeValidation/tests`
     - `$ make clean`
     - `$ vi {Acetimec,Acetz,Hinnant}{Basic,Extended}*/Makefile`
@@ -838,28 +857,32 @@ available.
         - `AcetzExtendedTest/Makefile`
         - `HinnantBasicTest/Makefile`
         - `HinnantExtendedTest/Makefile`
-    - Validate against one library, acetimec:
-        - `$ vi AcetimecExtendedTest/Makefile`
+    - Validate against the other libraries:
+        - `$ make -j2 tests`
+        - `$ make runtests`
+    - (Debugging) To validate against one library, e.g. acetimec:
         - `$ make -C AcetimecExtendedTest clean`
         - `$ make -C AcetimecExtendedTest all`
         - `$ make -C AcetimecExtendedTest run`
-    - Validate against the other libraries:
-        - `$ make clean`
-        - `$ make -j4 tests`
-        - `$ make runtests`
-- Update the various zoneinfo files for AceTime:
-    - `$ cd AceTime/src`
-    - `$ vi zonedb*/Makefile`
-        - Update the `TZ_VERSION` variable in the makefiles.
-    - `$ make zonedbs`
+- Verify that `AceTimeValidation/validation` passes.
+    - `$ cd AceTimeValidation/validation`
+    - `$ make clean`
+    - `$ make -j2 validation`
 - Update CHANGELOGs
+    - Copy a summary of the TZDB release notes from
+      https://mm.icann.org/pipermail/tz-announce/ to the various CHANGELOG.md
+      files.
     - AceTime/CHANGELOG.md
     - acetimec/CHANGELOG.md
+    - acetimego/CHANGELOG.md
     - acetimepy/CHANGELOG.md
     - AceTimeValidation/CHANGELOG.md
-- Commit the changes to git
-    - `$ git add ...`
-    - `$ git commit -m "..."`
+- Commit and push the changes for the following repos:
+    - AceTime
+    - acetimec
+    - acetimego
+    - acetimepy
+    - AceTimeValidation
 
 There are 12 other validation tests in the AceTimeValidation project that
 compare AceTime with various other third party libraries:

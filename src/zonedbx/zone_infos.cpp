@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbx/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbx
-//     --tz_version 2023d
+//     --tz_version 2024a
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023d
+// from https://github.com/eggert/tz/releases/tag/2024a
 //
 // Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
@@ -40,7 +40,7 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 655
+//   Eras: 657
 //   Policies: 83
 //   Rules: 735
 //
@@ -48,7 +48,7 @@
 //   Context: 16
 //   Rules: 6615
 //   Policies: 249
-//   Eras: 7205
+//   Eras: 7227
 //   Zones: 4563
 //   Links: 3185
 //   Registry: 1192
@@ -56,13 +56,13 @@
 //   Letters: 46
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 29467
+//   TOTAL: 29489
 //
 // Memory (32-bits):
 //   Context: 24
 //   Rules: 8820
 //   Policies: 664
-//   Eras: 10480
+//   Eras: 10512
 //   Zones: 8424
 //   Links: 5880
 //   Registry: 2384
@@ -70,7 +70,7 @@
 //   Letters: 64
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 43164
+//   TOTAL: 43196
 //
 // DO NOT EDIT
 
@@ -85,7 +85,7 @@ namespace zonedbx {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-static const char kVersionString[] ACE_TIME_PROGMEM = "2023d";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2024a";
 const __FlashStringHelper* const kTzDatabaseVersion =
     (const __FlashStringHelper*) kVersionString;
 
@@ -162,7 +162,7 @@ const extended::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zones: 351
-// Eras: 655
+// Eras: 657
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -7019,7 +7019,7 @@ const extended::ZoneInfo kZoneAntarctica_Vostok ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Almaty
-// Eras: 2
+// Eras: 3
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAsia_Almaty[] ACE_TIME_PROGMEM = {
@@ -7035,11 +7035,23 @@ static const extended::ZoneEra kZoneEraAsia_Almaty[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //             6:00    -    +06
+  //             6:00    -    +06    2024 Mar  1  0:00
   {
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
     24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    -76 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             5:00    -    +05
+  {
+    nullptr /*zonePolicy*/,
+    "+05" /*format*/,
+    20 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
@@ -7056,7 +7068,7 @@ const extended::ZoneInfo kZoneAsia_Almaty ACE_TIME_PROGMEM = {
   kZoneNameAsia_Almaty /*name*/,
   0xa61f41fa /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
+  3 /*numEras*/,
   kZoneEraAsia_Almaty /*eras*/,
   nullptr /*targetInfo*/,
 };
@@ -9287,7 +9299,7 @@ const extended::ZoneInfo kZoneAsia_Qatar ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Qostanay
-// Eras: 2
+// Eras: 3
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAsia_Qostanay[] ACE_TIME_PROGMEM = {
@@ -9303,11 +9315,23 @@ static const extended::ZoneEra kZoneEraAsia_Qostanay[] ACE_TIME_PROGMEM = {
     8 /*untilTimeCode*/,
     16 /*untilTimeModifier (kSuffixS + minute=0)*/,
   },
-  //             6:00    -    +06
+  //             6:00    -    +06    2024 Mar  1  0:00
   {
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
     24 /*offsetCode*/,
+    4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
+    -76 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
+  },
+  //             5:00    -    +05
+  {
+    nullptr /*zonePolicy*/,
+    "+05" /*format*/,
+    20 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
@@ -9324,7 +9348,7 @@ const extended::ZoneInfo kZoneAsia_Qostanay ACE_TIME_PROGMEM = {
   kZoneNameAsia_Qostanay /*name*/,
   0x654fe522 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  2 /*numEras*/,
+  3 /*numEras*/,
   kZoneEraAsia_Qostanay /*eras*/,
   nullptr /*targetInfo*/,
 };

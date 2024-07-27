@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbc/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbc
-//     --tz_version 2023d
+//     --tz_version 2024a
 //     --action zonedb
 //     --language arduino
 //     --scope complete
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023d
+// from https://github.com/eggert/tz/releases/tag/2024a
 //
 // Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
@@ -40,15 +40,15 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 1961
+//   Eras: 1963
 //   Policies: 134
-//   Rules: 2238
+//   Rules: 2234
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 26856
+//   Rules: 26808
 //   Policies: 402
-//   Eras: 29415
+//   Eras: 29445
 //   Zones: 4563
 //   Links: 3185
 //   Registry: 1192
@@ -56,13 +56,13 @@
 //   Letters: 160
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 72620
+//   TOTAL: 72602
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 26856
+//   Rules: 26808
 //   Policies: 1072
-//   Eras: 39220
+//   Eras: 39260
 //   Zones: 8424
 //   Links: 5880
 //   Registry: 2384
@@ -70,7 +70,7 @@
 //   Letters: 216
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 90935
+//   TOTAL: 90927
 //
 // DO NOT EDIT
 
@@ -85,7 +85,7 @@ namespace zonedbc {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-static const char kVersionString[] ACE_TIME_PROGMEM = "2023d";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2024a";
 const __FlashStringHelper* const kTzDatabaseVersion =
     (const __FlashStringHelper*) kVersionString;
 
@@ -200,7 +200,7 @@ const complete::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zones: 351
-// Eras: 1961
+// Eras: 1963
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -209,7 +209,7 @@ const complete::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAfrica_Abidjan[] ACE_TIME_PROGMEM = {
-  // -0:16:08 - LMT 1912
+  // -0:16:08 - LMT 1912 Jan 1
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,
@@ -1308,7 +1308,7 @@ const complete::ZoneInfo kZoneAfrica_Nairobi ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAfrica_Ndjamena[] ACE_TIME_PROGMEM = {
-  // 1:00:12 - LMT 1912
+  // 1:00:12 - LMT 1912 Jan 1
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,
@@ -5205,7 +5205,7 @@ const complete::ZoneInfo kZoneAmerica_Caracas ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAmerica_Cayenne[] ACE_TIME_PROGMEM = {
-  // -3:29:20 - LMT 1911 Jul
+  // -3:29:20 - LMT 1911 Jul 1
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,
@@ -9758,7 +9758,7 @@ static const complete::ZoneEra kZoneEraAmerica_Martinique[] ACE_TIME_PROGMEM = {
     0 /*untilTimeCode (0/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
-  //             -4:04:20 -    FFMT    1911 May
+  //             -4:04:20 -    FFMT    1911 May  1
   {
     nullptr /*zonePolicy*/,
     "FFMT" /*format*/,
@@ -10457,7 +10457,7 @@ const complete::ZoneInfo kZoneAmerica_Mexico_City ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAmerica_Miquelon[] ACE_TIME_PROGMEM = {
-  // -3:44:40 - LMT 1911 May 15
+  // -3:44:40 - LMT 1911 Jun 15
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,
@@ -10465,7 +10465,7 @@ static const complete::ZoneEra kZoneEraAmerica_Miquelon[] ACE_TIME_PROGMEM = {
     5 /*offsetRemainder (-13480%15)*/,
     0 /*deltaMinutes*/,
     1911 /*untilYear*/,
-    5 /*untilMonth*/,
+    6 /*untilMonth*/,
     15 /*untilDay*/,
     0 /*untilTimeCode (0/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
@@ -15222,7 +15222,7 @@ const complete::ZoneInfo kZoneAntarctica_Vostok ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Almaty
-// Eras: 6
+// Eras: 7
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAsia_Almaty[] ACE_TIME_PROGMEM = {
@@ -15291,12 +15291,25 @@ static const complete::ZoneEra kZoneEraAsia_Almaty[] ACE_TIME_PROGMEM = {
     480 /*untilTimeCode (7200/15)*/,
     16 /*untilTimeModifier (kAtcSuffixS + seconds=0)*/,
   },
-  //             6:00    -    +06
+  //             6:00    -    +06    2024 Mar  1  0:00
   {
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
     1440 /*offsetCode (21600/15)*/,
     0 /*offsetRemainder (21600%15)*/,
+    0 /*deltaMinutes*/,
+    2024 /*untilYear*/,
+    3 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             5:00    -    +05
+  {
+    nullptr /*zonePolicy*/,
+    "+05" /*format*/,
+    1200 /*offsetCode (18000/15)*/,
+    0 /*offsetRemainder (18000%15)*/,
     0 /*deltaMinutes*/,
     32767 /*untilYear*/,
     1 /*untilMonth*/,
@@ -15313,7 +15326,7 @@ const complete::ZoneInfo kZoneAsia_Almaty ACE_TIME_PROGMEM = {
   kZoneNameAsia_Almaty /*name*/,
   0xa61f41fa /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  6 /*numEras*/,
+  7 /*numEras*/,
   kZoneEraAsia_Almaty /*eras*/,
   nullptr /*targetInfo*/,
 };
@@ -17669,7 +17682,7 @@ static const complete::ZoneEra kZoneEraAsia_Ho_Chi_Minh[] ACE_TIME_PROGMEM = {
     5520 /*untilTimeCode (82800/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
-  //             9:00    -    +09    1945 Sep  2
+  //             9:00    -    +09    1945 Sep  1 24:00
   {
     nullptr /*zonePolicy*/,
     "+09" /*format*/,
@@ -17678,8 +17691,8 @@ static const complete::ZoneEra kZoneEraAsia_Ho_Chi_Minh[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     1945 /*untilYear*/,
     9 /*untilMonth*/,
-    2 /*untilDay*/,
-    0 /*untilTimeCode (0/15)*/,
+    1 /*untilDay*/,
+    5760 /*untilTimeCode (86400/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
   //             7:00    -    +07    1947 Apr  1
@@ -17695,7 +17708,7 @@ static const complete::ZoneEra kZoneEraAsia_Ho_Chi_Minh[] ACE_TIME_PROGMEM = {
     0 /*untilTimeCode (0/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
-  //             8:00    -    +08    1955 Jul  1
+  //             8:00    -    +08    1955 Jul  1 01:00
   {
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
@@ -17705,7 +17718,7 @@ static const complete::ZoneEra kZoneEraAsia_Ho_Chi_Minh[] ACE_TIME_PROGMEM = {
     1955 /*untilYear*/,
     7 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilTimeCode (0/15)*/,
+    240 /*untilTimeCode (3600/15)*/,
     0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
   },
   //             7:00    -    +07    1959 Dec 31 23:00
@@ -20324,7 +20337,7 @@ const complete::ZoneInfo kZoneAsia_Qatar ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Qostanay
-// Eras: 9
+// Eras: 10
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraAsia_Qostanay[] ACE_TIME_PROGMEM = {
@@ -20432,12 +20445,25 @@ static const complete::ZoneEra kZoneEraAsia_Qostanay[] ACE_TIME_PROGMEM = {
     480 /*untilTimeCode (7200/15)*/,
     16 /*untilTimeModifier (kAtcSuffixS + seconds=0)*/,
   },
-  //             6:00    -    +06
+  //             6:00    -    +06    2024 Mar  1  0:00
   {
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
     1440 /*offsetCode (21600/15)*/,
     0 /*offsetRemainder (21600%15)*/,
+    0 /*deltaMinutes*/,
+    2024 /*untilYear*/,
+    3 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode (0/15)*/,
+    0 /*untilTimeModifier (kAtcSuffixW + seconds=0)*/,
+  },
+  //             5:00    -    +05
+  {
+    nullptr /*zonePolicy*/,
+    "+05" /*format*/,
+    1200 /*offsetCode (18000/15)*/,
+    0 /*offsetRemainder (18000%15)*/,
     0 /*deltaMinutes*/,
     32767 /*untilYear*/,
     1 /*untilMonth*/,
@@ -20454,7 +20480,7 @@ const complete::ZoneInfo kZoneAsia_Qostanay ACE_TIME_PROGMEM = {
   kZoneNameAsia_Qostanay /*name*/,
   0x654fe522 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
-  9 /*numEras*/,
+  10 /*numEras*/,
   kZoneEraAsia_Qostanay /*eras*/,
   nullptr /*targetInfo*/,
 };
@@ -31190,7 +31216,7 @@ const complete::ZoneInfo kZonePacific_Galapagos ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraPacific_Gambier[] ACE_TIME_PROGMEM = {
-  // -8:59:48 - LMT 1912 Oct
+  // -8:59:48 - LMT 1912 Oct 1
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,
@@ -31236,7 +31262,7 @@ const complete::ZoneInfo kZonePacific_Gambier ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraPacific_Guadalcanal[] ACE_TIME_PROGMEM = {
-  // 10:39:48 - LMT 1912 Oct
+  // 10:39:48 - LMT 1912 Oct 1
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,
@@ -31870,7 +31896,7 @@ const complete::ZoneInfo kZonePacific_Kwajalein ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraPacific_Marquesas[] ACE_TIME_PROGMEM = {
-  // -9:18:00 - LMT 1912 Oct
+  // -9:18:00 - LMT 1912 Oct 1
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,
@@ -32525,7 +32551,7 @@ const complete::ZoneInfo kZonePacific_Rarotonga ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const complete::ZoneEra kZoneEraPacific_Tahiti[] ACE_TIME_PROGMEM = {
-  // -9:58:16 - LMT 1912 Oct
+  // -9:58:16 - LMT 1912 Oct 1
   {
     nullptr /*zonePolicy*/,
     "LMT" /*format*/,

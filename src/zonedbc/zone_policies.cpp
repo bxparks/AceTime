@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbc/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbc
-//     --tz_version 2023d
+//     --tz_version 2024a
 //     --action zonedb
 //     --language arduino
 //     --scope complete
@@ -23,7 +23,7 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2023d
+// from https://github.com/eggert/tz/releases/tag/2024a
 //
 // Supported Zones: 596 (351 zones, 245 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
@@ -40,15 +40,15 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 1961
+//   Eras: 1963
 //   Policies: 134
-//   Rules: 2238
+//   Rules: 2234
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 26856
+//   Rules: 26808
 //   Policies: 402
-//   Eras: 29415
+//   Eras: 29445
 //   Zones: 4563
 //   Links: 3185
 //   Registry: 1192
@@ -56,13 +56,13 @@
 //   Letters: 160
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 72620
+//   TOTAL: 72602
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 26856
+//   Rules: 26808
 //   Policies: 1072
-//   Eras: 39220
+//   Eras: 39260
 //   Zones: 8424
 //   Links: 5880
 //   Registry: 2384
@@ -70,7 +70,7 @@
 //   Letters: 216
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 90935
+//   TOTAL: 90927
 //
 // DO NOT EDIT
 
@@ -82,7 +82,7 @@ namespace zonedbc {
 
 //---------------------------------------------------------------------------
 // Policies: 134
-// Rules: 2238
+// Rules: 2234
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -19015,25 +19015,25 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     60 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule Palestine    2024    only    -    Apr    13    2:00    1:00    S
+  // Rule Palestine    2024    only    -    Apr    20    2:00    1:00    S
   {
     2024 /*fromYear*/,
     2024 /*toYear*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    13 /*onDayOfMonth*/,
+    20 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule Palestine    2025    only    -    Apr     5    2:00    1:00    S
+  // Rule Palestine    2025    only    -    Apr    12    2:00    1:00    S
   {
     2025 /*fromYear*/,
     2025 /*toYear*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    5 /*onDayOfMonth*/,
+    12 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19099,30 +19099,6 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2039    only    -    Oct    22    2:00    1:00    S
-  {
-    2039 /*fromYear*/,
-    2039 /*toYear*/,
-    10 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    22 /*onDayOfMonth*/,
-    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    480 /*atTimeCode (7200/15)*/,
-    60 /*deltaMinutes*/,
-    25 /*letterIndex ("S")*/,
-  },
-  // Rule Palestine    2039    2067    -    Oct    Sat<=30    2:00    0    -
-  {
-    2039 /*fromYear*/,
-    2067 /*toYear*/,
-    10 /*inMonth*/,
-    6 /*onDayOfWeek*/,
-    -30 /*onDayOfMonth*/,
-    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    480 /*atTimeCode (7200/15)*/,
-    0 /*deltaMinutes*/,
-    0 /*letterIndex ("")*/,
-  },
   // Rule Palestine    2040    only    -    Sep     1    2:00    0    -
   {
     2040 /*fromYear*/,
@@ -19135,17 +19111,29 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2040    only    -    Oct    13    2:00    1:00    S
+  // Rule Palestine    2040    only    -    Oct    20    2:00    1:00    S
   {
     2040 /*fromYear*/,
     2040 /*toYear*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    13 /*onDayOfMonth*/,
+    20 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
+  },
+  // Rule Palestine    2040    2067    -    Oct    Sat<=30    2:00    0    -
+  {
+    2040 /*fromYear*/,
+    2067 /*toYear*/,
+    10 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    -30 /*onDayOfMonth*/,
+    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
+    480 /*atTimeCode (7200/15)*/,
+    0 /*deltaMinutes*/,
+    0 /*letterIndex ("")*/,
   },
   // Rule Palestine    2041    only    -    Aug    24    2:00    0    -
   {
@@ -19159,13 +19147,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2041    only    -    Sep    28    2:00    1:00    S
+  // Rule Palestine    2041    only    -    Oct     5    2:00    1:00    S
   {
     2041 /*fromYear*/,
     2041 /*toYear*/,
-    9 /*inMonth*/,
+    10 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    28 /*onDayOfMonth*/,
+    5 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19183,13 +19171,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2042    only    -    Sep    20    2:00    1:00    S
+  // Rule Palestine    2042    only    -    Sep    27    2:00    1:00    S
   {
     2042 /*fromYear*/,
     2042 /*toYear*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
+    27 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19207,13 +19195,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2043    only    -    Sep    12    2:00    1:00    S
+  // Rule Palestine    2043    only    -    Sep    19    2:00    1:00    S
   {
     2043 /*fromYear*/,
     2043 /*toYear*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    12 /*onDayOfMonth*/,
+    19 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19231,13 +19219,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2044    only    -    Aug    27    2:00    1:00    S
+  // Rule Palestine    2044    only    -    Sep     3    2:00    1:00    S
   {
     2044 /*fromYear*/,
     2044 /*toYear*/,
-    8 /*inMonth*/,
+    9 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    27 /*onDayOfMonth*/,
+    3 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19255,13 +19243,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2045    only    -    Aug    19    2:00    1:00    S
+  // Rule Palestine    2045    only    -    Aug    26    2:00    1:00    S
   {
     2045 /*fromYear*/,
     2045 /*toYear*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    19 /*onDayOfMonth*/,
+    26 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19279,13 +19267,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2046    only    -    Aug    11    2:00    1:00    S
+  // Rule Palestine    2046    only    -    Aug    18    2:00    1:00    S
   {
     2046 /*fromYear*/,
     2046 /*toYear*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    11 /*onDayOfMonth*/,
+    18 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19303,13 +19291,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2047    only    -    Jul    27    2:00    1:00    S
+  // Rule Palestine    2047    only    -    Aug     3    2:00    1:00    S
   {
     2047 /*fromYear*/,
     2047 /*toYear*/,
-    7 /*inMonth*/,
+    8 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    27 /*onDayOfMonth*/,
+    3 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19327,13 +19315,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2048    only    -    Jul    18    2:00    1:00    S
+  // Rule Palestine    2048    only    -    Jul    25    2:00    1:00    S
   {
     2048 /*fromYear*/,
     2048 /*toYear*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    18 /*onDayOfMonth*/,
+    25 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19351,13 +19339,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2049    only    -    Jul     3    2:00    1:00    S
+  // Rule Palestine    2049    only    -    Jul    10    2:00    1:00    S
   {
     2049 /*fromYear*/,
     2049 /*toYear*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    3 /*onDayOfMonth*/,
+    10 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19375,13 +19363,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2050    only    -    Jun    25    2:00    1:00    S
+  // Rule Palestine    2050    only    -    Jul     2    2:00    1:00    S
   {
     2050 /*fromYear*/,
     2050 /*toYear*/,
-    6 /*inMonth*/,
+    7 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    25 /*onDayOfMonth*/,
+    2 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19399,13 +19387,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2051    only    -    Jun    17    2:00    1:00    S
+  // Rule Palestine    2051    only    -    Jun    24    2:00    1:00    S
   {
     2051 /*fromYear*/,
     2051 /*toYear*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    17 /*onDayOfMonth*/,
+    24 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19423,13 +19411,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2052    only    -    Jun     1    2:00    1:00    S
+  // Rule Palestine    2052    only    -    Jun     8    2:00    1:00    S
   {
     2052 /*fromYear*/,
     2052 /*toYear*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
+    8 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19447,13 +19435,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2053    only    -    May    24    2:00    1:00    S
+  // Rule Palestine    2053    only    -    May    31    2:00    1:00    S
   {
     2053 /*fromYear*/,
     2053 /*toYear*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    24 /*onDayOfMonth*/,
+    31 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19471,57 +19459,69 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2054    only    -    May    16    2:00    1:00    S
+  // Rule Palestine    2054    only    -    May    23    2:00    1:00    S
   {
     2054 /*fromYear*/,
     2054 /*toYear*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    16 /*onDayOfMonth*/,
+    23 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule Palestine    2055    only    -    May     1    2:00    1:00    S
+  // Rule Palestine    2055    only    -    May     8    2:00    1:00    S
   {
     2055 /*fromYear*/,
     2055 /*toYear*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
+    8 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule Palestine    2056    only    -    Apr    22    2:00    1:00    S
+  // Rule Palestine    2056    only    -    Apr    29    2:00    1:00    S
   {
     2056 /*fromYear*/,
     2056 /*toYear*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    22 /*onDayOfMonth*/,
+    29 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule Palestine    2057    only    -    Apr     7    2:00    1:00    S
+  // Rule Palestine    2057    only    -    Apr    14    2:00    1:00    S
   {
     2057 /*fromYear*/,
     2057 /*toYear*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    7 /*onDayOfMonth*/,
+    14 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule Palestine    2058    max    -    Mar    Sat<=30    2:00    1:00    S
+  // Rule Palestine    2058    only    -    Apr     6    2:00    1:00    S
   {
     2058 /*fromYear*/,
+    2058 /*toYear*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    6 /*onDayOfMonth*/,
+    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
+    480 /*atTimeCode (7200/15)*/,
+    60 /*deltaMinutes*/,
+    25 /*letterIndex ("S")*/,
+  },
+  // Rule Palestine    2059    max    -    Mar    Sat<=30    2:00    1:00    S
+  {
+    2059 /*fromYear*/,
     32766 /*toYear*/,
     3 /*inMonth*/,
     6 /*onDayOfWeek*/,
@@ -19591,13 +19591,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2072    only    -    Oct    15    2:00    1:00    S
+  // Rule Palestine    2072    only    -    Oct    22    2:00    1:00    S
   {
     2072 /*fromYear*/,
     2072 /*toYear*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    15 /*onDayOfMonth*/,
+    22 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19627,13 +19627,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2073    only    -    Oct     7    2:00    1:00    S
+  // Rule Palestine    2073    only    -    Oct    14    2:00    1:00    S
   {
     2073 /*fromYear*/,
     2073 /*toYear*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    7 /*onDayOfMonth*/,
+    14 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19651,13 +19651,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2074    only    -    Sep    29    2:00    1:00    S
+  // Rule Palestine    2074    only    -    Oct     6    2:00    1:00    S
   {
     2074 /*fromYear*/,
     2074 /*toYear*/,
-    9 /*inMonth*/,
+    10 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    29 /*onDayOfMonth*/,
+    6 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19675,13 +19675,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2075    only    -    Sep    14    2:00    1:00    S
+  // Rule Palestine    2075    only    -    Sep    21    2:00    1:00    S
   {
     2075 /*fromYear*/,
     2075 /*toYear*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    14 /*onDayOfMonth*/,
+    21 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19699,13 +19699,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2076    only    -    Sep     5    2:00    1:00    S
+  // Rule Palestine    2076    only    -    Sep    12    2:00    1:00    S
   {
     2076 /*fromYear*/,
     2076 /*toYear*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    5 /*onDayOfMonth*/,
+    12 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19723,13 +19723,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2077    only    -    Aug    28    2:00    1:00    S
+  // Rule Palestine    2077    only    -    Sep     4    2:00    1:00    S
   {
     2077 /*fromYear*/,
     2077 /*toYear*/,
-    8 /*inMonth*/,
+    9 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    28 /*onDayOfMonth*/,
+    4 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19747,13 +19747,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2078    only    -    Aug    13    2:00    1:00    S
+  // Rule Palestine    2078    only    -    Aug    20    2:00    1:00    S
   {
     2078 /*fromYear*/,
     2078 /*toYear*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    13 /*onDayOfMonth*/,
+    20 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19771,13 +19771,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2079    only    -    Aug     5    2:00    1:00    S
+  // Rule Palestine    2079    only    -    Aug    12    2:00    1:00    S
   {
     2079 /*fromYear*/,
     2079 /*toYear*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    5 /*onDayOfMonth*/,
+    12 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19795,13 +19795,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2080    only    -    Jul    20    2:00    1:00    S
+  // Rule Palestine    2080    only    -    Jul    27    2:00    1:00    S
   {
     2080 /*fromYear*/,
     2080 /*toYear*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    20 /*onDayOfMonth*/,
+    27 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19819,13 +19819,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2081    only    -    Jul    12    2:00    1:00    S
+  // Rule Palestine    2081    only    -    Jul    19    2:00    1:00    S
   {
     2081 /*fromYear*/,
     2081 /*toYear*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    12 /*onDayOfMonth*/,
+    19 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19843,13 +19843,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2082    only    -    Jul     4    2:00    1:00    S
+  // Rule Palestine    2082    only    -    Jul    11    2:00    1:00    S
   {
     2082 /*fromYear*/,
     2082 /*toYear*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    4 /*onDayOfMonth*/,
+    11 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19867,13 +19867,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2083    only    -    Jun    19    2:00    1:00    S
+  // Rule Palestine    2083    only    -    Jun    26    2:00    1:00    S
   {
     2083 /*fromYear*/,
     2083 /*toYear*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    19 /*onDayOfMonth*/,
+    26 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19891,13 +19891,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2084    only    -    Jun    10    2:00    1:00    S
+  // Rule Palestine    2084    only    -    Jun    17    2:00    1:00    S
   {
     2084 /*fromYear*/,
     2084 /*toYear*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    10 /*onDayOfMonth*/,
+    17 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19915,13 +19915,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2085    only    -    Jun     2    2:00    1:00    S
+  // Rule Palestine    2085    only    -    Jun     9    2:00    1:00    S
   {
     2085 /*fromYear*/,
     2085 /*toYear*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    2 /*onDayOfMonth*/,
+    9 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -19939,13 +19939,13 @@ static const complete::ZoneRule kZoneRulesPalestine[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule Palestine    2086    only    -    May    18    2:00    1:00    S
+  // Rule Palestine    2086    only    -    May    25    2:00    1:00    S
   {
     2086 /*fromYear*/,
     2086 /*toYear*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
-    18 /*onDayOfMonth*/,
+    25 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
     480 /*atTimeCode (7200/15)*/,
     60 /*deltaMinutes*/,
@@ -24843,7 +24843,7 @@ const complete::ZonePolicy kZonePolicyTonga ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Toronto
-// Rules: 23
+// Rules: 19
 //---------------------------------------------------------------------------
 
 static const complete::ZoneRule kZoneRulesToronto[] ACE_TIME_PROGMEM = {
@@ -25015,69 +25015,21 @@ static const complete::ZoneRule kZoneRulesToronto[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule    Toronto    1945    1946    -    Sep    lastSun    2:00    0    S
+  // Rule    Toronto    1945    1948    -    Sep    lastSun    2:00    0    S
   {
     1945 /*fromYear*/,
-    1946 /*toYear*/,
-    9 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    480 /*atTimeCode (7200/15)*/,
-    0 /*deltaMinutes*/,
-    25 /*letterIndex ("S")*/,
-  },
-  // Rule    Toronto    1946    only    -    Apr    lastSun    2:00    1:00    D
-  {
-    1946 /*fromYear*/,
-    1946 /*toYear*/,
-    4 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    480 /*atTimeCode (7200/15)*/,
-    60 /*deltaMinutes*/,
-    13 /*letterIndex ("D")*/,
-  },
-  // Rule    Toronto    1947    1949    -    Apr    lastSun    0:00    1:00    D
-  {
-    1947 /*fromYear*/,
-    1949 /*toYear*/,
-    4 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    0 /*atTimeCode (0/15)*/,
-    60 /*deltaMinutes*/,
-    13 /*letterIndex ("D")*/,
-  },
-  // Rule    Toronto    1947    1948    -    Sep    lastSun    0:00    0    S
-  {
-    1947 /*fromYear*/,
     1948 /*toYear*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
     0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    0 /*atTimeCode (0/15)*/,
+    480 /*atTimeCode (7200/15)*/,
     0 /*deltaMinutes*/,
     25 /*letterIndex ("S")*/,
   },
-  // Rule    Toronto    1949    only    -    Nov    lastSun    0:00    0    S
+  // Rule    Toronto    1946    1973    -    Apr    lastSun    2:00    1:00    D
   {
-    1949 /*fromYear*/,
-    1949 /*toYear*/,
-    11 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    0 /*atTimeCode (0/15)*/,
-    0 /*deltaMinutes*/,
-    25 /*letterIndex ("S")*/,
-  },
-  // Rule    Toronto    1950    1973    -    Apr    lastSun    2:00    1:00    D
-  {
-    1950 /*fromYear*/,
+    1946 /*fromYear*/,
     1973 /*toYear*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
@@ -25087,9 +25039,9 @@ static const complete::ZoneRule kZoneRulesToronto[] ACE_TIME_PROGMEM = {
     60 /*deltaMinutes*/,
     13 /*letterIndex ("D")*/,
   },
-  // Rule    Toronto    1950    only    -    Nov    lastSun    2:00    0    S
+  // Rule    Toronto    1949    1950    -    Nov    lastSun    2:00    0    S
   {
-    1950 /*fromYear*/,
+    1949 /*fromYear*/,
     1950 /*toYear*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
@@ -25128,7 +25080,7 @@ static const complete::ZoneRule kZoneRulesToronto[] ACE_TIME_PROGMEM = {
 
 const complete::ZonePolicy kZonePolicyToronto ACE_TIME_PROGMEM = {
   kZoneRulesToronto /*rules*/,
-  23 /*numRules*/,
+  19 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
