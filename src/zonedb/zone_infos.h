@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,10 +23,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
-// Supported Zones: 446 (227 zones, 219 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 447 (216 zones, 231 links)
+// Unsupported Zones: 149 (123 zones, 26 links)
 //
 // Requested Years: [2000,2200]
 // Accurate Years: [2000,32767]
@@ -39,38 +39,38 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 239
-//   Policies: 65
-//   Rules: 367
+//   Infos: 447
+//   Eras: 228
+//   Policies: 64
+//   Rules: 363
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 3303
-//   Policies: 195
-//   Eras: 2629
-//   Zones: 2951
-//   Links: 2847
-//   Registry: 892
-//   Formats: 467
+//   Rules: 3267
+//   Policies: 192
+//   Eras: 2508
+//   Zones: 2808
+//   Links: 3003
+//   Registry: 894
+//   Formats: 175
 //   Letters: 29
 //   Fragments: 116
-//   Names: 4140 (original: 6495)
-//   TOTAL: 17585
+//   Names: 4152 (original: 6511)
+//   TOTAL: 17160
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 4404
-//   Policies: 520
-//   Eras: 3824
-//   Zones: 5448
-//   Links: 5256
-//   Registry: 1784
-//   Formats: 467
+//   Rules: 4356
+//   Policies: 512
+//   Eras: 3648
+//   Zones: 5184
+//   Links: 5544
+//   Registry: 1788
+//   Formats: 175
 //   Letters: 41
 //   Fragments: 138
-//   Names: 4140 (original: 6495)
-//   TOTAL: 26046
+//   Names: 4152 (original: 6511)
+//   TOTAL: 25562
 //
 // DO NOT EDIT
 
@@ -95,7 +95,7 @@ extern const __FlashStringHelper* const kTzDatabaseVersion;
 extern const basic::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 227
+// Supported zones: 216
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -234,11 +234,6 @@ extern const basic::ZoneInfo kZoneAustralia_Lord_Howe; // Australia/Lord_Howe
 extern const basic::ZoneInfo kZoneAustralia_Melbourne; // Australia/Melbourne
 extern const basic::ZoneInfo kZoneAustralia_Perth; // Australia/Perth
 extern const basic::ZoneInfo kZoneAustralia_Sydney; // Australia/Sydney
-extern const basic::ZoneInfo kZoneCET; // CET
-extern const basic::ZoneInfo kZoneCST6CDT; // CST6CDT
-extern const basic::ZoneInfo kZoneEET; // EET
-extern const basic::ZoneInfo kZoneEST; // EST
-extern const basic::ZoneInfo kZoneEST5EDT; // EST5EDT
 extern const basic::ZoneInfo kZoneEtc_GMT; // Etc/GMT
 extern const basic::ZoneInfo kZoneEtc_GMT_PLUS_1; // Etc/GMT+1
 extern const basic::ZoneInfo kZoneEtc_GMT_PLUS_10; // Etc/GMT+10
@@ -291,14 +286,9 @@ extern const basic::ZoneInfo kZoneEurope_Tirane; // Europe/Tirane
 extern const basic::ZoneInfo kZoneEurope_Vienna; // Europe/Vienna
 extern const basic::ZoneInfo kZoneEurope_Warsaw; // Europe/Warsaw
 extern const basic::ZoneInfo kZoneEurope_Zurich; // Europe/Zurich
-extern const basic::ZoneInfo kZoneHST; // HST
 extern const basic::ZoneInfo kZoneIndian_Chagos; // Indian/Chagos
 extern const basic::ZoneInfo kZoneIndian_Maldives; // Indian/Maldives
 extern const basic::ZoneInfo kZoneIndian_Mauritius; // Indian/Mauritius
-extern const basic::ZoneInfo kZoneMET; // MET
-extern const basic::ZoneInfo kZoneMST; // MST
-extern const basic::ZoneInfo kZoneMST7MDT; // MST7MDT
-extern const basic::ZoneInfo kZonePST8PDT; // PST8PDT
 extern const basic::ZoneInfo kZonePacific_Auckland; // Pacific/Auckland
 extern const basic::ZoneInfo kZonePacific_Chatham; // Pacific/Chatham
 extern const basic::ZoneInfo kZonePacific_Easter; // Pacific/Easter
@@ -324,7 +314,6 @@ extern const basic::ZoneInfo kZonePacific_Rarotonga; // Pacific/Rarotonga
 extern const basic::ZoneInfo kZonePacific_Tahiti; // Pacific/Tahiti
 extern const basic::ZoneInfo kZonePacific_Tarawa; // Pacific/Tarawa
 extern const basic::ZoneInfo kZonePacific_Tongatapu; // Pacific/Tongatapu
-extern const basic::ZoneInfo kZoneWET; // WET
 
 
 // Zone Ids
@@ -465,11 +454,6 @@ const uint32_t kZoneIdAustralia_Lord_Howe = 0xa748b67d; // Australia/Lord_Howe
 const uint32_t kZoneIdAustralia_Melbourne = 0x0fe559a3; // Australia/Melbourne
 const uint32_t kZoneIdAustralia_Perth = 0x8db8269d; // Australia/Perth
 const uint32_t kZoneIdAustralia_Sydney = 0x4d1e9776; // Australia/Sydney
-const uint32_t kZoneIdCET = 0x0b87d921; // CET
-const uint32_t kZoneIdCST6CDT = 0xf0e87d00; // CST6CDT
-const uint32_t kZoneIdEET = 0x0b87e1a3; // EET
-const uint32_t kZoneIdEST = 0x0b87e371; // EST
-const uint32_t kZoneIdEST5EDT = 0x8adc72a3; // EST5EDT
 const uint32_t kZoneIdEtc_GMT = 0xd8e2de58; // Etc/GMT
 const uint32_t kZoneIdEtc_GMT_PLUS_1 = 0x9d13da14; // Etc/GMT+1
 const uint32_t kZoneIdEtc_GMT_PLUS_10 = 0x3f8f1cc4; // Etc/GMT+10
@@ -522,14 +506,9 @@ const uint32_t kZoneIdEurope_Tirane = 0x6ea95b47; // Europe/Tirane
 const uint32_t kZoneIdEurope_Vienna = 0x734cc2e5; // Europe/Vienna
 const uint32_t kZoneIdEurope_Warsaw = 0x75185c19; // Europe/Warsaw
 const uint32_t kZoneIdEurope_Zurich = 0x7d8195b9; // Europe/Zurich
-const uint32_t kZoneIdHST = 0x0b87f034; // HST
 const uint32_t kZoneIdIndian_Chagos = 0x456f7c3c; // Indian/Chagos
 const uint32_t kZoneIdIndian_Maldives = 0x9869681c; // Indian/Maldives
 const uint32_t kZoneIdIndian_Mauritius = 0x7b09c02a; // Indian/Mauritius
-const uint32_t kZoneIdMET = 0x0b8803ab; // MET
-const uint32_t kZoneIdMST = 0x0b880579; // MST
-const uint32_t kZoneIdMST7MDT = 0xf2af9375; // MST7MDT
-const uint32_t kZoneIdPST8PDT = 0xd99ee2dc; // PST8PDT
 const uint32_t kZoneIdPacific_Auckland = 0x25062f86; // Pacific/Auckland
 const uint32_t kZoneIdPacific_Chatham = 0x2f0de999; // Pacific/Chatham
 const uint32_t kZoneIdPacific_Easter = 0xcf54f7e7; // Pacific/Easter
@@ -555,11 +534,10 @@ const uint32_t kZoneIdPacific_Rarotonga = 0x9981a3b0; // Pacific/Rarotonga
 const uint32_t kZoneIdPacific_Tahiti = 0xf24c2446; // Pacific/Tahiti
 const uint32_t kZoneIdPacific_Tarawa = 0xf2517e63; // Pacific/Tarawa
 const uint32_t kZoneIdPacific_Tongatapu = 0x262ca836; // Pacific/Tongatapu
-const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 219
+// Supported links: 231
 //---------------------------------------------------------------------------
 
 extern const basic::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -642,6 +620,7 @@ extern const basic::ZoneInfo kZoneAsia_Ashkhabad; // Asia/Ashkhabad -> Asia/Ashg
 extern const basic::ZoneInfo kZoneAsia_Bahrain; // Asia/Bahrain -> Asia/Qatar
 extern const basic::ZoneInfo kZoneAsia_Brunei; // Asia/Brunei -> Asia/Kuching
 extern const basic::ZoneInfo kZoneAsia_Calcutta; // Asia/Calcutta -> Asia/Kolkata
+extern const basic::ZoneInfo kZoneAsia_Choibalsan; // Asia/Choibalsan -> Asia/Ulaanbaatar
 extern const basic::ZoneInfo kZoneAsia_Chongqing; // Asia/Chongqing -> Asia/Shanghai
 extern const basic::ZoneInfo kZoneAsia_Chungking; // Asia/Chungking -> Asia/Shanghai
 extern const basic::ZoneInfo kZoneAsia_Dacca; // Asia/Dacca -> Asia/Dhaka
@@ -678,6 +657,8 @@ extern const basic::ZoneInfo kZoneAustralia_West; // Australia/West -> Australia
 extern const basic::ZoneInfo kZoneAustralia_Yancowinna; // Australia/Yancowinna -> Australia/Broken_Hill
 extern const basic::ZoneInfo kZoneBrazil_East; // Brazil/East -> America/Sao_Paulo
 extern const basic::ZoneInfo kZoneBrazil_West; // Brazil/West -> America/Manaus
+extern const basic::ZoneInfo kZoneCET; // CET -> Europe/Brussels
+extern const basic::ZoneInfo kZoneCST6CDT; // CST6CDT -> America/Chicago
 extern const basic::ZoneInfo kZoneCanada_Atlantic; // Canada/Atlantic -> America/Halifax
 extern const basic::ZoneInfo kZoneCanada_Central; // Canada/Central -> America/Winnipeg
 extern const basic::ZoneInfo kZoneCanada_Eastern; // Canada/Eastern -> America/Toronto
@@ -687,6 +668,9 @@ extern const basic::ZoneInfo kZoneCanada_Saskatchewan; // Canada/Saskatchewan ->
 extern const basic::ZoneInfo kZoneChile_Continental; // Chile/Continental -> America/Santiago
 extern const basic::ZoneInfo kZoneChile_EasterIsland; // Chile/EasterIsland -> Pacific/Easter
 extern const basic::ZoneInfo kZoneCuba; // Cuba -> America/Havana
+extern const basic::ZoneInfo kZoneEET; // EET -> Europe/Athens
+extern const basic::ZoneInfo kZoneEST; // EST -> America/Panama
+extern const basic::ZoneInfo kZoneEST5EDT; // EST5EDT -> America/New_York
 extern const basic::ZoneInfo kZoneEire; // Eire -> Europe/Dublin
 extern const basic::ZoneInfo kZoneEtc_GMT_PLUS_0; // Etc/GMT+0 -> Etc/GMT
 extern const basic::ZoneInfo kZoneEtc_GMT_0; // Etc/GMT-0 -> Etc/GMT
@@ -728,6 +712,7 @@ extern const basic::ZoneInfo kZoneGMT_PLUS_0; // GMT+0 -> Etc/GMT
 extern const basic::ZoneInfo kZoneGMT_0; // GMT-0 -> Etc/GMT
 extern const basic::ZoneInfo kZoneGMT0; // GMT0 -> Etc/GMT
 extern const basic::ZoneInfo kZoneGreenwich; // Greenwich -> Etc/GMT
+extern const basic::ZoneInfo kZoneHST; // HST -> Pacific/Honolulu
 extern const basic::ZoneInfo kZoneHongkong; // Hongkong -> Asia/Hong_Kong
 extern const basic::ZoneInfo kZoneIceland; // Iceland -> Africa/Abidjan
 extern const basic::ZoneInfo kZoneIndian_Antananarivo; // Indian/Antananarivo -> Africa/Nairobi
@@ -743,11 +728,15 @@ extern const basic::ZoneInfo kZoneIsrael; // Israel -> Asia/Jerusalem
 extern const basic::ZoneInfo kZoneJamaica; // Jamaica -> America/Jamaica
 extern const basic::ZoneInfo kZoneJapan; // Japan -> Asia/Tokyo
 extern const basic::ZoneInfo kZoneKwajalein; // Kwajalein -> Pacific/Kwajalein
+extern const basic::ZoneInfo kZoneMET; // MET -> Europe/Brussels
+extern const basic::ZoneInfo kZoneMST; // MST -> America/Phoenix
+extern const basic::ZoneInfo kZoneMST7MDT; // MST7MDT -> America/Denver
 extern const basic::ZoneInfo kZoneMexico_BajaSur; // Mexico/BajaSur -> America/Mazatlan
 extern const basic::ZoneInfo kZoneNZ; // NZ -> Pacific/Auckland
 extern const basic::ZoneInfo kZoneNZ_CHAT; // NZ-CHAT -> Pacific/Chatham
 extern const basic::ZoneInfo kZoneNavajo; // Navajo -> America/Denver
 extern const basic::ZoneInfo kZonePRC; // PRC -> Asia/Shanghai
+extern const basic::ZoneInfo kZonePST8PDT; // PST8PDT -> America/Los_Angeles
 extern const basic::ZoneInfo kZonePacific_Chuuk; // Pacific/Chuuk -> Pacific/Port_Moresby
 extern const basic::ZoneInfo kZonePacific_Enderbury; // Pacific/Enderbury -> Pacific/Kanton
 extern const basic::ZoneInfo kZonePacific_Funafuti; // Pacific/Funafuti -> Pacific/Tarawa
@@ -780,6 +769,7 @@ extern const basic::ZoneInfo kZoneUS_Pacific; // US/Pacific -> America/Los_Angel
 extern const basic::ZoneInfo kZoneUS_Samoa; // US/Samoa -> Pacific/Pago_Pago
 extern const basic::ZoneInfo kZoneUTC; // UTC -> Etc/UTC
 extern const basic::ZoneInfo kZoneUniversal; // Universal -> Etc/UTC
+extern const basic::ZoneInfo kZoneWET; // WET -> Europe/Lisbon
 extern const basic::ZoneInfo kZoneZulu; // Zulu -> Etc/UTC
 
 
@@ -865,6 +855,7 @@ const uint32_t kZoneIdAsia_Ashkhabad = 0x15454f09; // Asia/Ashkhabad
 const uint32_t kZoneIdAsia_Bahrain = 0x9d078487; // Asia/Bahrain
 const uint32_t kZoneIdAsia_Brunei = 0xa8e595f7; // Asia/Brunei
 const uint32_t kZoneIdAsia_Calcutta = 0x328a44c3; // Asia/Calcutta
+const uint32_t kZoneIdAsia_Choibalsan = 0x928aa4a6; // Asia/Choibalsan
 const uint32_t kZoneIdAsia_Chongqing = 0xf937fb90; // Asia/Chongqing
 const uint32_t kZoneIdAsia_Chungking = 0xc7121dd0; // Asia/Chungking
 const uint32_t kZoneIdAsia_Dacca = 0x14bcac5e; // Asia/Dacca
@@ -901,6 +892,8 @@ const uint32_t kZoneIdAustralia_West = 0xdd858a5d; // Australia/West
 const uint32_t kZoneIdAustralia_Yancowinna = 0x90bac131; // Australia/Yancowinna
 const uint32_t kZoneIdBrazil_East = 0x669578c5; // Brazil/East
 const uint32_t kZoneIdBrazil_West = 0x669f689b; // Brazil/West
+const uint32_t kZoneIdCET = 0x0b87d921; // CET
+const uint32_t kZoneIdCST6CDT = 0xf0e87d00; // CST6CDT
 const uint32_t kZoneIdCanada_Atlantic = 0x536b119c; // Canada/Atlantic
 const uint32_t kZoneIdCanada_Central = 0x626710f5; // Canada/Central
 const uint32_t kZoneIdCanada_Eastern = 0xf3612d5e; // Canada/Eastern
@@ -910,6 +903,9 @@ const uint32_t kZoneIdCanada_Saskatchewan = 0x77311f49; // Canada/Saskatchewan
 const uint32_t kZoneIdChile_Continental = 0x7e2bdb18; // Chile/Continental
 const uint32_t kZoneIdChile_EasterIsland = 0xb0982af8; // Chile/EasterIsland
 const uint32_t kZoneIdCuba = 0x7c83cba0; // Cuba
+const uint32_t kZoneIdEET = 0x0b87e1a3; // EET
+const uint32_t kZoneIdEST = 0x0b87e371; // EST
+const uint32_t kZoneIdEST5EDT = 0x8adc72a3; // EST5EDT
 const uint32_t kZoneIdEire = 0x7c84b36a; // Eire
 const uint32_t kZoneIdEtc_GMT_PLUS_0 = 0x9d13da13; // Etc/GMT+0
 const uint32_t kZoneIdEtc_GMT_0 = 0x9d13da55; // Etc/GMT-0
@@ -951,6 +947,7 @@ const uint32_t kZoneIdGMT_PLUS_0 = 0x0d2f7028; // GMT+0
 const uint32_t kZoneIdGMT_0 = 0x0d2f706a; // GMT-0
 const uint32_t kZoneIdGMT0 = 0x7c8550fd; // GMT0
 const uint32_t kZoneIdGreenwich = 0xc84d4221; // Greenwich
+const uint32_t kZoneIdHST = 0x0b87f034; // HST
 const uint32_t kZoneIdHongkong = 0x56d36560; // Hongkong
 const uint32_t kZoneIdIceland = 0xe56a35b5; // Iceland
 const uint32_t kZoneIdIndian_Antananarivo = 0x9ebf5289; // Indian/Antananarivo
@@ -966,11 +963,15 @@ const uint32_t kZoneIdIsrael = 0xba88c9e5; // Israel
 const uint32_t kZoneIdJamaica = 0x2e44fdab; // Jamaica
 const uint32_t kZoneIdJapan = 0x0d712f8f; // Japan
 const uint32_t kZoneIdKwajalein = 0x0e57afbb; // Kwajalein
+const uint32_t kZoneIdMET = 0x0b8803ab; // MET
+const uint32_t kZoneIdMST = 0x0b880579; // MST
+const uint32_t kZoneIdMST7MDT = 0xf2af9375; // MST7MDT
 const uint32_t kZoneIdMexico_BajaSur = 0x08ee3641; // Mexico/BajaSur
 const uint32_t kZoneIdNZ = 0x005974ad; // NZ
 const uint32_t kZoneIdNZ_CHAT = 0x4d42afda; // NZ-CHAT
 const uint32_t kZoneIdNavajo = 0xc4ef0e24; // Navajo
 const uint32_t kZoneIdPRC = 0x0b88120a; // PRC
+const uint32_t kZoneIdPST8PDT = 0xd99ee2dc; // PST8PDT
 const uint32_t kZoneIdPacific_Chuuk = 0x8a090b23; // Pacific/Chuuk
 const uint32_t kZoneIdPacific_Enderbury = 0x61599a93; // Pacific/Enderbury
 const uint32_t kZoneIdPacific_Funafuti = 0xdb402d65; // Pacific/Funafuti
@@ -1003,6 +1004,7 @@ const uint32_t kZoneIdUS_Pacific = 0xa950f6ab; // US/Pacific
 const uint32_t kZoneIdUS_Samoa = 0x566821cd; // US/Samoa
 const uint32_t kZoneIdUTC = 0x0b882791; // UTC
 const uint32_t kZoneIdUniversal = 0xd0ff523e; // Universal
+const uint32_t kZoneIdWET = 0x0b882e35; // WET
 const uint32_t kZoneIdZulu = 0x7c9069b5; // Zulu
 
 
@@ -1150,11 +1152,6 @@ const uint8_t kZoneBufSizeAustralia_Lord_Howe = 5;  // Australia/Lord_Howe in 19
 const uint8_t kZoneBufSizeAustralia_Melbourne = 5;  // Australia/Melbourne in 1993
 const uint8_t kZoneBufSizeAustralia_Perth = 6;  // Australia/Perth in 2007
 const uint8_t kZoneBufSizeAustralia_Sydney = 5;  // Australia/Sydney in 1992
-const uint8_t kZoneBufSizeCET = 5;  // CET in 1983
-const uint8_t kZoneBufSizeCST6CDT = 6;  // CST6CDT in 2008
-const uint8_t kZoneBufSizeEET = 5;  // EET in 1983
-const uint8_t kZoneBufSizeEST = 1;  // EST in 1949
-const uint8_t kZoneBufSizeEST5EDT = 6;  // EST5EDT in 2008
 const uint8_t kZoneBufSizeEtc_GMT = 1;  // Etc/GMT in 1949
 const uint8_t kZoneBufSizeEtc_GMT_PLUS_1 = 1;  // Etc/GMT+1 in 1949
 const uint8_t kZoneBufSizeEtc_GMT_PLUS_10 = 1;  // Etc/GMT+10 in 1949
@@ -1207,14 +1204,9 @@ const uint8_t kZoneBufSizeEurope_Tirane = 5;  // Europe/Tirane in 1983
 const uint8_t kZoneBufSizeEurope_Vienna = 5;  // Europe/Vienna in 1983
 const uint8_t kZoneBufSizeEurope_Warsaw = 5;  // Europe/Warsaw in 1983
 const uint8_t kZoneBufSizeEurope_Zurich = 5;  // Europe/Zurich in 1983
-const uint8_t kZoneBufSizeHST = 1;  // HST in 1949
 const uint8_t kZoneBufSizeIndian_Chagos = 1;  // Indian/Chagos in 1949
 const uint8_t kZoneBufSizeIndian_Maldives = 1;  // Indian/Maldives in 1949
 const uint8_t kZoneBufSizeIndian_Mauritius = 3;  // Indian/Mauritius in 2008
-const uint8_t kZoneBufSizeMET = 5;  // MET in 1983
-const uint8_t kZoneBufSizeMST = 1;  // MST in 1949
-const uint8_t kZoneBufSizeMST7MDT = 6;  // MST7MDT in 2008
-const uint8_t kZoneBufSizePST8PDT = 6;  // PST8PDT in 2008
 const uint8_t kZoneBufSizePacific_Auckland = 5;  // Pacific/Auckland in 1992
 const uint8_t kZoneBufSizePacific_Chatham = 5;  // Pacific/Chatham in 1992
 const uint8_t kZoneBufSizePacific_Easter = 5;  // Pacific/Easter in 2002
@@ -1240,11 +1232,10 @@ const uint8_t kZoneBufSizePacific_Rarotonga = 2;  // Pacific/Rarotonga in 1949
 const uint8_t kZoneBufSizePacific_Tahiti = 1;  // Pacific/Tahiti in 1949
 const uint8_t kZoneBufSizePacific_Tarawa = 1;  // Pacific/Tarawa in 1949
 const uint8_t kZoneBufSizePacific_Tongatapu = 5;  // Pacific/Tongatapu in 1999
-const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 124
+// Unsupported zones: 123
 //---------------------------------------------------------------------------
 
 // Africa/Cairo {policy 'Egypt' not found}
@@ -1324,7 +1315,6 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // Asia/Barnaul {UNTIL contains month/day/time}
 // Asia/Bishkek {UNTIL contains month/day/time}
 // Asia/Chita {UNTIL contains month/day/time}
-// Asia/Choibalsan {UNTIL contains month/day/time}
 // Asia/Colombo {UNTIL contains month/day/time}
 // Asia/Damascus {UNTIL contains month/day/time}
 // Asia/Dili {UNTIL contains month/day/time}
@@ -1374,7 +1364,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 9
+// Notable zones: 34
 //---------------------------------------------------------------------------
 
 // Africa/Johannesburg {RULES not fixed but FORMAT is missing '%s' or '/'}
@@ -1385,21 +1375,53 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '-1:00' is a negative DST,
 //   }
 // }
+// America/Asuncion {RULES not fixed but FORMAT is missing '%s' or '/'}
 // America/Belize {
 //   Belize {LETTER 'CST' not single character}
 // }
+// America/Bogota {RULES not fixed but FORMAT is missing '%s' or '/'}
+// America/Campo_Grande {RULES not fixed but FORMAT is missing '%s' or '/'}
+// America/Guayaquil {RULES not fixed but FORMAT is missing '%s' or '/'}
+// America/Lima {RULES not fixed but FORMAT is missing '%s' or '/'}
+// America/Miquelon {RULES not fixed but FORMAT is missing '%s' or '/'}
 // America/Moncton {
 //   Moncton {AT '0:01' not multiple of :15 min}
 // }
+// America/Montevideo {RULES not fixed but FORMAT is missing '%s' or '/'}
+// America/Santiago {RULES not fixed but FORMAT is missing '%s' or '/'}
+// America/Sao_Paulo {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Asia/Baghdad {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Asia/Baku {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Asia/Dhaka {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Asia/Hovd {RULES not fixed but FORMAT is missing '%s' or '/'}
 // Asia/Kathmandu {STDOFF '5:45' not multiple of :30 min}
-// Australia/Eucla {STDOFF '8:45' not multiple of :30 min}
+// Asia/Tehran {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Asia/Ulaanbaatar {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Asia/Yerevan {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Atlantic/Azores {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Australia/Eucla {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '8:45' not multiple of :30 min,
+// }
 // Australia/Lord_Howe {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   LH {SAVE '0:30' different from 1:00}
 // }
 // Europe/Dublin {
 //   Eire {SAVE '-1:00' is a negative DST}
 // }
-// Pacific/Chatham {STDOFF '12:45' not multiple of :30 min}
+// Indian/Mauritius {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Chatham {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '12:45' not multiple of :30 min,
+// }
+// Pacific/Easter {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Efate {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Fiji {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Galapagos {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Noumea {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Rarotonga {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Tongatapu {RULES not fixed but FORMAT is missing '%s' or '/'}
 
 
 //---------------------------------------------------------------------------

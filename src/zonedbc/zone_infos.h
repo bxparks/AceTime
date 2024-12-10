@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbc/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbc
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope complete
@@ -23,9 +23,9 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
-// Supported Zones: 596 (351 zones, 245 links)
+// Supported Zones: 596 (339 zones, 257 links)
 // Unsupported Zones: 0 (0 zones, 0 links)
 //
 // Requested Years: [1800,2200]
@@ -40,37 +40,37 @@
 //
 // Records:
 //   Infos: 596
-//   Eras: 1963
+//   Eras: 1941
 //   Policies: 134
-//   Rules: 2234
+//   Rules: 2231
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 26808
+//   Rules: 26772
 //   Policies: 402
-//   Eras: 29445
-//   Zones: 4563
-//   Links: 3185
+//   Eras: 29115
+//   Zones: 4407
+//   Links: 3341
 //   Registry: 1192
-//   Formats: 1032
+//   Formats: 486
 //   Letters: 160
 //   Fragments: 150
 //   Names: 5649 (original: 9076)
-//   TOTAL: 72602
+//   TOTAL: 71690
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 26808
+//   Rules: 26772
 //   Policies: 1072
-//   Eras: 39260
-//   Zones: 8424
-//   Links: 5880
+//   Eras: 38820
+//   Zones: 8136
+//   Links: 6168
 //   Registry: 2384
-//   Formats: 1032
+//   Formats: 486
 //   Letters: 216
 //   Fragments: 178
 //   Names: 5649 (original: 9076)
-//   TOTAL: 90927
+//   TOTAL: 89905
 //
 // DO NOT EDIT
 
@@ -95,7 +95,7 @@ extern const __FlashStringHelper* const kTzDatabaseVersion;
 extern const complete::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 351
+// Supported zones: 339
 //---------------------------------------------------------------------------
 
 extern const complete::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
@@ -259,7 +259,6 @@ extern const complete::ZoneInfo kZoneAsia_Barnaul; // Asia/Barnaul
 extern const complete::ZoneInfo kZoneAsia_Beirut; // Asia/Beirut
 extern const complete::ZoneInfo kZoneAsia_Bishkek; // Asia/Bishkek
 extern const complete::ZoneInfo kZoneAsia_Chita; // Asia/Chita
-extern const complete::ZoneInfo kZoneAsia_Choibalsan; // Asia/Choibalsan
 extern const complete::ZoneInfo kZoneAsia_Colombo; // Asia/Colombo
 extern const complete::ZoneInfo kZoneAsia_Damascus; // Asia/Damascus
 extern const complete::ZoneInfo kZoneAsia_Dhaka; // Asia/Dhaka
@@ -339,11 +338,6 @@ extern const complete::ZoneInfo kZoneAustralia_Lord_Howe; // Australia/Lord_Howe
 extern const complete::ZoneInfo kZoneAustralia_Melbourne; // Australia/Melbourne
 extern const complete::ZoneInfo kZoneAustralia_Perth; // Australia/Perth
 extern const complete::ZoneInfo kZoneAustralia_Sydney; // Australia/Sydney
-extern const complete::ZoneInfo kZoneCET; // CET
-extern const complete::ZoneInfo kZoneCST6CDT; // CST6CDT
-extern const complete::ZoneInfo kZoneEET; // EET
-extern const complete::ZoneInfo kZoneEST; // EST
-extern const complete::ZoneInfo kZoneEST5EDT; // EST5EDT
 extern const complete::ZoneInfo kZoneEtc_GMT; // Etc/GMT
 extern const complete::ZoneInfo kZoneEtc_GMT_PLUS_1; // Etc/GMT+1
 extern const complete::ZoneInfo kZoneEtc_GMT_PLUS_10; // Etc/GMT+10
@@ -410,14 +404,9 @@ extern const complete::ZoneInfo kZoneEurope_Vilnius; // Europe/Vilnius
 extern const complete::ZoneInfo kZoneEurope_Volgograd; // Europe/Volgograd
 extern const complete::ZoneInfo kZoneEurope_Warsaw; // Europe/Warsaw
 extern const complete::ZoneInfo kZoneEurope_Zurich; // Europe/Zurich
-extern const complete::ZoneInfo kZoneHST; // HST
 extern const complete::ZoneInfo kZoneIndian_Chagos; // Indian/Chagos
 extern const complete::ZoneInfo kZoneIndian_Maldives; // Indian/Maldives
 extern const complete::ZoneInfo kZoneIndian_Mauritius; // Indian/Mauritius
-extern const complete::ZoneInfo kZoneMET; // MET
-extern const complete::ZoneInfo kZoneMST; // MST
-extern const complete::ZoneInfo kZoneMST7MDT; // MST7MDT
-extern const complete::ZoneInfo kZonePST8PDT; // PST8PDT
 extern const complete::ZoneInfo kZonePacific_Apia; // Pacific/Apia
 extern const complete::ZoneInfo kZonePacific_Auckland; // Pacific/Auckland
 extern const complete::ZoneInfo kZonePacific_Bougainville; // Pacific/Bougainville
@@ -448,7 +437,6 @@ extern const complete::ZoneInfo kZonePacific_Rarotonga; // Pacific/Rarotonga
 extern const complete::ZoneInfo kZonePacific_Tahiti; // Pacific/Tahiti
 extern const complete::ZoneInfo kZonePacific_Tarawa; // Pacific/Tarawa
 extern const complete::ZoneInfo kZonePacific_Tongatapu; // Pacific/Tongatapu
-extern const complete::ZoneInfo kZoneWET; // WET
 
 
 // Zone Ids
@@ -614,7 +602,6 @@ const uint32_t kZoneIdAsia_Barnaul = 0x9dba4997; // Asia/Barnaul
 const uint32_t kZoneIdAsia_Beirut = 0xa7f3d5fd; // Asia/Beirut
 const uint32_t kZoneIdAsia_Bishkek = 0xb0728553; // Asia/Bishkek
 const uint32_t kZoneIdAsia_Chita = 0x14ae863b; // Asia/Chita
-const uint32_t kZoneIdAsia_Choibalsan = 0x928aa4a6; // Asia/Choibalsan
 const uint32_t kZoneIdAsia_Colombo = 0x0af0e91d; // Asia/Colombo
 const uint32_t kZoneIdAsia_Damascus = 0x20fbb063; // Asia/Damascus
 const uint32_t kZoneIdAsia_Dhaka = 0x14c07b8b; // Asia/Dhaka
@@ -694,11 +681,6 @@ const uint32_t kZoneIdAustralia_Lord_Howe = 0xa748b67d; // Australia/Lord_Howe
 const uint32_t kZoneIdAustralia_Melbourne = 0x0fe559a3; // Australia/Melbourne
 const uint32_t kZoneIdAustralia_Perth = 0x8db8269d; // Australia/Perth
 const uint32_t kZoneIdAustralia_Sydney = 0x4d1e9776; // Australia/Sydney
-const uint32_t kZoneIdCET = 0x0b87d921; // CET
-const uint32_t kZoneIdCST6CDT = 0xf0e87d00; // CST6CDT
-const uint32_t kZoneIdEET = 0x0b87e1a3; // EET
-const uint32_t kZoneIdEST = 0x0b87e371; // EST
-const uint32_t kZoneIdEST5EDT = 0x8adc72a3; // EST5EDT
 const uint32_t kZoneIdEtc_GMT = 0xd8e2de58; // Etc/GMT
 const uint32_t kZoneIdEtc_GMT_PLUS_1 = 0x9d13da14; // Etc/GMT+1
 const uint32_t kZoneIdEtc_GMT_PLUS_10 = 0x3f8f1cc4; // Etc/GMT+10
@@ -765,14 +747,9 @@ const uint32_t kZoneIdEurope_Vilnius = 0xdd63b8ce; // Europe/Vilnius
 const uint32_t kZoneIdEurope_Volgograd = 0x3ed0f389; // Europe/Volgograd
 const uint32_t kZoneIdEurope_Warsaw = 0x75185c19; // Europe/Warsaw
 const uint32_t kZoneIdEurope_Zurich = 0x7d8195b9; // Europe/Zurich
-const uint32_t kZoneIdHST = 0x0b87f034; // HST
 const uint32_t kZoneIdIndian_Chagos = 0x456f7c3c; // Indian/Chagos
 const uint32_t kZoneIdIndian_Maldives = 0x9869681c; // Indian/Maldives
 const uint32_t kZoneIdIndian_Mauritius = 0x7b09c02a; // Indian/Mauritius
-const uint32_t kZoneIdMET = 0x0b8803ab; // MET
-const uint32_t kZoneIdMST = 0x0b880579; // MST
-const uint32_t kZoneIdMST7MDT = 0xf2af9375; // MST7MDT
-const uint32_t kZoneIdPST8PDT = 0xd99ee2dc; // PST8PDT
 const uint32_t kZoneIdPacific_Apia = 0x23359b5e; // Pacific/Apia
 const uint32_t kZoneIdPacific_Auckland = 0x25062f86; // Pacific/Auckland
 const uint32_t kZoneIdPacific_Bougainville = 0x5e10f7a4; // Pacific/Bougainville
@@ -803,11 +780,10 @@ const uint32_t kZoneIdPacific_Rarotonga = 0x9981a3b0; // Pacific/Rarotonga
 const uint32_t kZoneIdPacific_Tahiti = 0xf24c2446; // Pacific/Tahiti
 const uint32_t kZoneIdPacific_Tarawa = 0xf2517e63; // Pacific/Tarawa
 const uint32_t kZoneIdPacific_Tongatapu = 0x262ca836; // Pacific/Tongatapu
-const uint32_t kZoneIdWET = 0x0b882e35; // WET
 
 
 //---------------------------------------------------------------------------
-// Supported links: 245
+// Supported links: 257
 //---------------------------------------------------------------------------
 
 extern const complete::ZoneInfo kZoneAfrica_Accra; // Africa/Accra -> Africa/Abidjan
@@ -903,6 +879,7 @@ extern const complete::ZoneInfo kZoneAsia_Ashkhabad; // Asia/Ashkhabad -> Asia/A
 extern const complete::ZoneInfo kZoneAsia_Bahrain; // Asia/Bahrain -> Asia/Qatar
 extern const complete::ZoneInfo kZoneAsia_Brunei; // Asia/Brunei -> Asia/Kuching
 extern const complete::ZoneInfo kZoneAsia_Calcutta; // Asia/Calcutta -> Asia/Kolkata
+extern const complete::ZoneInfo kZoneAsia_Choibalsan; // Asia/Choibalsan -> Asia/Ulaanbaatar
 extern const complete::ZoneInfo kZoneAsia_Chongqing; // Asia/Chongqing -> Asia/Shanghai
 extern const complete::ZoneInfo kZoneAsia_Chungking; // Asia/Chungking -> Asia/Shanghai
 extern const complete::ZoneInfo kZoneAsia_Dacca; // Asia/Dacca -> Asia/Dhaka
@@ -942,6 +919,8 @@ extern const complete::ZoneInfo kZoneBrazil_Acre; // Brazil/Acre -> America/Rio_
 extern const complete::ZoneInfo kZoneBrazil_DeNoronha; // Brazil/DeNoronha -> America/Noronha
 extern const complete::ZoneInfo kZoneBrazil_East; // Brazil/East -> America/Sao_Paulo
 extern const complete::ZoneInfo kZoneBrazil_West; // Brazil/West -> America/Manaus
+extern const complete::ZoneInfo kZoneCET; // CET -> Europe/Brussels
+extern const complete::ZoneInfo kZoneCST6CDT; // CST6CDT -> America/Chicago
 extern const complete::ZoneInfo kZoneCanada_Atlantic; // Canada/Atlantic -> America/Halifax
 extern const complete::ZoneInfo kZoneCanada_Central; // Canada/Central -> America/Winnipeg
 extern const complete::ZoneInfo kZoneCanada_Eastern; // Canada/Eastern -> America/Toronto
@@ -953,6 +932,9 @@ extern const complete::ZoneInfo kZoneCanada_Yukon; // Canada/Yukon -> America/Wh
 extern const complete::ZoneInfo kZoneChile_Continental; // Chile/Continental -> America/Santiago
 extern const complete::ZoneInfo kZoneChile_EasterIsland; // Chile/EasterIsland -> Pacific/Easter
 extern const complete::ZoneInfo kZoneCuba; // Cuba -> America/Havana
+extern const complete::ZoneInfo kZoneEET; // EET -> Europe/Athens
+extern const complete::ZoneInfo kZoneEST; // EST -> America/Panama
+extern const complete::ZoneInfo kZoneEST5EDT; // EST5EDT -> America/New_York
 extern const complete::ZoneInfo kZoneEgypt; // Egypt -> Africa/Cairo
 extern const complete::ZoneInfo kZoneEire; // Eire -> Europe/Dublin
 extern const complete::ZoneInfo kZoneEtc_GMT_PLUS_0; // Etc/GMT+0 -> Etc/GMT
@@ -995,6 +977,7 @@ extern const complete::ZoneInfo kZoneGMT_PLUS_0; // GMT+0 -> Etc/GMT
 extern const complete::ZoneInfo kZoneGMT_0; // GMT-0 -> Etc/GMT
 extern const complete::ZoneInfo kZoneGMT0; // GMT0 -> Etc/GMT
 extern const complete::ZoneInfo kZoneGreenwich; // Greenwich -> Etc/GMT
+extern const complete::ZoneInfo kZoneHST; // HST -> Pacific/Honolulu
 extern const complete::ZoneInfo kZoneHongkong; // Hongkong -> Asia/Hong_Kong
 extern const complete::ZoneInfo kZoneIceland; // Iceland -> Africa/Abidjan
 extern const complete::ZoneInfo kZoneIndian_Antananarivo; // Indian/Antananarivo -> Africa/Nairobi
@@ -1011,6 +994,9 @@ extern const complete::ZoneInfo kZoneJamaica; // Jamaica -> America/Jamaica
 extern const complete::ZoneInfo kZoneJapan; // Japan -> Asia/Tokyo
 extern const complete::ZoneInfo kZoneKwajalein; // Kwajalein -> Pacific/Kwajalein
 extern const complete::ZoneInfo kZoneLibya; // Libya -> Africa/Tripoli
+extern const complete::ZoneInfo kZoneMET; // MET -> Europe/Brussels
+extern const complete::ZoneInfo kZoneMST; // MST -> America/Phoenix
+extern const complete::ZoneInfo kZoneMST7MDT; // MST7MDT -> America/Denver
 extern const complete::ZoneInfo kZoneMexico_BajaNorte; // Mexico/BajaNorte -> America/Tijuana
 extern const complete::ZoneInfo kZoneMexico_BajaSur; // Mexico/BajaSur -> America/Mazatlan
 extern const complete::ZoneInfo kZoneMexico_General; // Mexico/General -> America/Mexico_City
@@ -1018,6 +1004,7 @@ extern const complete::ZoneInfo kZoneNZ; // NZ -> Pacific/Auckland
 extern const complete::ZoneInfo kZoneNZ_CHAT; // NZ-CHAT -> Pacific/Chatham
 extern const complete::ZoneInfo kZoneNavajo; // Navajo -> America/Denver
 extern const complete::ZoneInfo kZonePRC; // PRC -> Asia/Shanghai
+extern const complete::ZoneInfo kZonePST8PDT; // PST8PDT -> America/Los_Angeles
 extern const complete::ZoneInfo kZonePacific_Chuuk; // Pacific/Chuuk -> Pacific/Port_Moresby
 extern const complete::ZoneInfo kZonePacific_Enderbury; // Pacific/Enderbury -> Pacific/Kanton
 extern const complete::ZoneInfo kZonePacific_Funafuti; // Pacific/Funafuti -> Pacific/Tarawa
@@ -1054,6 +1041,7 @@ extern const complete::ZoneInfo kZoneUS_Samoa; // US/Samoa -> Pacific/Pago_Pago
 extern const complete::ZoneInfo kZoneUTC; // UTC -> Etc/UTC
 extern const complete::ZoneInfo kZoneUniversal; // Universal -> Etc/UTC
 extern const complete::ZoneInfo kZoneW_SU; // W-SU -> Europe/Moscow
+extern const complete::ZoneInfo kZoneWET; // WET -> Europe/Lisbon
 extern const complete::ZoneInfo kZoneZulu; // Zulu -> Etc/UTC
 
 
@@ -1152,6 +1140,7 @@ const uint32_t kZoneIdAsia_Ashkhabad = 0x15454f09; // Asia/Ashkhabad
 const uint32_t kZoneIdAsia_Bahrain = 0x9d078487; // Asia/Bahrain
 const uint32_t kZoneIdAsia_Brunei = 0xa8e595f7; // Asia/Brunei
 const uint32_t kZoneIdAsia_Calcutta = 0x328a44c3; // Asia/Calcutta
+const uint32_t kZoneIdAsia_Choibalsan = 0x928aa4a6; // Asia/Choibalsan
 const uint32_t kZoneIdAsia_Chongqing = 0xf937fb90; // Asia/Chongqing
 const uint32_t kZoneIdAsia_Chungking = 0xc7121dd0; // Asia/Chungking
 const uint32_t kZoneIdAsia_Dacca = 0x14bcac5e; // Asia/Dacca
@@ -1191,6 +1180,8 @@ const uint32_t kZoneIdBrazil_Acre = 0x66934f93; // Brazil/Acre
 const uint32_t kZoneIdBrazil_DeNoronha = 0x9b4cb496; // Brazil/DeNoronha
 const uint32_t kZoneIdBrazil_East = 0x669578c5; // Brazil/East
 const uint32_t kZoneIdBrazil_West = 0x669f689b; // Brazil/West
+const uint32_t kZoneIdCET = 0x0b87d921; // CET
+const uint32_t kZoneIdCST6CDT = 0xf0e87d00; // CST6CDT
 const uint32_t kZoneIdCanada_Atlantic = 0x536b119c; // Canada/Atlantic
 const uint32_t kZoneIdCanada_Central = 0x626710f5; // Canada/Central
 const uint32_t kZoneIdCanada_Eastern = 0xf3612d5e; // Canada/Eastern
@@ -1202,6 +1193,9 @@ const uint32_t kZoneIdCanada_Yukon = 0x78dd35c2; // Canada/Yukon
 const uint32_t kZoneIdChile_Continental = 0x7e2bdb18; // Chile/Continental
 const uint32_t kZoneIdChile_EasterIsland = 0xb0982af8; // Chile/EasterIsland
 const uint32_t kZoneIdCuba = 0x7c83cba0; // Cuba
+const uint32_t kZoneIdEET = 0x0b87e1a3; // EET
+const uint32_t kZoneIdEST = 0x0b87e371; // EST
+const uint32_t kZoneIdEST5EDT = 0x8adc72a3; // EST5EDT
 const uint32_t kZoneIdEgypt = 0x0d1a278e; // Egypt
 const uint32_t kZoneIdEire = 0x7c84b36a; // Eire
 const uint32_t kZoneIdEtc_GMT_PLUS_0 = 0x9d13da13; // Etc/GMT+0
@@ -1244,6 +1238,7 @@ const uint32_t kZoneIdGMT_PLUS_0 = 0x0d2f7028; // GMT+0
 const uint32_t kZoneIdGMT_0 = 0x0d2f706a; // GMT-0
 const uint32_t kZoneIdGMT0 = 0x7c8550fd; // GMT0
 const uint32_t kZoneIdGreenwich = 0xc84d4221; // Greenwich
+const uint32_t kZoneIdHST = 0x0b87f034; // HST
 const uint32_t kZoneIdHongkong = 0x56d36560; // Hongkong
 const uint32_t kZoneIdIceland = 0xe56a35b5; // Iceland
 const uint32_t kZoneIdIndian_Antananarivo = 0x9ebf5289; // Indian/Antananarivo
@@ -1260,6 +1255,9 @@ const uint32_t kZoneIdJamaica = 0x2e44fdab; // Jamaica
 const uint32_t kZoneIdJapan = 0x0d712f8f; // Japan
 const uint32_t kZoneIdKwajalein = 0x0e57afbb; // Kwajalein
 const uint32_t kZoneIdLibya = 0x0d998b16; // Libya
+const uint32_t kZoneIdMET = 0x0b8803ab; // MET
+const uint32_t kZoneIdMST = 0x0b880579; // MST
+const uint32_t kZoneIdMST7MDT = 0xf2af9375; // MST7MDT
 const uint32_t kZoneIdMexico_BajaNorte = 0xfcf7150f; // Mexico/BajaNorte
 const uint32_t kZoneIdMexico_BajaSur = 0x08ee3641; // Mexico/BajaSur
 const uint32_t kZoneIdMexico_General = 0x93711d57; // Mexico/General
@@ -1267,6 +1265,7 @@ const uint32_t kZoneIdNZ = 0x005974ad; // NZ
 const uint32_t kZoneIdNZ_CHAT = 0x4d42afda; // NZ-CHAT
 const uint32_t kZoneIdNavajo = 0xc4ef0e24; // Navajo
 const uint32_t kZoneIdPRC = 0x0b88120a; // PRC
+const uint32_t kZoneIdPST8PDT = 0xd99ee2dc; // PST8PDT
 const uint32_t kZoneIdPacific_Chuuk = 0x8a090b23; // Pacific/Chuuk
 const uint32_t kZoneIdPacific_Enderbury = 0x61599a93; // Pacific/Enderbury
 const uint32_t kZoneIdPacific_Funafuti = 0xdb402d65; // Pacific/Funafuti
@@ -1303,6 +1302,7 @@ const uint32_t kZoneIdUS_Samoa = 0x566821cd; // US/Samoa
 const uint32_t kZoneIdUTC = 0x0b882791; // UTC
 const uint32_t kZoneIdUniversal = 0xd0ff523e; // Universal
 const uint32_t kZoneIdW_SU = 0x7c8d8ef1; // W-SU
+const uint32_t kZoneIdWET = 0x0b882e35; // WET
 const uint32_t kZoneIdZulu = 0x7c9069b5; // Zulu
 
 
@@ -1325,7 +1325,7 @@ const uint8_t kZoneBufSizeAfrica_Johannesburg = 4;  // Africa/Johannesburg in 19
 const uint8_t kZoneBufSizeAfrica_Juba = 4;  // Africa/Juba in 1970
 const uint8_t kZoneBufSizeAfrica_Khartoum = 4;  // Africa/Khartoum in 1970
 const uint8_t kZoneBufSizeAfrica_Lagos = 2;  // Africa/Lagos in 1905
-const uint8_t kZoneBufSizeAfrica_Maputo = 2;  // Africa/Maputo in 1903
+const uint8_t kZoneBufSizeAfrica_Maputo = 2;  // Africa/Maputo in 1908
 const uint8_t kZoneBufSizeAfrica_Monrovia = 2;  // Africa/Monrovia in 1881
 const uint8_t kZoneBufSizeAfrica_Nairobi = 2;  // Africa/Nairobi in 1908
 const uint8_t kZoneBufSizeAfrica_Ndjamena = 2;  // Africa/Ndjamena in 1911
@@ -1359,7 +1359,7 @@ const uint8_t kZoneBufSizeAmerica_Bogota = 3;  // America/Bogota in 1914
 const uint8_t kZoneBufSizeAmerica_Boise = 6;  // America/Boise in 1974
 const uint8_t kZoneBufSizeAmerica_Cambridge_Bay = 6;  // America/Cambridge_Bay in 2008
 const uint8_t kZoneBufSizeAmerica_Campo_Grande = 6;  // America/Campo_Grande in 1964
-const uint8_t kZoneBufSizeAmerica_Cancun = 5;  // America/Cancun in 1998
+const uint8_t kZoneBufSizeAmerica_Cancun = 5;  // America/Cancun in 1997
 const uint8_t kZoneBufSizeAmerica_Caracas = 2;  // America/Caracas in 1889
 const uint8_t kZoneBufSizeAmerica_Cayenne = 2;  // America/Cayenne in 1911
 const uint8_t kZoneBufSizeAmerica_Chicago = 6;  // America/Chicago in 2008
@@ -1385,7 +1385,7 @@ const uint8_t kZoneBufSizeAmerica_Guayaquil = 3;  // America/Guayaquil in 1930
 const uint8_t kZoneBufSizeAmerica_Guyana = 2;  // America/Guyana in 1911
 const uint8_t kZoneBufSizeAmerica_Halifax = 6;  // America/Halifax in 1918
 const uint8_t kZoneBufSizeAmerica_Havana = 6;  // America/Havana in 2015
-const uint8_t kZoneBufSizeAmerica_Hermosillo = 4;  // America/Hermosillo in 1996
+const uint8_t kZoneBufSizeAmerica_Hermosillo = 5;  // America/Hermosillo in 1996
 const uint8_t kZoneBufSizeAmerica_Indiana_Indianapolis = 6;  // America/Indiana/Indianapolis in 2006
 const uint8_t kZoneBufSizeAmerica_Indiana_Knox = 6;  // America/Indiana/Knox in 2006
 const uint8_t kZoneBufSizeAmerica_Indiana_Marengo = 6;  // America/Indiana/Marengo in 2006
@@ -1475,7 +1475,6 @@ const uint8_t kZoneBufSizeAsia_Barnaul = 6;  // Asia/Barnaul in 1991
 const uint8_t kZoneBufSizeAsia_Beirut = 5;  // Asia/Beirut in 1921
 const uint8_t kZoneBufSizeAsia_Bishkek = 5;  // Asia/Bishkek in 1987
 const uint8_t kZoneBufSizeAsia_Chita = 6;  // Asia/Chita in 1991
-const uint8_t kZoneBufSizeAsia_Choibalsan = 5;  // Asia/Choibalsan in 1983
 const uint8_t kZoneBufSizeAsia_Colombo = 3;  // Asia/Colombo in 1942
 const uint8_t kZoneBufSizeAsia_Damascus = 6;  // Asia/Damascus in 2008
 const uint8_t kZoneBufSizeAsia_Dhaka = 4;  // Asia/Dhaka in 2009
@@ -1536,12 +1535,12 @@ const uint8_t kZoneBufSizeAsia_Yakutsk = 6;  // Asia/Yakutsk in 1991
 const uint8_t kZoneBufSizeAsia_Yangon = 2;  // Asia/Yangon in 1879
 const uint8_t kZoneBufSizeAsia_Yekaterinburg = 6;  // Asia/Yekaterinburg in 1991
 const uint8_t kZoneBufSizeAsia_Yerevan = 6;  // Asia/Yerevan in 1991
-const uint8_t kZoneBufSizeAtlantic_Azores = 8;  // Atlantic/Azores in 1942
+const uint8_t kZoneBufSizeAtlantic_Azores = 7;  // Atlantic/Azores in 1942
 const uint8_t kZoneBufSizeAtlantic_Bermuda = 6;  // Atlantic/Bermuda in 2008
 const uint8_t kZoneBufSizeAtlantic_Canary = 5;  // Atlantic/Canary in 1980
 const uint8_t kZoneBufSizeAtlantic_Cape_Verde = 2;  // Atlantic/Cape_Verde in 1911
 const uint8_t kZoneBufSizeAtlantic_Faroe = 5;  // Atlantic/Faroe in 1981
-const uint8_t kZoneBufSizeAtlantic_Madeira = 8;  // Atlantic/Madeira in 1942
+const uint8_t kZoneBufSizeAtlantic_Madeira = 7;  // Atlantic/Madeira in 1942
 const uint8_t kZoneBufSizeAtlantic_South_Georgia = 2;  // Atlantic/South_Georgia in 1889
 const uint8_t kZoneBufSizeAtlantic_Stanley = 5;  // Atlantic/Stanley in 1938
 const uint8_t kZoneBufSizeAustralia_Adelaide = 6;  // Australia/Adelaide in 1942
@@ -1555,11 +1554,6 @@ const uint8_t kZoneBufSizeAustralia_Lord_Howe = 6;  // Australia/Lord_Howe in 19
 const uint8_t kZoneBufSizeAustralia_Melbourne = 6;  // Australia/Melbourne in 1942
 const uint8_t kZoneBufSizeAustralia_Perth = 6;  // Australia/Perth in 1942
 const uint8_t kZoneBufSizeAustralia_Sydney = 6;  // Australia/Sydney in 1942
-const uint8_t kZoneBufSizeCET = 5;  // CET in 1943
-const uint8_t kZoneBufSizeCST6CDT = 6;  // CST6CDT in 2008
-const uint8_t kZoneBufSizeEET = 5;  // EET in 1983
-const uint8_t kZoneBufSizeEST = 1;  // EST in 1799
-const uint8_t kZoneBufSizeEST5EDT = 6;  // EST5EDT in 2008
 const uint8_t kZoneBufSizeEtc_GMT = 1;  // Etc/GMT in 1799
 const uint8_t kZoneBufSizeEtc_GMT_PLUS_1 = 1;  // Etc/GMT+1 in 1799
 const uint8_t kZoneBufSizeEtc_GMT_PLUS_10 = 1;  // Etc/GMT+10 in 1799
@@ -1626,14 +1620,9 @@ const uint8_t kZoneBufSizeEurope_Vilnius = 7;  // Europe/Vilnius in 1998
 const uint8_t kZoneBufSizeEurope_Volgograd = 6;  // Europe/Volgograd in 1988
 const uint8_t kZoneBufSizeEurope_Warsaw = 6;  // Europe/Warsaw in 1987
 const uint8_t kZoneBufSizeEurope_Zurich = 5;  // Europe/Zurich in 1981
-const uint8_t kZoneBufSizeHST = 1;  // HST in 1799
 const uint8_t kZoneBufSizeIndian_Chagos = 2;  // Indian/Chagos in 1906
 const uint8_t kZoneBufSizeIndian_Maldives = 2;  // Indian/Maldives in 1879
 const uint8_t kZoneBufSizeIndian_Mauritius = 3;  // Indian/Mauritius in 1906
-const uint8_t kZoneBufSizeMET = 5;  // MET in 1943
-const uint8_t kZoneBufSizeMST = 1;  // MST in 1799
-const uint8_t kZoneBufSizeMST7MDT = 6;  // MST7MDT in 2008
-const uint8_t kZoneBufSizePST8PDT = 6;  // PST8PDT in 2008
 const uint8_t kZoneBufSizePacific_Apia = 5;  // Pacific/Apia in 2011
 const uint8_t kZoneBufSizePacific_Auckland = 5;  // Pacific/Auckland in 1928
 const uint8_t kZoneBufSizePacific_Bougainville = 2;  // Pacific/Bougainville in 1879
@@ -1664,7 +1653,6 @@ const uint8_t kZoneBufSizePacific_Rarotonga = 6;  // Pacific/Rarotonga in 1979
 const uint8_t kZoneBufSizePacific_Tahiti = 2;  // Pacific/Tahiti in 1912
 const uint8_t kZoneBufSizePacific_Tarawa = 2;  // Pacific/Tarawa in 1900
 const uint8_t kZoneBufSizePacific_Tongatapu = 5;  // Pacific/Tongatapu in 1999
-const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 
 
 //---------------------------------------------------------------------------
@@ -1685,6 +1673,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // Africa/Bissau {STDOFF '-1:02:20' not multiple of :15 min}
 // Africa/Cairo {STDOFF '2:05:09' not multiple of :15 min}
 // Africa/Casablanca {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-0:30:20' not multiple of :15 min,
 //   Morocco {SAVE '-1:00' is a negative DST}
 // }
@@ -1693,17 +1682,18 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   Spain {SAVE '2:00' different from 1:00}
 // }
 // Africa/El_Aaiun {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-0:52:48' not multiple of :15 min,
 //   Morocco {SAVE '-1:00' is a negative DST}
 // }
 // Africa/Johannesburg {
-//   RULES not fixed but FORMAT is missing '%' or '/',
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '1:52:00' not multiple of :15 min,
 // }
 // Africa/Juba {STDOFF '2:06:28' not multiple of :15 min}
 // Africa/Khartoum {STDOFF '2:10:08' not multiple of :15 min}
 // Africa/Lagos {STDOFF '0:13:35' not multiple of :15 min}
-// Africa/Maputo {STDOFF '2:10:20' not multiple of :15 min}
+// Africa/Maputo {STDOFF '2:10:18' not multiple of :15 min}
 // Africa/Monrovia {
 //   STDOFF '-0:43:08' not multiple of :15 min,
 //   STDOFF '-0:44:30' not multiple of :15 min,
@@ -1742,60 +1732,86 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   UNTIL '14:31:37' not multiple of :01 min,
 //   UNTIL '14:31:37' not multiple of :15 min,
 // }
-// America/Araguaina {STDOFF '-3:12:48' not multiple of :15 min}
+// America/Araguaina {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:12:48' not multiple of :15 min,
+// }
 // America/Argentina/Buenos_Aires {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-3:53:48' not multiple of :15 min,
 //   STDOFF '-4:16:48' not multiple of :15 min,
 // }
 // America/Argentina/Catamarca {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:23:08' not multiple of :15 min,
 // }
-// America/Argentina/Cordoba {STDOFF '-4:16:48' not multiple of :15 min}
+// America/Argentina/Cordoba {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:16:48' not multiple of :15 min,
+// }
 // America/Argentina/Jujuy {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:21:12' not multiple of :15 min,
 // }
 // America/Argentina/La_Rioja {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:27:24' not multiple of :15 min,
 // }
 // America/Argentina/Mendoza {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:35:16' not multiple of :15 min,
 // }
 // America/Argentina/Rio_Gallegos {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:36:52' not multiple of :15 min,
 // }
 // America/Argentina/Salta {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:21:40' not multiple of :15 min,
 // }
 // America/Argentina/San_Juan {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:34:04' not multiple of :15 min,
 // }
 // America/Argentina/San_Luis {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:25:24' not multiple of :15 min,
 // }
 // America/Argentina/Tucuman {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:20:52' not multiple of :15 min,
 // }
 // America/Argentina/Ushuaia {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:16:48' not multiple of :15 min,
 //   STDOFF '-4:33:12' not multiple of :15 min,
 // }
-// America/Asuncion {STDOFF '-3:50:40' not multiple of :15 min}
-// America/Bahia {STDOFF '-2:34:04' not multiple of :15 min}
+// America/Asuncion {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:50:40' not multiple of :15 min,
+// }
+// America/Bahia {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-2:34:04' not multiple of :15 min,
+// }
 // America/Bahia_Banderas {STDOFF '-7:01:00' not multiple of :15 min}
 // America/Barbados {
 //   STDOFF '-3:58:29' not multiple of :15 min,
 //   Barb {SAVE '0:30' different from 1:00}
 // }
-// America/Belem {STDOFF '-3:13:56' not multiple of :15 min}
+// America/Belem {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:13:56' not multiple of :15 min,
+// }
 // America/Belize {
 //   STDOFF '-5:52:48' not multiple of :15 min,
 //   Belize {
@@ -1807,10 +1823,19 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '0:30' different from 1:00,
 //   }
 // }
-// America/Boa_Vista {STDOFF '-4:02:40' not multiple of :15 min}
-// America/Bogota {STDOFF '-4:56:16' not multiple of :15 min}
+// America/Boa_Vista {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:02:40' not multiple of :15 min,
+// }
+// America/Bogota {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:56:16' not multiple of :15 min,
+// }
 // America/Boise {STDOFF '-7:44:49' not multiple of :15 min}
-// America/Campo_Grande {STDOFF '-3:38:28' not multiple of :15 min}
+// America/Campo_Grande {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:38:28' not multiple of :15 min,
+// }
 // America/Cancun {STDOFF '-5:47:04' not multiple of :15 min}
 // America/Caracas {
 //   STDOFF '-4:27:40' not multiple of :15 min,
@@ -1821,8 +1846,14 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // America/Chihuahua {STDOFF '-7:04:20' not multiple of :15 min}
 // America/Ciudad_Juarez {STDOFF '-7:05:56' not multiple of :15 min}
 // America/Costa_Rica {STDOFF '-5:36:13' not multiple of :15 min}
-// America/Cuiaba {STDOFF '-3:44:20' not multiple of :15 min}
-// America/Danmarkshavn {STDOFF '-1:14:40' not multiple of :15 min}
+// America/Cuiaba {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:44:20' not multiple of :15 min,
+// }
+// America/Danmarkshavn {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-1:14:40' not multiple of :15 min,
+// }
 // America/Dawson {
 //   STDOFF '-9:17:40' not multiple of :15 min,
 //   Yukon {
@@ -1837,10 +1868,16 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   UNTIL '0:01' not multiple of :15 min,
 // }
 // America/Edmonton {STDOFF '-7:33:52' not multiple of :15 min}
-// America/Eirunepe {STDOFF '-4:39:28' not multiple of :15 min}
+// America/Eirunepe {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:39:28' not multiple of :15 min,
+// }
 // America/El_Salvador {STDOFF '-5:56:48' not multiple of :15 min}
 // America/Fort_Nelson {STDOFF '-8:10:47' not multiple of :15 min}
-// America/Fortaleza {STDOFF '-2:34:00' not multiple of :15 min}
+// America/Fortaleza {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-2:34:00' not multiple of :15 min,
+// }
 // America/Glace_Bay {STDOFF '-3:59:48' not multiple of :15 min}
 // America/Goose_Bay {
 //   STDOFF '-3:30:52' not multiple of :15 min,
@@ -1857,6 +1894,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // America/Guatemala {STDOFF '-6:02:04' not multiple of :15 min}
 // America/Guayaquil {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-5:14:00' not multiple of :15 min,
 //   STDOFF '-5:19:20' not multiple of :15 min,
 // }
@@ -1892,6 +1930,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // America/Kentucky/Monticello {STDOFF '-5:39:24' not multiple of :15 min}
 // America/La_Paz {STDOFF '-4:32:36' not multiple of :15 min}
 // America/Lima {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-5:08:12' not multiple of :15 min,
 //   STDOFF '-5:08:36' not multiple of :15 min,
 // }
@@ -1899,12 +1938,18 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '-7:52:58' not multiple of :15 min,
 //   CA {AT '2:01' not multiple of :15 min}
 // }
-// America/Maceio {STDOFF '-2:22:52' not multiple of :15 min}
+// America/Maceio {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-2:22:52' not multiple of :15 min,
+// }
 // America/Managua {
 //   STDOFF '-5:45:08' not multiple of :15 min,
 //   STDOFF '-5:45:12' not multiple of :15 min,
 // }
-// America/Manaus {STDOFF '-4:00:04' not multiple of :15 min}
+// America/Manaus {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:00:04' not multiple of :15 min,
+// }
 // America/Martinique {STDOFF '-4:04:20' not multiple of :15 min}
 // America/Mazatlan {STDOFF '-7:05:40' not multiple of :15 min}
 // America/Menominee {STDOFF '-5:50:27' not multiple of :15 min}
@@ -1916,13 +1961,17 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   UNTIL '15:44:55' not multiple of :15 min,
 // }
 // America/Mexico_City {STDOFF '-6:36:36' not multiple of :15 min}
-// America/Miquelon {STDOFF '-3:44:40' not multiple of :15 min}
+// America/Miquelon {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:44:40' not multiple of :15 min,
+// }
 // America/Moncton {
 //   STDOFF '-4:19:08' not multiple of :15 min,
 //   Moncton {AT '0:01' not multiple of :15 min}
 // }
 // America/Monterrey {STDOFF '-6:41:16' not multiple of :15 min}
 // America/Montevideo {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-3:44:51' not multiple of :15 min,
 //   Uruguay {
 //     SAVE '0:30' different from 1:00,
@@ -1936,11 +1985,17 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   UNTIL '13:29:35' not multiple of :01 min,
 //   UNTIL '13:29:35' not multiple of :15 min,
 // }
-// America/Noronha {STDOFF '-2:09:40' not multiple of :15 min}
+// America/Noronha {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-2:09:40' not multiple of :15 min,
+// }
 // America/North_Dakota/Beulah {STDOFF '-6:47:07' not multiple of :15 min}
 // America/North_Dakota/Center {STDOFF '-6:45:12' not multiple of :15 min}
 // America/North_Dakota/New_Salem {STDOFF '-6:45:39' not multiple of :15 min}
-// America/Nuuk {STDOFF '-3:26:56' not multiple of :15 min}
+// America/Nuuk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:26:56' not multiple of :15 min,
+// }
 // America/Ojinaga {STDOFF '-6:57:40' not multiple of :15 min}
 // America/Panama {
 //   STDOFF '-5:18:08' not multiple of :15 min,
@@ -1959,17 +2014,33 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '-4:49' not multiple of :15 min,
 //   STDOFF '-4:49:20' not multiple of :15 min,
 // }
-// America/Porto_Velho {STDOFF '-4:15:36' not multiple of :15 min}
+// America/Porto_Velho {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:15:36' not multiple of :15 min,
+// }
 // America/Puerto_Rico {STDOFF '-4:24:25' not multiple of :15 min}
 // America/Punta_Arenas {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-4:42:45' not multiple of :15 min,
 //   STDOFF '-4:43:40' not multiple of :15 min,
 // }
-// America/Recife {STDOFF '-2:19:36' not multiple of :15 min}
+// America/Recife {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-2:19:36' not multiple of :15 min,
+// }
 // America/Regina {STDOFF '-6:58:36' not multiple of :15 min}
-// America/Rio_Branco {STDOFF '-4:31:12' not multiple of :15 min}
-// America/Santarem {STDOFF '-3:38:48' not multiple of :15 min}
-// America/Santiago {STDOFF '-4:42:45' not multiple of :15 min}
+// America/Rio_Branco {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:31:12' not multiple of :15 min,
+// }
+// America/Santarem {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:38:48' not multiple of :15 min,
+// }
+// America/Santiago {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-4:42:45' not multiple of :15 min,
+// }
 // America/Santo_Domingo {
 //   STDOFF '-4:39:36' not multiple of :15 min,
 //   STDOFF '-4:40' not multiple of :15 min,
@@ -1980,8 +2051,14 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '0:30' different from 1:00,
 //   }
 // }
-// America/Sao_Paulo {STDOFF '-3:06:28' not multiple of :15 min}
-// America/Scoresbysund {STDOFF '-1:27:52' not multiple of :15 min}
+// America/Sao_Paulo {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:06:28' not multiple of :15 min,
+// }
+// America/Scoresbysund {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-1:27:52' not multiple of :15 min,
+// }
 // America/Sitka {
 //   STDOFF '-9:01:13' not multiple of :15 min,
 //   STDOFF '14:58:47' not multiple of :15 min,
@@ -2018,6 +2095,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   UNTIL '15:12:18' not multiple of :15 min,
 // }
 // Antarctica/Casey {UNTIL '0:01' not multiple of :15 min}
+// Antarctica/Palmer {RULES not fixed but FORMAT is missing '%s' or '/'}
 // Antarctica/Troll {
 //   Troll {
 //     LETTER '+00' not single character,
@@ -2025,9 +2103,13 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Asia/Almaty {STDOFF '5:07:48' not multiple of :15 min}
+// Asia/Almaty {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '5:07:48' not multiple of :15 min,
+// }
 // Asia/Amman {STDOFF '2:23:44' not multiple of :15 min}
 // Asia/Anadyr {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '11:49:56' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2039,17 +2121,34 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Asia/Aqtau {STDOFF '3:21:04' not multiple of :15 min}
-// Asia/Aqtobe {STDOFF '3:48:40' not multiple of :15 min}
-// Asia/Ashgabat {STDOFF '3:53:32' not multiple of :15 min}
-// Asia/Atyrau {STDOFF '3:27:44' not multiple of :15 min}
+// Asia/Aqtau {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:21:04' not multiple of :15 min,
+// }
+// Asia/Aqtobe {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:48:40' not multiple of :15 min,
+// }
+// Asia/Ashgabat {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:53:32' not multiple of :15 min,
+// }
+// Asia/Atyrau {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:27:44' not multiple of :15 min,
+// }
 // Asia/Baghdad {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '2:57:36' not multiple of :15 min,
 //   STDOFF '2:57:40' not multiple of :15 min,
 // }
-// Asia/Baku {STDOFF '3:19:24' not multiple of :15 min}
+// Asia/Baku {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:19:24' not multiple of :15 min,
+// }
 // Asia/Bangkok {STDOFF '6:42:04' not multiple of :15 min}
 // Asia/Barnaul {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '5:35:00' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2062,8 +2161,12 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Beirut {STDOFF '2:22:00' not multiple of :15 min}
-// Asia/Bishkek {STDOFF '4:58:24' not multiple of :15 min}
+// Asia/Bishkek {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '4:58:24' not multiple of :15 min,
+// }
 // Asia/Chita {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '7:33:52' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2075,7 +2178,6 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Asia/Choibalsan {STDOFF '7:38:00' not multiple of :15 min}
 // Asia/Colombo {
 //   RULES '0:30' different from 1:00,
 //   STDOFF '5:19:24' not multiple of :15 min,
@@ -2083,12 +2185,16 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Asia/Damascus {STDOFF '2:25:12' not multiple of :15 min}
 // Asia/Dhaka {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '5:53:20' not multiple of :15 min,
 //   STDOFF '6:01:40' not multiple of :15 min,
 // }
 // Asia/Dili {STDOFF '8:22:20' not multiple of :15 min}
 // Asia/Dubai {STDOFF '3:41:12' not multiple of :15 min}
-// Asia/Dushanbe {STDOFF '4:35:12' not multiple of :15 min}
+// Asia/Dushanbe {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '4:35:12' not multiple of :15 min,
+// }
 // Asia/Famagusta {STDOFF '2:15:48' not multiple of :15 min}
 // Asia/Gaza {
 //   STDOFF '2:17:52' not multiple of :15 min,
@@ -2112,8 +2218,12 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   RULES '0:30' different from 1:00,
 //   STDOFF '7:36:42' not multiple of :15 min,
 // }
-// Asia/Hovd {STDOFF '6:06:36' not multiple of :15 min}
+// Asia/Hovd {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '6:06:36' not multiple of :15 min,
+// }
 // Asia/Irkutsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '6:57:05' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2141,6 +2251,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Asia/Kabul {STDOFF '4:36:48' not multiple of :15 min}
 // Asia/Kamchatka {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '10:34:36' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2158,6 +2269,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '5:45' not multiple of :30 min,
 // }
 // Asia/Khandyga {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '9:02:13' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2175,6 +2287,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '5:53:28' not multiple of :15 min,
 // }
 // Asia/Krasnoyarsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '6:11:26' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2187,11 +2300,16 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Kuching {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '7:21:20' not multiple of :15 min,
 //   NBorneo {SAVE '0:20' different from 1:00}
 // }
-// Asia/Macau {STDOFF '7:34:10' not multiple of :15 min}
+// Asia/Macau {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '7:34:10' not multiple of :15 min,
+// }
 // Asia/Magadan {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '10:03:12' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2210,6 +2328,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Asia/Nicosia {STDOFF '2:13:28' not multiple of :15 min}
 // Asia/Novokuznetsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '5:48:48' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2222,6 +2341,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Novosibirsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '5:31:40' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2234,6 +2354,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Omsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '4:53:30' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2245,14 +2366,24 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Asia/Oral {STDOFF '3:25:24' not multiple of :15 min}
+// Asia/Oral {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:25:24' not multiple of :15 min,
+// }
 // Asia/Pontianak {STDOFF '7:17:20' not multiple of :15 min}
 // Asia/Pyongyang {STDOFF '8:23:00' not multiple of :15 min}
 // Asia/Qatar {STDOFF '3:26:08' not multiple of :15 min}
-// Asia/Qostanay {STDOFF '4:14:28' not multiple of :15 min}
-// Asia/Qyzylorda {STDOFF '4:21:52' not multiple of :15 min}
+// Asia/Qostanay {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '4:14:28' not multiple of :15 min,
+// }
+// Asia/Qyzylorda {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '4:21:52' not multiple of :15 min,
+// }
 // Asia/Riyadh {STDOFF '3:06:52' not multiple of :15 min}
 // Asia/Sakhalin {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '9:30:48' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2264,7 +2395,10 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Asia/Samarkand {STDOFF '4:27:53' not multiple of :15 min}
+// Asia/Samarkand {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '4:27:53' not multiple of :15 min,
+// }
 // Asia/Seoul {STDOFF '8:27:52' not multiple of :15 min}
 // Asia/Shanghai {STDOFF '8:05:43' not multiple of :15 min}
 // Asia/Singapore {
@@ -2273,6 +2407,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '7:20' not multiple of :15 min,
 // }
 // Asia/Srednekolymsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '10:14:52' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2285,12 +2420,22 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Taipei {STDOFF '8:06:00' not multiple of :15 min}
-// Asia/Tashkent {STDOFF '4:37:11' not multiple of :15 min}
-// Asia/Tbilisi {STDOFF '2:59:11' not multiple of :15 min}
-// Asia/Tehran {STDOFF '3:25:44' not multiple of :15 min}
+// Asia/Tashkent {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '4:37:11' not multiple of :15 min,
+// }
+// Asia/Tbilisi {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '2:59:11' not multiple of :15 min,
+// }
+// Asia/Tehran {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:25:44' not multiple of :15 min,
+// }
 // Asia/Thimphu {STDOFF '5:58:36' not multiple of :15 min}
 // Asia/Tokyo {STDOFF '9:18:59' not multiple of :15 min}
 // Asia/Tomsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '5:39:51' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2302,9 +2447,13 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Asia/Ulaanbaatar {STDOFF '7:07:32' not multiple of :15 min}
+// Asia/Ulaanbaatar {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '7:07:32' not multiple of :15 min,
+// }
 // Asia/Urumqi {STDOFF '5:50:20' not multiple of :15 min}
 // Asia/Ust-Nera {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '9:32:54' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2317,6 +2466,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Vladivostok {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '8:47:31' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2329,6 +2479,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Asia/Yakutsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '8:38:58' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2342,6 +2493,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Asia/Yangon {STDOFF '6:24:47' not multiple of :15 min}
 // Asia/Yekaterinburg {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '3:45:05' not multiple of :15 min,
 //   STDOFF '4:02:33' not multiple of :15 min,
 //   Russia {
@@ -2354,9 +2506,12 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //     SAVE '2:00' different from 1:00,
 //   }
 // }
-// Asia/Yerevan {STDOFF '2:58:00' not multiple of :15 min}
+// Asia/Yerevan {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '2:58:00' not multiple of :15 min,
+// }
 // Atlantic/Azores {
-//   RULES not fixed but FORMAT is missing '%' or '/',
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-1:42:40' not multiple of :15 min,
 //   STDOFF '-1:54:32' not multiple of :15 min,
 //   Port {SAVE '2:00' different from 1:00}
@@ -2366,23 +2521,28 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // Atlantic/Cape_Verde {STDOFF '-1:34:04' not multiple of :15 min}
 // Atlantic/Faroe {STDOFF '-0:27:04' not multiple of :15 min}
 // Atlantic/Madeira {
-//   RULES not fixed but FORMAT is missing '%' or '/',
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-1:07:36' not multiple of :15 min,
 //   Port {SAVE '2:00' different from 1:00}
 // }
 // Atlantic/South_Georgia {STDOFF '-2:26:08' not multiple of :15 min}
-// Atlantic/Stanley {STDOFF '-3:51:24' not multiple of :15 min}
+// Atlantic/Stanley {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-3:51:24' not multiple of :15 min,
+// }
 // Australia/Adelaide {STDOFF '9:14:20' not multiple of :15 min}
 // Australia/Brisbane {STDOFF '10:12:08' not multiple of :15 min}
 // Australia/Broken_Hill {STDOFF '9:25:48' not multiple of :15 min}
 // Australia/Darwin {STDOFF '8:43:20' not multiple of :15 min}
 // Australia/Eucla {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '8:35:28' not multiple of :15 min,
 //   STDOFF '8:45' not multiple of :30 min,
 // }
 // Australia/Hobart {STDOFF '9:49:16' not multiple of :15 min}
 // Australia/Lindeman {STDOFF '9:55:56' not multiple of :15 min}
 // Australia/Lord_Howe {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '10:36:20' not multiple of :15 min,
 //   LH {SAVE '0:30' different from 1:00}
 // }
@@ -2391,6 +2551,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // Australia/Sydney {STDOFF '10:04:52' not multiple of :15 min}
 // Europe/Andorra {STDOFF '0:06:04' not multiple of :15 min}
 // Europe/Astrakhan {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '3:12:12' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2454,6 +2615,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Europe/Helsinki {STDOFF '1:39:49' not multiple of :15 min}
 // Europe/Istanbul {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '1:55:52' not multiple of :15 min,
 //   STDOFF '1:56:56' not multiple of :15 min,
 // }
@@ -2470,6 +2632,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Europe/Kirov {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '3:18:48' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2559,6 +2722,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Europe/Rome {STDOFF '0:49:56' not multiple of :15 min}
 // Europe/Samara {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '3:20:20' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2571,6 +2735,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Europe/Saratov {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '3:04:18' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2613,6 +2778,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Europe/Tirane {STDOFF '1:19:20' not multiple of :15 min}
 // Europe/Ulyanovsk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '3:13:36' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2640,6 +2806,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   }
 // }
 // Europe/Volgograd {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '2:57:40' not multiple of :15 min,
 //   Russia {
 //     LETTER '+05' not single character,
@@ -2658,8 +2825,12 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // }
 // Indian/Chagos {STDOFF '4:49:40' not multiple of :15 min}
 // Indian/Maldives {STDOFF '4:54:00' not multiple of :15 min}
-// Indian/Mauritius {STDOFF '3:50:00' not multiple of :15 min}
+// Indian/Mauritius {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '3:50:00' not multiple of :15 min,
+// }
 // Pacific/Apia {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-11:26:56' not multiple of :15 min,
 //   STDOFF '12:33:04' not multiple of :15 min,
 // }
@@ -2672,15 +2843,28 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '9:48:32' not multiple of :15 min,
 // }
 // Pacific/Chatham {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '12:13:48' not multiple of :15 min,
 //   STDOFF '12:15' not multiple of :30 min,
 //   STDOFF '12:45' not multiple of :30 min,
 // }
-// Pacific/Easter {STDOFF '-7:17:28' not multiple of :15 min}
-// Pacific/Efate {STDOFF '11:13:16' not multiple of :15 min}
+// Pacific/Easter {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-7:17:28' not multiple of :15 min,
+// }
+// Pacific/Efate {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '11:13:16' not multiple of :15 min,
+// }
 // Pacific/Fakaofo {STDOFF '-11:24:56' not multiple of :15 min}
-// Pacific/Fiji {STDOFF '11:55:44' not multiple of :15 min}
-// Pacific/Galapagos {STDOFF '-5:58:24' not multiple of :15 min}
+// Pacific/Fiji {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '11:55:44' not multiple of :15 min,
+// }
+// Pacific/Galapagos {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '-5:58:24' not multiple of :15 min,
+// }
 // Pacific/Gambier {STDOFF '-8:59:48' not multiple of :15 min}
 // Pacific/Guadalcanal {STDOFF '10:39:48' not multiple of :15 min}
 // Pacific/Guam {
@@ -2708,10 +2892,14 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '-11:20' not multiple of :15 min,
 // }
 // Pacific/Norfolk {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '11:11:52' not multiple of :15 min,
 //   STDOFF '11:12' not multiple of :15 min,
 // }
-// Pacific/Noumea {STDOFF '11:05:48' not multiple of :15 min}
+// Pacific/Noumea {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
+//   STDOFF '11:05:48' not multiple of :15 min,
+// }
 // Pacific/Pago_Pago {
 //   STDOFF '-11:22:48' not multiple of :15 min,
 //   STDOFF '12:37:12' not multiple of :15 min,
@@ -2726,6 +2914,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 //   STDOFF '9:48:40' not multiple of :15 min,
 // }
 // Pacific/Rarotonga {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '-10:39:04' not multiple of :15 min,
 //   STDOFF '13:20:56' not multiple of :15 min,
 //   Cook {SAVE '0:30' different from 1:00}
@@ -2733,6 +2922,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // Pacific/Tahiti {STDOFF '-9:58:16' not multiple of :15 min}
 // Pacific/Tarawa {STDOFF '11:32:04' not multiple of :15 min}
 // Pacific/Tongatapu {
+//   RULES not fixed but FORMAT is missing '%s' or '/',
 //   STDOFF '12:19:12' not multiple of :15 min,
 //   STDOFF '12:20' not multiple of :15 min,
 // }

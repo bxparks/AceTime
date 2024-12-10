@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,10 +23,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
-// Supported Zones: 446 (227 zones, 219 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 447 (216 zones, 231 links)
+// Unsupported Zones: 149 (123 zones, 26 links)
 //
 // Requested Years: [2000,2200]
 // Accurate Years: [2000,32767]
@@ -39,38 +39,38 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 239
-//   Policies: 65
-//   Rules: 367
+//   Infos: 447
+//   Eras: 228
+//   Policies: 64
+//   Rules: 363
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 3303
-//   Policies: 195
-//   Eras: 2629
-//   Zones: 2951
-//   Links: 2847
-//   Registry: 892
-//   Formats: 467
+//   Rules: 3267
+//   Policies: 192
+//   Eras: 2508
+//   Zones: 2808
+//   Links: 3003
+//   Registry: 894
+//   Formats: 175
 //   Letters: 29
 //   Fragments: 116
-//   Names: 4140 (original: 6495)
-//   TOTAL: 17585
+//   Names: 4152 (original: 6511)
+//   TOTAL: 17160
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 4404
-//   Policies: 520
-//   Eras: 3824
-//   Zones: 5448
-//   Links: 5256
-//   Registry: 1784
-//   Formats: 467
+//   Rules: 4356
+//   Policies: 512
+//   Eras: 3648
+//   Zones: 5184
+//   Links: 5544
+//   Registry: 1788
+//   Formats: 175
 //   Letters: 41
 //   Fragments: 138
-//   Names: 4140 (original: 6495)
-//   TOTAL: 26046
+//   Names: 4152 (original: 6511)
+//   TOTAL: 25562
 //
 // DO NOT EDIT
 
@@ -84,17 +84,10 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Zone Info registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[216] ACE_TIME_PROGMEM = {
   &kZoneAsia_Jakarta, // 0x0506ab50, Asia/Jakarta
   &kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
   &kZoneAmerica_Hermosillo, // 0x065d21c4, America/Hermosillo
-  &kZoneCET, // 0x0b87d921, CET
-  &kZoneEET, // 0x0b87e1a3, EET
-  &kZoneEST, // 0x0b87e371, EST
-  &kZoneHST, // 0x0b87f034, HST
-  &kZoneMET, // 0x0b8803ab, MET
-  &kZoneMST, // 0x0b880579, MST
-  &kZoneWET, // 0x0b882e35, WET
   &kZoneAmerica_Guatemala, // 0x0c8259f7, America/Guatemala
   &kZoneAfrica_Monrovia, // 0x0ce90385, Africa/Monrovia
   &kZoneAntarctica_Rothera, // 0x0e86d203, Antarctica/Rothera
@@ -196,7 +189,6 @@ const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
   &kZonePacific_Pitcairn, // 0x8837d8bd, Pacific/Pitcairn
   &kZonePacific_Efate, // 0x8a2bce28, Pacific/Efate
   &kZonePacific_Nauru, // 0x8acc41ae, Pacific/Nauru
-  &kZoneEST5EDT, // 0x8adc72a3, EST5EDT
   &kZonePacific_Palau, // 0x8af04a36, Pacific/Palau
   &kZoneAmerica_Winnipeg, // 0x8c7dafc7, America/Winnipeg
   &kZoneAustralia_Eucla, // 0x8cf99e44, Australia/Eucla
@@ -282,7 +274,6 @@ const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
   &kZoneEtc_UTC, // 0xd8e31abc, Etc/UTC
   &kZoneAmerica_Yakutat, // 0xd8ee31e9, America/Yakutat
   &kZoneAfrica_Algiers, // 0xd94515c1, Africa/Algiers
-  &kZonePST8PDT, // 0xd99ee2dc, PST8PDT
   &kZoneAmerica_Matamoros, // 0xdd1b0259, America/Matamoros
   &kZonePacific_Kanton, // 0xdd512f0e, Pacific/Kanton
   &kZoneAsia_Yangon, // 0xdd54a8be, Asia/Yangon
@@ -295,10 +286,8 @@ const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
   &kZoneAtlantic_Faroe, // 0xe110a971, Atlantic/Faroe
   &kZonePacific_Noumea, // 0xe551b788, Pacific/Noumea
   &kZonePacific_Honolulu, // 0xe6e70af9, Pacific/Honolulu
-  &kZoneCST6CDT, // 0xf0e87d00, CST6CDT
   &kZonePacific_Tahiti, // 0xf24c2446, Pacific/Tahiti
   &kZonePacific_Tarawa, // 0xf2517e63, Pacific/Tarawa
-  &kZoneMST7MDT, // 0xf2af9375, MST7MDT
   &kZoneAsia_Tashkent, // 0xf3924254, Asia/Tashkent
   &kZonePacific_Guadalcanal, // 0xf4dd25f0, Pacific/Guadalcanal
   &kZoneAmerica_Danmarkshavn, // 0xf554d204, America/Danmarkshavn
@@ -318,7 +307,7 @@ const basic::ZoneInfo* const kZoneRegistry[227] ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 // Zone and Link (fat) Info registry. Sorted by zoneId. Links act like Zones.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
+const basic::ZoneInfo* const kZoneAndLinkRegistry[447] ACE_TIME_PROGMEM = {
   &kZoneGB, // 0x005973ae, GB -> Europe/London
   &kZoneNZ, // 0x005974ad, NZ -> Pacific/Auckland
   &kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur -> Asia/Singapore
@@ -337,19 +326,19 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Hermosillo, // 0x065d21c4, America/Hermosillo
   &kZoneMexico_BajaSur, // 0x08ee3641, Mexico/BajaSur -> America/Mazatlan
   &kZoneUS_Hawaii, // 0x09c8de2f, US/Hawaii -> Pacific/Honolulu
-  &kZoneCET, // 0x0b87d921, CET
-  &kZoneEET, // 0x0b87e1a3, EET
-  &kZoneEST, // 0x0b87e371, EST
+  &kZoneCET, // 0x0b87d921, CET -> Europe/Brussels
+  &kZoneEET, // 0x0b87e1a3, EET -> Europe/Athens
+  &kZoneEST, // 0x0b87e371, EST -> America/Panama
   &kZoneGMT, // 0x0b87eb2d, GMT -> Etc/GMT
-  &kZoneHST, // 0x0b87f034, HST
-  &kZoneMET, // 0x0b8803ab, MET
-  &kZoneMST, // 0x0b880579, MST
+  &kZoneHST, // 0x0b87f034, HST -> Pacific/Honolulu
+  &kZoneMET, // 0x0b8803ab, MET -> Europe/Brussels
+  &kZoneMST, // 0x0b880579, MST -> America/Phoenix
   &kZonePRC, // 0x0b88120a, PRC -> Asia/Shanghai
   &kZoneROC, // 0x0b881a29, ROC -> Asia/Taipei
   &kZoneROK, // 0x0b881a31, ROK -> Asia/Seoul
   &kZoneUCT, // 0x0b882571, UCT -> Etc/UTC
   &kZoneUTC, // 0x0b882791, UTC -> Etc/UTC
-  &kZoneWET, // 0x0b882e35, WET
+  &kZoneWET, // 0x0b882e35, WET -> Europe/Lisbon
   &kZoneAmerica_Guatemala, // 0x0c8259f7, America/Guatemala
   &kZoneEurope_Mariehamn, // 0x0caa6496, Europe/Mariehamn -> Europe/Helsinki
   &kZoneAfrica_Monrovia, // 0x0ce90385, Africa/Monrovia
@@ -558,7 +547,7 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneAustralia_LHI, // 0x8a973e17, Australia/LHI -> Australia/Lord_Howe
   &kZoneAustralia_NSW, // 0x8a974812, Australia/NSW -> Australia/Sydney
   &kZonePacific_Nauru, // 0x8acc41ae, Pacific/Nauru
-  &kZoneEST5EDT, // 0x8adc72a3, EST5EDT
+  &kZoneEST5EDT, // 0x8adc72a3, EST5EDT -> America/New_York
   &kZonePacific_Palau, // 0x8af04a36, Pacific/Palau
   &kZonePacific_Samoa, // 0x8b2699b4, Pacific/Samoa -> Pacific/Pago_Pago
   &kZoneAmerica_Winnipeg, // 0x8c7dafc7, America/Winnipeg
@@ -577,6 +566,7 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Niamey, // 0x914a30fd, Africa/Niamey -> Africa/Lagos
   &kZoneAsia_Yerevan, // 0x9185c8cc, Asia/Yerevan
   &kZoneAmerica_Detroit, // 0x925cfbc1, America/Detroit
+  &kZoneAsia_Choibalsan, // 0x928aa4a6, Asia/Choibalsan -> Asia/Ulaanbaatar
   &kZoneAmerica_Belize, // 0x93256c81, America/Belize
   &kZoneAmerica_Bogota, // 0x93d7bc62, America/Bogota
   &kZoneAmerica_Cayman, // 0x953961df, America/Cayman -> America/Panama
@@ -710,7 +700,7 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZoneEtc_UTC, // 0xd8e31abc, Etc/UTC
   &kZoneAmerica_Yakutat, // 0xd8ee31e9, America/Yakutat
   &kZoneAfrica_Algiers, // 0xd94515c1, Africa/Algiers
-  &kZonePST8PDT, // 0xd99ee2dc, PST8PDT
+  &kZonePST8PDT, // 0xd99ee2dc, PST8PDT -> America/Los_Angeles
   &kZoneEurope_Bratislava, // 0xda493bed, Europe/Bratislava -> Europe/Prague
   &kZonePacific_Funafuti, // 0xdb402d65, Pacific/Funafuti -> Pacific/Tarawa
   &kZoneAmerica_Matamoros, // 0xdd1b0259, America/Matamoros
@@ -738,10 +728,10 @@ const basic::ZoneInfo* const kZoneAndLinkRegistry[446] ACE_TIME_PROGMEM = {
   &kZonePacific_Ponape, // 0xe9f80086, Pacific/Ponape -> Pacific/Guadalcanal
   &kZoneEurope_Zaporozhye, // 0xeab9767f, Europe/Zaporozhye -> Europe/Kyiv
   &kZoneEurope_Isle_of_Man, // 0xeaf84580, Europe/Isle_of_Man -> Europe/London
-  &kZoneCST6CDT, // 0xf0e87d00, CST6CDT
+  &kZoneCST6CDT, // 0xf0e87d00, CST6CDT -> America/Chicago
   &kZonePacific_Tahiti, // 0xf24c2446, Pacific/Tahiti
   &kZonePacific_Tarawa, // 0xf2517e63, Pacific/Tarawa
-  &kZoneMST7MDT, // 0xf2af9375, MST7MDT
+  &kZoneMST7MDT, // 0xf2af9375, MST7MDT -> America/Denver
   &kZoneCanada_Eastern, // 0xf3612d5e, Canada/Eastern -> America/Toronto
   &kZoneAsia_Tashkent, // 0xf3924254, Asia/Tashkent
   &kZonePacific_Guadalcanal, // 0xf4dd25f0, Pacific/Guadalcanal

@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbtesting/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbtesting
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -25,10 +25,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
 // Supported Zones: 12 (11 zones, 1 links)
-// Unsupported Zones: 584 (340 zones, 244 links)
+// Unsupported Zones: 584 (328 zones, 256 links)
 //
 // Requested Years: [1980,2200]
 // Accurate Years: [1980,32767]
@@ -54,11 +54,11 @@
 //   Zones: 143
 //   Links: 13
 //   Registry: 24
-//   Formats: 38
+//   Formats: 27
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 924
+//   TOTAL: 913
 //
 // Memory (32-bits):
 //   Context: 24
@@ -68,11 +68,11 @@
 //   Zones: 264
 //   Links: 24
 //   Registry: 48
-//   Formats: 38
+//   Formats: 27
 //   Letters: 17
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 1305
+//   TOTAL: 1294
 //
 // DO NOT EDIT
 
@@ -162,7 +162,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 340
+// Unsupported zones: 328
 //---------------------------------------------------------------------------
 
 // Africa/Abidjan {Zone missing from include list}
@@ -317,7 +317,6 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Asia/Beirut {Zone missing from include list}
 // Asia/Bishkek {Zone missing from include list}
 // Asia/Chita {Zone missing from include list}
-// Asia/Choibalsan {Zone missing from include list}
 // Asia/Colombo {Zone missing from include list}
 // Asia/Damascus {Zone missing from include list}
 // Asia/Dhaka {Zone missing from include list}
@@ -396,11 +395,6 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Australia/Melbourne {Zone missing from include list}
 // Australia/Perth {Zone missing from include list}
 // Australia/Sydney {Zone missing from include list}
-// CET {Zone missing from include list}
-// CST6CDT {Zone missing from include list}
-// EET {Zone missing from include list}
-// EST {Zone missing from include list}
-// EST5EDT {Zone missing from include list}
 // Etc/GMT {Zone missing from include list}
 // Etc/GMT+1 {Zone missing from include list}
 // Etc/GMT+10 {Zone missing from include list}
@@ -467,14 +461,9 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Europe/Volgograd {Zone missing from include list}
 // Europe/Warsaw {Zone missing from include list}
 // Europe/Zurich {Zone missing from include list}
-// HST {Zone missing from include list}
 // Indian/Chagos {Zone missing from include list}
 // Indian/Maldives {Zone missing from include list}
 // Indian/Mauritius {Zone missing from include list}
-// MET {Zone missing from include list}
-// MST {Zone missing from include list}
-// MST7MDT {Zone missing from include list}
-// PST8PDT {Zone missing from include list}
 // Pacific/Apia {Zone missing from include list}
 // Pacific/Auckland {Zone missing from include list}
 // Pacific/Bougainville {Zone missing from include list}
@@ -504,18 +493,18 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Pacific/Tahiti {Zone missing from include list}
 // Pacific/Tarawa {Zone missing from include list}
 // Pacific/Tongatapu {Zone missing from include list}
-// WET {Zone missing from include list}
 
 
 //---------------------------------------------------------------------------
-// Notable zones: 1
+// Notable zones: 2
 //---------------------------------------------------------------------------
 
-// Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
+// Africa/Johannesburg {RULES not fixed but FORMAT is missing '%s' or '/'}
+// Pacific/Galapagos {RULES not fixed but FORMAT is missing '%s' or '/'}
 
 
 //---------------------------------------------------------------------------
-// Unsupported links: 244
+// Unsupported links: 256
 //---------------------------------------------------------------------------
 
 // Africa/Accra {Link missing from include list}
@@ -611,6 +600,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Asia/Bahrain {Link missing from include list}
 // Asia/Brunei {Link missing from include list}
 // Asia/Calcutta {Link missing from include list}
+// Asia/Choibalsan {Link missing from include list}
 // Asia/Chongqing {Link missing from include list}
 // Asia/Chungking {Link missing from include list}
 // Asia/Dacca {Link missing from include list}
@@ -650,6 +640,8 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Brazil/DeNoronha {Link missing from include list}
 // Brazil/East {Link missing from include list}
 // Brazil/West {Link missing from include list}
+// CET {Link missing from include list}
+// CST6CDT {Link missing from include list}
 // Canada/Atlantic {Link missing from include list}
 // Canada/Central {Link missing from include list}
 // Canada/Eastern {Link missing from include list}
@@ -661,6 +653,9 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Chile/Continental {Link missing from include list}
 // Chile/EasterIsland {Link missing from include list}
 // Cuba {Link missing from include list}
+// EET {Link missing from include list}
+// EST {Link missing from include list}
+// EST5EDT {Link missing from include list}
 // Egypt {Link missing from include list}
 // Eire {Link missing from include list}
 // Etc/GMT+0 {Link missing from include list}
@@ -703,6 +698,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // GMT-0 {Link missing from include list}
 // GMT0 {Link missing from include list}
 // Greenwich {Link missing from include list}
+// HST {Link missing from include list}
 // Hongkong {Link missing from include list}
 // Iceland {Link missing from include list}
 // Indian/Antananarivo {Link missing from include list}
@@ -719,6 +715,9 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // Japan {Link missing from include list}
 // Kwajalein {Link missing from include list}
 // Libya {Link missing from include list}
+// MET {Link missing from include list}
+// MST {Link missing from include list}
+// MST7MDT {Link missing from include list}
 // Mexico/BajaNorte {Link missing from include list}
 // Mexico/BajaSur {Link missing from include list}
 // Mexico/General {Link missing from include list}
@@ -726,6 +725,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // NZ-CHAT {Link missing from include list}
 // Navajo {Link missing from include list}
 // PRC {Link missing from include list}
+// PST8PDT {Link missing from include list}
 // Pacific/Chuuk {Link missing from include list}
 // Pacific/Enderbury {Link missing from include list}
 // Pacific/Funafuti {Link missing from include list}
@@ -761,6 +761,7 @@ const uint8_t kZoneBufSizePacific_Galapagos = 3;  // Pacific/Galapagos in 1985
 // UTC {Link missing from include list}
 // Universal {Link missing from include list}
 // W-SU {Link missing from include list}
+// WET {Link missing from include list}
 // Zulu {Link missing from include list}
 
 
