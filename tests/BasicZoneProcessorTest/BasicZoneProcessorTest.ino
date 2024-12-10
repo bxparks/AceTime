@@ -191,7 +191,8 @@ test(BasicZoneProcessorTest, init_primitives) {
   assertEqual(-8*60, zoneProcessor.mTransitions[0].offsetMinutes);
 
   // t >= 2001-04-01 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
+  assertEqual(-8*60, zoneProcessor.mTransitions[1].offsetMinutes);
+  assertEqual(1*60, zoneProcessor.mTransitions[1].deltaMinutes);
   assertEqual(
       (acetime_t) (39434400 /*relative to 2000*/
           - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),
@@ -199,6 +200,7 @@ test(BasicZoneProcessorTest, init_primitives) {
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
+  assertEqual(0*60, zoneProcessor.mTransitions[2].deltaMinutes);
   assertEqual(
       (acetime_t) (57574800 /*relative to 2000*/
           - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),
@@ -241,7 +243,8 @@ test(BasicZoneProcessorTest, initForLocalDate) {
   assertEqual(-8*60, zoneProcessor.mTransitions[0].offsetMinutes);
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-7*60, zoneProcessor.mTransitions[1].offsetMinutes);
+  assertEqual(-8*60, zoneProcessor.mTransitions[1].offsetMinutes);
+  assertEqual(1*60, zoneProcessor.mTransitions[1].deltaMinutes);
   assertEqual(
       (acetime_t) (574077600 /*relative to 2000*/
           - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),
@@ -249,6 +252,7 @@ test(BasicZoneProcessorTest, initForLocalDate) {
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-8*60, zoneProcessor.mTransitions[2].offsetMinutes);
+  assertEqual(0*60, zoneProcessor.mTransitions[2].deltaMinutes);
   assertEqual(
       (acetime_t) (594637200 /*relative to 2000*/
           - Epoch::daysToCurrentEpochFromInternalEpoch() * 86400),

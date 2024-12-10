@@ -175,13 +175,7 @@ struct TransitionTemplate {
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
-  /**
-   * The base offset minutes, not the total effective UTC offset. Note that
-   * this is different than basic::Transition::offsetSeconds used by
-   * BasicZoneProcessor which is the total effective offsetSeconds. (It may be
-   * possible to make this into an effective offsetSeconds (i.e. offsetSeconds
-   * + deltaSeconds) but it does not seem worth making that change right now.)
-   */
+  /** The standard time offset seconds, not the total offset. */
   int32_t offsetSeconds;
 
   /** The DST delta seconds. */

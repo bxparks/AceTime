@@ -79,9 +79,8 @@ struct TransitionTemplate {
   acetime_t startEpochSeconds;
 
   /**
-   * The total effective UTC offset minutes at the start of transition,
-   * *including* DST offset. (Maybe rename this effectiveOffsetMinutes?) The
-   * DST offset is stored at deltaMinutes.
+   * The standard time offset minutes at the start of transition, *not
+   * including* DST offset.
    */
   int16_t offsetMinutes;
 
@@ -298,8 +297,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (!transition) return result;
 
       result.dstOffsetSeconds = transition->deltaMinutes * kSecPerMin;
-      result.stdOffsetSeconds = (transition->offsetMinutes
-          - transition->deltaMinutes) * kSecPerMin;
+      result.stdOffsetSeconds = transition->offsetMinutes * kSecPerMin;
       result.reqStdOffsetSeconds = result.stdOffsetSeconds;
       result.reqDstOffsetSeconds = result.dstOffsetSeconds;
       result.type = FindResult::kTypeExact;
@@ -765,7 +763,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (month != 0) {
         mon = month;
       }
-      int16_t offsetMinutes = era.offsetSeconds() / kSecPerMin + deltaMinutes;
+      int16_t offsetMinutes = era.offsetSeconds() / kSecPerMin;
 
       transition.era = era;
       transition.rule = rule;
@@ -822,16 +820,17 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           // Also, when transition.rule == nullptr, the mNumTransitions should
           // be 1, since only a single transition is added by
           // addTransitionsForYear().
-          const int16_t prevOffsetMinutes = prevTransition->offsetMinutes;
+          const int16_t prevTotalOffsetMinutes = prevTransition->offsetMinutes
+              + prevTransition->deltaMinutes;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
-              TimeOffset::forMinutes(prevOffsetMinutes));
+              TimeOffset::forMinutes(prevTotalOffsetMinutes));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
         } else {
           // In this case, the transition points to a named ZonePolicy, which
           // means that there could be multiple ZoneRules associated with the
           // given year. For each transition, determine the startEpochSeconds,
-          // and the effective offset code.
+          // and the effective offset time.
 
           // Determine the start date of the rule.
           const internal::MonthDay monthDay = internal::calcStartDayOfMonth(
@@ -840,8 +839,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
           // Determine the offset of the 'atTimeSuffix'. The 'w' suffix
           // requires the offset of the previous transition.
-          const int16_t prevOffsetMinutes = calcRuleOffsetMinutes(
-              prevTransition->offsetMinutes,
+          const int16_t prevTotalOffsetMinutes = calcRuleOffsetMinutes(
+              prevTransition->offsetMinutes + prevTransition->deltaMinutes,
               transition.era.offsetSeconds() / kSecPerMin,
               transition.rule.atTimeSuffix());
 
@@ -852,7 +851,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, monthDay.month, monthDay.day,
               atHour, atMinute, 0 /*second*/,
-              TimeOffset::forMinutes(prevOffsetMinutes));
+              TimeOffset::forMinutes(prevTotalOffsetMinutes));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
         }
 
@@ -866,10 +865,10 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * (which does not contain the extra DST offset). If 'u', 'g', 'z', then
      * use 0 offset.
      */
-    static int16_t calcRuleOffsetMinutes(int16_t prevEffectiveOffsetMinutes,
+    static int16_t calcRuleOffsetMinutes(int16_t prevTotalOffsetMinutes,
         int16_t currentBaseOffsetMinutes, uint8_t atSuffix) {
       if (atSuffix == basic::ZoneContext::kSuffixW) {
-        return prevEffectiveOffsetMinutes;
+        return prevTotalOffsetMinutes;
       } else if (atSuffix == basic::ZoneContext::kSuffixS) {
         return currentBaseOffsetMinutes;
       } else { // 'u', 'g' or 'z'
