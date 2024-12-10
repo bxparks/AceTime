@@ -889,7 +889,8 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
             transition->abbrev,
             internal::kAbbrevSize,
             transition->era.format(),
-            transition->deltaMinutes,
+            transition->offsetMinutes * kSecPerMin,
+            transition->deltaMinutes * kSecPerMin,
             transition->abbrev);
       }
     }

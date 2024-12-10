@@ -1151,6 +1151,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             t->abbrev,
             internal::kAbbrevSize,
             t->format(),
+            t->offsetSeconds,
             t->deltaSeconds,
             t->abbrev);
       }

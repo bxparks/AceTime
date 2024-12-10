@@ -1377,7 +1377,7 @@ const uint8_t kZoneBufSizeWET = 5;  // WET in 1983
 // Notable zones: 9
 //---------------------------------------------------------------------------
 
-// Africa/Johannesburg {RULES not fixed but FORMAT is missing '%' or '/'}
+// Africa/Johannesburg {RULES not fixed but FORMAT is missing '%s' or '/'}
 // Africa/Windhoek {
 //   Namibia {
 //     LETTER 'CAT' not single character,

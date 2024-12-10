@@ -29,6 +29,7 @@
 #include "zoneinfo/brokers.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
+#include "ace_time/common/DateConv.h"
 #include "ace_time/EpochConverterJulian.h"
 #include "ace_time/EpochConverterHinnant.h"
 #include "ace_time/Epoch.h"
