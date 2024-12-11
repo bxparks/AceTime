@@ -198,13 +198,14 @@ struct ZoneEra {
 
   /**
    * Zone abbreviations (e.g. PST, EST) determined by the FORMAT column. It has
-   * 3 encodings in the TZ DB files:
+   * 4 encodings in the TZ DB files:
    *
    *  1) A fixed string, e.g. "GMT".
    *  2) Two strings separated by a '/', e.g. "-03/-02" indicating
    *     "{std}/{dst}" options.
    *  3) A single string with a substitution, e.g. "E%sT", where the "%s" is
    *  replaced by the LETTER value from the ZoneRule.
+   *  4) An empty string representing the "%z" format.
    *
    * BasicZoneProcessor supports only a single letter subsitution from LETTER,
    * but ExtendedZoneProcessor supports substituting multi-character strings
@@ -216,10 +217,8 @@ struct ZoneEra {
    * simpler. For example, 'E%sT' is stored as 'E%T', and the LETTER
    * substitution is performed on the '%' character.
    *
-   * This field will never be a 'nullptr' if it was derived from an actual
-   * entry from the TZ dtabase. There is an internal object named
-   * `ExtendedZoneProcessor::kAnchorEra` which does set this field to nullptr.
-   * Maybe it should be set to ""?
+   * This field will never be a 'nullptr' because the AceTimeTools compiler
+   * always generates a ZoneEra entry with a non-null format.
    */
   const char* const format;
 
