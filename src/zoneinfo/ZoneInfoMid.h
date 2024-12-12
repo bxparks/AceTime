@@ -8,6 +8,28 @@
 
 #include <stdint.h>
 
+/**
+ * @file ZoneInfoMid.h
+ *
+ * Data structures that describe the mid resolution zoneinfo persistence format.
+ * by the AceTimeTools compiler. It has a 1-minute resolution for AT, UNTIL,
+ * STDOFF; a 15-minute resolution for DST offset (similar to ZoneInfoLow). But
+ * it also uses 2-byte year fields supporting year range of `[-32767,32765]`
+ * (similar to ZoneInfoHigh).
+ *
+ * The BrokersMid.h file provides an abtraction layer which converts these
+ * low-level fields into a semantically consistent API which can be used by the
+ * AceTime classes.
+ *
+ * The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will
+ * use one of these persistence formats, as defined by infos.h. (The
+ * ZoneInfoMid.h persistence format was used at some point during the
+ * development, but it is current *not* used by any of the zone*db database
+ * files.)
+ *
+ * See also DEVELOPER.md for an overview of the ZoneInfoXXX layer.
+ */
+
 namespace ace_time{
 namespace zoneinfomid {
 

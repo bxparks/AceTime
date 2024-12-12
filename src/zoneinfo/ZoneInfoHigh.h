@@ -6,6 +6,24 @@
 #ifndef ACE_TIME_ZONE_INFO_HIGH_H
 #define ACE_TIME_ZONE_INFO_HIGH_H
 
+/**
+ * @file ZoneInfoHigh.h
+ *
+ * Data structures that encodes the high resolution zoneinfo database
+ * persistence format. It has a 1-second resolution for AT, UNTIL, STDOFF, and
+ * DST offsets. The year fiels use 2-bytes which supporting years
+ * `[-32767,32765]`.
+ *
+ * The BrokersHigh.h file provides an abtraction layer which converts these
+ * low-level fields into a semantically consistent API which can be used by the
+ * AceTime classes.
+ *
+ * The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will
+ * use one of these persistence formats, as defined by infos.h.
+ *
+ * See also DEVELOPER.md for an overview of the ZoneInfoXXX layer.
+ */
+
 #include <stdint.h>
 
 namespace ace_time {
@@ -178,10 +196,11 @@ struct ZonePolicy {
  * determined by the RULES column in the TZ Database file.
  *
  * There are 2 types of ZoneEra:
- *    1) zonePolicy == nullptr. Then deltaCode determines the additional offset
- *    from offsetCode. A value of '-' in the TZ Database file is stored as 0.
- *    2) zonePolicy != nullptr. Then the deltaCode offset is given by the
- *    ZoneRule.deltaCode which matches the time instant of interest.
+ *    1) zonePolicy == nullptr. Then ZoneEra.deltaMinutes determines the
+ *    additional offset from offsetCode. A value of '-' in the TZ Database file
+ *    is stored as 0.
+ *    2) zonePolicy != nullptr. Then the deltaMinutes offset is given by the
+ *    ZoneRule.deltaMinutes which matches the time instant of interest.
  */
 template<typename S>
 struct ZoneEra {
