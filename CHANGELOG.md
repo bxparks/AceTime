@@ -1,6 +1,14 @@
 # Changelog
 
 - Unreleased
+    - Support new `%z` value in FORMAT column.
+    - Upgrade TZDB to 2024b
+        - https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/IZ7AO6WRE3W3TWBL5IR6PMQUL433BQIE/
+        - "Improve historical data for Mexico, Mongolia, and Portugal. System V
+          names are now obsolescent. The main data form now uses %z. The code
+          now conforms to RFC 8536 for early timestamps. Support POSIX.1-2024,
+          which removes asctime_r and ctime_r. Assume POSIX.2-1992 or later for
+          shell scripts. SUPPORT_C89 now defaults to 1."
 - 2.3.2 (2024-07-25, TZDB version 2024a)
     - Upgrade TZDB to 2024a
         - https://mm.icann.org/pipermail/tz-announce/2024-February/000081.html
