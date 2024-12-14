@@ -13,7 +13,7 @@ using namespace ace_time;
 
 void setup() {
 #if ! defined(EPOXY_DUINO)
-  delay(2000); // ESP8266, ESP32 now require 2000 instead of 1000
+  delay(8000); // STM32, ESP8266, ESP32 now require > 5000ms instead of 1000ms
 #endif
 
   SERIAL_PORT_MONITOR.begin(115200);

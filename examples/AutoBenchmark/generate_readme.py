@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v2.3.0
+**Version**: AceTime v2.4.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -55,7 +55,7 @@ USB hub with individually controlled switch.
 2. Type `$ auniter ports` to determine its `/dev/ttyXXX` port number (e.g.
 `/dev/ttyUSB0` or `/dev/ttyACM0`).
 3. If the port is `USB0` or `ACM0`, type `$ make nano.txt`, etc.
-4. Switch off the old microontroller.
+4. Switch off the old microcontroller.
 5. Go to Step 1 and repeat for each microcontroller.
 
 The `generate_table.awk` program reads one of `*.txt` files and prints out an
@@ -224,16 +224,21 @@ The CPU times below are given in microseconds.
     * ESP32 Boards 2.0.9
 
 **v2.3.0**
-
 * Add benchmarks for `CompleteZoneProcessor` and related classes
 * Replace labels of `BasicZoneManager::createForXxx()` with
   `BasicZoneRegistrar::findIndexForXxx()`, because those are the methods which
   are actually being tested.
 
+**v2.4.0**
+* Support %z format.
+* Upgrade to TZDB 2024b.
+* Upgrade Arduino CLI to 1.1.1
+* Almost no change in execution times.
+
 ## Arduino Nano
 
 * 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 0.33.0
+* Arduino IDE 1.8.19, Arduino CLI 1.1.1
 * Arduino AVR Boards 1.8.6
 
 ```
@@ -243,7 +248,7 @@ The CPU times below are given in microseconds.
 ## Sparkfun Pro Micro
 
 * 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 0.33.0
+* Arduino IDE 1.8.19, Arduino CLI 1.1.1
 * SparkFun AVR Boards 1.1.13
 
 ```
@@ -253,7 +258,7 @@ The CPU times below are given in microseconds.
 ## Seeed Studio XIAO SAMD21
 
 * SAMD21, 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.19, Arduino CLI 0.33.0
+* Arduino IDE 1.8.19, Arduino CLI 1.1.1
 * Seeeduino 1.8.4
 
 ```
@@ -263,7 +268,7 @@ The CPU times below are given in microseconds.
 ## STM32 Blue Pill
 
 * STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 0.33.0
+* Arduino IDE 1.8.19, Arduino CLI 1.1.1
 * STM32duino 2.5.0
 
 ```
@@ -273,7 +278,7 @@ The CPU times below are given in microseconds.
 ## Adafruit ItsyBitsy M4 SAMD51
 
 * SAMD51, 120 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 0.33.0
+* Arduino IDE 1.8.19, Arduino CLI 1.1.1
 * Adafruit SAMD 1.7.11
 
 ```
@@ -283,7 +288,7 @@ The CPU times below are given in microseconds.
 ## ESP8266
 
 * NodeMCU 1.0 clone, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 0.33.0
+* Arduino IDE 1.8.19, Arduino CLI 1.1.1
 * ESP8266 Boards 3.0.2
 
 ```
@@ -293,7 +298,7 @@ The CPU times below are given in microseconds.
 ## ESP32
 
 * ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 0.33.0
+* Arduino IDE 1.8.19, Arduino CLI 1.1.1
 * ESP32 Boards 2.0.9
 
 ```
