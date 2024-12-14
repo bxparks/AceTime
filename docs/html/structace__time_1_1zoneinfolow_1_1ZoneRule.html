@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -119,7 +119,7 @@ struct ace_time::zoneinfolow::ZoneRule&lt; S &gt;</h3>
 <p>A time zone transition rule. </p>
 <p>It is useful to think of this as a transition rule that repeats on the given (month, day, hour) every year during the interval [fromYear, toYear] inclusive. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00110">110</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00128">128</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a5a03813584face1181deb7980e838e31"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a03813584face1181deb7980e838e31">&#9670;&nbsp;</a></span>atTimeCode</h2>
@@ -138,7 +138,7 @@ template&lt;typename S &gt; </div>
 <p>Determined by the AT column in units of 15-minutes from 00:00. </p>
 <p>The range is (0 - 100) corresponding to 00:00 to 25:00. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00142">142</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00160">160</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -162,7 +162,7 @@ template&lt;typename S &gt; </div>
 <li>The lower 4 bits represent the remaining 0-14 minutes of the AT field after truncation into atTimeCode. In other words, the full AT field in one-minute resolution is (15 * atTimeCode + (atTimeModifier &amp; 0x0f)). </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00153">153</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00171">171</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -184,7 +184,7 @@ template&lt;typename S &gt; </div>
 <p>The deltaCode is equal to (originalDeltaCode + 4). Only the lower 4-bits is used, for consistency with the <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html#aaa118ac6d6d2ded0b845e00d0fbd4033" title="This is a composite of two 4-bit fields:">ZoneEra::deltaCode</a> field. This allows the 4-bits to represent DST offsets from -1:00 to 2:45 in 15-minute increments.</p>
 <p>The ZonePolicyBroker::deltaMinutes() method knows how to convert this field into minutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00165">165</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00183">183</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -205,7 +205,7 @@ template&lt;typename S &gt; </div>
 <p>Determined by the IN column. </p>
 <p>1=Jan, 12=Dec. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00118">118</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00136">136</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -232,7 +232,7 @@ template&lt;typename S &gt; </div>
 <li>Troll ('+00' '+02'; used by Antarctica/Troll) </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00179">179</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00197">197</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -253,7 +253,7 @@ template&lt;typename S &gt; </div>
 <p>Determined by the ON column. </p>
 <p>Used with onDayOfWeek. Possible values are: 0, 1-31, or its corresponding negative values. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00136">136</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00154">154</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -277,7 +277,7 @@ template&lt;typename S &gt; </div>
 * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek&lt;=dayOfMonth
 * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
 * </pre> 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00130">130</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00148">148</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>

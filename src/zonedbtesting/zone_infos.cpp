@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbtesting/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbtesting
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -25,10 +25,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
 // Supported Zones: 12 (11 zones, 1 links)
-// Unsupported Zones: 584 (340 zones, 244 links)
+// Unsupported Zones: 584 (328 zones, 256 links)
 //
 // Requested Years: [1980,2200]
 // Accurate Years: [1980,32767]
@@ -54,11 +54,11 @@
 //   Zones: 143
 //   Links: 13
 //   Registry: 24
-//   Formats: 38
+//   Formats: 27
 //   Letters: 11
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 924
+//   TOTAL: 913
 //
 // Memory (32-bits):
 //   Context: 24
@@ -68,11 +68,11 @@
 //   Zones: 264
 //   Links: 24
 //   Registry: 48
-//   Formats: 38
+//   Formats: 27
 //   Letters: 17
 //   Fragments: 0
 //   Names: 202 (original: 202)
-//   TOTAL: 1305
+//   TOTAL: 1294
 //
 // DO NOT EDIT
 
@@ -87,7 +87,7 @@ namespace zonedbtesting {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-static const char kVersionString[] ACE_TIME_PROGMEM = "2024a";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2024b";
 const __FlashStringHelper* const kTzDatabaseVersion =
     (const __FlashStringHelper*) kVersionString;
 
@@ -489,10 +489,10 @@ const basic::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
-  //             -5:00    -    -05    1986
+  //             -5:00    -    %z    1986
   {
     nullptr /*zonePolicy*/,
-    "-05" /*format*/,
+    "" /*format*/,
     -20 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     -114 /*untilYearTiny*/,
@@ -501,10 +501,10 @@ static const basic::ZoneEra kZoneEraPacific_Galapagos[] ACE_TIME_PROGMEM = {
     0 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //             -6:00    Ecuador    -06/-05
+  //             -6:00    Ecuador    %z
   {
     &kZonePolicyEcuador /*zonePolicy*/,
-    "-06/-05" /*format*/,
+    "" /*format*/,
     -24 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,

@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,10 +23,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
-// Supported Zones: 446 (227 zones, 219 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 447 (216 zones, 231 links)
+// Unsupported Zones: 149 (123 zones, 26 links)
 //
 // Requested Years: [2000,2200]
 // Accurate Years: [2000,32767]
@@ -39,38 +39,38 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 239
-//   Policies: 65
-//   Rules: 367
+//   Infos: 447
+//   Eras: 228
+//   Policies: 64
+//   Rules: 363
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 3303
-//   Policies: 195
-//   Eras: 2629
-//   Zones: 2951
-//   Links: 2847
-//   Registry: 892
-//   Formats: 467
+//   Rules: 3267
+//   Policies: 192
+//   Eras: 2508
+//   Zones: 2808
+//   Links: 3003
+//   Registry: 894
+//   Formats: 175
 //   Letters: 29
 //   Fragments: 116
-//   Names: 4140 (original: 6495)
-//   TOTAL: 17585
+//   Names: 4152 (original: 6511)
+//   TOTAL: 17160
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 4404
-//   Policies: 520
-//   Eras: 3824
-//   Zones: 5448
-//   Links: 5256
-//   Registry: 1784
-//   Formats: 467
+//   Rules: 4356
+//   Policies: 512
+//   Eras: 3648
+//   Zones: 5184
+//   Links: 5544
+//   Registry: 1788
+//   Formats: 175
 //   Letters: 41
 //   Fragments: 138
-//   Names: 4140 (original: 6495)
-//   TOTAL: 26046
+//   Names: 4152 (original: 6511)
+//   TOTAL: 25562
 //
 // DO NOT EDIT
 
@@ -83,7 +83,7 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Supported policies: 65
+// Supported policies: 64
 //---------------------------------------------------------------------------
 
 extern const basic::ZonePolicy kZonePolicyAN;
@@ -98,7 +98,6 @@ extern const basic::ZonePolicy kZonePolicyAzer;
 extern const basic::ZonePolicy kZonePolicyBarb;
 extern const basic::ZonePolicy kZonePolicyBelize;
 extern const basic::ZonePolicy kZonePolicyBrazil;
-extern const basic::ZonePolicy kZonePolicyC_Eur;
 extern const basic::ZonePolicy kZonePolicyCO;
 extern const basic::ZonePolicy kZonePolicyCR;
 extern const basic::ZonePolicy kZonePolicyCanada;
@@ -154,7 +153,7 @@ extern const basic::ZonePolicy kZonePolicyZion;
 
 
 //---------------------------------------------------------------------------
-// Unsupported policies: 69
+// Unsupported policies: 70
 //---------------------------------------------------------------------------
 
 // Albania {unused}
@@ -164,6 +163,7 @@ extern const basic::ZonePolicy kZonePolicyZion;
 // Belgium {unused}
 // Bermuda {unused}
 // Bulg {unused}
+// C-Eur {unused}
 // CA {unused}
 // Chicago {unused}
 // Cyprus {unused}

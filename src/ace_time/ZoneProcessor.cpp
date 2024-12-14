@@ -4,8 +4,9 @@
  */
 
 #include <string.h> // strchr(), strncpy(), memcpy()
-#include <AceCommon.h> // copyReplaceString()
+#include <AceCommon.h> // copyReplaceString(), PrintStr
 #include "ZoneProcessor.h"
+#include "common/DateConv.h" // secondsToHms()
 
 namespace ace_time {
 namespace internal {
@@ -49,11 +50,30 @@ void createAbbreviation(
     char* dest,
     uint8_t destSize,
     const char* format,
-    uint32_t deltaSeconds,
+    int32_t stdSeconds,
+    int32_t dstSeconds,
     const char* letterString) {
 
-  // Check if FORMAT contains a '%'.
-  if (strchr(format, '%') != nullptr) {
+  // Check if FORMAT is a '%z'
+  if (*format == '\0') {
+    int32_t totalSeconds = stdSeconds + dstSeconds;
+    uint32_t secs = (totalSeconds >= 0) ? totalSeconds : -totalSeconds;
+    ace_common::PrintStr<internal::kAbbrevSize> buf;
+    uint16_t hh, mm, ss;
+    secondsToHms(secs, &hh, &mm, &ss);
+    buf.print((totalSeconds >= 0) ? '+' : '-');
+    ace_common::printPad2To(buf, hh, '0'); // pad with leading '0'
+    if (mm != 0 || ss != 0) {
+      ace_common::printPad2To(buf, mm, '0');
+    }
+    if (ss != 0) {
+      ace_common::printPad2To(buf, ss, '0');
+    }
+    strncpy(dest, buf.cstr(), internal::kAbbrevSize);
+    dest[destSize - 1] = '\0';
+
+  // Check if FORMAT contains a '%s'.
+  } else if (strchr(format, '%') != nullptr) {
     // Check if RULES column empty, therefore no 'letter'
     if (letterString == nullptr) {
       strncpy(dest, format, destSize - 1);
@@ -72,10 +92,9 @@ void createAbbreviation(
       ace_common::copyReplaceString(dest, destSize, format, '%', letter);
     }
   } else {
-    // Check if FORMAT contains a '/'.
     const char* slashPos = strchr(format, '/');
     if (slashPos != nullptr) {
-      if (deltaSeconds == 0) {
+      if (dstSeconds == 0) {
         uint8_t headLength = (slashPos - format);
         if (headLength >= destSize) headLength = destSize - 1;
         memcpy(dest, format, headLength);
@@ -87,7 +106,7 @@ void createAbbreviation(
         dest[tailLength] = '\0';
       }
     } else {
-      // Just copy the FORMAT disregarding deltaSeconds and letterString.
+      // Just copy the FORMAT disregarding dstSeconds and letterString.
       strncpy(dest, format, destSize - 1);
       dest[destSize - 1] = '\0';
     }

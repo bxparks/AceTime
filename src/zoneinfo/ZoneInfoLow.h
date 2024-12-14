@@ -6,6 +6,24 @@
 #ifndef ACE_TIME_ZONE_INFO_LOW_H
 #define ACE_TIME_ZONE_INFO_LOW_H
 
+/**
+ * @file ZoneInfoLow.h
+ *
+ * Data structures describe the low resolution zoneinfo persistence format. It
+ * has a 1-minute resolution for AT, UNTIL, STDOFF; 15-minute resolution for DST
+ * offsets. The year fields use a 1-byte offset from a `baseYear` which gives a
+ * [-127,+126] range.
+ *
+ * The BrokersLow.h file provides an abtraction layer which converts these
+ * low-level fields into a semantically consistent API which can be used by the
+ * AceTime classes.
+ *
+ * The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will
+ * use one of these persistence formats, as defined by infos.h.
+ *
+ * See also DEVELOPER.md for an overview of the ZoneInfoXXX layer.
+ */
+
 #include <stdint.h>
 
 namespace ace_time{
@@ -198,10 +216,11 @@ struct ZonePolicy {
  * determined by the RULES column in the TZ Database file.
  *
  * There are 2 types of ZoneEra:
- *    1) zonePolicy == nullptr. Then deltaCode determines the additional offset
- *    from offsetCode. A value of '-' in the TZ Database file is stored as 0.
- *    2) zonePolicy != nullptr. Then the deltaCode offset is given by the
- *    ZoneRule.deltaCode which matches the time instant of interest.
+ *    1) zonePolicy == nullptr. Then ZoneEra.deltaCode determines the additional
+ *    offset from offsetCode. A value of '-' in the TZ Database file is stored
+ *    as 0.
+ *    2) zonePolicy != nullptr. Then the ZoneRule.deltaCode offset is given by
+ *    the ZoneRule.deltaCode which matches the time instant of interest.
  */
 template<typename S>
 struct ZoneEra {
@@ -213,13 +232,14 @@ struct ZoneEra {
 
   /**
    * Zone abbreviations (e.g. PST, EST) determined by the FORMAT column. It has
-   * 3 encodings in the TZ DB files:
+   * 4 encodings in the TZ DB files:
    *
    *  1) A fixed string, e.g. "GMT".
    *  2) Two strings separated by a '/', e.g. "-03/-02" indicating
    *     "{std}/{dst}" options.
    *  3) A single string with a substitution, e.g. "E%sT", where the "%s" is
    *  replaced by the LETTER value from the ZoneRule.
+   *  4) An empty string representing the "%z" format.
    *
    * BasicZoneProcessor supports only a single letter subsitution from LETTER,
    * but ExtendedZoneProcessor supports substituting multi-character strings
@@ -231,10 +251,8 @@ struct ZoneEra {
    * simpler. For example, 'E%sT' is stored as 'E%T', and the LETTER
    * substitution is performed on the '%' character.
    *
-   * This field will never be a 'nullptr' if it was derived from an actual
-   * entry from the TZ dtabase. There is an internal object named
-   * `ExtendedZoneProcessor::kAnchorEra` which does set this field to nullptr.
-   * Maybe it should be set to ""?
+   * This field will never be a 'nullptr' because the AceTimeTools compiler
+   * always generates a ZoneEra entry with a non-null format.
    */
   const char* const format;
 

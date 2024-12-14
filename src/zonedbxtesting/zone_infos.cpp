@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbxtesting/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbxtesting
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope extended
@@ -25,10 +25,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
 // Supported Zones: 16 (15 zones, 1 links)
-// Unsupported Zones: 580 (336 zones, 244 links)
+// Unsupported Zones: 580 (324 zones, 256 links)
 //
 // Requested Years: [1980,2200]
 // Accurate Years: [1980,32767]
@@ -43,36 +43,36 @@
 // Records:
 //   Infos: 16
 //   Eras: 30
-//   Policies: 12
-//   Rules: 227
+//   Policies: 11
+//   Rules: 220
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 2043
-//   Policies: 36
+//   Rules: 1980
+//   Policies: 33
 //   Eras: 330
 //   Zones: 195
 //   Links: 13
 //   Registry: 32
-//   Formats: 92
+//   Formats: 47
 //   Letters: 23
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3040
+//   TOTAL: 2929
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 2724
-//   Policies: 96
+//   Rules: 2640
+//   Policies: 88
 //   Eras: 480
 //   Zones: 360
 //   Links: 24
 //   Registry: 64
-//   Formats: 92
+//   Formats: 47
 //   Letters: 33
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 4157
+//   TOTAL: 4020
 //
 // DO NOT EDIT
 
@@ -87,7 +87,7 @@ namespace zonedbxtesting {
 // ZoneContext
 //---------------------------------------------------------------------------
 
-static const char kVersionString[] ACE_TIME_PROGMEM = "2024a";
+static const char kVersionString[] ACE_TIME_PROGMEM = "2024b";
 const __FlashStringHelper* const kTzDatabaseVersion =
     (const __FlashStringHelper*) kVersionString;
 
@@ -137,10 +137,10 @@ const extended::ZoneContext kZoneContext ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
-  //              0:00    Morocco    +00/+01    1984 Mar 16
+  //              0:00    Morocco    %z    1984 Mar 16
   {
     &kZonePolicyMorocco /*zonePolicy*/,
-    "+00/+01" /*format*/,
+    "" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     -116 /*untilYearTiny*/,
@@ -149,10 +149,10 @@ static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
     0 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //              1:00    -    +01    1986
+  //              1:00    -    %z    1986
   {
     nullptr /*zonePolicy*/,
-    "+01" /*format*/,
+    "" /*format*/,
     4 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     -114 /*untilYearTiny*/,
@@ -161,10 +161,10 @@ static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
     0 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //              0:00    Morocco    +00/+01    2018 Oct 28  3:00
+  //              0:00    Morocco    %z    2018 Oct 28  3:00
   {
     &kZonePolicyMorocco /*zonePolicy*/,
-    "+00/+01" /*format*/,
+    "" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     -82 /*untilYearTiny*/,
@@ -173,10 +173,10 @@ static const extended::ZoneEra kZoneEraAfrica_Casablanca[] ACE_TIME_PROGMEM = {
     12 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //              1:00    Morocco    +01/+00
+  //              1:00    Morocco    %z
   {
     &kZonePolicyMorocco /*zonePolicy*/,
-    "+01/+00" /*format*/,
+    "" /*format*/,
     4 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,
@@ -249,10 +249,10 @@ const extended::ZoneInfo kZoneAfrica_Windhoek ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
-  //             -4:00    -    -04    2007 Dec  9  3:00
+  //             -4:00    -    %z    2007 Dec  9  3:00
   {
     nullptr /*zonePolicy*/,
-    "-04" /*format*/,
+    "" /*format*/,
     -16 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     -93 /*untilYearTiny*/,
@@ -261,10 +261,10 @@ static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
     12 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //             -4:30    -    -0430    2016 May  1  2:30
+  //             -4:30    -    %z    2016 May  1  2:30
   {
     nullptr /*zonePolicy*/,
-    "-0430" /*format*/,
+    "" /*format*/,
     -18 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     -84 /*untilYearTiny*/,
@@ -273,10 +273,10 @@ static const extended::ZoneEra kZoneEraAmerica_Caracas[] ACE_TIME_PROGMEM = {
     10 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //             -4:00    -    -04
+  //             -4:00    -    %z
   {
     nullptr /*zonePolicy*/,
-    "-04" /*format*/,
+    "" /*format*/,
     -16 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,
@@ -685,21 +685,21 @@ const extended::ZoneInfo kZoneAustralia_Darwin ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
-  //              0:00    Port    WE%sT    1983 Sep 25  1:00s
+  //              0:00    Port    WE%sT    1986
   {
     &kZonePolicyPort /*zonePolicy*/,
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
-    -117 /*untilYearTiny*/,
-    9 /*untilMonth*/,
-    25 /*untilDay*/,
-    4 /*untilTimeCode*/,
-    16 /*untilTimeModifier (kSuffixS + minute=0)*/,
+    -114 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //              0:00    W-Eur    WE%sT    1992 Sep 27  1:00s
+  //              0:00    EU    WE%sT    1992 Sep 27  1:00u
   {
-    &kZonePolicyW_Eur /*zonePolicy*/,
+    &kZonePolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
     0 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
@@ -707,7 +707,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] ACE_TIME_PROGMEM = {
     9 /*untilMonth*/,
     27 /*untilDay*/,
     4 /*untilTimeCode*/,
-    16 /*untilTimeModifier (kSuffixS + minute=0)*/,
+    32 /*untilTimeModifier (kSuffixU + minute=0)*/,
   },
   //              1:00    EU    CE%sT    1996 Mar 31  1:00u
   {
@@ -753,10 +753,10 @@ const extended::ZoneInfo kZoneEurope_Lisbon ACE_TIME_PROGMEM = {
 //---------------------------------------------------------------------------
 
 static const extended::ZoneEra kZoneEraPacific_Apia[] ACE_TIME_PROGMEM = {
-  //             -11:00    WS    -11/-10    2011 Dec 29 24:00
+  //             -11:00    WS    %z    2011 Dec 29 24:00
   {
     &kZonePolicyWS /*zonePolicy*/,
-    "-11/-10" /*format*/,
+    "" /*format*/,
     -44 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     -89 /*untilYearTiny*/,
@@ -765,10 +765,10 @@ static const extended::ZoneEra kZoneEraPacific_Apia[] ACE_TIME_PROGMEM = {
     96 /*untilTimeCode*/,
     0 /*untilTimeModifier (kSuffixW + minute=0)*/,
   },
-  //              13:00    WS    +13/+14
+  //              13:00    WS    %z
   {
     &kZonePolicyWS /*zonePolicy*/,
-    "+13/+14" /*format*/,
+    "" /*format*/,
     52 /*offsetCode*/,
     4 /*deltaCode (((offsetMinute=0) << 4) + ((deltaMinutes=0)/15 + 4))*/,
     127 /*untilYearTiny*/,

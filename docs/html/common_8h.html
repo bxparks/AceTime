@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -145,7 +145,7 @@ template&lt;typename T &gt; </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a5266e5dc29bb6d4d45b276d73c4a70f1"><td class="memItemLeft" align="right" valign="top">const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a5266e5dc29bb6d4d45b276d73c4a70f1">ace_time::internal::kAbbrevSize</a> = 6 + 1</td></tr>
+<tr class="memitem:a5266e5dc29bb6d4d45b276d73c4a70f1"><td class="memItemLeft" align="right" valign="top">const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a5266e5dc29bb6d4d45b276d73c4a70f1">ace_time::internal::kAbbrevSize</a> = 7 + 1</td></tr>
 <tr class="memdesc:a5266e5dc29bb6d4d45b276d73c4a70f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the c-string buffer needed to hold a time zone abbreviation.  <a href="common_8h.html#a5266e5dc29bb6d4d45b276d73c4a70f1">More...</a><br /></td></tr>
 <tr class="separator:a5266e5dc29bb6d4d45b276d73c4a70f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -181,15 +181,21 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const uint8_t ace_time::internal::kAbbrevSize = 6 + 1</td>
+          <td class="memname">const uint8_t ace_time::internal::kAbbrevSize = 7 + 1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Size of the c-string buffer needed to hold a time zone abbreviation. </p>
-<p>Longest abbreviation currently seems to be 5 characters (<a href="https://www.timeanddate.com/time/zones/">https://www.timeanddate.com/time/zones/</a>) but the TZ database spec says that abbreviations are 3 to 6 characters (<a href="https://data.iana.org/time-zones/theory.html#abbreviations">https://data.iana.org/time-zones/theory.html#abbreviations</a>), so use 6 as the maximum. Plus one for the terminating NUL character. </p>
+<ul>
+<li>The longest explicit abbreviation in the database (as of 2019 or so) seems to be 5 characters (<a href="https://www.timeanddate.com/time/zones/">https://www.timeanddate.com/time/zones/</a>)</li>
+<li>The TZ database spec used to say that abbreviations are 3 to 6 characters but that wording is no longer in the document (<a href="https://data.iana.org/time-zones/theory.html#abbreviations">https://data.iana.org/time-zones/theory.html#abbreviations</a>).</li>
+<li>The zic(1) man page says "A time zone abbreviation has fewer than 3 or more than 6 characters. POSIX requires at least 3, and requires implementations to support at least 6". The first part of that wording makes no sense at all.</li>
+<li>The z specifier, added in TZDB 2024b, autogenerates the abbreviation using a [+/-][hh[mm[ss]]] pattern, which can be 7 characters long.</li>
+</ul>
+<p>Let's increase the max length from 6 to 7 to handle the z. We also need one extra byte for the terminating NUL character. </p>
 
-<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00036">36</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common_8h_source.html#l00046">46</a> of file <a class="el" href="common_8h_source.html">common.h</a>.</p>
 
 </div>
 </div>

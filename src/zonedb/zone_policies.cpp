@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedb/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedb
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope basic
@@ -23,10 +23,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
-// Supported Zones: 446 (227 zones, 219 links)
-// Unsupported Zones: 150 (124 zones, 26 links)
+// Supported Zones: 447 (216 zones, 231 links)
+// Unsupported Zones: 149 (123 zones, 26 links)
 //
 // Requested Years: [2000,2200]
 // Accurate Years: [2000,32767]
@@ -39,38 +39,38 @@
 // Max Buffer Size: 6
 //
 // Records:
-//   Infos: 446
-//   Eras: 239
-//   Policies: 65
-//   Rules: 367
+//   Infos: 447
+//   Eras: 228
+//   Policies: 64
+//   Rules: 363
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 3303
-//   Policies: 195
-//   Eras: 2629
-//   Zones: 2951
-//   Links: 2847
-//   Registry: 892
-//   Formats: 467
+//   Rules: 3267
+//   Policies: 192
+//   Eras: 2508
+//   Zones: 2808
+//   Links: 3003
+//   Registry: 894
+//   Formats: 175
 //   Letters: 29
 //   Fragments: 116
-//   Names: 4140 (original: 6495)
-//   TOTAL: 17585
+//   Names: 4152 (original: 6511)
+//   TOTAL: 17160
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 4404
-//   Policies: 520
-//   Eras: 3824
-//   Zones: 5448
-//   Links: 5256
-//   Registry: 1784
-//   Formats: 467
+//   Rules: 4356
+//   Policies: 512
+//   Eras: 3648
+//   Zones: 5184
+//   Links: 5544
+//   Registry: 1788
+//   Formats: 175
 //   Letters: 41
 //   Fragments: 138
-//   Names: 4140 (original: 6495)
-//   TOTAL: 26046
+//   Names: 4152 (original: 6511)
+//   TOTAL: 25562
 //
 // DO NOT EDIT
 
@@ -81,8 +81,8 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Policies: 65
-// Rules: 367
+// Policies: 64
+// Rules: 363
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -1127,68 +1127,6 @@ static const basic::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
 const basic::ZonePolicy kZonePolicyBrazil ACE_TIME_PROGMEM = {
   kZoneRulesBrazil /*rules*/,
   21 /*numRules*/,
-};
-
-//---------------------------------------------------------------------------
-// Policy name: C-Eur
-// Rules: 4
-//---------------------------------------------------------------------------
-
-static const basic::ZoneRule kZoneRulesC_Eur[] ACE_TIME_PROGMEM = {
-  // Anchor: Rule    C-Eur    1979    1995    -    Sep    lastSun     2:00s    0    -
-  {
-    -127 /*fromYearTiny (-32767)*/,
-    -127 /*toYearTiny (-32767)*/,
-    1 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeCode*/,
-    0 /*atTimeModifier (kSuffixW + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
-    0 /*letterIndex ("")*/,
-  },
-  // Rule    C-Eur    1979    1995    -    Sep    lastSun     2:00s    0    -
-  {
-    -121 /*fromYearTiny (1979)*/,
-    -105 /*toYearTiny (1995)*/,
-    9 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
-    0 /*letterIndex ("")*/,
-  },
-  // Rule    C-Eur    1981    max    -    Mar    lastSun     2:00s    1:00    S
-  {
-    -119 /*fromYearTiny (1981)*/,
-    126 /*toYearTiny (32766)*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    8 /*deltaCode ((deltaMinutes=60)/15 + 4)*/,
-    4 /*letterIndex ("S")*/,
-  },
-  // Rule    C-Eur    1996    max    -    Oct    lastSun     2:00s    0    -
-  {
-    -104 /*fromYearTiny (1996)*/,
-    126 /*toYearTiny (32766)*/,
-    10 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    16 /*atTimeModifier (kSuffixS + minute=0)*/,
-    4 /*deltaCode ((deltaMinutes=0)/15 + 4)*/,
-    0 /*letterIndex ("")*/,
-  },
-
-};
-
-const basic::ZonePolicy kZonePolicyC_Eur ACE_TIME_PROGMEM = {
-  kZoneRulesC_Eur /*rules*/,
-  4 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------

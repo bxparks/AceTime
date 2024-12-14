@@ -337,7 +337,8 @@ MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
   * @param dest destination string buffer
   * @param destSize size of buffer
   * @param format encoded abbreviation, '%' is a character substitution
-  * @param deltaMinutes the additional delta minutes std offset
+  * @param stdSeconds the offset seconds during standard time
+  * @param dstSeconds the additional offset seconds for daylight saving time
   *    (0 for standard, != 0 for DST)
   * @param letterString the string corrresonding to the LETTER field in the
   * ZoneRule record. It is `nullptr` if ZoneEra.RULES is a '- or an 'hh:mm';
@@ -351,7 +352,8 @@ void createAbbreviation(
     char* dest,
     uint8_t destSize,
     const char* format,
-    uint32_t deltaSeconds,
+    int32_t stdSeconds,
+    int32_t dstSeconds,
     const char* letterString);
 
 } // internal

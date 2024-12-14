@@ -3,7 +3,7 @@
 //   $ /home/brian/src/AceTimeTools/src/acetimetools/tzcompiler.py
 //     --input_dir /home/brian/src/AceTime/src/zonedbctesting/tzfiles
 //     --output_dir /home/brian/src/AceTime/src/zonedbctesting
-//     --tz_version 2024a
+//     --tz_version 2024b
 //     --action zonedb
 //     --language arduino
 //     --scope complete
@@ -25,10 +25,10 @@
 //   northamerica
 //   southamerica
 //
-// from https://github.com/eggert/tz/releases/tag/2024a
+// from https://github.com/eggert/tz/releases/tag/2024b
 //
 // Supported Zones: 16 (15 zones, 1 links)
-// Unsupported Zones: 580 (336 zones, 244 links)
+// Unsupported Zones: 580 (324 zones, 256 links)
 //
 // Requested Years: [1980,2200]
 // Accurate Years: [1980,32767]
@@ -43,36 +43,36 @@
 // Records:
 //   Infos: 16
 //   Eras: 30
-//   Policies: 12
-//   Rules: 227
+//   Policies: 11
+//   Rules: 220
 //
 // Memory (8-bits):
 //   Context: 16
-//   Rules: 2724
-//   Policies: 36
+//   Rules: 2640
+//   Policies: 33
 //   Eras: 450
 //   Zones: 195
 //   Links: 13
 //   Registry: 32
-//   Formats: 92
+//   Formats: 47
 //   Letters: 23
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 3841
+//   TOTAL: 3709
 //
 // Memory (32-bits):
 //   Context: 24
-//   Rules: 2724
-//   Policies: 96
+//   Rules: 2640
+//   Policies: 88
 //   Eras: 600
 //   Zones: 360
 //   Links: 24
 //   Registry: 64
-//   Formats: 92
+//   Formats: 47
 //   Letters: 33
 //   Fragments: 0
 //   Names: 260 (original: 260)
-//   TOTAL: 4277
+//   TOTAL: 4140
 //
 // DO NOT EDIT
 
@@ -83,8 +83,8 @@ namespace ace_time {
 namespace zonedbctesting {
 
 //---------------------------------------------------------------------------
-// Policies: 12
-// Rules: 227
+// Policies: 11
+// Rules: 220
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -2477,11 +2477,11 @@ const complete::ZonePolicy kZonePolicyNamibia ACE_TIME_PROGMEM = {
 
 //---------------------------------------------------------------------------
 // Policy name: Port
-// Rules: 7
+// Rules: 6
 //---------------------------------------------------------------------------
 
 static const complete::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
-  // Anchor: Rule    Port    1978    only    -    Oct     1     0:00s    0    -
+  // Anchor: Rule    Port    1978    only    -    Oct     1     1:00s    0    -
   {
     -32767 /*fromYear*/,
     -32767 /*toYear*/,
@@ -2493,19 +2493,19 @@ static const complete::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule    Port    1978    1979    -    Apr    Sun>=1     0:00s    1:00    S
+  // Rule    Port    1978    1980    -    Apr    Sun>=1     1:00s    1:00    S
   {
     1978 /*fromYear*/,
-    1979 /*toYear*/,
+    1980 /*toYear*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
     16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    0 /*atTimeCode (0/15)*/,
+    240 /*atTimeCode (3600/15)*/,
     60 /*deltaMinutes*/,
     3 /*letterIndex ("S")*/,
   },
-  // Rule    Port    1978    only    -    Oct     1     0:00s    0    -
+  // Rule    Port    1978    only    -    Oct     1     1:00s    0    -
   {
     1978 /*fromYear*/,
     1978 /*toYear*/,
@@ -2513,14 +2513,14 @@ static const complete::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
     16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    0 /*atTimeCode (0/15)*/,
+    240 /*atTimeCode (3600/15)*/,
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule    Port    1979    1982    -    Sep    lastSun     1:00s    0    -
+  // Rule    Port    1979    1980    -    Sep    lastSun     1:00s    0    -
   {
     1979 /*fromYear*/,
-    1982 /*toYear*/,
+    1980 /*toYear*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2529,10 +2529,10 @@ static const complete::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
     0 /*deltaMinutes*/,
     0 /*letterIndex ("")*/,
   },
-  // Rule    Port    1980    only    -    Mar    lastSun     0:00s    1:00    S
+  // Rule    Port    1981    1986    -    Mar    lastSun     0:00s    1:00    S
   {
-    1980 /*fromYear*/,
-    1980 /*toYear*/,
+    1981 /*fromYear*/,
+    1986 /*toYear*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2541,36 +2541,24 @@ static const complete::ZoneRule kZoneRulesPort[] ACE_TIME_PROGMEM = {
     60 /*deltaMinutes*/,
     3 /*letterIndex ("S")*/,
   },
-  // Rule    Port    1981    1982    -    Mar    lastSun     1:00s    1:00    S
+  // Rule    Port    1981    1985    -    Sep    lastSun     0:00s    0    -
   {
     1981 /*fromYear*/,
-    1982 /*toYear*/,
-    3 /*inMonth*/,
+    1985 /*toYear*/,
+    9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
     16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    240 /*atTimeCode (3600/15)*/,
-    60 /*deltaMinutes*/,
-    3 /*letterIndex ("S")*/,
-  },
-  // Rule    Port    1983    only    -    Mar    lastSun     2:00s    1:00    S
-  {
-    1983 /*fromYear*/,
-    1983 /*toYear*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    480 /*atTimeCode (7200/15)*/,
-    60 /*deltaMinutes*/,
-    3 /*letterIndex ("S")*/,
+    0 /*atTimeCode (0/15)*/,
+    0 /*deltaMinutes*/,
+    0 /*letterIndex ("")*/,
   },
 
 };
 
 const complete::ZonePolicy kZonePolicyPort ACE_TIME_PROGMEM = {
   kZoneRulesPort /*rules*/,
-  7 /*numRules*/,
+  6 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2731,92 +2719,6 @@ static const complete::ZoneRule kZoneRulesVanc[] ACE_TIME_PROGMEM = {
 const complete::ZonePolicy kZonePolicyVanc ACE_TIME_PROGMEM = {
   kZoneRulesVanc /*rules*/,
   4 /*numRules*/,
-};
-
-//---------------------------------------------------------------------------
-// Policy name: W-Eur
-// Rules: 6
-//---------------------------------------------------------------------------
-
-static const complete::ZoneRule kZoneRulesW_Eur[] ACE_TIME_PROGMEM = {
-  // Anchor: Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
-  {
-    -32767 /*fromYear*/,
-    -32767 /*toYear*/,
-    1 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    0 /*atTimeModifier (kAtcSuffixW + seconds=0)*/,
-    0 /*atTimeCode (0/15)*/,
-    0 /*deltaMinutes*/,
-    0 /*letterIndex ("")*/,
-  },
-  // Rule    W-Eur    1977    1980    -    Apr    Sun>=1     1:00s    1:00    S
-  {
-    1977 /*fromYear*/,
-    1980 /*toYear*/,
-    4 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    240 /*atTimeCode (3600/15)*/,
-    60 /*deltaMinutes*/,
-    3 /*letterIndex ("S")*/,
-  },
-  // Rule    W-Eur    1978    only    -    Oct     1     1:00s    0    -
-  {
-    1978 /*fromYear*/,
-    1978 /*toYear*/,
-    10 /*inMonth*/,
-    0 /*onDayOfWeek*/,
-    1 /*onDayOfMonth*/,
-    16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    240 /*atTimeCode (3600/15)*/,
-    0 /*deltaMinutes*/,
-    0 /*letterIndex ("")*/,
-  },
-  // Rule    W-Eur    1979    1995    -    Sep    lastSun     1:00s    0    -
-  {
-    1979 /*fromYear*/,
-    1995 /*toYear*/,
-    9 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    240 /*atTimeCode (3600/15)*/,
-    0 /*deltaMinutes*/,
-    0 /*letterIndex ("")*/,
-  },
-  // Rule    W-Eur    1981    max    -    Mar    lastSun     1:00s    1:00    S
-  {
-    1981 /*fromYear*/,
-    32766 /*toYear*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    240 /*atTimeCode (3600/15)*/,
-    60 /*deltaMinutes*/,
-    3 /*letterIndex ("S")*/,
-  },
-  // Rule    W-Eur    1996    max    -    Oct    lastSun     1:00s    0    -
-  {
-    1996 /*fromYear*/,
-    32766 /*toYear*/,
-    10 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    16 /*atTimeModifier (kAtcSuffixS + seconds=0)*/,
-    240 /*atTimeCode (3600/15)*/,
-    0 /*deltaMinutes*/,
-    0 /*letterIndex ("")*/,
-  },
-
-};
-
-const complete::ZonePolicy kZonePolicyW_Eur ACE_TIME_PROGMEM = {
-  kZoneRulesW_Eur /*rules*/,
-  6 /*numRules*/,
 };
 
 //---------------------------------------------------------------------------

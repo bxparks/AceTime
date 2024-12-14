@@ -123,7 +123,7 @@ implementations defined, corresponding to different resolution levels supported
 by each set:
 
 * `ZoneInfoLow.h`
-    * low resolution
+    * low resolution persistence format
         * 1-minute resolution for AT, UNTIL, STDOFF; 15-minute resolution for
           DST offsets
         * year fields using 1-byte offset from a `baseYear` of 2100,
@@ -136,7 +136,7 @@ by each set:
 * `ZoneInfoMid.h`
     * medium resolution persistence format
         * 1-minute resolution for AT, UNTIL, STDOFF; 15-minute resolution for
-          DST offset)
+          DST offset
         * 2-byte year fields supporting years `[-32767,32765]`
     * `zoneinfomid::ZoneContext<>`
     * `zoneinfomid::ZoneRule<>`

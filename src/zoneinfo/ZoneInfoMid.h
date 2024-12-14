@@ -8,6 +8,28 @@
 
 #include <stdint.h>
 
+/**
+ * @file ZoneInfoMid.h
+ *
+ * Data structures that describe the mid resolution zoneinfo persistence format.
+ * by the AceTimeTools compiler. It has a 1-minute resolution for AT, UNTIL,
+ * STDOFF; a 15-minute resolution for DST offset (similar to ZoneInfoLow). But
+ * it also uses 2-byte year fields supporting year range of `[-32767,32765]`
+ * (similar to ZoneInfoHigh).
+ *
+ * The BrokersMid.h file provides an abtraction layer which converts these
+ * low-level fields into a semantically consistent API which can be used by the
+ * AceTime classes.
+ *
+ * The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will
+ * use one of these persistence formats, as defined by infos.h. (The
+ * ZoneInfoMid.h persistence format was used at some point during the
+ * development, but it is current *not* used by any of the zone*db database
+ * files.)
+ *
+ * See also DEVELOPER.md for an overview of the ZoneInfoXXX layer.
+ */
+
 namespace ace_time{
 namespace zoneinfomid {
 
@@ -198,13 +220,14 @@ struct ZoneEra {
 
   /**
    * Zone abbreviations (e.g. PST, EST) determined by the FORMAT column. It has
-   * 3 encodings in the TZ DB files:
+   * 4 encodings in the TZ DB files:
    *
    *  1) A fixed string, e.g. "GMT".
    *  2) Two strings separated by a '/', e.g. "-03/-02" indicating
    *     "{std}/{dst}" options.
    *  3) A single string with a substitution, e.g. "E%sT", where the "%s" is
    *  replaced by the LETTER value from the ZoneRule.
+   *  4) An empty string representing the "%z" format.
    *
    * BasicZoneProcessor supports only a single letter subsitution from LETTER,
    * but ExtendedZoneProcessor supports substituting multi-character strings
@@ -216,10 +239,8 @@ struct ZoneEra {
    * simpler. For example, 'E%sT' is stored as 'E%T', and the LETTER
    * substitution is performed on the '%' character.
    *
-   * This field will never be a 'nullptr' if it was derived from an actual
-   * entry from the TZ dtabase. There is an internal object named
-   * `ExtendedZoneProcessor::kAnchorEra` which does set this field to nullptr.
-   * Maybe it should be set to ""?
+   * This field will never be a 'nullptr' because the AceTimeTools compiler
+   * always generates a ZoneEra entry with a non-null format.
    */
   const char* const format;
 
