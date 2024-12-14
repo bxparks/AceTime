@@ -5,7 +5,7 @@
 <area shape="rect" id="node4" title=" " alt="" coords="139,95,257,121"/>
 <area shape="rect" id="node5" href="$compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="582,95,665,121"/>
 <area shape="rect" id="node9" href="$BrokerCommon_8h.html" title="Helper functions are used in both Basic brokers and Extended brokers." alt="" coords="281,95,416,121"/>
-<area shape="rect" id="node10" href="$ZoneInfoLow_8h_source.html" title=" " alt="" coords="441,95,558,121"/>
+<area shape="rect" id="node10" href="$ZoneInfoLow_8h.html" title="Data structures describe the low resolution zoneinfo persistence format." alt="" coords="441,95,558,121"/>
 <area shape="rect" id="node6" title=" " alt="" coords="485,169,556,196"/>
 <area shape="rect" id="node7" title=" " alt="" coords="581,169,666,196"/>
 <area shape="rect" id="node8" title=" " alt="" coords="690,169,791,196"/>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -117,7 +117,7 @@ struct ace_time::zoneinfolow::ZoneInfo&lt; S, ZC &gt;</h3>
 
 <p>Representation of a given time zone, implemented as an array of <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> records. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00302">302</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00320">320</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ae71687dc997580bfd9ea2b959175e7c1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae71687dc997580bfd9ea2b959175e7c1">&#9670;&nbsp;</a></span>name</h2>
@@ -136,7 +136,7 @@ template&lt;typename S , typename ZC &gt; </div>
 <p>Full name of zone (e.g. </p>
 <p>"America/Los_Angeles"). </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00304">304</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00322">322</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -158,7 +158,7 @@ template&lt;typename S , typename ZC &gt; </div>
 <p>If this Zone is a actually a Link to a target Zone, the <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> and numEras of the target Zone is placed here, and the targetInfo pointer below is set to the target <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records.">ZoneInfo</a>. This allows a Link entry to be self-contained, acting like any other Zone entry, which simplifies some of the code the <a class="el" href="classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes.">ZoneProcessor</a> because it does not need to traverse the link to find the required information. In essence, a Link is a "hard link" to a Zone.</p>
 <p>An alternative implementation is to set numEras to 0 for a Link, and traverse the targetInfo to find the required numEras and eras. This led to more complicated code. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00331">331</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00349">349</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -179,7 +179,7 @@ template&lt;typename S , typename ZC &gt; </div>
 <p>If Link, points to the target zone info. </p>
 <p>If Zone, nullptr. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00340">340</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00358">358</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>
@@ -200,7 +200,7 @@ template&lt;typename S , typename ZC &gt; </div>
 <p>Unique, stable ID of the zone name, created from a hash of the name. </p>
 <p>This ID will never change once assigned. This can be used for presistence and serialization. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00311">311</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoLow_8h_source.html#l00329">329</a> of file <a class="el" href="ZoneInfoLow_8h_source.html">ZoneInfoLow.h</a>.</p>
 
 </div>
 </div>

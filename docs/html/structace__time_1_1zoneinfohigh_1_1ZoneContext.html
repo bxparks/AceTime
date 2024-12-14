@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -156,7 +156,7 @@ struct ace_time::zoneinfohigh::ZoneContext&lt; S &gt;</h3>
 <p>Metadata about the zone database. </p>
 <p>A <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records.">ZoneInfo</a> struct will contain a pointer to this. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00019">19</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00037">37</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a36162a7743a06f25891186b7a2904a7c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a36162a7743a06f25891186b7a2904a7c">&#9670;&nbsp;</a></span>baseYear</h2>
@@ -175,7 +175,7 @@ template&lt;typename S &gt; </div>
 <p>Base year for tiny years. </p>
 <p>Unused. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00068">68</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00086">86</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
 
 </div>
 </div>
@@ -204,7 +204,7 @@ template&lt;typename S &gt; </div>
 <p>The maximum value of untilYear. </p>
 <p>This value is used to represent the sentinel value "-" in the UNTIL column of the TZDB files which means "infinity". Must be greater than ZoneRule::kMaxYear which represents the value "max" in the TO and FROM columns of the TZDB files. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00026">26</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00044">44</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
 
 </div>
 </div>
@@ -233,7 +233,7 @@ template&lt;typename S &gt; </div>
 <p>The maximum value fromYear and toYear. </p>
 <p>This value is used to represent the sentinel value "max" in the TZDB database files. Must be less than ZoneEra::kMaxUntilYear which is used to represent the entry "-" in the UNTIL column of the TZDB files. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00034">34</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00052">52</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
 
 </div>
 </div>
@@ -262,7 +262,7 @@ template&lt;typename S &gt; </div>
 <p>The minimum value of fromYear and toYear. </p>
 <p>This value is used for <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneRule.html" title="A time zone transition rule.">ZoneRule</a> entries which are synthetically generated for certain time zones which do not naturally generate a transition for the database year interval specified by the <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html" title="Metadata about the zone database.">ZoneContext</a>. This value is guaranteed to be earlier than any explicit year in the TZDB database, which guarantees that all time zones have at least one transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00044">44</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00062">62</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
 
 </div>
 </div>
@@ -283,7 +283,7 @@ template&lt;typename S &gt; </div>
 <p>Start year of accurate transitions. </p>
 <p>kMinYear indicates -Infinity. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00062">62</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00080">80</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
 
 </div>
 </div>
@@ -304,7 +304,7 @@ template&lt;typename S &gt; </div>
 <p>Until year of accurate transitions. </p>
 <p>kMaxUntilYear indicates +Infinity. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00065">65</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfoHigh_8h_source.html#l00083">83</a> of file <a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>.</p>
 
 </div>
 </div>

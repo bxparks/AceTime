@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -84,7 +84,7 @@ $(function() {
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;AceCommon.h&gt;</span> <span class="comment">// KString</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="compat_8h.html">compat.h</a>&quot;</span> <span class="comment">// ACE_TIME_USE_PROGMEM</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="BrokerCommon_8h.html">BrokerCommon.h</a>&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;ZoneInfoLow.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ZoneInfoLow_8h.html">ZoneInfoLow.h</a>&quot;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">class </span>__FlashStringHelper;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">class </span>Print;</div>
@@ -493,6 +493,7 @@ $(function() {
 <div class="ttc" id="aBrokersLow_8h_html_a4c6d10068843d5f7159c850f91a82ef6"><div class="ttname"><a href="BrokersLow_8h.html#a4c6d10068843d5f7159c850f91a82ef6">ace_time::zoneinfolow::toOffsetMinutes</a></div><div class="ttdeci">int16_t toOffsetMinutes(uint8_t offsetCode, uint8_t deltaCode)</div><div class="ttdoc">Convert the offsetCode and deltaCode holding the STDOFF field of the ZoneEra into minutes.</div><div class="ttdef"><b>Definition:</b> <a href="BrokersLow_8h_source.html#l00059">BrokersLow.h:59</a></div></div>
 <div class="ttc" id="aBrokersLow_8h_html_a9cc4b07e80fb94233d8fc1b4ce8de639"><div class="ttname"><a href="BrokersLow_8h.html#a9cc4b07e80fb94233d8fc1b4ce8de639">ace_time::zoneinfolow::timeCodeToMinutes</a></div><div class="ttdeci">uint16_t timeCodeToMinutes(uint8_t code, uint8_t modifier)</div><div class="ttdoc">Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT time in ZoneRule in one...</div><div class="ttdef"><b>Definition:</b> <a href="BrokersLow_8h_source.html#l00070">BrokersLow.h:70</a></div></div>
 <div class="ttc" id="aBrokersLow_8h_html_aeae61dd9411555d87c29bbfe28a9315a"><div class="ttname"><a href="BrokersLow_8h.html#aeae61dd9411555d87c29bbfe28a9315a">ace_time::zoneinfolow::toDeltaMinutes</a></div><div class="ttdeci">int16_t toDeltaMinutes(uint8_t deltaCode)</div><div class="ttdoc">Convert the deltaCode holding the RULES/DSTOFF field in ZoneEra or the SAVE field in ZoneRule to the ...</div><div class="ttdef"><b>Definition:</b> <a href="BrokersLow_8h_source.html#l00049">BrokersLow.h:49</a></div></div>
+<div class="ttc" id="aZoneInfoLow_8h_html"><div class="ttname"><a href="ZoneInfoLow_8h.html">ZoneInfoLow.h</a></div><div class="ttdoc">Data structures describe the low resolution zoneinfo persistence format.</div></div>
 <div class="ttc" id="aclassace__time_1_1zoneinfolow_1_1ZoneContextBroker_html"><div class="ttname"><a href="classace__time_1_1zoneinfolow_1_1ZoneContextBroker.html">ace_time::zoneinfolow::ZoneContextBroker</a></div><div class="ttdoc">Data broker for accessing a ZoneContext.</div><div class="ttdef"><b>Definition:</b> <a href="BrokersLow_8h_source.html#l00091">BrokersLow.h:91</a></div></div>
 <div class="ttc" id="aclassace__time_1_1zoneinfolow_1_1ZoneEraBroker_html"><div class="ttname"><a href="classace__time_1_1zoneinfolow_1_1ZoneEraBroker.html">ace_time::zoneinfolow::ZoneEraBroker</a></div><div class="ttdoc">Data broker for accessing ZoneEra.</div><div class="ttdef"><b>Definition:</b> <a href="BrokersLow_8h_source.html#l00297">BrokersLow.h:297</a></div></div>
 <div class="ttc" id="aclassace__time_1_1zoneinfolow_1_1ZoneInfoBroker_html"><div class="ttname"><a href="classace__time_1_1zoneinfolow_1_1ZoneInfoBroker.html">ace_time::zoneinfolow::ZoneInfoBroker</a></div><div class="ttdoc">Data broker for accessing ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="BrokersLow_8h_source.html#l00384">BrokersLow.h:384</a></div></div>

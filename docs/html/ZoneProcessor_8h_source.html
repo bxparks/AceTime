@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -178,17 +178,18 @@ $(function() {
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<a class="code" href="structace__time_1_1internal_1_1MonthDay.html">MonthDay</a> calcStartDayOfMonth(int16_t year, uint8_t month,</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    uint8_t onDayOfWeek, int8_t onDayOfMonth);</div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="keywordtype">void</span> createAbbreviation(</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keywordtype">char</span>* dest,</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    uint8_t destSize,</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* format,</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    uint32_t deltaSeconds,</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* letterString);</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;} <span class="comment">// internal</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;} <span class="comment">// ace_time</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="keywordtype">void</span> createAbbreviation(</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="keywordtype">char</span>* dest,</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    uint8_t destSize,</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* format,</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    int32_t stdSeconds,</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    int32_t dstSeconds,</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* letterString);</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;} <span class="comment">// internal</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;} <span class="comment">// ace_time</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassace__time_1_1Epoch_html_a80aaa01a43c16af01b2f22e294eabe04"><div class="ttname"><a href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04">ace_time::Epoch::currentEpochYear</a></div><div class="ttdeci">static int16_t currentEpochYear()</div><div class="ttdoc">Get the current epoch year.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00027">Epoch.h:27</a></div></div>
 <div class="ttc" id="aclassace__time_1_1FindResult_html"><div class="ttname"><a href="classace__time_1_1FindResult.html">ace_time::FindResult</a></div><div class="ttdoc">Result of a search for transition at a specific epochSeconds or a specific LocalDateTime.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessor_8h_source.html#l00023">ZoneProcessor.h:23</a></div></div>
 <div class="ttc" id="aclassace__time_1_1FindResult_html_a1d1d9075a9afd269a7da33acc640a9ab"><div class="ttname"><a href="classace__time_1_1FindResult.html#a1d1d9075a9afd269a7da33acc640a9ab">ace_time::FindResult::fold</a></div><div class="ttdeci">uint8_t fold</div><div class="ttdoc">For findByLocalDateTime(), when type==kTypeOverlap, this is a copy of the requested LocalDateTime::fo...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessor_8h_source.html#l00076">ZoneProcessor.h:76</a></div></div>

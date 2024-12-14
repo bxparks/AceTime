@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -75,14 +75,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoMid_8h_source.html">ZoneInfoMid.h</a></code>.  
+<p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoMid_8h.html" title="Data structures that describe the mid resolution zoneinfo persistence format.">ZoneInfoMid.h</a></code>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;Arduino.h&gt;</code><br />
 <code>#include &lt;AceCommon.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="compat_8h_source.html">compat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="BrokerCommon_8h_source.html">BrokerCommon.h</a>&quot;</code><br />
-<code>#include &quot;ZoneInfoMid.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="ZoneInfoMid_8h_source.html">ZoneInfoMid.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for BrokersMid.h:</div>
 <div class="dyncontent">
@@ -94,7 +94,7 @@ Include dependency graph for BrokersMid.h:</div>
 <area shape="rect" title=" " alt="" coords="139,95,257,121"/>
 <area shape="rect" href="compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="581,95,663,121"/>
 <area shape="rect" href="BrokerCommon_8h.html" title="Helper functions are used in both Basic brokers and Extended brokers." alt="" coords="281,95,416,121"/>
-<area shape="rect" href="ZoneInfoMid_8h_source.html" title=" " alt="" coords="440,95,556,121"/>
+<area shape="rect" href="ZoneInfoMid_8h.html" title="Data structures that describe the mid resolution zoneinfo persistence format." alt="" coords="440,95,556,121"/>
 <area shape="rect" title=" " alt="" coords="484,169,555,196"/>
 <area shape="rect" title=" " alt="" coords="579,169,665,196"/>
 <area shape="rect" title=" " alt="" coords="689,169,790,196"/>
@@ -173,7 +173,7 @@ Functions</h2></td></tr>
 <tr class="separator:a7c5f7addd444c4a0bbe9de19d2e18137"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoMid_8h_source.html">ZoneInfoMid.h</a></code>. </p>
+<div class="textblock"><p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoMid_8h.html" title="Data structures that describe the mid resolution zoneinfo persistence format.">ZoneInfoMid.h</a></code>. </p>
 <p>The zoneinfo files are stored in flash memory (using the PROGMEM keyword), and cannot be accessed directly on microcontrollers using the Harvard architecture (e.g. AVR) where data and program live in 2 different address spaces. The data in flash memory must be accessed using helper routines in &lt;pgmspace.h&gt;. These classes abstract away this difference so that the code BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly) agnostic to how the zoneinfo files are stored. </p>
 
 <p class="definition">Definition in file <a class="el" href="BrokersMid_8h_source.html">BrokersMid.h</a>.</p>

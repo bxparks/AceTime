@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.4.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -75,14 +75,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a></code>.  
+<p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoHigh_8h.html" title="Data structures that encodes the high resolution zoneinfo database persistence format.">ZoneInfoHigh.h</a></code>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;Arduino.h&gt;</code><br />
 <code>#include &lt;AceCommon.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="compat_8h_source.html">compat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="BrokerCommon_8h_source.html">BrokerCommon.h</a>&quot;</code><br />
-<code>#include &quot;ZoneInfoHigh.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for BrokersHigh.h:</div>
 <div class="dyncontent">
@@ -94,7 +94,7 @@ Include dependency graph for BrokersHigh.h:</div>
 <area shape="rect" title=" " alt="" coords="139,95,257,121"/>
 <area shape="rect" href="compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="587,95,670,121"/>
 <area shape="rect" href="BrokerCommon_8h.html" title="Helper functions are used in both Basic brokers and Extended brokers." alt="" coords="281,95,416,121"/>
-<area shape="rect" href="ZoneInfoHigh_8h_source.html" title=" " alt="" coords="441,95,563,121"/>
+<area shape="rect" href="ZoneInfoHigh_8h.html" title="Data structures that encodes the high resolution zoneinfo database persistence format." alt="" coords="441,95,563,121"/>
 <area shape="rect" title=" " alt="" coords="491,169,561,196"/>
 <area shape="rect" title=" " alt="" coords="586,169,671,196"/>
 <area shape="rect" title=" " alt="" coords="695,169,797,196"/>
@@ -175,7 +175,7 @@ int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="B
 <tr class="separator:a4f2137b865f26ef213c9712e1ed7a7f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoHigh_8h_source.html">ZoneInfoHigh.h</a></code>. </p>
+<div class="textblock"><p>These classes provide a thin layer of indirection for accessing the data structures defined by <code><a class="el" href="ZoneInfoHigh_8h.html" title="Data structures that encodes the high resolution zoneinfo database persistence format.">ZoneInfoHigh.h</a></code>. </p>
 <p>The zoneinfo files are stored in flash memory (using the PROGMEM keyword), and cannot be accessed directly on microcontrollers using the Harvard architecture (e.g. AVR) where data and program live in 2 different address spaces. The data in flash memory must be accessed using helper routines in &lt;pgmspace.h&gt;. These classes abstract away this difference so that the code BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly) agnostic to how the zoneinfo files are stored. </p>
 
 <p class="definition">Definition in file <a class="el" href="BrokersHigh_8h_source.html">BrokersHigh.h</a>.</p>
