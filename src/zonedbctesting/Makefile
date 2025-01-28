@@ -1,13 +1,13 @@
 TARGETS := zone_infos.cpp zone_infos.h zone_policies.cpp zone_policies.h
 
-TOOLS := $(abspath ../../../AceTimeTools)
-TZ_REPO := $(abspath $(TOOLS)/../tz)
-TZ_VERSION := 2024b
+COMPILER := $(abspath ../../../../compiler)
+TZ_REPO := $(abspath ../../../../../tz)
+TZ_VERSION := 2025a
 START_YEAR := 1980
 UNTIL_YEAR := 2200
 
 all:
-	$(TOOLS)/tzcompiler.sh \
+	$(COMPILER)/tzcompiler.sh \
 		--tzrepo $(TZ_REPO) \
 		--tag $(TZ_VERSION) \
 		--action zonedb \
@@ -20,7 +20,7 @@ all:
 		--until_year $(UNTIL_YEAR)
 
 zonedb.json:
-	$(TOOLS)/tzcompiler.sh \
+	$(COMPILER)/tzcompiler.sh \
 		--tzrepo $(TZ_REPO) \
 		--tag $(TZ_VERSION) \
 		--action json \

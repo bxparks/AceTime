@@ -18,7 +18,7 @@ The IANA TZ database is programmatically generated into 3 predefined databases:
 databases have different accuracy ranges, and are designed to work with
 different `ZoneProcessor` and `ZoneManager` classes.
 
-**Version**: 2.4.0 (2024-12-13, TZDB 2024b)
+**Version**: 3.0.0 (2025-01-28, TZDB 2025a)
 
 **Related Documents**:
 
