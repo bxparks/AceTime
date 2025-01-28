@@ -1,12 +1,12 @@
-<map id="/home/brian/src/AceTime/src/zoneinfo/BrokersLow.h" name="/home/brian/src/AceTime/src/zoneinfo/BrokersLow.h">
-<area shape="rect" id="node1" title="These classes provide a thin layer of indirection for accessing the data structures defined by ZoneIn..." alt="" coords="175,5,370,47"/>
-<area shape="rect" id="node2" title=" " alt="" coords="352,169,423,196"/>
-<area shape="rect" id="node3" title=" " alt="" coords="31,95,115,121"/>
-<area shape="rect" id="node4" title=" " alt="" coords="139,95,257,121"/>
-<area shape="rect" id="node5" href="$compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="582,95,665,121"/>
-<area shape="rect" id="node9" href="$BrokerCommon_8h.html" title="Helper functions are used in both Basic brokers and Extended brokers." alt="" coords="281,95,416,121"/>
-<area shape="rect" id="node10" href="$ZoneInfoLow_8h.html" title="Data structures describe the low resolution zoneinfo persistence format." alt="" coords="441,95,558,121"/>
-<area shape="rect" id="node6" title=" " alt="" coords="485,169,556,196"/>
-<area shape="rect" id="node7" title=" " alt="" coords="581,169,666,196"/>
-<area shape="rect" id="node8" title=" " alt="" coords="690,169,791,196"/>
+<map id="/home/brian/src/AceTimeSuite/libraries/AceTimeLib/src/zoneinfo/BrokersLow.h" name="/home/brian/src/AceTimeSuite/libraries/AceTimeLib/src/zoneinfo/BrokersLow.h">
+<area shape="rect" id="node1" title="These classes provide a thin layer of indirection for accessing the data structures defined by ZoneIn..." alt="" coords="164,5,381,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="352,184,423,211"/>
+<area shape="rect" id="node3" title=" " alt="" coords="31,109,115,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="139,109,257,136"/>
+<area shape="rect" id="node5" href="$compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="582,109,665,136"/>
+<area shape="rect" id="node9" href="$BrokerCommon_8h.html" title="Helper functions are used in both Basic brokers and Extended brokers." alt="" coords="281,109,416,136"/>
+<area shape="rect" id="node10" href="$ZoneInfoLow_8h.html" title="Data structures describe the low resolution zoneinfo persistence format." alt="" coords="441,109,558,136"/>
+<area shape="rect" id="node6" title=" " alt="" coords="485,184,556,211"/>
+<area shape="rect" id="node7" title=" " alt="" coords="581,184,666,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="690,184,791,211"/>
 </map>
