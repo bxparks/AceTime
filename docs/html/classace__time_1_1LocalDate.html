@@ -134,6 +134,9 @@ int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a40be39304d67827b663f79c840b80094">toUnixSeconds64</a> () const</td></tr>
 <tr class="memdesc:a40be39304d67827b663f79c840b80094"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of seconds since Unix epoch (1970-01-01 00:00:00). <br /></td></tr>
 <tr class="separator:a40be39304d67827b663f79c840b80094"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad02c1b6d8f50ec0ebda2596007697958"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#ad02c1b6d8f50ec0ebda2596007697958">daysUntil</a> (uint8_t <a class="el" href="classace__time_1_1LocalDate.html#aecb3488a5e952cb17300ec7060b94150">month</a>, uint8_t <a class="el" href="classace__time_1_1LocalDate.html#aff99fa459db6a5952bdb6c8397e69c56">day</a>) const</td></tr>
+<tr class="memdesc:ad02c1b6d8f50ec0ebda2596007697958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate number of days from current <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to the next target (month, day).  <a href="classace__time_1_1LocalDate.html#ad02c1b6d8f50ec0ebda2596007697958">More...</a><br /></td></tr>
+<tr class="separator:ad02c1b6d8f50ec0ebda2596007697958"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51690a660b837645951c1b80b5306ede"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1LocalDate.html#a51690a660b837645951c1b80b5306ede">compareTo</a> (const <a class="el" href="classace__time_1_1LocalDate.html">LocalDate</a> &amp;that) const</td></tr>
 <tr class="memdesc:a51690a660b837645951c1b80b5306ede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare 'this' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to 'that' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'.  <a href="classace__time_1_1LocalDate.html#a51690a660b837645951c1b80b5306ede">More...</a><br /></td></tr>
 <tr class="separator:a51690a660b837645951c1b80b5306ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -289,7 +292,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Compare 'this' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to 'that' <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether 'this' occurs (before, same as, after) 'that'. </p>
 <p>If either this-&gt;<a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition.">isError()</a> or that.isError() is true, the behavior is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00390">390</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00406">406</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -320,6 +323,47 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Idea borrowed from <a href="https://github.com/evq/utz">https://github.com/evq/utz</a>. No validation of year, month or day is performed. If this is found to be too slow, then consider caching the results. </p>
 
 <p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00324">324</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+
+</div>
+</div>
+<a id="ad02c1b6d8f50ec0ebda2596007697958"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad02c1b6d8f50ec0ebda2596007697958">&#9670;&nbsp;</a></span>daysUntil()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t ace_time::LocalDate::daysUntil </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>month</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>day</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate number of days from current <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a> to the next target (month, day). </p>
+<p>For example, setting (month, day) of (12, 25) returns number of days until the next Christmas. This function should always return an integer in the interval [0, 365]. In a normal year, the maximum is 364. During a leap year, the maximum is 365. </p>
+
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00391">391</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -695,7 +739,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <li>a year that 'does not exist', or</li>
 <li>a year smaller than any valid year.</li>
 </ul>
-<p>Some algorithms in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses the extended::ZoneXxxBrokers cla...">ExtendedZoneProcessor</a> assume that this value is smaller than any valid year, i.e. smaller than kMinYear. </p>
+<p>Some algorithms in <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="A specific implementation of ExtendedZoneProcessorTemplate that uses the extended::Info::ZoneXxxBroke...">ExtendedZoneProcessor</a> assume that this value is smaller than any valid year, i.e. smaller than kMinYear. </p>
 
 <p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00058">58</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
@@ -803,7 +847,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>The smallest year that is expected to be handled by <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone.">LocalDate</a>. </p>
-<p>The algorithms in the EpochConverterHinnant works for the propletic Gregorian calendar down to year 1. However, time zone offsets and shifting the year to start in March (to make computations involving leap days easier) may shift the year to 0. So this class is allowed to handle the year 0. </p>
+<p>The algorithms in the <a class="el" href="classace__time_1_1EpochConverterHinnant.html" title="Utility class that converts AceTime epoch days to (year, month, day) in the Gregorian calendar and vi...">EpochConverterHinnant</a> works for the propletic Gregorian calendar down to year 1. However, time zone offsets and shifting the year to start in March (to make computations involving leap days easier) may shift the year to 0. So this class is allowed to handle the year 0. </p>
 
 <p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00069">69</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 

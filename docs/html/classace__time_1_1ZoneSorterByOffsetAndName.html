@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classace__time_1_1ZoneSorterByOffsetAndName.html" title="ZoneSorterByOffsetAndName, templatized on BasicZoneManager or ExtendedZoneManager.">ZoneSorterByOffsetAndName</a>, templatized on BasicZoneManager or ExtendedZoneManager.  
+<p><a class="el" href="classace__time_1_1ZoneSorterByOffsetAndName.html" title="ZoneSorterByOffsetAndName, templatized on a ZoneManager (BasicZoneManager, ExtendedZoneManager,...">ZoneSorterByOffsetAndName</a>, templatized on a <a class="el" href="classace__time_1_1ZoneManager.html" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv...">ZoneManager</a> (BasicZoneManager, ExtendedZoneManager, or CompleteZoneManager).  
  <a href="classace__time_1_1ZoneSorterByOffsetAndName.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ZoneSorterByOffsetAndName_8h_source.html">ZoneSorterByOffsetAndName.h</a>&gt;</code></p>
@@ -113,7 +113,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename ZM&gt;<br />
 class ace_time::ZoneSorterByOffsetAndName&lt; ZM &gt;</h3>
 
-<p><a class="el" href="classace__time_1_1ZoneSorterByOffsetAndName.html" title="ZoneSorterByOffsetAndName, templatized on BasicZoneManager or ExtendedZoneManager.">ZoneSorterByOffsetAndName</a>, templatized on BasicZoneManager or ExtendedZoneManager. </p>
+<p><a class="el" href="classace__time_1_1ZoneSorterByOffsetAndName.html" title="ZoneSorterByOffsetAndName, templatized on a ZoneManager (BasicZoneManager, ExtendedZoneManager,...">ZoneSorterByOffsetAndName</a>, templatized on a <a class="el" href="classace__time_1_1ZoneManager.html" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv...">ZoneManager</a> (BasicZoneManager, ExtendedZoneManager, or CompleteZoneManager). </p>
 <p>Sorts the array of zones by UTC offset first, then by name.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -203,9 +203,15 @@ template&lt;typename Z &gt; </div>
 
 <p>Return &lt;0, 0, or &gt;0 depending on whether Zone a is &lt;, ==, or &gt; than Zone b. </p>
 <p>The comparison function is by the zone's <em>last</em> UTC offset in the zoneInfo database, then by name for zones which have the same UTC offset.</p>
-<p>We cannot use <code>auto</code> as the parameter type (apparently, that's a C++14 feature), so we are forced to use template function. The <code>Z</code> template will be either the <a class="el" href="classace__time_1_1BasicZone.html" title="A thin wrapper around a basic::ZoneInfo data structure to provide a stable API access to some useful ...">BasicZone</a> or <a class="el" href="classace__time_1_1ExtendedZone.html" title="A thin wrapper around an extended::ZoneInfo data structure to provide a stable API access to some use...">ExtendedZone</a> class. </p>
+<p>We cannot use <code>auto</code> as the parameter type (apparently, that's a C++14 feature), so we are forced to use template function.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Z</td><td>the zone class (i.e. BasicZone, ExtendedZone, ComppleteZone) </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="ZoneSorterByOffsetAndName_8h_source.html#l00089">89</a> of file <a class="el" href="ZoneSorterByOffsetAndName_8h_source.html">ZoneSorterByOffsetAndName.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneSorterByOffsetAndName_8h_source.html#l00090">90</a> of file <a class="el" href="ZoneSorterByOffsetAndName_8h_source.html">ZoneSorterByOffsetAndName.h</a>.</p>
 
 </div>
 </div>

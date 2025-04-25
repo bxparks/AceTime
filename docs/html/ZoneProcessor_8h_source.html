@@ -168,28 +168,25 @@ $(function() {
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keywordflow">return</span> ! (a == b);</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="keyword">namespace </span>internal {</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno"><a class="line" href="structace__time_1_1internal_1_1MonthDay.html">  270</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structace__time_1_1internal_1_1MonthDay.html">MonthDay</a> {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;  uint8_t month;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  uint8_t day;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;};</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<a class="code" href="structace__time_1_1internal_1_1MonthDay.html">MonthDay</a> calcStartDayOfMonth(int16_t year, uint8_t month,</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    uint8_t onDayOfWeek, int8_t onDayOfMonth);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="keywordtype">void</span> createAbbreviation(</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="keywordtype">char</span>* dest,</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    uint8_t destSize,</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* format,</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    int32_t stdSeconds,</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    int32_t dstSeconds,</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* letterString);</div>
+<div class="line"><a name="l00268"></a><span class="lineno"><a class="line" href="structace__time_1_1MonthDay.html">  268</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structace__time_1_1MonthDay.html">MonthDay</a> {</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  uint8_t month;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  uint8_t day;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;};</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<a class="code" href="structace__time_1_1MonthDay.html">MonthDay</a> calcStartDayOfMonth(int16_t year, uint8_t month,</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    uint8_t onDayOfWeek, int8_t onDayOfMonth);</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="keywordtype">void</span> createAbbreviation(</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    <span class="keywordtype">char</span>* dest,</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    uint8_t destSize,</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* format,</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    int32_t stdSeconds,</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    int32_t dstSeconds,</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* letterString);</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;} <span class="comment">// ace_time</span></div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;} <span class="comment">// internal</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;} <span class="comment">// ace_time</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassace__time_1_1Epoch_html_a80aaa01a43c16af01b2f22e294eabe04"><div class="ttname"><a href="classace__time_1_1Epoch.html#a80aaa01a43c16af01b2f22e294eabe04">ace_time::Epoch::currentEpochYear</a></div><div class="ttdeci">static int16_t currentEpochYear()</div><div class="ttdoc">Get the current epoch year.</div><div class="ttdef"><b>Definition:</b> <a href="Epoch_8h_source.html#l00027">Epoch.h:27</a></div></div>
 <div class="ttc" id="aclassace__time_1_1FindResult_html"><div class="ttname"><a href="classace__time_1_1FindResult.html">ace_time::FindResult</a></div><div class="ttdoc">Result of a search for transition at a specific epochSeconds or a specific LocalDateTime.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessor_8h_source.html#l00023">ZoneProcessor.h:23</a></div></div>
 <div class="ttc" id="aclassace__time_1_1FindResult_html_a1d1d9075a9afd269a7da33acc640a9ab"><div class="ttname"><a href="classace__time_1_1FindResult.html#a1d1d9075a9afd269a7da33acc640a9ab">ace_time::FindResult::fold</a></div><div class="ttdeci">uint8_t fold</div><div class="ttdoc">For findByLocalDateTime(), when type==kTypeOverlap, this is a copy of the requested LocalDateTime::fo...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessor_8h_source.html#l00076">ZoneProcessor.h:76</a></div></div>
@@ -220,7 +217,7 @@ $(function() {
 <div class="ttc" id="aclassace__time_1_1ZoneProcessor_html_af069bc08e2135e460c4442fd0be6d3e1"><div class="ttname"><a href="classace__time_1_1ZoneProcessor.html#af069bc08e2135e460c4442fd0be6d3e1">ace_time::ZoneProcessor::setZoneKey</a></div><div class="ttdeci">virtual void setZoneKey(uintptr_t zoneKey)=0</div><div class="ttdoc">Set the opaque zoneKey of this object to a new value, reseting any internally cached information.</div></div>
 <div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">Identifiers used by implementation code which need to be publically exported.</div></div>
 <div class="ttc" id="acommon_8h_html_a9c5a9893b2588031b6ab56826dec303a"><div class="ttname"><a href="common_8h.html#a9c5a9893b2588031b6ab56826dec303a">ace_time::acetime_t</a></div><div class="ttdeci">int32_t acetime_t</div><div class="ttdoc">Type for the number of seconds from epoch.</div><div class="ttdef"><b>Definition:</b> <a href="common_8h_source.html#l00024">common.h:24</a></div></div>
-<div class="ttc" id="astructace__time_1_1internal_1_1MonthDay_html"><div class="ttname"><a href="structace__time_1_1internal_1_1MonthDay.html">ace_time::internal::MonthDay</a></div><div class="ttdoc">The result of calcStartDayOfMonth().</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessor_8h_source.html#l00270">ZoneProcessor.h:270</a></div></div>
+<div class="ttc" id="astructace__time_1_1MonthDay_html"><div class="ttname"><a href="structace__time_1_1MonthDay.html">ace_time::MonthDay</a></div><div class="ttdoc">The result of calcStartDayOfMonth().</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessor_8h_source.html#l00268">ZoneProcessor.h:268</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

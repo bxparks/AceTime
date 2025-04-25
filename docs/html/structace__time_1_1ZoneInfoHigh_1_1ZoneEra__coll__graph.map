@@ -1,0 +1,5 @@
+<map id="ace_time::ZoneInfoHigh::ZoneEra" name="ace_time::ZoneInfoHigh::ZoneEra">
+<area shape="rect" id="node1" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="5,213,184,255"/>
+<area shape="rect" id="node2" href="$structace__time_1_1ZoneInfoHigh_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region." alt="" coords="5,109,184,151"/>
+<area shape="rect" id="node3" href="$structace__time_1_1ZoneInfoHigh_1_1ZoneRule.html" title="A time zone transition rule." alt="" coords="5,5,184,47"/>
+</map>

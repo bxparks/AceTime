@@ -77,13 +77,24 @@ $(function() {
 <p>Data structures that encodes the high resolution zoneinfo database persistence format.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;Arduino.h&gt;</code><br />
+<code>#include &lt;AceCommon.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="compat_8h_source.html">compat.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="BrokerCommon_8h_source.html">BrokerCommon.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ZoneInfoHigh.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="ZoneInfoHigh_8h__incl.png" border="0" usemap="#a_2home_2brian_2src_2AceTimeSuite_2libraries_2AceTimeLib_2src_2zoneinfo_2ZoneInfoHigh_8h" alt=""/></div>
 <map name="a_2home_2brian_2src_2AceTimeSuite_2libraries_2AceTimeLib_2src_2zoneinfo_2ZoneInfoHigh_8h" id="a_2home_2brian_2src_2AceTimeSuite_2libraries_2AceTimeLib_2src_2zoneinfo_2ZoneInfoHigh_8h">
-<area shape="rect" title="Data structures that encodes the high resolution zoneinfo database persistence format." alt="" coords="5,5,223,61"/>
-<area shape="rect" title=" " alt="" coords="79,109,149,136"/>
+<area shape="rect" title="Data structures that encodes the high resolution zoneinfo database persistence format." alt="" coords="86,5,303,61"/>
+<area shape="rect" title=" " alt="" coords="278,184,349,211"/>
+<area shape="rect" title=" " alt="" coords="27,109,111,136"/>
+<area shape="rect" title=" " alt="" coords="136,109,253,136"/>
+<area shape="rect" href="compat_8h.html" title="Macros and definitions that provide a consistency layer among the various Arduino boards for compatib..." alt="" coords="437,109,520,136"/>
+<area shape="rect" href="BrokerCommon_8h.html" title="Helper functions are used in both Basic brokers and Extended brokers." alt="" coords="278,109,413,136"/>
+<area shape="rect" title=" " alt="" coords="373,184,443,211"/>
+<area shape="rect" title=" " alt="" coords="468,184,553,211"/>
+<area shape="rect" title=" " alt="" coords="577,184,679,211"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -91,56 +102,56 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="ZoneInfoHigh_8h__dep__incl.png" border="0" usemap="#a_2home_2brian_2src_2AceTimeSuite_2libraries_2AceTimeLib_2src_2zoneinfo_2ZoneInfoHigh_8hdep" alt=""/></div>
 <map name="a_2home_2brian_2src_2AceTimeSuite_2libraries_2AceTimeLib_2src_2zoneinfo_2ZoneInfoHigh_8hdep" id="a_2home_2brian_2src_2AceTimeSuite_2libraries_2AceTimeLib_2src_2zoneinfo_2ZoneInfoHigh_8hdep">
-<area shape="rect" title="Data structures that encodes the high resolution zoneinfo database persistence format." alt="" coords="1890,5,2107,61"/>
-<area shape="rect" href="BrokersHigh_8h.html" title="These classes provide a thin layer of indirection for accessing the data structures defined by ZoneIn..." alt="" coords="1086,109,1303,165"/>
-<area shape="rect" href="infos_8h_source.html" title=" " alt="" coords="2814,109,3031,165"/>
-<area shape="rect" href="CompleteZoneProcessor_8h_source.html" title=" " alt="" coords="1181,421,1441,477"/>
-<area shape="rect" href="brokers_8h.html" title="The brokers in the basic:: and extended:: namespaces are identical in code." alt="" coords="838,213,1055,269"/>
-<area shape="rect" href="TimeZone_8h_source.html" title=" " alt="" coords="1249,525,1466,581"/>
-<area shape="rect" href="AceTime_8h_source.html" title=" " alt="" coords="1683,837,1901,893"/>
-<area shape="rect" href="ZoneProcessorCache_8h_source.html" title=" " alt="" coords="1490,525,1729,581"/>
-<area shape="rect" href="ZoneManager_8h_source.html" title=" " alt="" coords="985,629,1202,685"/>
-<area shape="rect" href="ZoneSorterByName_8h_source.html" title=" " alt="" coords="691,733,922,789"/>
-<area shape="rect" href="ZoneSorterByOffsetAndName_8h_source.html" title=" " alt="" coords="946,733,1241,789"/>
-<area shape="rect" href="BasicZone_8h_source.html" title=" " alt="" coords="150,317,367,373"/>
-<area shape="rect" href="BasicZoneProcessor_8h_source.html" title=" " alt="" coords="1616,421,1848,477"/>
-<area shape="rect" href="CompleteZone_8h_source.html" title=" " alt="" coords="889,317,1106,373"/>
-<area shape="rect" href="ExtendedZone_8h_source.html" title=" " alt="" coords="647,317,865,373"/>
-<area shape="rect" href="ExtendedZoneProcessor_8h_source.html" title=" " alt="" coords="1232,317,1491,373"/>
-<area shape="rect" href="ZoneRegistrar_8h_source.html" title=" " alt="" coords="393,525,610,581"/>
-<area shape="rect" href="BasicZone_8cpp_source.html" title=" " alt="" coords="99,421,317,477"/>
-<area shape="rect" href="CompleteZone_8cpp_source.html" title=" " alt="" coords="838,421,1055,477"/>
-<area shape="rect" href="ExtendedZone_8cpp_source.html" title=" " alt="" coords="545,421,762,477"/>
-<area shape="rect" href="zonedb_2zone__infos_8h_source.html" title=" " alt="" coords="2134,213,2351,269"/>
-<area shape="rect" href="zonedb_2zone__policies_8h_source.html" title=" " alt="" coords="1841,213,2058,269"/>
-<area shape="rect" href="zonedb_2zone__registry_8h_source.html" title=" " alt="" coords="2401,213,2618,269"/>
-<area shape="rect" href="zonedbc_2zone__infos_8h_source.html" title=" " alt="" coords="2935,213,3153,269"/>
-<area shape="rect" href="zonedbc_2zone__policies_8h_source.html" title=" " alt="" coords="2694,213,2911,269"/>
-<area shape="rect" href="zonedbc_2zone__registry_8h_source.html" title=" " alt="" coords="3177,213,3394,269"/>
-<area shape="rect" href="zonedbctesting_2zone__infos_8h_source.html" title=" " alt="" coords="3782,213,3999,269"/>
-<area shape="rect" href="zonedbctesting_2zone__policies_8h_source.html" title=" " alt="" coords="3528,213,3757,269"/>
-<area shape="rect" href="zonedbctesting_2zone__registry_8h_source.html" title=" " alt="" coords="4024,213,4251,269"/>
-<area shape="rect" href="zonedbtesting_2zone__infos_8h_source.html" title=" " alt="" coords="4522,213,4739,269"/>
-<area shape="rect" href="zonedbtesting_2zone__policies_8h_source.html" title=" " alt="" coords="4275,213,4498,269"/>
-<area shape="rect" href="zonedbtesting_2zone__registry_8h_source.html" title=" " alt="" coords="5511,213,5731,269"/>
-<area shape="rect" href="zonedbx_2zone__infos_8h_source.html" title=" " alt="" coords="3331,629,3549,685"/>
-<area shape="rect" href="zonedbx_2zone__policies_8h_source.html" title=" " alt="" coords="3478,525,3695,581"/>
-<area shape="rect" href="zonedbx_2zone__registry_8h_source.html" title=" " alt="" coords="4643,629,4861,685"/>
-<area shape="rect" href="zonedbxtesting_2zone__infos_8h_source.html" title=" " alt="" coords="4763,213,4981,269"/>
-<area shape="rect" href="zonedbxtesting_2zone__policies_8h_source.html" title=" " alt="" coords="5005,213,5235,269"/>
-<area shape="rect" href="zonedbxtesting_2zone__registry_8h_source.html" title=" " alt="" coords="5259,213,5487,269"/>
-<area shape="rect" href="zonedb_2zone__infos_8cpp_source.html" title=" " alt="" coords="1961,317,2178,373"/>
-<area shape="rect" href="zonedb_2zone__registry_8cpp_source.html" title=" " alt="" coords="2254,317,2471,373"/>
-<area shape="rect" href="zonedb_2zone__policies_8cpp_source.html" title=" " alt="" coords="1667,317,1885,373"/>
-<area shape="rect" href="zonedbc_2zone__infos_8cpp_source.html" title=" " alt="" coords="2841,317,3058,373"/>
-<area shape="rect" href="zonedbc_2zone__registry_8cpp_source.html" title=" " alt="" coords="3134,317,3351,373"/>
-<area shape="rect" href="zonedbc_2zone__policies_8cpp_source.html" title=" " alt="" coords="2547,317,2765,373"/>
-<area shape="rect" href="zonedbctesting_2zone__infos_8cpp_source.html" title=" " alt="" coords="3797,317,4024,373"/>
-<area shape="rect" href="zonedbctesting_2zone__registry_8cpp_source.html" title=" " alt="" coords="4048,317,4291,373"/>
-<area shape="rect" href="zonedbctesting_2zone__policies_8cpp_source.html" title=" " alt="" coords="3529,317,3773,373"/>
-<area shape="rect" href="zonedbtesting_2zone__infos_8cpp_source.html" title=" " alt="" coords="4576,317,4795,373"/>
-<area shape="rect" href="zonedbtesting_2zone__registry_8cpp_source.html" title=" " alt="" coords="5159,317,5393,373"/>
-<area shape="rect" href="zonedbtesting_2zone__policies_8cpp_source.html" title=" " alt="" coords="4315,317,4552,373"/>
+<area shape="rect" title="Data structures that encodes the high resolution zoneinfo database persistence format." alt="" coords="2282,5,2499,61"/>
+<area shape="rect" href="infos_8h_source.html" title=" " alt="" coords="2282,109,2499,165"/>
+<area shape="rect" href="BasicZoneProcessor_8h_source.html" title=" " alt="" coords="43,317,275,373"/>
+<area shape="rect" href="ZoneManager_8h_source.html" title=" " alt="" coords="781,525,998,581"/>
+<area shape="rect" href="AceTime_8h_source.html" title=" " alt="" coords="1318,733,1535,789"/>
+<area shape="rect" href="ExtendedZoneProcessor_8h_source.html" title=" " alt="" coords="451,213,709,269"/>
+<area shape="rect" href="Zone_8h_source.html" title=" " alt="" coords="802,421,1019,477"/>
+<area shape="rect" href="ZoneRegistrar_8h_source.html" title=" " alt="" coords="1043,421,1261,477"/>
+<area shape="rect" href="testingzonedb_2zone__infos_8h_source.html" title=" " alt="" coords="1145,213,1362,269"/>
+<area shape="rect" href="testingzonedb_2zone__policies_8h_source.html" title=" " alt="" coords="1394,213,1617,269"/>
+<area shape="rect" href="testingzonedb_2zone__registry_8h_source.html" title=" " alt="" coords="897,213,1117,269"/>
+<area shape="rect" href="testingzonedbc_2zone__infos_8h_source.html" title=" " alt="" coords="1907,213,2125,269"/>
+<area shape="rect" href="testingzonedbc_2zone__policies_8h_source.html" title=" " alt="" coords="2149,213,2379,269"/>
+<area shape="rect" href="testingzonedbc_2zone__registry_8h_source.html" title=" " alt="" coords="1656,213,1883,269"/>
+<area shape="rect" href="testingzonedbx_2zone__infos_8h_source.html" title=" " alt="" coords="2655,213,2873,269"/>
+<area shape="rect" href="testingzonedbx_2zone__policies_8h_source.html" title=" " alt="" coords="2897,213,3127,269"/>
+<area shape="rect" href="testingzonedbx_2zone__registry_8h_source.html" title=" " alt="" coords="2403,213,2631,269"/>
+<area shape="rect" href="zonedb_2zone__infos_8h_source.html" title=" " alt="" coords="3151,213,3369,269"/>
+<area shape="rect" href="zonedb_2zone__policies_8h_source.html" title=" " alt="" coords="3393,213,3610,269"/>
+<area shape="rect" href="zonedb_2zone__registry_8h_source.html" title=" " alt="" coords="3634,213,3851,269"/>
+<area shape="rect" href="zonedbc_2zone__infos_8h_source.html" title=" " alt="" coords="4005,213,4222,269"/>
+<area shape="rect" href="zonedbc_2zone__policies_8h_source.html" title=" " alt="" coords="4246,213,4463,269"/>
+<area shape="rect" href="zonedbc_2zone__registry_8h_source.html" title=" " alt="" coords="4487,213,4705,269"/>
+<area shape="rect" href="zonedbx_2zone__infos_8h_source.html" title=" " alt="" coords="4883,213,5101,269"/>
+<area shape="rect" href="zonedbx_2zone__policies_8h_source.html" title=" " alt="" coords="5125,213,5342,269"/>
+<area shape="rect" href="zonedbx_2zone__registry_8h_source.html" title=" " alt="" coords="5366,213,5583,269"/>
+<area shape="rect" href="TimeZone_8h_source.html" title=" " alt="" coords="143,421,361,477"/>
+<area shape="rect" href="ZoneProcessorCache_8h_source.html" title=" " alt="" coords="437,421,675,477"/>
+<area shape="rect" href="TimeZone_8cpp_source.html" title=" " alt="" coords="161,525,378,581"/>
+<area shape="rect" href="ZoneSorterByName_8h_source.html" title=" " alt="" coords="762,629,993,685"/>
+<area shape="rect" href="ZoneSorterByOffsetAndName_8h_source.html" title=" " alt="" coords="1069,629,1363,685"/>
+<area shape="rect" href="CompleteZoneProcessor_8h_source.html" title=" " alt="" coords="349,317,609,373"/>
+<area shape="rect" href="testingzonedb_2zone__infos_8cpp_source.html" title=" " alt="" coords="1144,317,1363,373"/>
+<area shape="rect" href="testingzonedb_2zone__registry_8cpp_source.html" title=" " alt="" coords="885,317,1120,373"/>
+<area shape="rect" href="testingzonedb_2zone__policies_8cpp_source.html" title=" " alt="" coords="1387,317,1624,373"/>
+<area shape="rect" href="testingzonedbc_2zone__infos_8cpp_source.html" title=" " alt="" coords="1915,317,2141,373"/>
+<area shape="rect" href="testingzonedbc_2zone__registry_8cpp_source.html" title=" " alt="" coords="1648,317,1891,373"/>
+<area shape="rect" href="testingzonedbc_2zone__policies_8cpp_source.html" title=" " alt="" coords="2166,317,2410,373"/>
+<area shape="rect" href="testingzonedbx_2zone__infos_8cpp_source.html" title=" " alt="" coords="2701,317,2928,373"/>
+<area shape="rect" href="testingzonedbx_2zone__registry_8cpp_source.html" title=" " alt="" coords="2435,317,2677,373"/>
+<area shape="rect" href="testingzonedbx_2zone__policies_8cpp_source.html" title=" " alt="" coords="2952,317,3197,373"/>
+<area shape="rect" href="zonedb_2zone__infos_8cpp_source.html" title=" " alt="" coords="3273,317,3490,373"/>
+<area shape="rect" href="zonedb_2zone__registry_8cpp_source.html" title=" " alt="" coords="3566,317,3783,373"/>
+<area shape="rect" href="zonedb_2zone__policies_8cpp_source.html" title=" " alt="" coords="3807,317,4025,373"/>
+<area shape="rect" href="zonedbc_2zone__infos_8cpp_source.html" title=" " alt="" coords="4151,317,4369,373"/>
+<area shape="rect" href="zonedbc_2zone__registry_8cpp_source.html" title=" " alt="" coords="4445,317,4662,373"/>
+<area shape="rect" href="zonedbc_2zone__policies_8cpp_source.html" title=" " alt="" coords="4686,317,4903,373"/>
+<area shape="rect" href="zonedbx_2zone__infos_8cpp_source.html" title=" " alt="" coords="5030,317,5247,373"/>
+<area shape="rect" href="zonedbx_2zone__registry_8cpp_source.html" title=" " alt="" coords="5323,317,5541,373"/>
+<area shape="rect" href="zonedbx_2zone__policies_8cpp_source.html" title=" " alt="" coords="5565,317,5782,373"/>
 </map>
 </div>
 </div>
@@ -148,26 +159,50 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html">ace_time::zoneinfohigh::ZoneContext&lt; S &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metadata about the zone database.  <a href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh.html">ace_time::ZoneInfoHigh</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper class so that the entire collection can be referenced as a singel template parameter.  <a href="classace__time_1_1ZoneInfoHigh.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneRule.html">ace_time::zoneinfohigh::ZoneRule&lt; S &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A time zone transition rule.  <a href="structace__time_1_1zoneinfohigh_1_1ZoneRule.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneContext.html">ace_time::ZoneInfoHigh::ZoneContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metadata about the zone database.  <a href="structace__time_1_1ZoneInfoHigh_1_1ZoneContext.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1zoneinfohigh_1_1ZonePolicy.html">ace_time::zoneinfohigh::ZonePolicy&lt; S &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of transition rules which describe the DST rules of a given administrative region.  <a href="structace__time_1_1zoneinfohigh_1_1ZonePolicy.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneRule.html">ace_time::ZoneInfoHigh::ZoneRule</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A time zone transition rule.  <a href="structace__time_1_1ZoneInfoHigh_1_1ZoneRule.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneEra.html">ace_time::zoneinfohigh::ZoneEra&lt; S &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An entry in <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records.">ZoneInfo</a> which describes which <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region.">ZonePolicy</a> was being followed during a particular time period.  <a href="structace__time_1_1zoneinfohigh_1_1ZoneEra.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZonePolicy.html">ace_time::ZoneInfoHigh::ZonePolicy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of transition rules which describe the DST rules of a given administrative region.  <a href="structace__time_1_1ZoneInfoHigh_1_1ZonePolicy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html">ace_time::zoneinfohigh::ZoneInfo&lt; S, ZC &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Representation of a given time zone, implemented as an array of <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> records.  <a href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneEra.html">ace_time::ZoneInfoHigh::ZoneEra</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An entry in <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records.">ZoneInfo</a> which describes which <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region.">ZonePolicy</a> was being followed during a particular time period.  <a href="structace__time_1_1ZoneInfoHigh_1_1ZoneEra.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html">ace_time::ZoneInfoHigh::ZoneInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Representation of a given time zone, implemented as an array of <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> records.  <a href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZoneContextBroker.html">ace_time::ZoneInfoHigh::ZoneContextBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing a <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneContext.html" title="Metadata about the zone database.">ZoneContext</a>.  <a href="classace__time_1_1ZoneInfoHigh_1_1ZoneContextBroker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZoneRuleBroker.html">ace_time::ZoneInfoHigh::ZoneRuleBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneRule.html" title="A time zone transition rule.">ZoneRule</a>.  <a href="classace__time_1_1ZoneInfoHigh_1_1ZoneRuleBroker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZonePolicyBroker.html">ace_time::ZoneInfoHigh::ZonePolicyBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region.">ZonePolicy</a>.  <a href="classace__time_1_1ZoneInfoHigh_1_1ZonePolicyBroker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZoneEraBroker.html">ace_time::ZoneInfoHigh::ZoneEraBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a>.  <a href="classace__time_1_1ZoneInfoHigh_1_1ZoneEraBroker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZoneInfoBroker.html">ace_time::ZoneInfoHigh::ZoneInfoBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records.">ZoneInfo</a>.  <a href="classace__time_1_1ZoneInfoHigh_1_1ZoneInfoBroker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZoneRegistryBroker.html">ace_time::ZoneInfoHigh::ZoneRegistryBroker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data broker for accessing the ZoneRegistry.  <a href="classace__time_1_1ZoneInfoHigh_1_1ZoneRegistryBroker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZoneInfoStore.html">ace_time::ZoneInfoHigh::ZoneInfoStore</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A storage object that creates an <a class="el" href="classace__time_1_1ZoneInfoHigh_1_1ZoneInfoBroker.html" title="Data broker for accessing ZoneInfo.">ZoneInfoBroker</a> from a key that identifies the <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records.">ZoneInfo</a>.  <a href="classace__time_1_1ZoneInfoHigh_1_1ZoneInfoStore.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data structures that encodes the high resolution zoneinfo database persistence format. </p>
 <p>It has a 1-second resolution for AT, UNTIL, STDOFF, and DST offsets. The year fiels use 2-bytes which supporting years <code>[-32767,32765]</code>.</p>
-<p>The <a class="el" href="BrokersHigh_8h.html" title="These classes provide a thin layer of indirection for accessing the data structures defined by ZoneIn...">BrokersHigh.h</a> file provides an abtraction layer which converts these low-level fields into a semantically consistent API which can be used by the AceTime classes.</p>
+<p>The BrokersHigh.h file provides an abtraction layer which converts these low-level fields into a semantically consistent API which can be used by the AceTime classes.</p>
 <p>The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will use one of these persistence formats, as defined by <a class="el" href="infos_8h_source.html">infos.h</a>.</p>
 <p>See also DEVELOPER.md for an overview of the ZoneInfoXXX layer. </p>
 

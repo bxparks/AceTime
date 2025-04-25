@@ -1,0 +1,4 @@
+<map id="ace_time::ZoneInfoLow::ZonePolicy" name="ace_time::ZoneInfoLow::ZonePolicy">
+<area shape="rect" id="node1" title="A collection of transition rules which describe the DST rules of a given administrative region." alt="" coords="5,109,180,151"/>
+<area shape="rect" id="node2" href="$structace__time_1_1ZoneInfoLow_1_1ZoneRule.html" title="A time zone transition rule." alt="" coords="5,5,180,47"/>
+</map>
