@@ -8,7 +8,7 @@
 #include <AceTime.h>
 
 const uint16_t kCompleteRegistrySize = 83;
-extern const ace_time::complete::ZoneInfo* const
+extern const ace_time::complete::Info::ZoneInfo* const
     kCompleteRegistry[kCompleteRegistrySize];
 
 #endif

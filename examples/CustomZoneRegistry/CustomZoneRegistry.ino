@@ -33,7 +33,8 @@ using namespace ace_time;
 
 // Create a custom zone registry of the major timezones in the United States,
 // plus UTC.
-static const extended::ZoneInfo* const ZONE_REGISTRY[] ACE_TIME_PROGMEM = {
+static const extended::Info::ZoneInfo* const ZONE_REGISTRY[]
+    ACE_TIME_PROGMEM = {
   &zonedbx::kZonePacific_Honolulu,
   &zonedbx::kZoneAmerica_Anchorage,
   &zonedbx::kZoneAmerica_Los_Angeles,
@@ -45,7 +46,7 @@ static const extended::ZoneInfo* const ZONE_REGISTRY[] ACE_TIME_PROGMEM = {
 };
 
 static const uint16_t ZONE_REGISTRY_SIZE =
-    sizeof(ZONE_REGISTRY) / sizeof(basic::ZoneInfo*);
+    sizeof(ZONE_REGISTRY) / sizeof(basic::Info::ZoneInfo*);
 
 // Create an ExtendedZoneManager with just the major timezones in the United
 // States. A CACHE_SIZE=2 means that 2 timezones can be concurrently active

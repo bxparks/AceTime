@@ -4,20 +4,22 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <zonedbxtesting/zone_policies.h>
-#include <zonedbxtesting/zone_infos.h>
+#include <testingzonedbx/zone_policies.h>
+#include <testingzonedbx/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::zonedbxtesting::kZoneAmerica_Chicago;
-using ace_time::zonedbxtesting::kZoneAmerica_Denver;
-using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
-using ace_time::zonedbxtesting::kZoneAmerica_New_York;
-using ace_time::zonedbxtesting::kZoneAfrica_Casablanca;
-using ace_time::zonedbxtesting::kZonePacific_Apia;
+using ace_time::extended::Info;
+using ace_time::testingzonedbx::kZoneAmerica_Chicago;
+using ace_time::testingzonedbx::kZoneAmerica_Denver;
+using ace_time::testingzonedbx::kZoneAmerica_Los_Angeles;
+using ace_time::testingzonedbx::kZoneAmerica_New_York;
+using ace_time::testingzonedbx::kZoneAfrica_Casablanca;
+using ace_time::testingzonedbx::kZonePacific_Apia;
 
 // --------------------------------------------------------------------------
 
-const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
+const Info::ZoneInfo* const kExtendedZoneRegistry[]
+    ACE_TIME_PROGMEM = {
   &kZoneAmerica_Chicago,
   &kZoneAmerica_Denver,
   &kZoneAmerica_Los_Angeles,

@@ -33,7 +33,7 @@ class ExtendedTransitionTest: public aunit::TestOnce {
      *    year range of the zonedbx files. If 0, then skip this validation.
      */
     void assertValid(
-        const extended::ZoneInfo* const zoneInfo,
+        const extended::Info::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
         ValidationScope abbrevValidationScope,

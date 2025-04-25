@@ -9,7 +9,6 @@
 #include "common/DateConv.h" // secondsToHms()
 
 namespace ace_time {
-namespace internal {
 
 MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
     uint8_t onDayOfWeek, int8_t onDayOfMonth) {
@@ -58,7 +57,7 @@ void createAbbreviation(
   if (*format == '\0') {
     int32_t totalSeconds = stdSeconds + dstSeconds;
     uint32_t secs = (totalSeconds >= 0) ? totalSeconds : -totalSeconds;
-    ace_common::PrintStr<internal::kAbbrevSize> buf;
+    ace_common::PrintStr<kAbbrevSize> buf;
     uint16_t hh, mm, ss;
     secondsToHms(secs, &hh, &mm, &ss);
     buf.print((totalSeconds >= 0) ? '+' : '-');
@@ -69,7 +68,7 @@ void createAbbreviation(
     if (ss != 0) {
       ace_common::printPad2To(buf, ss, '0');
     }
-    strncpy(dest, buf.cstr(), internal::kAbbrevSize);
+    strncpy(dest, buf.cstr(), kAbbrevSize);
     dest[destSize - 1] = '\0';
 
   // Check if FORMAT contains a '%s'.
@@ -81,10 +80,10 @@ void createAbbreviation(
     } else {
       // Copy `letterString` into a local buffer, in case `letterString` is
       // the same as `dest.
-      char letter[internal::kAbbrevSize];
+      char letter[kAbbrevSize];
       if (letterString) {
-        strncpy(letter, letterString, internal::kAbbrevSize - 1);
-        letter[internal::kAbbrevSize - 1] = '\0';
+        strncpy(letter, letterString, kAbbrevSize - 1);
+        letter[kAbbrevSize - 1] = '\0';
       } else {
         letter[0] = '\0';
       }
@@ -113,5 +112,4 @@ void createAbbreviation(
   }
 }
 
-} // internal
 } // ace_time

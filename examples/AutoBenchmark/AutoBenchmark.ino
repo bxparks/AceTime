@@ -60,20 +60,20 @@ void setup() {
 
   SERIAL_PORT_MONITOR.println(F("Basic:"));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneContext): "));
-  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneContext));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::Info::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::Info::ZoneContext));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneEra): "));
-  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneEra));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::Info::ZoneEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::Info::ZoneEra));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneInfo): "));
-  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneInfo));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::Info::ZoneInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::Info::ZoneInfo));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneRule): "));
-  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRule));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::Info::ZoneRule): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::Info::ZoneRule));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZonePolicy): "));
-  SERIAL_PORT_MONITOR.println(sizeof(basic::ZonePolicy));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(basic::Info::ZonePolicy): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::Info::ZonePolicy));
 
   SERIAL_PORT_MONITOR.print(F("  sizeof(basic::ZoneRegistrar): "));
   SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRegistrar));
@@ -94,20 +94,20 @@ void setup() {
 
   SERIAL_PORT_MONITOR.println(F("Extended:"));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneContext): "));
-  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneContext));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::Info::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::Info::ZoneContext));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneEra): "));
-  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneEra));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::Info::ZoneEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::Info::ZoneEra));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneInfo): "));
-  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneInfo));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::Info::ZoneInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::Info::ZoneInfo));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneRule): "));
-  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneRule));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::Info::ZoneRule): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::Info::ZoneRule));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZonePolicy): "));
-  SERIAL_PORT_MONITOR.println(sizeof(extended::ZonePolicy));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(extended::Info::ZonePolicy): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::Info::ZonePolicy));
 
   SERIAL_PORT_MONITOR.print(F("  sizeof(extended::ZoneRegistrar): "));
   SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneRegistrar));
@@ -136,20 +136,20 @@ void setup() {
 
   SERIAL_PORT_MONITOR.println(F("Complete:"));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneContext): "));
-  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneContext));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::Info::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::Info::ZoneContext));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneEra): "));
-  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneEra));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::Info::ZoneEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::Info::ZoneEra));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneInfo): "));
-  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneInfo));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::Info::ZoneInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::Info::ZoneInfo));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneRule): "));
-  SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneRule));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::Info::ZoneRule): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::Info::ZoneRule));
 
-  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZonePolicy): "));
-  SERIAL_PORT_MONITOR.println(sizeof(complete::ZonePolicy));
+  SERIAL_PORT_MONITOR.print(F("  sizeof(complete::Info::ZonePolicy): "));
+  SERIAL_PORT_MONITOR.println(sizeof(complete::Info::ZonePolicy));
 
   SERIAL_PORT_MONITOR.print(F("  sizeof(complete::ZoneRegistrar): "));
   SERIAL_PORT_MONITOR.println(sizeof(complete::ZoneRegistrar));

@@ -41,9 +41,9 @@ inline bool isCompareStatusActive(CompareStatus status) {
  * Data structure that captures the matching ZoneEra and its ZoneRule
  * transitions for a given year. Can be cached based on the year.
  *
- * @tparam ZEB type of ZoneEraBroker
+ * @tparam D container type of ZoneInfo database
  */
-template<typename ZEB>
+template<typename D>
 struct MatchingEraTemplate {
   /**
    * The effective start time of the matching ZoneEra, which uses the
@@ -55,7 +55,7 @@ struct MatchingEraTemplate {
   DateTuple untilDateTime;
 
   /** The ZoneEra that matched the given year. NonNullable. */
-  ZEB era;
+  typename D::ZoneEraBroker era;
 
   /** The previous MatchingEra, needed to interpret startDateTime.  */
   MatchingEraTemplate* prevMatch;
@@ -106,15 +106,13 @@ struct MatchingEraTemplate {
  * Ordering of fields are optimized along 4-byte boundaries to help 32-bit
  * processors without making the program size bigger for 8-bit processors.
  *
- * @tparam ZEB type of ZoneEraBroker
- * @tparam ZPB type of ZonePolicyBroker
- * @tparam ZRB type of ZoneRuleBroker
+ * @tparam D container type of ZoneInfo database
  */
-template <typename ZEB, typename ZPB, typename ZRB>
+template <typename D>
 struct TransitionTemplate {
 
   /** The match which generated this Transition. */
-  const MatchingEraTemplate<ZEB>* match;
+  const MatchingEraTemplate<D>* match;
 
 #if ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
   /**
@@ -123,7 +121,7 @@ struct TransitionTemplate {
    * a "simple" ZoneEra. This not required for actual calculation, but it is
    * useful to have a reference to it for debugging purposes.
    */
-  ZRB rule;
+  typename D::ZoneRuleBroker rule;
 #endif
 
   /**
@@ -187,7 +185,7 @@ struct TransitionTemplate {
    * string, until `createAbbreviation()` consumes the `letter` and creates the
    * actual abbreviation.
    */
-  char abbrev[internal::kAbbrevSize];
+  char abbrev[kAbbrevSize];
 
   union {
     /**
@@ -277,10 +275,10 @@ struct TransitionTemplate {
  * LocalDateTime which occurs a second time during a "fall back", then `fold` is
  * set to 1.
  */
-template <typename ZEB, typename ZPB, typename ZRB>
+template <typename D>
 struct TransitionForSecondsTemplate {
   /** The matching transition, or null if not found. */
-  const TransitionTemplate<ZEB, ZPB, ZRB>* curr;
+  const TransitionTemplate<D>* curr;
 
   /** 1 if corresponding datetime occurred the second time */
   uint8_t fold;
@@ -301,20 +299,20 @@ struct TransitionForSecondsTemplate {
  *
  * There are 5 possibilities:
  *
- *  * num=0, prev==NULL, curr=curr: datetime is far past
+ *  * num=0, prev==NULL, curr=curr: datetime is far past (should not happen)
  *  * num=1, prev==prev, curr=prev: exact match to datetime
  *  * num=2, prev==prev, curr=curr: datetime in overlap
  *  * num=0, prev==prev, curr=curr: datetime in gap
- *  * num=0, prev==prev, curr=NULL: datetime is far future
+ *  * num=0, prev==prev, curr=NULL: datetime is far future (should not happen)
  */
-template <typename ZEB, typename ZPB, typename ZRB>
+template <typename D>
 struct TransitionForDateTimeTemplate {
   /** The previous transition. */
 
-  const TransitionTemplate<ZEB, ZPB, ZRB>* prev;
+  const TransitionTemplate<D>* prev;
   /** The matching transition, or null if not found or in gap. */
 
-  const TransitionTemplate<ZEB, ZPB, ZRB>* curr;
+  const TransitionTemplate<D>* curr;
 
   /** Number of matches: 0, 1, 2 */
   uint8_t num;
@@ -347,32 +345,30 @@ struct TransitionForDateTimeTemplate {
  * empty, with the Free pool taking up the remaining space.
  *
  * @tparam SIZE size of internal cache
- * @tparam ZEB type of ZoneEraBroker
- * @tparam ZPB type of ZonePolicyBroker
- * @tparam ZRB type of ZoneRuleBroker
+ * @tparam D container type of ZoneInfo database
  */
-template<uint8_t SIZE, typename ZEB, typename ZPB, typename ZRB>
+template<uint8_t SIZE, typename D>
 class TransitionStorageTemplate {
   public:
     /**
      * Template instantiation of TransitionTemplate used by this class. This
      * should be treated as a private, it is exposed only for testing purposes.
      */
-    typedef TransitionTemplate<ZEB, ZPB, ZRB> Transition;
+    typedef TransitionTemplate<D> Transition;
 
     /**
      * Template instantiation of TransitionForSecondsTemplate used by this
      * class. This should be treated as a private, it is exposed only for
      * testing purposes.
      */
-    typedef TransitionForSecondsTemplate<ZEB, ZPB, ZRB> TransitionForSeconds;
+    typedef TransitionForSecondsTemplate<D> TransitionForSeconds;
 
     /**
      * Template instantiation of TransitionForDateTimeTemplate used by this
      * class. This should be treated as a private, it is exposed only for
      * testing purposes.
      */
-    typedef TransitionForDateTimeTemplate<ZEB, ZPB, ZRB> TransitionForDateTime;
+    typedef TransitionForDateTimeTemplate<D> TransitionForDateTime;
 
     /** Constructor. */
     TransitionStorageTemplate() {}
@@ -483,7 +479,7 @@ class TransitionStorageTemplate {
           || !prior->isValidPrior) {
         ft->isValidPrior = true;
         prior->isValidPrior = false;
-        internal::swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
+        swap(mTransitions[mIndexPrior], mTransitions[mIndexFree]);
       }
     }
 
@@ -541,7 +537,7 @@ class TransitionStorageTemplate {
           if (iActive != iCandidate) {
             // Must use swap(), because we are moving pointers instead of the
             // actual Transition objects.
-            internal::swap(mTransitions[iActive], mTransitions[iCandidate]);
+            swap(mTransitions[iActive], mTransitions[iCandidate]);
           }
           ++iActive;
         }
@@ -588,7 +584,25 @@ class TransitionStorageTemplate {
       return TransitionForSeconds{curr, fold, num};
     }
 
-    /** Calculate the fold and num parameters of TransitionForSecond. */
+    /**
+     * Calculate the fold and num parameters of TransitionForSecond.
+     *
+     * The `num` parameter is the number of transitions which can shadow a given
+     * epochSeconds. It is 0 if `curr` is NULL, which means that epochSeconds
+     * cannot be mapped to any transition. It is 1 if the epochSeconds in the
+     * `curr` transition is unique and does not overlap with the `prev` or
+     * `next` transition. It is 2 if the epochSeconds in the `curr` transition
+     * maps to a LocalDateTime that overlaps with either the `prev` or `next`
+     * transition. (In theory, I suppose it could overlap with both, but it is
+     * improbable that any timezone in the TZDB will ever let that happen.)
+     *
+     * The `fold` parameter specifies whether the `curr` transition is the first
+     * instance (0) or the second instance (1). It is relevant only if `num` is
+     * 2. If `num` is 0 or 1, `fold` will always be 0. If `num` is 2, then
+     * `fold` indicates whether `curr` is the earlier (0) or later (1)
+     * transition of the overlap. This `fold` parameter will be copied into the
+     * corresponding `fold` parameter in LocalDateTime.
+     */
     static void calcFoldAndOverlap(
         uint8_t* fold,
         uint8_t* num,
@@ -668,7 +682,7 @@ class TransitionStorageTemplate {
           ldt.month(),
           ldt.day(),
           ((ldt.hour() * int32_t(60) + ldt.minute()) * 60 + ldt.second()),
-          extended::ZoneContext::kSuffixW,
+          extended::Info::ZoneContext::kSuffixW,
       };
 
       // Examine adjacent pairs of Transitions, looking for an exact match, gap,

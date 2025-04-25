@@ -264,8 +264,6 @@ inline bool operator!=(const ZoneProcessor& a, const ZoneProcessor& b) {
   return ! (a == b);
 }
 
-namespace internal {
-
 /** The result of calcStartDayOfMonth(). */
 struct MonthDay {
   uint8_t month;
@@ -356,7 +354,6 @@ void createAbbreviation(
     int32_t dstSeconds,
     const char* letterString);
 
-} // internal
 } // ace_time
 
 #endif

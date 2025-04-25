@@ -10,7 +10,7 @@ using namespace ace_time;
 //---------------------------------------------------------------------------
 // Zone registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const complete::ZoneInfo* const kCompleteRegistry[kCompleteRegistrySize]
+const complete::Info::ZoneInfo* const kCompleteRegistry[kCompleteRegistrySize]
     ACE_TIME_PROGMEM = {
   &zonedbc::kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur
   &zonedbc::kZoneIndian_Cocos, // 0x021e86de, Indian/Cocos

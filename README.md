@@ -1,7 +1,6 @@
 # AceTime
 
 [![AUnit Tests](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/aunit_tests.yml)
-[![Validation Tests](https://github.com/bxparks/AceTime/actions/workflows/validation.yml/badge.svg)](https://github.com/bxparks/AceTime/actions/workflows/validation.yml)
 
 The AceTime library provides Date, Time, and TimeZone classes which can convert
 "epoch seconds" from the AceTime Epoch (default 2050-01-01 UTC) to
@@ -76,7 +75,7 @@ and the `zonedbc` database to support all timezones, for all transitions defined
 in the IANA TZ database (`[1844,2087]`), and extending the validity of timezone
 calculations from `[2000,10000)` to `[0001,10000)`.
 
-**Version**: 3.0.0 (2025-01-28, TZDB 2025a)
+**Version**: 3.0.0 (2025-04-25, TZDB 2025b)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -164,13 +163,13 @@ The source files are organized as follows:
 * zone databases
     * `src/zonedb/` - files generated from TZ Database for
         `BasicZoneProcessor` (`ace_time::zonedb` namespace)
-    * `src/zonedbtesting/` - limited subset of `zonedb` for unit tests
     * `src/zonedbx/` - files generated from TZ Database for
         `ExtendedZoneProcessor` (`ace_time::zonedbx` namespace)
-    * `src/zonedbxtesting/` - limited subset of `zonedbx` for unit tests
     * `src/zonedbc/` - files generated from TZ Database for
         `CompleteZoneProcessor` (`ace_time::zonedbc` namespace)
-    * `src/zonedbctesting/` - limited subset of `zonedbc` for unit tests
+    * `src/testingzonedb/` - limited subset of `zonedb` for unit tests
+    * `src/testingzonedbx/` - limited subset of `zonedbx` for unit tests
+    * `src/testingzonedbc/` - limited subset of `zonedbc` for unit tests
 * `tests/
     * unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs and benchmarks

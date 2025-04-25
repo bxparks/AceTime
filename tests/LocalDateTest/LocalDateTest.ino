@@ -5,7 +5,7 @@
 #include <ace_time/testing/EpochYearContext.h>
 
 using namespace ace_time;
-using ace_time::basic::ZoneContext;
+using ace_time::basic::Info;
 
 //---------------------------------------------------------------------------
 // LocalDate
@@ -13,21 +13,21 @@ using ace_time::basic::ZoneContext;
 
 test(LocalDateTest, year_limits) {
   assertLess(LocalDate::kInvalidYear, LocalDate::kMinYear);
-  assertLess(LocalDate::kInvalidYear, ZoneContext::kMinYear);
-  assertLess(LocalDate::kInvalidYear, ZoneContext::kMinYear);
+  assertLess(LocalDate::kInvalidYear, Info::ZoneContext::kMinYear);
+  assertLess(LocalDate::kInvalidYear, Info::ZoneContext::kMinYear);
 
   assertLess(LocalDate::kMinYear, LocalDate::kMaxYear);
   assertLess(LocalDate::kMinYear, LocalDate::kMaxYear);
 
-  assertLess(ZoneContext::kMinYear, ZoneContext::kMaxYear);
-  assertLess(ZoneContext::kMinYear, ZoneContext::kMaxYear);
+  assertLess(Info::ZoneContext::kMinYear, Info::ZoneContext::kMaxYear);
+  assertLess(Info::ZoneContext::kMinYear, Info::ZoneContext::kMaxYear);
 
-  assertLess(ZoneContext::kMaxYear, ZoneContext::kMaxUntilYear);
-  assertLess(ZoneContext::kMaxYear, ZoneContext::kMaxUntilYear);
+  assertLess(Info::ZoneContext::kMaxYear, Info::ZoneContext::kMaxUntilYear);
+  assertLess(Info::ZoneContext::kMaxYear, Info::ZoneContext::kMaxUntilYear);
 
-  // LocalDate limits must be within the ZoneContext limits
-  assertMore(LocalDate::kMinYear, ZoneContext::kMinYear);
-  assertLess(LocalDate::kMaxYear, ZoneContext::kMaxYear);
+  // LocalDate limits must be within the Info::ZoneContext limits
+  assertMore(LocalDate::kMinYear, Info::ZoneContext::kMinYear);
+  assertLess(LocalDate::kMaxYear, Info::ZoneContext::kMaxYear);
 }
 
 test(LocalDateTest, year_range) {
@@ -516,6 +516,22 @@ test(LocalDateTest, daysInMonth) {
   assertEqual(28, LocalDate::daysInMonth(2001, 2));
   assertEqual(29, LocalDate::daysInMonth(2004, 2));
   assertEqual(28, LocalDate::daysInMonth(2100, 2));
+}
+
+test(LocalDateTest, daysUntil) {
+  LocalDate today = LocalDate::forComponents(2000, 12, 25);
+  assertEqual(0, today.daysUntil(12, 25));
+
+  today = LocalDate::forComponents(2000, 12, 24);
+  assertEqual(1, today.daysUntil(12, 25));
+
+  // 2001 is a normal year, so 364 days until next Christmas
+  today = LocalDate::forComponents(2000, 12, 26);
+  assertEqual(364, today.daysUntil(12, 25));
+
+  // 2004 is a leap year so 365 days until next Christmas
+  today = LocalDate::forComponents(2003, 12, 26);
+  assertEqual(365, today.daysUntil(12, 25));
 }
 
 //---------------------------------------------------------------------------

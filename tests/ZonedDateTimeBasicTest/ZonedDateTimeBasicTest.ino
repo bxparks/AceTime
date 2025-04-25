@@ -3,20 +3,21 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
-#include <zonedbtesting/zone_policies.h>
-#include <zonedbtesting/zone_infos.h>
+#include <testingzonedb/zone_policies.h>
+#include <testingzonedb/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::zonedbtesting::kZoneAmerica_Chicago;
-using ace_time::zonedbtesting::kZoneAmerica_Denver;
-using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
-using ace_time::zonedbtesting::kZoneAmerica_New_York;
+using ace_time::basic::Info;
+using ace_time::testingzonedb::kZoneAmerica_Chicago;
+using ace_time::testingzonedb::kZoneAmerica_Denver;
+using ace_time::testingzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::testingzonedb::kZoneAmerica_New_York;
 
 // --------------------------------------------------------------------------
 // Create BasicZoneManager
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+const Info::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Chicago,
   &kZoneAmerica_Denver,
   &kZoneAmerica_Los_Angeles,

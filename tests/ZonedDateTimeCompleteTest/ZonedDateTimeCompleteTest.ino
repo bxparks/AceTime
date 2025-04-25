@@ -7,19 +7,20 @@
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <zonedbctesting/zone_infos.h>
+#include <testingzonedbc/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::zonedbctesting::kZoneAmerica_Chicago;
-using ace_time::zonedbctesting::kZoneAmerica_Denver;
-using ace_time::zonedbctesting::kZoneAmerica_Los_Angeles;
-using ace_time::zonedbctesting::kZoneAmerica_New_York;
-using ace_time::zonedbctesting::kZoneAfrica_Casablanca;
-using ace_time::zonedbctesting::kZonePacific_Apia;
+using ace_time::complete::Info;
+using ace_time::testingzonedbc::kZoneAmerica_Chicago;
+using ace_time::testingzonedbc::kZoneAmerica_Denver;
+using ace_time::testingzonedbc::kZoneAmerica_Los_Angeles;
+using ace_time::testingzonedbc::kZoneAmerica_New_York;
+using ace_time::testingzonedbc::kZoneAfrica_Casablanca;
+using ace_time::testingzonedbc::kZonePacific_Apia;
 
 // --------------------------------------------------------------------------
 
-const complete::ZoneInfo* const kCompleteZoneRegistry[] ACE_TIME_PROGMEM = {
+const Info::ZoneInfo* const kCompleteZoneRegistry[] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Chicago,
   &kZoneAmerica_Denver,
   &kZoneAmerica_Los_Angeles,

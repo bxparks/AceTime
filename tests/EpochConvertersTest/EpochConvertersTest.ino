@@ -7,8 +7,8 @@
 using aunit::TestOnce;
 using aunit::TestRunner;
 using ace_time::LocalDate;
-using ace_time::internal::EpochConverterJulian;
-using ace_time::internal::EpochConverterHinnant;
+using ace_time::EpochConverterJulian;
+using ace_time::EpochConverterHinnant;
 
 //---------------------------------------------------------------------------
 // Test the EpochConverters.

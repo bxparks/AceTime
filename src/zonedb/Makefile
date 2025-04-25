@@ -2,7 +2,7 @@ TARGETS := zone_infos.cpp zone_infos.h zone_policies.cpp zone_policies.h
 
 COMPILER := $(abspath ../../../../compiler)
 TZ_REPO := $(abspath ../../../../../tz)
-TZ_VERSION := 2025a
+TZ_VERSION := 2025b
 START_YEAR := 2000
 UNTIL_YEAR := 2200
 
@@ -14,6 +14,7 @@ all:
 		--language arduino \
 		--scope basic \
 		--db_namespace zonedb \
+		--zi_namespace basic::Info \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 
@@ -25,6 +26,7 @@ zonedb.json:
 		--language arduino \
 		--scope basic \
 		--db_namespace zonedb \
+		--zi_namespace basic::Info \
 		--start_year $(START_YEAR) \
 		--until_year $(UNTIL_YEAR)
 

@@ -143,32 +143,32 @@ inline void expandDateTuple(
     DateTuple* tts,
     DateTuple* ttu) {
 
-  if (tt->suffix == ZoneContext::kSuffixS) {
+  if (tt->suffix == Info::ZoneContext::kSuffixS) {
     *tts = *tt;
     *ttu = {tt->year, tt->month, tt->day,
         tt->seconds - offsetSeconds,
-        ZoneContext::kSuffixU};
+        Info::ZoneContext::kSuffixU};
     *ttw = {tt->year, tt->month, tt->day,
         tt->seconds + deltaSeconds,
-        ZoneContext::kSuffixW};
-  } else if (tt->suffix == ZoneContext::kSuffixU) {
+        Info::ZoneContext::kSuffixW};
+  } else if (tt->suffix == Info::ZoneContext::kSuffixU) {
     *ttu = *tt;
     *tts = {tt->year, tt->month, tt->day,
         tt->seconds + offsetSeconds,
-        ZoneContext::kSuffixS};
+        Info::ZoneContext::kSuffixS};
     *ttw = {tt->year, tt->month, tt->day,
         tt->seconds + (offsetSeconds + deltaSeconds),
-        ZoneContext::kSuffixW};
+        Info::ZoneContext::kSuffixW};
   } else {
     // Explicit set the suffix to 'w' in case it was something else.
     *ttw = *tt;
-    ttw->suffix = ZoneContext::kSuffixW;
+    ttw->suffix = Info::ZoneContext::kSuffixW;
     *tts = {tt->year, tt->month, tt->day,
         tt->seconds - deltaSeconds,
-        ZoneContext::kSuffixS};
+        Info::ZoneContext::kSuffixS};
     *ttu = {tt->year, tt->month, tt->day,
         tt->seconds - (deltaSeconds + offsetSeconds),
-        ZoneContext::kSuffixU};
+        Info::ZoneContext::kSuffixU};
   }
 
   normalizeDateTuple(ttw);

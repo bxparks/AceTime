@@ -23,8 +23,6 @@ namespace ace_time {
  */
 typedef int32_t acetime_t;
 
-namespace internal {
-
 /**
   * Size of the c-string buffer needed to hold a time zone abbreviation.
   *
@@ -53,7 +51,6 @@ void swap(T& a, T& b) {
   b = tmp;
 }
 
-}
 }
 
 #endif

@@ -13,8 +13,8 @@
 
 using ace_common::printUint32AsFloat3To;
 using ace_time::LocalDate;
-using ace_time::internal::EpochConverterJulian;
-using ace_time::internal::EpochConverterHinnant;
+using ace_time::EpochConverterJulian;
+using ace_time::EpochConverterHinnant;
 
 // Sometimes, depending on the size of the AceTime library, the SparkFun
 // ProMicro does not have enough flash, so this allows us to disable

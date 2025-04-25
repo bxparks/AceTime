@@ -2,32 +2,33 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <zonedbxtesting/zone_policies.h>
-#include <zonedbxtesting/zone_infos.h>
+#include <testingzonedbx/zone_policies.h>
+#include <testingzonedbx/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::zonedbxtesting::kZoneAmerica_Chicago;
-using ace_time::zonedbxtesting::kZoneAmerica_Denver;
-using ace_time::zonedbxtesting::kZoneAmerica_Los_Angeles;
-using ace_time::zonedbxtesting::kZoneAmerica_New_York;
-using ace_time::zonedbxtesting::kZoneAmerica_Toronto;
-using ace_time::zonedbxtesting::kZoneAmerica_Vancouver;
-using ace_time::zonedbxtesting::kZoneAmerica_Edmonton;
-using ace_time::zonedbxtesting::kZoneAmerica_Winnipeg;
-using ace_time::zonedbxtesting::kZoneIdAmerica_Chicago;
-using ace_time::zonedbxtesting::kZoneIdAmerica_Denver;
-using ace_time::zonedbxtesting::kZoneIdAmerica_Los_Angeles;
-using ace_time::zonedbxtesting::kZoneIdAmerica_New_York;
-using ace_time::zonedbxtesting::kZoneIdAmerica_Toronto;
-using ace_time::zonedbxtesting::kZoneIdAmerica_Vancouver;
-using ace_time::zonedbxtesting::kZoneIdAmerica_Edmonton;
-using ace_time::zonedbxtesting::kZoneIdAmerica_Winnipeg;
+using ace_time::testingzonedbx::kZoneAmerica_Chicago;
+using ace_time::testingzonedbx::kZoneAmerica_Denver;
+using ace_time::testingzonedbx::kZoneAmerica_Los_Angeles;
+using ace_time::testingzonedbx::kZoneAmerica_New_York;
+using ace_time::testingzonedbx::kZoneAmerica_Toronto;
+using ace_time::testingzonedbx::kZoneAmerica_Vancouver;
+using ace_time::testingzonedbx::kZoneAmerica_Edmonton;
+using ace_time::testingzonedbx::kZoneAmerica_Winnipeg;
+using ace_time::testingzonedbx::kZoneIdAmerica_Chicago;
+using ace_time::testingzonedbx::kZoneIdAmerica_Denver;
+using ace_time::testingzonedbx::kZoneIdAmerica_Los_Angeles;
+using ace_time::testingzonedbx::kZoneIdAmerica_New_York;
+using ace_time::testingzonedbx::kZoneIdAmerica_Toronto;
+using ace_time::testingzonedbx::kZoneIdAmerica_Vancouver;
+using ace_time::testingzonedbx::kZoneIdAmerica_Edmonton;
+using ace_time::testingzonedbx::kZoneIdAmerica_Winnipeg;
 
 //---------------------------------------------------------------------------
 // Set up a ExtendedZoneManager with a handful of zones.
 //---------------------------------------------------------------------------
 
-const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
+const extended::Info::ZoneInfo* const kExtendedZoneRegistry[]
+    ACE_TIME_PROGMEM = {
   &kZoneAmerica_Chicago, // 0, -06:00
   &kZoneAmerica_Denver, // 1, -07:00
   &kZoneAmerica_Los_Angeles, // 2, -08:00

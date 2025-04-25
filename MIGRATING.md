@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+* [Migrating to v3.0.0](#MigratingToVersion300)
 * [Migrating to v2.3.0](#MigratingToVersion220)
 * [Migrating to v2.2.0](#MigratingToVersion220)
 * [Migrating to v2.1.0](#MigratingToVersion210)
@@ -19,6 +20,39 @@
     * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
     * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
     * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion300"></a>
+## Migrating to v3.0.0
+
+### Info Container Class
+
+The various `ZoneInfo` classes are now nested inside an `Info` container class.
+This greatly simplifies the maintenance of the code. But it introduces a small
+breaking change. Instead of
+
+```C++
+const basic::ZoneInfo*`
+const extended::ZoneInfo*`
+const complete::ZoneInfo*`
+```
+we need to use
+
+```C++
+const basic::Info::ZoneInfo*`
+const extended::Info::ZoneInfo*`
+const complete::Info::ZoneInfo*`
+```
+
+### Remove 'internal' Namespace
+
+The `ace_time::internal` namespace has been removed and all of its classes and
+symbols have been lifted into the `ace_time` namespace. This makes the code
+easier to understand and maintain.
+
+Being "internal", most of the objects were not documented. However, one symbol
+which may have leaked out is `ace_time::internal::kAbbrevSize` which is the size
+of the string buffer needed to hold the longest TimeZone abbreviation (e.g.
+"PST"). This constant is now at `ace_time::kAbbrevSize`.
 
 <a name="MigratingToVersion230"></a>
 ## Migrating to v2.3.0

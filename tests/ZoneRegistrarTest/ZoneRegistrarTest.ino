@@ -1,29 +1,30 @@
 #line 2 "ZoneRegistrarTest.ino"
 
 /*
- * Test for ZoneRegistrar. It is sufficient to test just basic::ZoneRegistrar
+ * Test for ZoneRegistrar. It is sufficient to test just Info::ZoneRegistrar
  * since extended::ZoneRegistrar is derived from the exact same
  * ZoneRegistrarTemplate class.
  */
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <zonedbtesting/zone_policies.h>
-#include <zonedbtesting/zone_infos.h>
-#include <zonedbtesting/zone_registry.h>
+#include <testingzonedb/zone_policies.h>
+#include <testingzonedb/zone_infos.h>
+#include <testingzonedb/zone_registry.h>
 
 using namespace ace_time;
-using ace_time::basic::ZoneRegistrar;
-using ace_time::zonedbtesting::kZoneAmerica_Chicago;
-using ace_time::zonedbtesting::kZoneAmerica_Denver;
-using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
-using ace_time::zonedbtesting::kZoneAmerica_New_York;
-using ace_time::zonedbtesting::kZoneIdAmerica_Chicago;
-using ace_time::zonedbtesting::kZoneIdAmerica_Denver;
-using ace_time::zonedbtesting::kZoneIdAmerica_Los_Angeles;
-using ace_time::zonedbtesting::kZoneIdAmerica_New_York;
-using ace_time::zonedbtesting::kZoneRegistrySize;
-using ace_time::zonedbtesting::kZoneRegistry;
+using namespace ace_time::basic;
+using ace_time::basic::Info;
+using ace_time::testingzonedb::kZoneAmerica_Chicago;
+using ace_time::testingzonedb::kZoneAmerica_Denver;
+using ace_time::testingzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::testingzonedb::kZoneAmerica_New_York;
+using ace_time::testingzonedb::kZoneIdAmerica_Chicago;
+using ace_time::testingzonedb::kZoneIdAmerica_Denver;
+using ace_time::testingzonedb::kZoneIdAmerica_Los_Angeles;
+using ace_time::testingzonedb::kZoneIdAmerica_New_York;
+using ace_time::testingzonedb::kZoneRegistrySize;
+using ace_time::testingzonedb::kZoneRegistry;
 
 //---------------------------------------------------------------------------
 // Define some registries used later on.
@@ -31,7 +32,7 @@ using ace_time::zonedbtesting::kZoneRegistry;
 
 const uint16_t kNumSortedEntries = 4;
 
-const basic::ZoneInfo* const kSortedRegistry[kNumSortedEntries]
+const Info::ZoneInfo* const kSortedRegistry[kNumSortedEntries]
     ACE_TIME_PROGMEM = {
   &kZoneAmerica_New_York,     // 0x1e2a7654
   &kZoneAmerica_Chicago,      // 0x4b92b5d4
@@ -41,7 +42,7 @@ const basic::ZoneInfo* const kSortedRegistry[kNumSortedEntries]
 
 const uint16_t kNumUnsortedEntries = 4;
 
-const basic::ZoneInfo* const kUnsortedRegistry[kNumUnsortedEntries]
+const Info::ZoneInfo* const kUnsortedRegistry[kNumUnsortedEntries]
     ACE_TIME_PROGMEM = {
   &kZoneAmerica_Chicago,      // 0x4b92b5d4
   &kZoneAmerica_Denver,       // 0x97d10b2a
@@ -68,7 +69,7 @@ test(ZoneRegistrarTest, zoneRegistrySize) {
 test(ZoneRegistrarTest, getZoneInfo_Los_Angeles) {
   ZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
 
-  const basic::ZoneInfo* zoneInfo =
+  const Info::ZoneInfo* zoneInfo =
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
   assertNotEqual(zoneInfo, nullptr);
 
@@ -83,30 +84,30 @@ test(ZoneRegistrarTest, getZoneInfo_Los_Angeles) {
 
 test(ZoneRegistrarTest, getZoneInfo_not_found) {
   ZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName(
+  const Info::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName(
       "doesNotExist");
   assertEqual(zoneInfo, nullptr);
 }
 
 test(ZoneRegistrarTest, getZoneInfo_Index_not_found) {
   ZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
+  const Info::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
       kZoneRegistrySize);
   assertEqual(zoneInfo, nullptr);
 }
 
 test(ZoneRegistrarTest, getZoneInfoForId) {
   ZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
+  const Info::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       kZoneIdAmerica_Los_Angeles);
-  const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
+  const Info::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
       "America/Los_Angeles");
   assertEqual(zoneInfo, zoneInfoExpected);
 }
 
 test(ZoneRegistrarTest, getZoneInfoForId_not_found) {
   ZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
+  const Info::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       0x0 /* should not exist */);
   assertEqual(zoneInfo, nullptr);
 }
