@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['baseyear_629',['baseYear',['../structace__time_1_1zoneinfohigh_1_1ZoneContext.html#a36162a7743a06f25891186b7a2904a7c',1,'ace_time::zoneinfohigh::ZoneContext::baseYear()'],['../structace__time_1_1zoneinfolow_1_1ZoneContext.html#a2906a90fb8a3f2fa7d312d34159fc469',1,'ace_time::zoneinfolow::ZoneContext::baseYear()'],['../structace__time_1_1zoneinfomid_1_1ZoneContext.html#a0e81ff02828c78c40f5cb8a2ded514b6',1,'ace_time::zoneinfomid::ZoneContext::baseYear()']]]
+  ['baseyear_613',['baseYear',['../structace__time_1_1ZoneInfoHigh_1_1ZoneContext.html#a91146acedb5238d02a04359a34cd87b6',1,'ace_time::ZoneInfoHigh::ZoneContext::baseYear()'],['../structace__time_1_1ZoneInfoLow_1_1ZoneContext.html#a9b8247f1422037918a041c124e67c221',1,'ace_time::ZoneInfoLow::ZoneContext::baseYear()'],['../structace__time_1_1ZoneInfoMid_1_1ZoneContext.html#a2585f527bdcefb014fafe5f65912c239',1,'ace_time::ZoneInfoMid::ZoneContext::baseYear()']]]
 ];

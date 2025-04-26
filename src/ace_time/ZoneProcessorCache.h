@@ -37,8 +37,9 @@ class ZoneProcessorCacheBaseTemplate {
     ZP* getZoneProcessorAtIndex(uint8_t i) { return &mZoneProcessors[i]; }
 
     /**
-     * Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an
-     * extended::ZoneInfo. This will never return nullptr.
+     * Get ZoneProcessor from either a ZoneKey, basic::Info::ZoneInfo, an
+     * extended::Info::ZoneInfo, or complete::Info::ZoneInfo. This will never
+     * return nullptr.
      *
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)

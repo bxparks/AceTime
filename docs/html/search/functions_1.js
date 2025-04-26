@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['basiczone_444',['BasicZone',['../classace__time_1_1BasicZone.html#a97ade70c7e0298971f76b6819cafc8b9',1,'ace_time::BasicZone::BasicZone(const basic::ZoneInfo *zoneInfo)'],['../classace__time_1_1BasicZone.html#abc1f3d572422df7889c03322369ec12b',1,'ace_time::BasicZone::BasicZone(const basic::ZoneInfoBroker &amp;zoneInfo)']]],
-  ['basiczoneprocessortemplate_445',['BasicZoneProcessorTemplate',['../classace__time_1_1BasicZoneProcessorTemplate.html#aa5e26234ef809b29f9863d820695820b',1,'ace_time::BasicZoneProcessorTemplate']]],
-  ['binarysearchbyid_446',['binarySearchById',['../classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#aef1b721bd1026d08afd514c8353b4b98',1,'ace_time::internal::ZoneRegistrarTemplate']]]
+  ['basiczoneprocessortemplate_430',['BasicZoneProcessorTemplate',['../classace__time_1_1BasicZoneProcessorTemplate.html#aa4bec4d664d79dbd7b8b2d1fb3b0e26d',1,'ace_time::BasicZoneProcessorTemplate']]],
+  ['binarysearchbyid_431',['binarySearchById',['../classace__time_1_1ZoneRegistrarTemplate.html#abb1805b14881767f4974e123cf52dd4e',1,'ace_time::ZoneRegistrarTemplate']]]
 ];

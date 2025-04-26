@@ -12,9 +12,9 @@
 namespace ace_time {
 
 /**
- * ZoneSorterByOffsetAndName, templatized on BasicZoneManager or
- * ExtendedZoneManager. Sorts the array of zones by UTC offset first, then by
- * name.
+ * ZoneSorterByOffsetAndName, templatized on a ZoneManager (BasicZoneManager,
+ * ExtendedZoneManager, or CompleteZoneManager). Sorts the array of zones by UTC
+ * offset first, then by name.
  *
  * @tparam ZM ZoneManager
  */
@@ -82,8 +82,9 @@ class ZoneSorterByOffsetAndName {
      * zoneInfo database, then by name for zones which have the same UTC offset.
      *
      * We cannot use `auto` as the parameter type (apparently, that's a C++14
-     * feature), so we are forced to use template function. The `Z` template
-     * will be either the BasicZone or ExtendedZone class.
+     * feature), so we are forced to use template function.
+     *
+     * @tparam Z the zone class (i.e. BasicZone, ExtendedZone, ComppleteZone)
      */
     template <typename Z>
     static int compareZone(const Z& a, const Z& b) {

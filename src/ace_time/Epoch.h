@@ -12,7 +12,7 @@
 /**
  * Select the epoch converter:  EpochConverterHinnant or EpochConverterJulian
  */
-#define ACE_TIME_EPOCH_CONVERTER internal::EpochConverterHinnant
+#define ACE_TIME_EPOCH_CONVERTER EpochConverterHinnant
 
 namespace ace_time {
 

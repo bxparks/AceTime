@@ -4,9 +4,9 @@
 #include <AceTime.h>
 
 using ace_time::LocalDate;
-using ace_time::internal::calcStartDayOfMonth;
-using ace_time::internal::MonthDay;
-using ace_time::internal::createAbbreviation;
+using ace_time::calcStartDayOfMonth;
+using ace_time::MonthDay;
+using ace_time::createAbbreviation;
 
 test(ZoneProcessorTest, calcStartDayOfMonth) {
   // 2018-11, Sun>=1

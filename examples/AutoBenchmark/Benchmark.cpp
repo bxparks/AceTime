@@ -940,7 +940,7 @@ void runBasicRegistrarFindIndexForName() {
   unsigned long runMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kBasicRegistrySize);
-    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
+    const basic::Info::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     BasicZone(info).printNameTo(printStr);
 
@@ -954,7 +954,7 @@ void runBasicRegistrarFindIndexForName() {
   unsigned long emptyLoopMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kBasicRegistrySize);
-    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
+    const basic::Info::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     BasicZone(info).printNameTo(printStr);
 
@@ -978,7 +978,7 @@ void runBasicRegistrarFindIndexForIdBinary() {
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kBasicRegistrySize);
-    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
+    const basic::Info::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     uint32_t zoneId = BasicZone(info).zoneId();
 
@@ -991,7 +991,7 @@ void runBasicRegistrarFindIndexForIdBinary() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     uint16_t randomIndex = random(kBasicRegistrySize);
-    const basic::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
+    const basic::Info::ZoneInfo* info = basicZoneRegistrar->getZoneInfoForIndex(
         randomIndex);
     uint32_t zoneId = BasicZone(info).zoneId();
 
@@ -1009,7 +1009,7 @@ void runBasicRegistrarFindIndexForIdLinear() {
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kBasicRegistrySize);
-    const basic::ZoneInfo* info = kBasicRegistry[randomIndex];
+    const basic::Info::ZoneInfo* info = kBasicRegistry[randomIndex];
     uint32_t zoneId = BasicZone(info).zoneId();
 
     uint16_t index = basicZoneRegistrar->findIndexForIdLinear(zoneId);
@@ -1018,7 +1018,7 @@ void runBasicRegistrarFindIndexForIdLinear() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     uint16_t randomIndex = random(kBasicRegistrySize);
-    const basic::ZoneInfo* info = kBasicRegistry[randomIndex];
+    const basic::Info::ZoneInfo* info = kBasicRegistry[randomIndex];
     uint32_t zoneId = BasicZone(info).zoneId();
 
     disableOptimization(zoneId);
@@ -1049,8 +1049,8 @@ void runExtendedRegistrarFindIndexForName() {
   unsigned long runMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kExtendedRegistrySize);
-    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const extended::Info::ZoneInfo* info =
+        extendedZoneRegistrar->getZoneInfoForIndex(randomIndex);
     ExtendedZone(info).printNameTo(printStr);
 
     uint16_t index = extendedZoneRegistrar->findIndexForName(printStr.cstr());
@@ -1063,8 +1063,8 @@ void runExtendedRegistrarFindIndexForName() {
   unsigned long emptyLoopMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kExtendedRegistrySize);
-    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const extended::Info::ZoneInfo* info =
+        extendedZoneRegistrar->getZoneInfoForIndex(randomIndex);
     ExtendedZone(info).printNameTo(printStr);
 
     uint16_t len = printStr.length();
@@ -1094,8 +1094,8 @@ void runExtendedRegistrarFindIndexForIdBinary() {
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kExtendedRegistrySize);
-    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const extended::Info::ZoneInfo* info =
+        extendedZoneRegistrar->getZoneInfoForIndex(randomIndex);
     uint32_t zoneId = ExtendedZone(info).zoneId();
 
     uint16_t index = extendedZoneRegistrar->findIndexForIdBinary(zoneId);
@@ -1107,8 +1107,8 @@ void runExtendedRegistrarFindIndexForIdBinary() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     uint16_t randomIndex = random(kExtendedRegistrySize);
-    const extended::ZoneInfo* info = extendedZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const extended::Info::ZoneInfo* info =
+        extendedZoneRegistrar->getZoneInfoForIndex(randomIndex);
     uint32_t zoneId = ExtendedZone(info).zoneId();
 
     disableOptimization(zoneId);
@@ -1132,7 +1132,7 @@ void runExtendedRegistrarFindIndexForIdLinear() {
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kExtendedRegistrySize);
-    const extended::ZoneInfo* info = kExtendedRegistry[randomIndex];
+    const extended::Info::ZoneInfo* info = kExtendedRegistry[randomIndex];
     uint32_t zoneId = ExtendedZone(info).zoneId();
 
     uint16_t index = extendedZoneRegistrar->findIndexForIdLinear(zoneId);
@@ -1141,7 +1141,7 @@ void runExtendedRegistrarFindIndexForIdLinear() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     uint16_t randomIndex = random(kExtendedRegistrySize);
-    const extended::ZoneInfo* info = kExtendedRegistry[randomIndex];
+    const extended::Info::ZoneInfo* info = kExtendedRegistry[randomIndex];
     uint32_t zoneId = ExtendedZone(info).zoneId();
 
     disableOptimization(zoneId);
@@ -1172,8 +1172,8 @@ void runCompleteRegistrarFindIndexForName() {
   unsigned long runMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kCompleteRegistrySize);
-    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const complete::Info::ZoneInfo* info =
+        completeZoneRegistrar->getZoneInfoForIndex(randomIndex);
     CompleteZone(info).printNameTo(printStr);
 
     uint16_t index = completeZoneRegistrar->findIndexForName(printStr.cstr());
@@ -1186,8 +1186,8 @@ void runCompleteRegistrarFindIndexForName() {
   unsigned long emptyLoopMillis = runLambda([]() {
     PrintStr<40> printStr;
     uint16_t randomIndex = random(kCompleteRegistrySize);
-    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const complete::Info::ZoneInfo* info =
+        completeZoneRegistrar->getZoneInfoForIndex(randomIndex);
     CompleteZone(info).printNameTo(printStr);
 
     uint16_t len = printStr.length();
@@ -1217,8 +1217,8 @@ void runCompleteRegistrarFindIndexForIdBinary() {
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kCompleteRegistrySize);
-    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const complete::Info::ZoneInfo* info =
+        completeZoneRegistrar->getZoneInfoForIndex(randomIndex);
     uint32_t zoneId = CompleteZone(info).zoneId();
 
     uint16_t index = completeZoneRegistrar->findIndexForIdBinary(zoneId);
@@ -1230,8 +1230,8 @@ void runCompleteRegistrarFindIndexForIdBinary() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     uint16_t randomIndex = random(kCompleteRegistrySize);
-    const complete::ZoneInfo* info = completeZoneRegistrar->getZoneInfoForIndex(
-        randomIndex);
+    const complete::Info::ZoneInfo* info =
+        completeZoneRegistrar->getZoneInfoForIndex(randomIndex);
     uint32_t zoneId = CompleteZone(info).zoneId();
 
     disableOptimization(zoneId);
@@ -1255,7 +1255,7 @@ void runCompleteRegistrarFindIndexForIdLinear() {
 
   unsigned long runMillis = runLambda([]() {
     uint16_t randomIndex = random(kCompleteRegistrySize);
-    const complete::ZoneInfo* info = kCompleteRegistry[randomIndex];
+    const complete::Info::ZoneInfo* info = kCompleteRegistry[randomIndex];
     uint32_t zoneId = CompleteZone(info).zoneId();
 
     uint16_t index = completeZoneRegistrar->findIndexForIdLinear(zoneId);
@@ -1264,7 +1264,7 @@ void runCompleteRegistrarFindIndexForIdLinear() {
 
   unsigned long emptyLoopMillis = runLambda([]() {
     uint16_t randomIndex = random(kCompleteRegistrySize);
-    const complete::ZoneInfo* info = kCompleteRegistry[randomIndex];
+    const complete::Info::ZoneInfo* info = kCompleteRegistry[randomIndex];
     uint32_t zoneId = CompleteZone(info).zoneId();
 
     disableOptimization(zoneId);

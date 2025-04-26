@@ -5,76 +5,34 @@ library.
 
 ## Table of Contents
 
-* [Project/Repo Dependency](#ProjectRepoDependency)
-* [Namespace Dependency](#NamespaceDependency)
-* [Zone Info Database](#ZoneInfoDatabase)
-    * [Template Layer](#TemplateLayer)
-    * [Storage Layer](#StorageLayer)
-    * [Broker Layer](#BrokerLayer)
-    * [ZoneDb Files](#ZoneDbFiles)
-        * [ZoneContext](#ZoneContext)
-        * [ZoneInfo and ZoneEra](#ZoneInfoZoneEra)
-        * [ZonePolicy and ZoneRule](#ZonePolicyZoneRule)
-        * [ZoneRegistry](#ZoneRegistry)
-    * [Offset Encoding](#OffsetEncoding)
-    * [TinyYear Encoding](#TinyYearEncoding)
-* [BasicZoneProcessor](#BasicZoneProcessor)
-* [ExtendedZoneProcessor](#ExtendedZoneProcessor)
-    * [Search by Component or EpochSeconds](#SearchByComponentOrEpochSeconds)
-    * [Stea 1: Find Matches](#Step1FindMatches)
-    * [Step 2: Create Transitions](#Step2CreateTransitions)
-    * [Step 2A: Transition Time versus StartDateTime](#Step2ATransitionTimeAndStartDateTime)
-    * [Step 3: Fix Transition Times](#Step3FixTransitionTimes)
-    * [Step 4: Generate Start Until Times](#Step4GenerateStartUntilTimes)
-    * [Step 5: Calculate Abbreviations](#Step5CalculateAbbreviations)
-* [Upgrading TZDB](#UpgradingZoneInfoFiles)
-* [Release Process](#ReleaseProcess)
+- [Project Dependency](#project-dependency)
+- [Namespace Dependency](#namespace-dependency)
+- [Zone Info Database](#zone-info-database)
+    - [Template Layer](#template-layer)
+    - [Storage Layer](#storage-layer)
+    - [Broker Layer](#broker-layer)
+    - [ZoneDb Files](#zonedb-files)
+        - [ZoneContext](#zonecontext)
+        - [ZoneInfo and ZoneEra](#zoneinfo-and-zoneera)
+        - [ZonePolicy and ZoneRule](#zonepolicy-and-zonerule)
+        - [ZoneRegistry](#zoneregistry)
+    - [Offset Encoding](#offset-encoding)
+    - [TinyYear Encoding](#tinyyear-encoding)
+- [BasicZoneProcessor](#basiczoneprocessor)
+- [ExtendedZoneProcessor](#extendedzoneprocessor)
+    - [Search by Component or EpochSeconds](#search-by-component-or-epochseconds)
+    - [Stea 1: Find Matches](#step-1-find-matches)
+    - [Step 2: Create Transitions](#step-2-create-transitions)
+    - [Step 2A: Transition Time versus StartDateTime](#step-2a-transition-time-versus-startdatetime)
+    - [Step 3: Fix Transition Times](#step-3-fix-transition-times)
+    - [Step 4: Generate Start Until Times](#step-4-generate-until-times)
+    - [Step 5: Calculate Abbreviations](#step-5-calculate-abbreviations)
 
-<a name="ProjectRepoDependency"></a>
-## Project/Repo Dependency
+## Project Dependency
 
-On 2021-08-25, the scripts under `./tools` were moved into the
-[AceTimeTools](https://github.com/bxparks/AceTimeTools/) project, and the
-integration tests under `./tests/validation` were moved into the
-[AceTimeValidation](https://github.com/bxparks/AceTimeValidation) project. Then
-on 2021-09-08, the Python timezone classes (`zone_processor.py`, `acetz.py`,
-etc) were moved into the
-[acetimepy](https://github.com/bxparks/acetimepy) project.
+This repo was programmatically generated from the
+[AceTimeSuite](https://github.com/bxparks/AceTimeSuite) project.
 
-Here is the dependency diagram among these projects.
-
-```
-                    AceTimeTools --------
-                    ^    ^   ^           \ artransformer.py
-        creating   /     |    \ creating  \ -> bufestimator.py
-        zonedb*   /      |     \ zonedb   /  -> zone_processor.py
-                 /       |      \        v
-             AceTime     |      acetimepy
-             ^    ^      |      ^
-            /      \     |     /
-           /        \    |    /
-AceTimeClock    AceTimeValidation
-```
-
-There is slight circular dependency between `AceTimeTools` and `acetimepy`.
-
-AceTimeTools needs acetimepy when generating the C++ zoneinfo files under
-`AceTime/src/zonedb[x]`. The `tzcompiler.py` calls `bufestimator.py` to generate
-the buffer sizes needed by the C++ `ExtendedZoneProcessor` class. The
-`AceTimeTools/bufestimator.py` module needs `acetimepy/zone_processor.py`
-module to calculate those buffer sizes.
-
-On the other hand, acetimepy needs AceTimeTools to generate the zoneinfo
-files under `acetimepy/zonedb/`, which are consumed by the `acetz` and
-`ZoneManager` classes. Fortunately, acetimepy does *not* need AceTimeTools
-during runtime, so 3rd party consumers can incorporate acetimepy without pulling
-in AceTimeTools.
-
-Both AceTime and acetimepy can be used as runtime libraries **without**
-pulling in the dependency to AceTimeTools (which is required only to generated
-the zoneinfo database files).
-
-<a name="NamespaceDependency"></a>
 ## Namespace Dependency
 
 The various AceTime namespaces are related in the following way, where the arrow
@@ -105,10 +63,8 @@ ace_time::hw    ace_time::
 ace_time::clock     ace_time::testing
 ```
 
-<a name="ZoneInfoDatabase"></a>
 ## Zone Info Database
 
-<a name="TemplateLayer"></a>
 ### Template Layer
 
 The template layer provides low-level building blocks that define the storage
@@ -187,7 +143,6 @@ All of these classes are templatized, so that custom instantiations can be
 created for different zoneinfo databases, which can be verified by the compiler
 to be used together in the proper way.
 
-<a name="StorageLayer"></a>
 ### Storage Layer
 
 This is the actual storage layer used by library, instantiated from the template
@@ -218,7 +173,6 @@ exception is the `const xxx::ZoneInfo*` pointer, which is used as an opaque
 identifier for a timezone. From this pointer, a `TimeZone` object can be
 created.
 
-<a name="BrokerLayer"></a>
 ### Broker Layer
 
 This is the actual broker layer used by library, instantiated from the template
@@ -258,12 +212,11 @@ into a `ZoneInfoBroker` object, and use the broker object as the timezone
 identifier. This would completely hide the low-level `const ZoneInfo*` pointer
 from the client application.)
 
-<a name="ZoneDbFiles"></a>
 ### ZoneDb Files
 
 The AceTime library comes with 3 sets of zoneinfo files, which were
 programmatically generated by the scripts in
-[AceTimeTools](https://github.com/bxparks/AceTimeTools/) from the [IANA TZ
+`AceTimeSuite/compiler/tzcompiler.sh` from the [IANA TZ
 Data](https://www.iana.org/time-zones):
 
 * `src/zonedb/*`
@@ -285,7 +238,6 @@ Each `zonedb*/` directory contains the following files:
 * `zone_policies.h`, `zone_policies.cpp`
 * `zone_registry.h`, `zone_registry.cpp`
 
-<a name="ZoneContext"></a>
 #### ZoneContext
 
 There is a single `ZoneContext kZoneContext` record included in the
@@ -330,7 +282,6 @@ implementations and comparing the flash and static memory usage patterns to
 determine if it's worth moving the `format` strings to `formats[]` array in the
 `ZoneContext`.
 
-<a name="ZoneInfoZoneEra"></a>
 #### ZoneInfo and ZoneEra
 
 The `zone_infos.h` and `zone_infos.cpp` files contain a `ZoneInfo` record for
@@ -348,7 +299,6 @@ Near end of the `zone_info.h` file, we list the zones which were deliberately
 excluded by the tool. Also at the end of the `zone_info.h` file, there may be
 warnings about known inaccuracies for a particular zone.
 
-<a name="ZonePolicyZoneRule"></a>
 #### ZonePolicy and ZoneRule
 
 The `zone_policies.h` and `zone_policies.cpp` hole the `RULE` entries from the
@@ -358,7 +308,6 @@ entry in the TZ database. A `ZoneEra` record may hold a pointer to a
 `ZonePolicy` record. For example, the `kZoneAmerica_Los_Angeles` has a pointer
 to a `kZonePolicyUS` record.
 
-<a name="ZoneRegistry"></a>
 #### Zone Registry
 
 The `zone_registry.h` and `zone_registry.cpp` files contain 2 pre-defined
@@ -376,7 +325,6 @@ applications which may want to use the smaller `kZoneRegistry` to achieve
 complete coverage of all timezones with the same set of rules, without
 duplicates.
 
-<a name="OffsetEncoding"></a>
 ### Offset Encoding
 
 The `zoneinfolow` storage format was optimized for small size. A number of
@@ -467,7 +415,6 @@ SAVE (15-min resolution)
                                         +--------------------+
 ```
 
-<a name="TinyYearEncoding"></a>
 ### TinyYear Encoding
 
 The `zoneinfolow` storage format also implements a space saving measure by
@@ -486,7 +433,6 @@ range needs to be extended, then the `baseYear` field in `ZoneContext` can be
 updated, the `zonedb` and `zonedbx` databases can be either regenerated or new
 versions of them can be created.
 
-<a name="BasicZoneProcessor"></a>
 ## BasicZoneProcessor
 
 **TBD**: Add information about how the `BasicZoneProcessor` works.
@@ -496,7 +442,6 @@ versions of them can be created.
 - able to detect gap conditions
 - *not* able to detect overlap conditions
 
-<a name="ExtendedZoneProcessor"></a>
 ## ExtendedZoneProcessor
 
 The `CompleteZoneProcessor` is currently *identical* to the
@@ -511,7 +456,6 @@ by these 2 classes are actually signficantly different (using `zoneinfolow` and
 Broker layer (i.e. the `ZoneXxxBroker` classes) allow the 2 databases to be
 processed by the exactly the same C++ code.
 
-<a name="SearchByComponentOrEpochSeconds"></a>
 ### Search By Component or EpochSeconds
 
 There are 2 ways that a `ZonedDateTime` can be constructed:
@@ -564,7 +508,6 @@ of this code base. So here are some notes to help my future-self. The code is in
 `ExtendedZoneProcessor::initForYear(int16_t)` and is organized into 5 steps as
 described below.
 
-<a name="Step1FindMatches"></a>
 ### Step 1: Find Matches
 
 The `ExtendedZoneProcessor::findMatches()` finds all `ZoneEra` objects which
@@ -580,7 +523,6 @@ in the following year after correcting for UTC offset.
 A `MatchingEra` is a wrapper around a `ZoneEra`, with its startDateTime and
 untilDateTime truncated to be within the 14-month interval of interest.
 
-<a name="Step2CreateTransitions"></a>
 ### Step 2: Create Transitions
 
 The class creates an array of `Transition` objects spanning 14 months that
@@ -702,7 +644,6 @@ y+1  R2|         )                                                     |
        +---------)-----------------------------------------------------+
 ```
 
-<a name="Step2ATransitionTimeAndStartDateTime"></a>
 ### Step 2A: Transition Time versus StartDateTime
 
 Many time stamps in the zonedb database are tricky to handle because they
@@ -763,7 +704,6 @@ However, if T2c is determined to happen *after* U1/S2, then an extra Transition
      ----------------)|-------)|--)|----------)|------------------------>
 ```
 
-<a name="Step3FixTransitionTimes"></a>
 ### Step 3: Fix Transition Times
 
 After obtaining the combined list of Transitions, a final pass converts the
@@ -771,7 +711,6 @@ transitionTime of all Transition (with any additional truncations and
 adjustments) into the wall time using the UTC offset of the *previous*
 Transition.
 
-<a name="Step4GenerateStartUntilTimes"></a>
 ### Step 4: Generate Start Until Times
 
 After the list of Transitions is created, the `Transition.startDateTime`
@@ -782,204 +721,16 @@ and `Transition.untilDateTime` created using the transtionTime field.
 * The `startDateTime` of the current Transition is the current `transitionTime`
   shifted into the UTC offset of the *current* Transition.
 
-<a name="Step5CalculateAbbreviations"></a>
 ### Step 5: Calculate Abbreviations
 
 Finally, the time zone abbreviations (e.g. "PST", "CET") are calculated for each
-Transition and recorded into the `Transition.abbrev` fixed sized array. The TZDB
-specification says that the maximum length of an abbreviation is 6, so this
-field is a static array of 7 characters (to account for the terminating NUL
-character).
+Transition and recorded into the `Transition.abbrev` fixed sized array.
 
-<a name="UpgradingZoneInfoFiles"></a>
-## Upgrading TZDB
+The original TZDB specification used to say that the abbreviation could be 3-6
+characters, so this field used to be an array 7 characters (to account for the
+terminating NUL character). That blub about 3-6 characters no longer seems to
+exist.
 
-About 2-4 times a year, a new TZDB version is released. Here are some notes
-(mostly for myself) on how to create a new release after a new TZDB version is
-available.
-
-- Update the TZDB repo (https://github.com/eggert/tz). This should be a
-  sibling to the `AceTime` repo (since it will cause the least problems
-  for various internal scripts):
-    - `$ cd ../tz`
-    - `$ git pull`
-    - Check that the correct tag is pulled (e.g. `2020c` tag if that's the
-      version that we want to upgrade to).
-- Update the Hinnant `date` repo (https://github.com:HowardHinnant/date). This
-  should be a sibling to the `AceTime` repo:
-    - `$ cd ../date`
-    - `$ git pull`
-- Update the zonedb files for `acetimepy` (needed by AcetzBasicTest and
-  AcetzExtendedTest):
-    - `$ cd acetimepy`
-    - `$ vi src/zonedb*/Makefile`
-        - Update the `TZ_VERSION` variable in the various makefiles.
-    - `$ make zonedbs`
-    - `$ make all`
-- Update the zonedb files for `acetimec` (needed by AcetimecBasicTest and
-  AcetimecExtendedTest)
-    - `$ cd acetimec/src`
-    - `$ vi zonedb*/Makefile`
-        - Update the `TZ_VERSION` variable in the various makefiles.
-    - `$ make zonedbs`
-    - `$ make` to update the `acetimec.a` lib file
-    - `$ cd ../tests`
-    - `$ make -j2`
-    - `$ make runtests`
-- Update the zonedb files for `acetimego`
-    - `$ cd acetimego`
-    - `$ vi zonedb*/Makefile`
-        - Update the `TZ_VERSION` variable in the various makefiles.
-    - `$ make zonedbs`
-    - `$ make all`
-    - `$ make test`
-- Update the zonedb files for `AceTime`:
-    - `$ cd AceTime/src`
-    - `$ vi zonedb*/Makefile`
-        - Update the `TZ_VERSION` variable in the makefiles.
-    - `$ make zonedbs`
-    - `$ cd ../tests`
-    - `$ make clean`
-    - `$ make -j2 tests`
-    - `$ make runtests`
-- Recompile the binaries in `AceTimeValidation` tools
-    - `$ cd AceTimeValidation/tools`
-    - `$ make clean`
-    - `$ make -j2`
-- Verify that `AceTimeValidation/tests` pass.
-    - `$ cd AceTimeValidation/tests`
-    - `$ make clean`
-    - `$ vi {Acetimec,Acetz,Hinnant}{Basic,Extended}*/Makefile`
-        - Update the `TZ_VERSION` variable in the following:
-        - `AcetimecBasicTest/Makefile`
-        - `AcetimecExtendedTest/Makefile`
-        - `AcetzBasicTest/Makefile`
-        - `AcetzExtendedTest/Makefile`
-        - `HinnantBasicTest/Makefile`
-        - `HinnantExtendedTest/Makefile`
-    - Validate against the other libraries:
-        - `$ make -j2 tests`
-        - `$ make runtests`
-    - (Debugging) To validate against one library, e.g. acetimec:
-        - `$ make -C AcetimecExtendedTest clean`
-        - `$ make -C AcetimecExtendedTest all`
-        - `$ make -C AcetimecExtendedTest run`
-- Verify that `AceTimeValidation/validation` passes.
-    - `$ cd AceTimeValidation/validation`
-    - `$ make clean`
-    - `$ make -j2 validation`
-- Update CHANGELOGs
-    - Copy a summary of the TZDB release notes from
-      https://mm.icann.org/pipermail/tz-announce/ to the various CHANGELOG.md
-      files.
-    - AceTime/CHANGELOG.md
-    - acetimec/CHANGELOG.md
-    - acetimego/CHANGELOG.md
-    - acetimepy/CHANGELOG.md
-    - AceTimeValidation/CHANGELOG.md
-- Commit and push the changes for the following repos:
-    - AceTime
-    - acetimec
-    - acetimego
-    - acetimepy
-    - AceTimeValidation
-
-There are 12 other validation tests in the AceTimeValidation project that
-compare AceTime with various other third party libraries:
-
-- `DateUtilBasicTest`
-- `DateUtilExtendedTest`
-- `GoBasicTest`
-- `GoExtendedTest`
-- `JavaBasicTest`
-- `JavaExtendedTest`
-- `NodaBasicTest`
-- `NodaExtendedTest`
-- `PytzBasicTest`
-- `PytzExtendedTest`
-- `ZoneInfoBasicTest`
-- `ZoneInfoExtendedTest`
-
-Unfortunately, they all seem to use the underlying TZDB version provided by the
-Operating System, and I have not been able to figure out how to manually update
-this dependency manually. When a new TZDB is released, all of these tests will
-fail until the underlying timezone database of the OS is updated.
-
-<a name="ReleaseProcess"></a>
-## Release Process
-
-- Update `examples/MemoryBenchmark` and `examples/AutoBenchmark`.
-- Update and commit the version numbers in various files:
-    - `src/AceTime.h`
-    - `README.md`
-    - `USER_GUIDE.md`
-    - `MIGRATING.md`
-    - `CHANGELOG.md`
-    - `docs/doxygen.cfg`
-    - `library.properties`
-    - `$ git commit -m "..."`
-    - `$ git push`
-- Update and commit the Doxygen docs. This is done as a separate git commit
-  because the Doxygen changes are often so large that they obscure all other
-  important changes to the code base:
-    - `$ cd docs`
-    - `$ make clean`
-    - `$ make`
-    - `$ git add .`
-    - `$ git commit -m "..."`
-    - `$ git push`
-- (Optional) Create a new Release of acetimepy
-    - (This should be done first, before AceTime)
-    - Go to https://github.com/bxparks/acetimepy
-    - Bump version number on `develop`.
-    - Merge `develop` into `master`.
-    - Click on "Releases"
-    - Click on "Draft a new release"
-    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    - Enter the release title.
-    - Enter the release notes. I normally just copy and paste the latest changes
-      from `CHANGELOG.md`.
-    - Click Publish release.
-- (Optional) Create a new Release of AceTimeTools
-    - (Depends on acetimepy)
-    - Go to https://github.com/bxparks/AceTimeTools
-    - Click on "Releases"
-    - Click on "Draft a new release"
-    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    - Enter the release title.
-    - Enter the release notes. I normally just copy and paste the latest changes
-      from `CHANGELOG.md`.
-    - Click Publish release.
-- (Optional) Create a new Release of AceTimeValidation.
-    - (Depends on acetimepy)
-    - Go to https://github.com/bxparks/AceTimeTools
-    - Click on "Releases"
-    - Click on "Draft a new release"
-    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    - Enter the release title.
-    - Enter the release notes. I normally just copy and paste the latest changes
-      from `CHANGELOG.md`.
-    - Click Publish release.
-- Create a new Release of AceTime (third, depends on AceTimeValidation).
-    - (Depends on acetimepy, AceTimeValidation)
-    - Go to https://github.com/bxparks/AceTime
-    - Merge the `develop` branch into `master` by creating a Pull Request.
-    - Approve and merge the PR.
-    - Click on "Releases"
-    - Click on "Draft a new release"
-    - Enter a tag version (e.g. `v1.2`), targeting the `master` branch.
-    - Enter the release title.
-    - Enter the release notes. I normally just copy and paste the latest changes
-      from `CHANGELOG.md`.
-    - Click Publish release.
-- Add corresponding tags on acetimepy, AceTimeTools and AceTimeValidation
-  for reference.
-    - acetimepy
-        - `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
-        - `$ git push --tags`
-    - AceTimeTools
-        - `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
-        - `$ git push --tags`
-    - AceTimeValidation
-        - `$ git tag -a 'atX.Y.Z' -m 'AceTime vX.Y.Z'`
-        - `$ git push --tags`
+When support for `%z` was added, we needed to support formats of the form
+`(+/-)hh[mm[ss]]` which can be 7 characters long. So the size of `abbrev` is now
+8 (as specified in [kAbbrevSize](src/ace_time/common/common.h)).

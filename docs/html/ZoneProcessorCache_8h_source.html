@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: /home/brian/src/AceTime/src/ace_time/ZoneProcessorCache.h Source File</title>
+<title>AceTime: /home/brian/src/AceTimeSuite/libraries/AceTimeLib/src/ace_time/ZoneProcessorCache.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.4.0</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -99,111 +99,111 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a7e3d26ffc8d6b12e50c4edaeb4602e0a">   37</a></span>&#160;    ZP* <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a7e3d26ffc8d6b12e50c4edaeb4602e0a">getZoneProcessorAtIndex</a>(uint8_t i) { <span class="keywordflow">return</span> &amp;mZoneProcessors[i]; }</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a0a49442da903f5d1da91cb1aeb003d90">   46</a></span>&#160;    ZP* <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a0a49442da903f5d1da91cb1aeb003d90">getZoneProcessor</a>(uintptr_t zoneKey) {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      ZP* zoneProcessor = findUsingZoneKey(zoneKey);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">if</span> (zoneProcessor) <span class="keywordflow">return</span> zoneProcessor;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="comment">// Allocate the next ZoneProcessor in the cache using round-robin.</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      zoneProcessor = &amp;mZoneProcessors[mCurrentIndex];</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      mCurrentIndex++;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">if</span> (mCurrentIndex &gt;= mSize) mCurrentIndex = 0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      zoneProcessor-&gt;setZoneKey(zoneKey);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">return</span> zoneProcessor;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>&amp;)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>&amp; operator=(</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">const</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    ZP* findUsingZoneKey(uintptr_t zoneKey) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; mSize; i++) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        ZP* zoneProcessor = &amp;mZoneProcessors[i];</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (zoneProcessor-&gt;equalsZoneKey(zoneKey)) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;          <span class="keywordflow">return</span> zoneProcessor;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    uint8_t <span class="keyword">const</span> mSize;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    uint8_t mCurrentIndex = 0;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ZP* <span class="keyword">const</span> mZoneProcessors;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keyword">using</span> BasicZoneProcessorCacheBase =</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    ZoneProcessorCacheBaseTemplate&lt;BasicZoneProcessor&gt;;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">using</span> ExtendedZoneProcessorCacheBase =</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    ZoneProcessorCacheBaseTemplate&lt;ExtendedZoneProcessor&gt;;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword">using</span> CompleteZoneProcessorCacheBase =</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    ZoneProcessorCacheBaseTemplate&lt;CompleteZoneProcessor&gt;;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keyword">template</span> &lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZoneProcessorCache.html">  121</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a> : <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">BasicZoneProcessorCacheBase</a> {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>() :</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">BasicZoneProcessorCacheBase</a>(mZoneProcessors, SIZE)</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    {}</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessor.html">BasicZoneProcessor</a> mZoneProcessors[SIZE];</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;};</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keyword">template</span> &lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
-<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZoneProcessorCache.html">  147</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ExtendedZoneProcessorCacheBase</a> {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>() :</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ExtendedZoneProcessorCacheBase</a>(mZoneProcessors, SIZE)</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    {}</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>&amp;)</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessor.html">ExtendedZoneProcessor</a> mZoneProcessors[SIZE];</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;};</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="keyword">template</span> &lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
-<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="classace__time_1_1CompleteZoneProcessorCache.html">  174</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">CompleteZoneProcessorCacheBase</a> {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>() :</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">CompleteZoneProcessorCacheBase</a>(mZoneProcessors, SIZE)</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    {}</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>&amp;)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessor.html">CompleteZoneProcessor</a> mZoneProcessors[SIZE];</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;};</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;}</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclassace__time_1_1BasicZoneProcessorCache_html"><div class="ttname"><a href="classace__time_1_1BasicZoneProcessorCache.html">ace_time::BasicZoneProcessorCache</a></div><div class="ttdoc">An implementation of a BasicZoneProcessorCacheBase where the cache of size SIZE is embedded into the ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00121">ZoneProcessorCache.h:121</a></div></div>
-<div class="ttc" id="aclassace__time_1_1BasicZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1BasicZoneProcessor.html">ace_time::BasicZoneProcessor</a></div><div class="ttdoc">A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...</div><div class="ttdef"><b>Definition:</b> <a href="BasicZoneProcessor_8h_source.html#l00923">BasicZoneProcessor.h:928</a></div></div>
-<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessorCache_html"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessorCache.html">ace_time::CompleteZoneProcessorCache</a></div><div class="ttdoc">An implementation of an CompleteZoneProcessorCacheBase where the cache of size SIZE is embedded into ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00174">ZoneProcessorCache.h:174</a></div></div>
-<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessor.html">ace_time::CompleteZoneProcessor</a></div><div class="ttdoc">A specific implementation of ExtendedZoneProcessorTemplate that uses the complete::ZoneXxxBrokers cla...</div><div class="ttdef"><b>Definition:</b> <a href="CompleteZoneProcessor_8h_source.html#l00020">CompleteZoneProcessor.h:25</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessorCache_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessorCache.html">ace_time::ExtendedZoneProcessorCache</a></div><div class="ttdoc">An implementation of an ExtendedZoneProcessorCacheBase where the cache of size SIZE is embedded into ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00147">ZoneProcessorCache.h:147</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessor.html">ace_time::ExtendedZoneProcessor</a></div><div class="ttdoc">A specific implementation of ExtendedZoneProcessorTemplate that uses the extended::ZoneXxxBrokers cla...</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZoneProcessor_8h_source.html#l01175">ExtendedZoneProcessor.h:1180</a></div></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a0a49442da903f5d1da91cb1aeb003d90">   47</a></span>&#160;    ZP* <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a0a49442da903f5d1da91cb1aeb003d90">getZoneProcessor</a>(uintptr_t zoneKey) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      ZP* zoneProcessor = findUsingZoneKey(zoneKey);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keywordflow">if</span> (zoneProcessor) <span class="keywordflow">return</span> zoneProcessor;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="comment">// Allocate the next ZoneProcessor in the cache using round-robin.</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      zoneProcessor = &amp;mZoneProcessors[mCurrentIndex];</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      mCurrentIndex++;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordflow">if</span> (mCurrentIndex &gt;= mSize) mCurrentIndex = 0;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      zoneProcessor-&gt;setZoneKey(zoneKey);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordflow">return</span> zoneProcessor;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>&amp;)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>&amp; operator=(</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ZoneProcessorCacheBaseTemplate</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ZP* findUsingZoneKey(uintptr_t zoneKey) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; mSize; i++) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        ZP* zoneProcessor = &amp;mZoneProcessors[i];</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">if</span> (zoneProcessor-&gt;equalsZoneKey(zoneKey)) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;          <span class="keywordflow">return</span> zoneProcessor;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    uint8_t <span class="keyword">const</span> mSize;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    uint8_t mCurrentIndex = 0;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    ZP* <span class="keyword">const</span> mZoneProcessors;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">using</span> BasicZoneProcessorCacheBase =</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    ZoneProcessorCacheBaseTemplate&lt;BasicZoneProcessor&gt;;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">using</span> ExtendedZoneProcessorCacheBase =</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    ZoneProcessorCacheBaseTemplate&lt;ExtendedZoneProcessor&gt;;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keyword">using</span> CompleteZoneProcessorCacheBase =</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    ZoneProcessorCacheBaseTemplate&lt;CompleteZoneProcessor&gt;;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keyword">template</span> &lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="classace__time_1_1BasicZoneProcessorCache.html">  122</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a> : <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">BasicZoneProcessorCacheBase</a> {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>() :</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">BasicZoneProcessorCacheBase</a>(mZoneProcessors, SIZE)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    {}</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1BasicZoneProcessorCache.html">BasicZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="classace__time_1_1BasicZoneProcessor.html">BasicZoneProcessor</a> mZoneProcessors[SIZE];</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;};</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keyword">template</span> &lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="classace__time_1_1ExtendedZoneProcessorCache.html">  148</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ExtendedZoneProcessorCacheBase</a> {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>() :</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ExtendedZoneProcessorCacheBase</a>(mZoneProcessors, SIZE)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    {}</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1ExtendedZoneProcessorCache.html">ExtendedZoneProcessorCache</a>&amp;)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <a class="code" href="classace__time_1_1ExtendedZoneProcessor.html">ExtendedZoneProcessor</a> mZoneProcessors[SIZE];</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;};</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="keyword">template</span> &lt;u<span class="keywordtype">int</span>8_t SIZE&gt;</div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="classace__time_1_1CompleteZoneProcessorCache.html">  175</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">CompleteZoneProcessorCacheBase</a> {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>() :</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      <a class="code" href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">CompleteZoneProcessorCacheBase</a>(mZoneProcessors, SIZE)</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    {}</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="comment">// disable copy constructor and assignment operator</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>(<span class="keyword">const</span> <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classace__time_1_1CompleteZoneProcessorCache.html">CompleteZoneProcessorCache</a>&amp;)</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <a class="code" href="classace__time_1_1CompleteZoneProcessor.html">CompleteZoneProcessor</a> mZoneProcessors[SIZE];</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;};</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassace__time_1_1BasicZoneProcessorCache_html"><div class="ttname"><a href="classace__time_1_1BasicZoneProcessorCache.html">ace_time::BasicZoneProcessorCache</a></div><div class="ttdoc">An implementation of a BasicZoneProcessorCacheBase where the cache of size SIZE is embedded into the ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00122">ZoneProcessorCache.h:122</a></div></div>
+<div class="ttc" id="aclassace__time_1_1BasicZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1BasicZoneProcessor.html">ace_time::BasicZoneProcessor</a></div><div class="ttdoc">A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone...</div><div class="ttdef"><b>Definition:</b> <a href="BasicZoneProcessor_8h_source.html#l00932">BasicZoneProcessor.h:932</a></div></div>
+<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessorCache_html"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessorCache.html">ace_time::CompleteZoneProcessorCache</a></div><div class="ttdoc">An implementation of an CompleteZoneProcessorCacheBase where the cache of size SIZE is embedded into ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00175">ZoneProcessorCache.h:175</a></div></div>
+<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessor.html">ace_time::CompleteZoneProcessor</a></div><div class="ttdoc">A specific implementation of ExtendedZoneProcessorTemplate that uses the complete::ZoneXxxBrokers cla...</div><div class="ttdef"><b>Definition:</b> <a href="CompleteZoneProcessor_8h_source.html#l00019">CompleteZoneProcessor.h:20</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessorCache_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessorCache.html">ace_time::ExtendedZoneProcessorCache</a></div><div class="ttdoc">An implementation of an ExtendedZoneProcessorCacheBase where the cache of size SIZE is embedded into ...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00148">ZoneProcessorCache.h:148</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessor.html">ace_time::ExtendedZoneProcessor</a></div><div class="ttdoc">A specific implementation of ExtendedZoneProcessorTemplate that uses the extended::Info::ZoneXxxBroke...</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZoneProcessor_8h_source.html#l01169">ExtendedZoneProcessor.h:1170</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneProcessorCacheBaseTemplate_html"><div class="ttname"><a href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html">ace_time::ZoneProcessorCacheBaseTemplate</a></div><div class="ttdoc">The template class of BasicZoneProcessorCacheBase or ExtendedZoneProcessorCacheBase.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00026">ZoneProcessorCache.h:26</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ZoneProcessorCacheBaseTemplate_html_a0a49442da903f5d1da91cb1aeb003d90"><div class="ttname"><a href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a0a49442da903f5d1da91cb1aeb003d90">ace_time::ZoneProcessorCacheBaseTemplate::getZoneProcessor</a></div><div class="ttdeci">ZP * getZoneProcessor(uintptr_t zoneKey)</div><div class="ttdoc">Get ZoneProcessor from either a ZoneKey, either a basic::ZoneInfo or an extended::ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00046">ZoneProcessorCache.h:46</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ZoneProcessorCacheBaseTemplate_html_a0a49442da903f5d1da91cb1aeb003d90"><div class="ttname"><a href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a0a49442da903f5d1da91cb1aeb003d90">ace_time::ZoneProcessorCacheBaseTemplate::getZoneProcessor</a></div><div class="ttdeci">ZP * getZoneProcessor(uintptr_t zoneKey)</div><div class="ttdoc">Get ZoneProcessor from either a ZoneKey, basic::Info::ZoneInfo, an extended::Info::ZoneInfo,...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00047">ZoneProcessorCache.h:47</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneProcessorCacheBaseTemplate_html_a7e3d26ffc8d6b12e50c4edaeb4602e0a"><div class="ttname"><a href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#a7e3d26ffc8d6b12e50c4edaeb4602e0a">ace_time::ZoneProcessorCacheBaseTemplate::getZoneProcessorAtIndex</a></div><div class="ttdeci">ZP * getZoneProcessorAtIndex(uint8_t i)</div><div class="ttdoc">Get the ZoneProcessor at index i.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00037">ZoneProcessorCache.h:37</a></div></div>
 <div class="ttc" id="aclassace__time_1_1ZoneProcessorCacheBaseTemplate_html_abad6179f1e1f64c395804ad6d12bb28c"><div class="ttname"><a href="classace__time_1_1ZoneProcessorCacheBaseTemplate.html#abad6179f1e1f64c395804ad6d12bb28c">ace_time::ZoneProcessorCacheBaseTemplate::size</a></div><div class="ttdeci">uint8_t size() const</div><div class="ttdoc">Return the size of the cache.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneProcessorCache_8h_source.html#l00034">ZoneProcessorCache.h:34</a></div></div>
 <div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">Identifiers used by implementation code which need to be publically exported.</div></div>

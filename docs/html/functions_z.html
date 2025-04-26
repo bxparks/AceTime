@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.4.0</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -67,9 +67,9 @@ $(function() {
 
 <h3><a id="index_z"></a>- z -</h3><ul>
 <li>zoneContext
-: <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html#af2ae3e9b82e1ca5a8a6a71036102ab34">ace_time::zoneinfohigh::ZoneInfo&lt; S, ZC &gt;</a>
-, <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html#a98e86ed1f1ad3321be539f2f03df9171">ace_time::zoneinfolow::ZoneInfo&lt; S, ZC &gt;</a>
-, <a class="el" href="structace__time_1_1zoneinfomid_1_1ZoneInfo.html#adebe8333f0f56fe77bcfe7a269750e7b">ace_time::zoneinfomid::ZoneInfo&lt; S, ZC &gt;</a>
+: <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html#a7a46d38468d697acc4940272f58e2dc5">ace_time::ZoneInfoHigh::ZoneInfo</a>
+, <a class="el" href="structace__time_1_1ZoneInfoLow_1_1ZoneInfo.html#a5952d69fef07d80b80dfd5d467c01b26">ace_time::ZoneInfoLow::ZoneInfo</a>
+, <a class="el" href="structace__time_1_1ZoneInfoMid_1_1ZoneInfo.html#adf2ed9136e727b9cb3ef143156ae6917">ace_time::ZoneInfoMid::ZoneInfo</a>
 </li>
 <li>ZonedDateTime()
 : <a class="el" href="classace__time_1_1ZonedDateTime.html#acd0b9c37aa77071b6c4f5230f8f32caf">ace_time::ZonedDateTime</a>
@@ -77,38 +77,39 @@ $(function() {
 <li>ZonedExtra()
 : <a class="el" href="classace__time_1_1ZonedExtra.html#a736380ab263fae75ee6ae47b84fd763c">ace_time::ZonedExtra</a>
 </li>
-<li>zoneId()
-: <a class="el" href="classace__time_1_1BasicZone.html#a360efba115e043ad28c69511f229454d">ace_time::BasicZone</a>
-, <a class="el" href="classace__time_1_1CompleteZone.html#a71afe4148e75f50a3c93906c503cf08e">ace_time::CompleteZone</a>
-, <a class="el" href="classace__time_1_1ExtendedZone.html#a27bd334749849e8bc8bf56a2c47a5d61">ace_time::ExtendedZone</a>
-, <a class="el" href="structace__time_1_1TimeZoneData.html#a33cee3c6e0a13796bfc9bad62f18d567">ace_time::TimeZoneData</a>
-, <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html#a39473c864ed375cc14bc780e82350f56">ace_time::zoneinfohigh::ZoneInfo&lt; S, ZC &gt;</a>
-, <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html#aaf98b23e0d40c4a75c328e01d2602916">ace_time::zoneinfolow::ZoneInfo&lt; S, ZC &gt;</a>
-, <a class="el" href="structace__time_1_1zoneinfomid_1_1ZoneInfo.html#a5096816ef7d5f4bfad408b694e5bfc63">ace_time::zoneinfomid::ZoneInfo&lt; S, ZC &gt;</a>
+<li>zoneId
+: <a class="el" href="structace__time_1_1TimeZoneData.html#a33cee3c6e0a13796bfc9bad62f18d567">ace_time::TimeZoneData</a>
+, <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html#ae7efc2dd3043dc86bd781f3636396414">ace_time::ZoneInfoHigh::ZoneInfo</a>
+, <a class="el" href="structace__time_1_1ZoneInfoLow_1_1ZoneInfo.html#ae939c47832a38cdc0a56b7e2d403b695">ace_time::ZoneInfoLow::ZoneInfo</a>
+, <a class="el" href="structace__time_1_1ZoneInfoMid_1_1ZoneInfo.html#a7bb42ab71a341275ecf83e9c112fcdac">ace_time::ZoneInfoMid::ZoneInfo</a>
+, <a class="el" href="classace__time_1_1ZoneTemplate.html#a9b621c2e5152c515abde95b7a851d2b9">ace_time::ZoneTemplate&lt; D &gt;</a>
 </li>
 <li>ZoneManagerTemplate()
-: <a class="el" href="classace__time_1_1ZoneManagerTemplate.html#aec8e7ed6cdffec70bcac827a4c17df1f">ace_time::ZoneManagerTemplate&lt; ZI, ZRR, ZP, Z &gt;</a>
+: <a class="el" href="classace__time_1_1ZoneManagerTemplate.html#a0840a62852529b360497ccb26e420143">ace_time::ZoneManagerTemplate&lt; D, ZP, Z &gt;</a>
 </li>
 <li>zonePolicy
-: <a class="el" href="structace__time_1_1zoneinfohigh_1_1ZoneEra.html#a6dbe99b7bd6810f1399f93659e07e211">ace_time::zoneinfohigh::ZoneEra&lt; S &gt;</a>
-, <a class="el" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html#a60e56c5aea8bf2bcb18a22e7f99ab8be">ace_time::zoneinfolow::ZoneEra&lt; S &gt;</a>
-, <a class="el" href="structace__time_1_1zoneinfomid_1_1ZoneEra.html#aa4a7e774f483c7e52b39680e52ff270e">ace_time::zoneinfomid::ZoneEra&lt; S &gt;</a>
+: <a class="el" href="structace__time_1_1ZoneInfoHigh_1_1ZoneEra.html#a96511ad4b8a6f26877bd3b070c5ff77a">ace_time::ZoneInfoHigh::ZoneEra</a>
+, <a class="el" href="structace__time_1_1ZoneInfoLow_1_1ZoneEra.html#ab8f7418286d92977c1792b3381dff1c6">ace_time::ZoneInfoLow::ZoneEra</a>
+, <a class="el" href="structace__time_1_1ZoneInfoMid_1_1ZoneEra.html#a60a148ee617e134d232578e1f97061db">ace_time::ZoneInfoMid::ZoneEra</a>
 </li>
 <li>ZoneProcessor()
 : <a class="el" href="classace__time_1_1ZoneProcessor.html#a1b45f4d91195b4dfc63bbd4e4e3acb60">ace_time::ZoneProcessor</a>
 </li>
 <li>ZoneRegistrarTemplate()
-: <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#af4ac130d31cce28daf8770fce4a93450">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
+: <a class="el" href="classace__time_1_1ZoneRegistrarTemplate.html#a9e7c70c2314ec1417c2fbb379737f3b6">ace_time::ZoneRegistrarTemplate&lt; D &gt;</a>
 </li>
 <li>zoneRegistrySize()
-: <a class="el" href="classace__time_1_1internal_1_1ZoneRegistrarTemplate.html#a7491b6d0c31a035369c9abcdc16182b8">ace_time::internal::ZoneRegistrarTemplate&lt; ZI, ZIB, ZRGB &gt;</a>
-, <a class="el" href="classace__time_1_1ZoneManagerTemplate.html#acb9eaf240d671957dc6338217a2ccc85">ace_time::ZoneManagerTemplate&lt; ZI, ZRR, ZP, Z &gt;</a>
+: <a class="el" href="classace__time_1_1ZoneManagerTemplate.html#ac72f700d9efeed1548dd248bc1ba8461">ace_time::ZoneManagerTemplate&lt; D, ZP, Z &gt;</a>
+, <a class="el" href="classace__time_1_1ZoneRegistrarTemplate.html#a93605116f7cf7314dc1a7064bcc307ae">ace_time::ZoneRegistrarTemplate&lt; D &gt;</a>
 </li>
 <li>ZoneSorterByName()
 : <a class="el" href="classace__time_1_1ZoneSorterByName.html#a2368f6c18e703e0786484d03c2aa054b">ace_time::ZoneSorterByName&lt; ZM &gt;</a>
 </li>
 <li>ZoneSorterByOffsetAndName()
 : <a class="el" href="classace__time_1_1ZoneSorterByOffsetAndName.html#aac6183cce422e6f268faf5c8ecd292e2">ace_time::ZoneSorterByOffsetAndName&lt; ZM &gt;</a>
+</li>
+<li>ZoneTemplate()
+: <a class="el" href="classace__time_1_1ZoneTemplate.html#a42c2da9c611a03d854989b2cef6233c7">ace_time::ZoneTemplate&lt; D &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

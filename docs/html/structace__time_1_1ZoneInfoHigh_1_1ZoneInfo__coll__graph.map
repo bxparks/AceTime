@@ -1,0 +1,7 @@
+<map id="ace_time::ZoneInfoHigh::ZoneInfo" name="ace_time::ZoneInfoHigh::ZoneInfo">
+<area shape="rect" id="node1" title="Representation of a given time zone, implemented as an array of ZoneEra records." alt="" coords="85,317,264,359"/>
+<area shape="rect" id="node2" href="$structace__time_1_1ZoneInfoHigh_1_1ZoneContext.html" title="Metadata about the zone database." alt="" coords="5,213,184,255"/>
+<area shape="rect" id="node3" href="$structace__time_1_1ZoneInfoHigh_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="208,213,387,255"/>
+<area shape="rect" id="node4" href="$structace__time_1_1ZoneInfoHigh_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region." alt="" coords="208,109,387,151"/>
+<area shape="rect" id="node5" href="$structace__time_1_1ZoneInfoHigh_1_1ZoneRule.html" title="A time zone transition rule." alt="" coords="208,5,387,47"/>
+</map>

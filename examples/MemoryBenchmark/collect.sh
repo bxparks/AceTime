@@ -20,7 +20,7 @@ NUM_FEATURES=24 # excluding the baseline
 
 # Assume that https://github.com/bxparks/AUniter is installed as a
 # sibling project to AceTime.
-AUNITER_CMD='../../../AUniter/tools/auniter.sh'
+AUNITER_CMD='../../../../../AUniter/tools/auniter.sh'
 auniter_out_file=
 
 function usage() {

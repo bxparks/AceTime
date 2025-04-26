@@ -21,14 +21,14 @@ CompleteZoneProcessor zoneProcessor;
  *  * sorted with respect to startEpochSeconds
  *  * unique with respect to startEpochSeconds
  *
- * This must use the real zonedbc database, not the zonedbctesting database,
+ * This must use the real zonedbc database, not the testingzonedbc database,
  * because we are validating every zone in the IANA TZ database.
  */
 class CompleteTransitionValidation : public aunit::TestOnce {
   public:
-    void validateZone(const complete::ZoneInfo* zoneInfo) {
+    void validateZone(const complete::Info::ZoneInfo* zoneInfo) {
       zoneProcessor.setZoneKey((uintptr_t) zoneInfo);
-      auto zoneInfoBroker = complete::ZoneInfoBroker(zoneInfo);
+      auto zoneInfoBroker = complete::Info::ZoneInfoBroker(zoneInfo);
       auto zoneContextBroker = zoneInfoBroker.zoneContext();
 
       // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100
@@ -142,7 +142,8 @@ testF(CompleteTransitionValidation, allZones) {
 
   SERIAL_PORT_MONITOR.print("Validating zones (one per dot): ");
   for (uint16_t i = 0; i < zonedbc::kZoneRegistrySize; i++) {
-    const complete::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(i);
+    const complete::Info::ZoneInfo* zoneInfo =
+        zoneRegistrar.getZoneInfoForIndex(i);
     SERIAL_PORT_MONITOR.print(".");
     validateZone(zoneInfo);
   }
@@ -150,11 +151,11 @@ testF(CompleteTransitionValidation, allZones) {
 }
 
 // Verify Transitions for Europe/Lisbon in 1992 using the
-// zonedbctesting::kZoneEurope_Lisbon entry which contains entries from 1980 to
+// testingzonedbc::kZoneEurope_Lisbon entry which contains entries from 1980 to
 // 10000. Lisbon in 1992 was the only combo where the previous
 // CompleteZoneProcessor algorithm failed, with a duplicate Transition.
 //
-// This uses the testing/zonedbctesting database, instead of the production
+// This uses the testingzonedbc database, instead of the production
 // zonedbc database, because we need to test year 1992 and the production
 // zonedbc starts at year 2000.
 testF(CompleteTransitionValidation, lisbon1992) {

@@ -4,7 +4,7 @@
 #include <AUnit.h>
 #include <AceTime.h>
 #include <ace_time/testing/EpochYearContext.h>
-#include <zonedbxtesting/zone_infos.h>
+#include <testingzonedbx/zone_infos.h>
 
 using namespace ace_time;
 
@@ -22,14 +22,14 @@ ExtendedZoneProcessor zoneProcessor;
  *  * sorted with respect to startEpochSeconds
  *  * unique with respect to startEpochSeconds
  *
- * This must use the real zonedbx database, not the zonedbxtesting database,
+ * This must use the real zonedbx database, not the testingzonedbx database,
  * because we are validating every zone in the IANA TZ database.
  */
 class ExtendedTransitionValidation : public aunit::TestOnce {
   public:
-    void validateZone(const extended::ZoneInfo* zoneInfo) {
+    void validateZone(const extended::Info::ZoneInfo* zoneInfo) {
       zoneProcessor.setZoneKey((uintptr_t) zoneInfo);
-      auto zoneInfoBroker = extended::ZoneInfoBroker(zoneInfo);
+      auto zoneInfoBroker = extended::Info::ZoneInfoBroker(zoneInfo);
       auto zoneContextBroker = zoneInfoBroker.zoneContext();
 
       // Loop from ZoneContext::startYear to ZoneContext::untilYear, in 100
@@ -143,7 +143,8 @@ testF(ExtendedTransitionValidation, allZones) {
 
   SERIAL_PORT_MONITOR.print("Validating zones (one per dot): ");
   for (uint16_t i = 0; i < zonedbx::kZoneRegistrySize; i++) {
-    const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(i);
+    const extended::Info::ZoneInfo* zoneInfo =
+        zoneRegistrar.getZoneInfoForIndex(i);
     SERIAL_PORT_MONITOR.print(".");
     validateZone(zoneInfo);
   }
@@ -151,15 +152,15 @@ testF(ExtendedTransitionValidation, allZones) {
 }
 
 // Verify Transitions for Europe/Lisbon in 1992 using the
-// zonedbxtesting::kZoneEurope_Lisbon entry which contains entries from 1980 to
+// testingzonedbx::kZoneEurope_Lisbon entry which contains entries from 1980 to
 // 10000. Lisbon in 1992 was the only combo where the previous
 // ExtendedZoneProcessor algorithm failed, with a duplicate Transition.
 //
-// This uses the zonedbxtesting database, instead of the production zonedbx
+// This uses the testingzonedbx database, instead of the production zonedbx
 // database, because we need to test year 1992 and the production zonedbx starts
 // at year 2000.
 testF(ExtendedTransitionValidation, lisbon1992) {
-  assertNoFatalFailure(validateZone(&zonedbxtesting::kZoneEurope_Lisbon));
+  assertNoFatalFailure(validateZone(&testingzonedbx::kZoneEurope_Lisbon));
 }
 
 //----------------------------------------------------------------------------

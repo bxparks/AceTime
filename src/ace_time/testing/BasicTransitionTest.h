@@ -29,7 +29,7 @@ class BasicTransitionTest: public aunit::TestOnce {
      *  can track down the exact test item that failed.
      */
     void assertValid(
-        const basic::ZoneInfo* const zoneInfo,
+        const basic::Info::ZoneInfo* const zoneInfo,
         const ValidationData* const testData,
         ValidationScope dstValidationScope,
         ValidationScope abbrevValidationScope) {

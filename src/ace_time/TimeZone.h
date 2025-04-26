@@ -168,11 +168,11 @@ class TimeZone {
      * BasicZoneProcessor. The ZoneInfo previously associated with the
      * given zoneProcessor is overridden.
      *
-     * @param zoneInfo a basic::ZoneInfo that identifies the zone
+     * @param zoneInfo a basic::Info::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
     static TimeZone forZoneInfo(
-        const basic::ZoneInfo* zoneInfo,
+        const basic::Info::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor
     ) {
       return TimeZone(
@@ -187,11 +187,11 @@ class TimeZone {
      * ExtendedZoneProcessor. The ZoneInfo previously associated with the
      * given zoneProcessor is overridden.
      *
-     * @param zoneInfo an extended::ZoneInfo that identifies the zone
+     * @param zoneInfo an extended::Info::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
     static TimeZone forZoneInfo(
-        const extended::ZoneInfo* zoneInfo,
+        const extended::Info::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor
     ) {
       return TimeZone(
@@ -206,11 +206,11 @@ class TimeZone {
      * ExtendedZoneProcessor. The ZoneInfo previously associated with the
      * given zoneProcessor is overridden.
      *
-     * @param zoneInfo an extended::ZoneInfo that identifies the zone
+     * @param zoneInfo an complete::Info::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
     static TimeZone forZoneInfo(
-        const complete::ZoneInfo* zoneInfo,
+        const complete::Info::ZoneInfo* zoneInfo,
         CompleteZoneProcessor* zoneProcessor
     ) {
       return TimeZone(
@@ -609,13 +609,14 @@ class TimeZone {
         int16_t mDstOffsetMinutes;
       };
 
-      /* Used by kTypeBasic and kTypeExtended. */
+      /** Used by kTypeBasic, kTypeExtended, kTypeComplete */
       struct {
         /**
          * An opaque zone key.
          *
-         *  * For kTypeBasic, this is a (const basic::ZoneInfo*).
-         *  * For kTypeExtended, this is a (const extended::ZoneInfo*).
+         *  * For kTypeBasic, this is a (const basic::Info::ZoneInfo*).
+         *  * For kTypeExtended, this is a (const extended::Info::ZoneInfo*).
+         *  * For kTypeComplete, this is a (const complete::Info::ZoneInfo*).
          *
          * Internally, the TimeZone class does not care how this is
          * implemented. The factory methods expose these types for the

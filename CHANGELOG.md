@@ -1,6 +1,25 @@
 # Changelog
 
-- Unreleased
+- unreleased
+- 3.0.0 (2025-04-25, TZDB version 2025b)
+    - [upgrade to TZDB 2025a](https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/MWII7R3HMCEDNUCIYQKSSTYYR7UWK4OQ/)
+        - Paraguay adopts permanent -03 starting spring 2024.
+        - Improve pre-1991 data for the Philippines.
+        - Etc/Unknown is now reserved.
+    - [upgrade to TZDB 2025b](https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/6JVHNHLB6I2WAYTQ75L6KEPEQHFXAJK3/)
+        - New zone for Aysén Region in Chile which moves from -04/-03 to -03.
+          (Creates new zone named America/Coyhaique)
+    - **breaking** add ZoneInfo data classes and their brokers into `Info`
+      container class
+        - allows selection of parallel class hierarchies using the `Info`
+          container class
+        - `basic::ZoneInfo` class moves to `basic::Info::ZoneInfo`
+        - `extended::ZoneInfo` class moves to `extended::Info::ZoneInfo`
+        - `complete::ZoneInfo` class moves to `complete::Info::ZoneInfo`
+    - **breaking** move `daysUntil(LocalDate, month, day)` to
+      `LocalDate::daysUntil(month, day)` for simplicity
+    - See [Migrating to v3.0](MIGRATING.md#MigratingToVersion300) for more
+      details.
 - 2.4.0 (2024-12-13, TZDB version 2024b)
     - Support new `%z` value in FORMAT column.
     - Upgrade TZDB to 2024b

@@ -2,12 +2,12 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <zonedbxtesting/zone_policies.h>
-#include <zonedbxtesting/zone_infos.h>
+#include <testingzonedbx/zone_policies.h>
+#include <testingzonedbx/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::zonedbxtesting::kZoneAfrica_Casablanca;
-using ace_time::zonedbxtesting::kZoneAmerica_Whitehorse;
+using ace_time::testingzonedbx::kZoneAfrica_Casablanca;
+using ace_time::testingzonedbx::kZoneAmerica_Whitehorse;
 
 // --------------------------------------------------------------------------
 // Validate some changes in tzdb 2020a

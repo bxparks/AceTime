@@ -264,8 +264,6 @@ inline bool operator!=(const ZoneProcessor& a, const ZoneProcessor& b) {
   return ! (a == b);
 }
 
-namespace internal {
-
 /** The result of calcStartDayOfMonth(). */
 struct MonthDay {
   uint8_t month;
@@ -297,7 +295,8 @@ MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
   * (e.g. "P%T", "E%T"), the time zone deltaMinutes (!= 0 means DST), and the
   * replacement letter (e.g. 'S', 'D', '\0' (represented as '-' in the
   * Rule.LETTER entry). If the Zone.RULES column is '-' or 'hh:mm', then
-  * 'letter' will be set to '\0' also, although AceTimeTools/transformer.py
+  * 'letter' will be set to '\0' also, although
+  * AceTimeSuite/compiler/src/acetimecompiler/transformer/transformer.py
   * should have detected this condition and filtered that zone out.
   *
   * Starting from v2.3, the same algorithm is used by both BasicZoneProcessor
@@ -356,7 +355,6 @@ void createAbbreviation(
     int32_t dstSeconds,
     const char* letterString);
 
-} // internal
 } // ace_time
 
 #endif

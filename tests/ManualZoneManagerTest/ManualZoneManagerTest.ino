@@ -3,13 +3,13 @@
 #include <AUnit.h>
 #include <AceCommon.h> // PrintStr
 #include <AceTime.h>
-#include <zonedbtesting/zone_policies.h>
-#include <zonedbtesting/zone_infos.h>
+#include <testingzonedb/zone_policies.h>
+#include <testingzonedb/zone_infos.h>
 
 using ace_common::PrintStr;
 using namespace ace_time;
-using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
-using ace_time::zonedbtesting::kZoneIdAmerica_Los_Angeles;
+using ace_time::testingzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::testingzonedb::kZoneIdAmerica_Los_Angeles;
 
 //---------------------------------------------------------------------------
 // ManualZoneManager

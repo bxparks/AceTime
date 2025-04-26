@@ -7,8 +7,7 @@
 
 #include <AceTime.h>
 
-const uint16_t kBasicRegistrySize = 83;
-extern const ace_time::basic::ZoneInfo* const
-    kBasicRegistry[kBasicRegistrySize];
+extern const uint16_t kBasicRegistrySize;
+extern const ace_time::basic::Info::ZoneInfo* const kBasicRegistry[];
 
 #endif

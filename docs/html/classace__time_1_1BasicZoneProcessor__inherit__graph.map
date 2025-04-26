@@ -1,5 +1,5 @@
 <map id="ace_time::BasicZoneProcessor" name="ace_time::BasicZoneProcessor">
-<area shape="rect" id="node1" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone..." alt="" coords="583,35,804,61"/>
-<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessorTemplate.html" title=" " alt="" coords="240,5,535,91"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes." alt="" coords="5,35,192,61"/>
+<area shape="rect" id="node1" title="A specific implementation of BasicZoneProcessorTemplate that uses ZoneXxxBrokers which read from zone..." alt="" coords="5,169,227,196"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneProcessorTemplate.html" title=" " alt="" coords="5,80,227,121"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneProcessor.html" title="Base interface for ZoneProcessor classes." alt="" coords="23,5,209,32"/>
 </map>

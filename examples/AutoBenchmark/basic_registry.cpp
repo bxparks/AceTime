@@ -10,8 +10,7 @@ using namespace ace_time;
 //---------------------------------------------------------------------------
 // Zone registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kBasicRegistry[kBasicRegistrySize]
-    ACE_TIME_PROGMEM = {
+const basic::Info::ZoneInfo* const kBasicRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur
   &zonedb::kZoneIndian_Cocos, // 0x021e86de, Indian/Cocos
   &zonedb::kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
@@ -32,7 +31,6 @@ const basic::ZoneInfo* const kBasicRegistry[kBasicRegistrySize]
   &zonedb::kZoneEurope_Athens, // 0x4318fa27, Europe/Athens
   &zonedb::kZoneIndian_Chagos, // 0x456f7c3c, Indian/Chagos
   &zonedb::kZoneAmerica_Chicago, // 0x4b92b5d4, America/Chicago
-  &zonedb::kZoneAmerica_Asuncion, // 0x50ec79a6, America/Asuncion
   &zonedb::kZonePacific_Gambier, // 0x53720c3a, Pacific/Gambier
   &zonedb::kZoneAmerica_Jamaica, // 0x565dad6c, America/Jamaica
   &zonedb::kZonePacific_Marquesas, // 0x57ca7135, Pacific/Marquesas
@@ -97,3 +95,6 @@ const basic::ZoneInfo* const kBasicRegistry[kBasicRegistrySize]
   &zonedb::kZoneAmerica_Campo_Grande, // 0xfec3e7a6, America/Campo_Grande
 
 };
+
+const uint16_t kBasicRegistrySize =
+    sizeof(kBasicRegistry) / sizeof(basic::Info::ZoneInfo*);

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: /home/brian/src/AceTime/src/ace_time/CompleteZoneProcessor.h Source File</title>
+<title>AceTime: /home/brian/src/AceTimeSuite/libraries/AceTimeLib/src/ace_time/CompleteZoneProcessor.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.4.0</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -80,43 +80,34 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define ACE_TIME_COMPLETE_ZONE_PROCESSOR_H</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span> <span class="comment">// uintptr_t</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;../zoneinfo/BrokersHigh.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;ExtendedZoneProcessor.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classace__time_1_1CompleteZoneProcessor.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1CompleteZoneProcessor.html">CompleteZoneProcessor</a>: <span class="keyword">public</span> <a class="code" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ExtendedZoneProcessorTemplate</a>&lt;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    complete::ZoneInfoStore,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    complete::ZoneInfoBroker,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    complete::ZoneEraBroker,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    complete::ZonePolicyBroker,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    complete::ZoneRuleBroker&gt; {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">   29</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">kTypeComplete</a> = 5;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classace__time_1_1CompleteZoneProcessor.html">CompleteZoneProcessor</a>(<span class="keyword">const</span> <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html">complete::ZoneInfo</a>* zoneInfo = <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      : <a class="code" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ExtendedZoneProcessorTemplate</a>&lt;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;          complete::ZoneInfoStore,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;          complete::ZoneInfoBroker,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;          complete::ZoneEraBroker,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;          complete::ZonePolicyBroker,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;          complete::ZoneRuleBroker&gt;(</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;              <a class="code" href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">kTypeComplete</a>, &amp;mZoneInfoStore, (uintptr_t) zoneInfo)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {}</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classace__time_1_1zoneinfohigh_1_1ZoneInfoStore.html">complete::ZoneInfoStore</a> mZoneInfoStore;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessor.html">ace_time::CompleteZoneProcessor</a></div><div class="ttdoc">A specific implementation of ExtendedZoneProcessorTemplate that uses the complete::ZoneXxxBrokers cla...</div><div class="ttdef"><b>Definition:</b> <a href="CompleteZoneProcessor_8h_source.html#l00020">CompleteZoneProcessor.h:25</a></div></div>
-<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessor_html_aafe1473dfcb838417528d0b889eff41d"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">ace_time::CompleteZoneProcessor::kTypeComplete</a></div><div class="ttdeci">static const uint8_t kTypeComplete</div><div class="ttdoc">Unique TimeZone type identifier for CompleteZoneProcessor.</div><div class="ttdef"><b>Definition:</b> <a href="CompleteZoneProcessor_8h_source.html#l00029">CompleteZoneProcessor.h:29</a></div></div>
-<div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessorTemplate_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ace_time::ExtendedZoneProcessorTemplate</a></div><div class="ttdoc">An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZoneProcessor_8h_source.html#l00088">ExtendedZoneProcessor.h:88</a></div></div>
-<div class="ttc" id="aclassace__time_1_1zoneinfohigh_1_1ZoneInfoStore_html"><div class="ttname"><a href="classace__time_1_1zoneinfohigh_1_1ZoneInfoStore.html">ace_time::zoneinfohigh::ZoneInfoStore</a></div><div class="ttdoc">A storage object that creates an ZoneInfoBroker from a key that identifies the ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="BrokersHigh_8h_source.html#l00474">BrokersHigh.h:474</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfohigh_1_1ZoneInfo_html"><div class="ttname"><a href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html">ace_time::zoneinfohigh::ZoneInfo</a></div><div class="ttdoc">Representation of a given time zone, implemented as an array of ZoneEra records.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00295">ZoneInfoHigh.h:295</a></div></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;ExtendedZoneProcessor.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classace__time_1_1CompleteZoneProcessor.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1CompleteZoneProcessor.html">CompleteZoneProcessor</a>: <span class="keyword">public</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <a class="code" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ExtendedZoneProcessorTemplate</a>&lt;complete::Info&gt; {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">   24</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> uint8_t <a class="code" href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">kTypeComplete</a> = 5;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classace__time_1_1CompleteZoneProcessor.html">CompleteZoneProcessor</a>(</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">const</span> <a class="code" href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html">complete::Info::ZoneInfo</a>* zoneInfo = <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      : <a class="code" href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ExtendedZoneProcessorTemplate</a>&lt;complete::Info&gt;(</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;          <a class="code" href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">kTypeComplete</a>, &amp;mZoneInfoStore, (uintptr_t) zoneInfo)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    {}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classace__time_1_1ZoneInfoHigh_1_1ZoneInfoStore.html">complete::Info::ZoneInfoStore</a> mZoneInfoStore;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessor_html"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessor.html">ace_time::CompleteZoneProcessor</a></div><div class="ttdoc">A specific implementation of ExtendedZoneProcessorTemplate that uses the complete::ZoneXxxBrokers cla...</div><div class="ttdef"><b>Definition:</b> <a href="CompleteZoneProcessor_8h_source.html#l00019">CompleteZoneProcessor.h:20</a></div></div>
+<div class="ttc" id="aclassace__time_1_1CompleteZoneProcessor_html_aafe1473dfcb838417528d0b889eff41d"><div class="ttname"><a href="classace__time_1_1CompleteZoneProcessor.html#aafe1473dfcb838417528d0b889eff41d">ace_time::CompleteZoneProcessor::kTypeComplete</a></div><div class="ttdeci">static const uint8_t kTypeComplete</div><div class="ttdoc">Unique TimeZone type identifier for CompleteZoneProcessor.</div><div class="ttdef"><b>Definition:</b> <a href="CompleteZoneProcessor_8h_source.html#l00024">CompleteZoneProcessor.h:24</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ExtendedZoneProcessorTemplate_html"><div class="ttname"><a href="classace__time_1_1ExtendedZoneProcessorTemplate.html">ace_time::ExtendedZoneProcessorTemplate</a></div><div class="ttdoc">An implementation of ZoneProcessor that supports for all zones defined by the TZ Database.</div><div class="ttdef"><b>Definition:</b> <a href="ExtendedZoneProcessor_8h_source.html#l00081">ExtendedZoneProcessor.h:81</a></div></div>
+<div class="ttc" id="aclassace__time_1_1ZoneInfoHigh_1_1ZoneInfoStore_html"><div class="ttname"><a href="classace__time_1_1ZoneInfoHigh_1_1ZoneInfoStore.html">ace_time::ZoneInfoHigh::ZoneInfoStore</a></div><div class="ttdoc">A storage object that creates an ZoneInfoBroker from a key that identifies the ZoneInfo.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00745">ZoneInfoHigh.h:745</a></div></div>
+<div class="ttc" id="astructace__time_1_1ZoneInfoHigh_1_1ZoneInfo_html"><div class="ttname"><a href="structace__time_1_1ZoneInfoHigh_1_1ZoneInfo.html">ace_time::ZoneInfoHigh::ZoneInfo</a></div><div class="ttdoc">Representation of a given time zone, implemented as an array of ZoneEra records.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00303">ZoneInfoHigh.h:303</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -26,7 +26,7 @@
 
 #include "zoneinfo/compat.h"
 #include "zoneinfo/infos.h"
-#include "zoneinfo/brokers.h"
+//
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/common/DateConv.h"
@@ -41,24 +41,24 @@
 #include "ace_time/time_offset_mutation.h"
 #include "ace_time/OffsetDateTime.h"
 #include "ace_time/offset_date_time_mutation.h"
+//
 #include "ace_time/ZoneProcessor.h"
 #include "ace_time/BasicZoneProcessor.h"
 #include "ace_time/ExtendedZoneProcessor.h"
 #include "ace_time/CompleteZoneProcessor.h"
 #include "ace_time/ZoneProcessorCache.h"
 #include "ace_time/ZoneRegistrar.h"
+#include "ace_time/Zone.h"
 #include "ace_time/ZoneManager.h"
 #include "ace_time/ZoneSorterByName.h"
 #include "ace_time/ZoneSorterByOffsetAndName.h"
 #include "ace_time/TimeZoneData.h"
 #include "ace_time/TimeZone.h"
-#include "ace_time/BasicZone.h"
-#include "ace_time/ExtendedZone.h"
 #include "ace_time/ZonedDateTime.h"
 #include "ace_time/zoned_date_time_mutation.h"
 #include "ace_time/TimePeriod.h"
 #include "ace_time/time_period_mutation.h"
-#include "ace_time/ace_time_utils.h"
+//
 #include "zonedb/zone_policies.h"
 #include "zonedb/zone_infos.h"
 #include "zonedb/zone_registry.h"
@@ -70,7 +70,7 @@
 #include "zonedbc/zone_registry.h"
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 20400
-#define ACE_TIME_VERSION_STRING "2.4.0"
+#define ACE_TIME_VERSION 30000
+#define ACE_TIME_VERSION_STRING "3.0.0"
 
 #endif

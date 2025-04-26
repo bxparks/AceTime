@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: /home/brian/src/AceTime/src/zoneinfo/infos.h Source File</title>
+<title>AceTime: /home/brian/src/AceTimeSuite/libraries/AceTimeLib/src/zoneinfo/infos.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.4.0</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -87,63 +87,29 @@ $(function() {
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// Data structures for BasicZoneProcessor</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>basic {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classace__time_1_1basic_1_1Basic.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1basic_1_1Basic.html">Basic</a> {}; <span class="comment">// dummy sentinel class</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html">ZoneContext</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html">zoneinfolow::ZoneContext&lt;Basic&gt;</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneRule.html">ZoneRule</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneRule.html">zoneinfolow::ZoneRule&lt;Basic&gt;</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZonePolicy.html">ZonePolicy</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZonePolicy.html">zoneinfolow::ZonePolicy&lt;Basic&gt;</a>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html">ZoneEra</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html">zoneinfolow::ZoneEra&lt;Basic&gt;</a>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html">ZoneInfo</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html">zoneinfolow::ZoneInfo&lt;Basic, ZoneContext&gt;</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// Data structures for ExtendedZoneProcessor. The ExtendedZoneProcessor</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// uses the *same* storage format as BasicZoneProcessor (i.e. zoneinfolow)</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// to save flash memory. It turns out that all timezones after the year 2000</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// have parameters which can be accurately captured using the low-resolution</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// zoneinfolow data types instead of the zoneinfomid data types.</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>extended {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using</span> Info = ZoneInfoLow;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Data structures for ExtendedZoneProcessor. The ExtendedZoneProcessor</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// uses the *same* storage format as BasicZoneProcessor (i.e. ZoneInfoLow)</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// to save flash memory. It turns out that all timezones after the year 2000</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// have parameters which can be accurately captured using the low-resolution</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// ZoneInfoLow data types instead of the ZoneInfoMid data types.</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">namespace </span>extended {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using</span> Info = ZoneInfoLow;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// Data structures for CompleteZoneProcessor</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>complete {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using</span> Info = ZoneInfoHigh;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classace__time_1_1extended_1_1Extended.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1extended_1_1Extended.html">Extended</a> {}; <span class="comment">// dummy sentinel class</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html">ZoneContext</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneContext.html">zoneinfolow::ZoneContext&lt;Extended&gt;</a>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneRule.html">ZoneRule</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneRule.html">zoneinfolow::ZoneRule&lt;Extended&gt;</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZonePolicy.html">ZonePolicy</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZonePolicy.html">zoneinfolow::ZonePolicy&lt;Extended&gt;</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html">ZoneEra</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneEra.html">zoneinfolow::ZoneEra&lt;Extended&gt;</a>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html">ZoneInfo</a> = <a class="code" href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html">zoneinfolow::ZoneInfo&lt;Extended, ZoneContext&gt;</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">// Data structures for CompleteZoneProcessor</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">namespace </span>complete {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classace__time_1_1complete_1_1Complete.html">   46</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1complete_1_1Complete.html">Complete</a> {}; <span class="comment">// dummy sentinel class</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html">ZoneContext</a> = <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html">zoneinfohigh::ZoneContext&lt;Complete&gt;</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneRule.html">ZoneRule</a> = <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneRule.html">zoneinfohigh::ZoneRule&lt;Complete&gt;</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZonePolicy.html">ZonePolicy</a> = <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZonePolicy.html">zoneinfohigh::ZonePolicy&lt;Complete&gt;</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneEra.html">ZoneEra</a> = <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneEra.html">zoneinfohigh::ZoneEra&lt;Complete&gt;</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">using</span> <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html">ZoneInfo</a> = <a class="code" href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html">zoneinfohigh::ZoneInfo&lt;Complete, ZoneContext&gt;</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aZoneInfoHigh_8h_html"><div class="ttname"><a href="ZoneInfoHigh_8h.html">ZoneInfoHigh.h</a></div><div class="ttdoc">Data structures that encodes the high resolution zoneinfo database persistence format.</div></div>
 <div class="ttc" id="aZoneInfoLow_8h_html"><div class="ttname"><a href="ZoneInfoLow_8h.html">ZoneInfoLow.h</a></div><div class="ttdoc">Data structures describe the low resolution zoneinfo persistence format.</div></div>
 <div class="ttc" id="aZoneInfoMid_8h_html"><div class="ttname"><a href="ZoneInfoMid_8h.html">ZoneInfoMid.h</a></div><div class="ttdoc">Data structures that describe the mid resolution zoneinfo persistence format.</div></div>
-<div class="ttc" id="aclassace__time_1_1basic_1_1Basic_html"><div class="ttname"><a href="classace__time_1_1basic_1_1Basic.html">ace_time::basic::Basic</a></div><div class="ttdef"><b>Definition:</b> <a href="infos_8h_source.html#l00018">infos.h:18</a></div></div>
-<div class="ttc" id="aclassace__time_1_1complete_1_1Complete_html"><div class="ttname"><a href="classace__time_1_1complete_1_1Complete.html">ace_time::complete::Complete</a></div><div class="ttdef"><b>Definition:</b> <a href="infos_8h_source.html#l00046">infos.h:46</a></div></div>
-<div class="ttc" id="aclassace__time_1_1extended_1_1Extended_html"><div class="ttname"><a href="classace__time_1_1extended_1_1Extended.html">ace_time::extended::Extended</a></div><div class="ttdef"><b>Definition:</b> <a href="infos_8h_source.html#l00034">infos.h:34</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfohigh_1_1ZoneContext_html"><div class="ttname"><a href="structace__time_1_1zoneinfohigh_1_1ZoneContext.html">ace_time::zoneinfohigh::ZoneContext</a></div><div class="ttdoc">Metadata about the zone database.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00037">ZoneInfoHigh.h:37</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfohigh_1_1ZoneEra_html"><div class="ttname"><a href="structace__time_1_1zoneinfohigh_1_1ZoneEra.html">ace_time::zoneinfohigh::ZoneEra</a></div><div class="ttdoc">An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00206">ZoneInfoHigh.h:206</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfohigh_1_1ZoneInfo_html"><div class="ttname"><a href="structace__time_1_1zoneinfohigh_1_1ZoneInfo.html">ace_time::zoneinfohigh::ZoneInfo</a></div><div class="ttdoc">Representation of a given time zone, implemented as an array of ZoneEra records.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00295">ZoneInfoHigh.h:295</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfohigh_1_1ZonePolicy_html"><div class="ttname"><a href="structace__time_1_1zoneinfohigh_1_1ZonePolicy.html">ace_time::zoneinfohigh::ZonePolicy</a></div><div class="ttdoc">A collection of transition rules which describe the DST rules of a given administrative region.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00187">ZoneInfoHigh.h:187</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfohigh_1_1ZoneRule_html"><div class="ttname"><a href="structace__time_1_1zoneinfohigh_1_1ZoneRule.html">ace_time::zoneinfohigh::ZoneRule</a></div><div class="ttdoc">A time zone transition rule.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoHigh_8h_source.html#l00113">ZoneInfoHigh.h:113</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZoneContext_html"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZoneContext.html">ace_time::zoneinfolow::ZoneContext</a></div><div class="ttdoc">Metadata about the zone database.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00037">ZoneInfoLow.h:37</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZoneEra_html"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZoneEra.html">ace_time::zoneinfolow::ZoneEra</a></div><div class="ttdoc">An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00226">ZoneInfoLow.h:226</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZoneInfo_html"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZoneInfo.html">ace_time::zoneinfolow::ZoneInfo</a></div><div class="ttdoc">Representation of a given time zone, implemented as an array of ZoneEra records.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00320">ZoneInfoLow.h:320</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZonePolicy_html"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZonePolicy.html">ace_time::zoneinfolow::ZonePolicy</a></div><div class="ttdoc">A collection of transition rules which describe the DST rules of a given administrative region.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00207">ZoneInfoLow.h:207</a></div></div>
-<div class="ttc" id="astructace__time_1_1zoneinfolow_1_1ZoneRule_html"><div class="ttname"><a href="structace__time_1_1zoneinfolow_1_1ZoneRule.html">ace_time::zoneinfolow::ZoneRule</a></div><div class="ttdoc">A time zone transition rule.</div><div class="ttdef"><b>Definition:</b> <a href="ZoneInfoLow_8h_source.html#l00128">ZoneInfoLow.h:128</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

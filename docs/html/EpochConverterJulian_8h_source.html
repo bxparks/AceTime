@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>AceTime: /home/brian/src/AceTime/src/ace_time/EpochConverterJulian.h Source File</title>
+<title>AceTime: /home/brian/src/AceTimeSuite/libraries/AceTimeLib/src/ace_time/EpochConverterJulian.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">2.4.0</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database.</div>
   </td>
@@ -82,53 +82,51 @@ $(function() {
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>ace_time {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>internal {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1EpochConverterJulian.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html">EpochConverterJulian</a> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a3631a07f2bbbfe0b393029e2e475dc9d">   26</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> int16_t <a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a3631a07f2bbbfe0b393029e2e475dc9d">kInternalEpochYear</a> = 2000;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1EpochConverterJulian.html#ac199e53790dfd7c0a48ec82ba60f231d">   32</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> int32_t <a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#ac199e53790dfd7c0a48ec82ba60f231d">kDaysToInternalEpochFromUnixEpoch</a> = 10957;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a92ffff60aac77d0b2faed3b7e5ccde92">   41</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> int32_t <a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a92ffff60aac77d0b2faed3b7e5ccde92">kDaysToInternalEpochFromJulianEpoch</a> = 1721060</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        + (<a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a3631a07f2bbbfe0b393029e2e475dc9d">kInternalEpochYear</a> / 400) * 146097; <span class="comment">// 2451545</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1EpochConverterJulian.html#acdd68e9e4f53a3584839c6eb6b6d4797">   71</a></span>&#160;    <span class="keyword">static</span> int32_t <a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#acdd68e9e4f53a3584839c6eb6b6d4797">toEpochDays</a>(int16_t year, uint8_t month, uint8_t day) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      int8_t mm = (month - 14)/12;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      int32_t jdn = ((int32_t) 1461 * (year + 4800 + mm))/4</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;          + (367 * (month - 2 - 12 * mm))/12</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;          - (3 * ((year + 4900 + mm)/100))/4</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;          + day - 32075;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordflow">return</span> jdn - <a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a92ffff60aac77d0b2faed3b7e5ccde92">kDaysToInternalEpochFromJulianEpoch</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classace__time_1_1internal_1_1EpochConverterJulian.html#acecfa83957ed409c70271da7f47e12ec">   87</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#acecfa83957ed409c70271da7f47e12ec">fromEpochDays</a>(int32_t epochDays,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        int16_t&amp; year, uint8_t&amp; month, uint8_t&amp; day) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      uint32_t J = epochDays + <a class="code" href="classace__time_1_1internal_1_1EpochConverterJulian.html#a92ffff60aac77d0b2faed3b7e5ccde92">kDaysToInternalEpochFromJulianEpoch</a>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      uint32_t e = 4 * f + 3;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      uint32_t g = e % 1461 / 4;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      uint32_t h = 5 * g + 2;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      day = (h % 153) / 5 + 1;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      month = (h / 153 + 2) % 12 + 1;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      year = (e / 1461) - 4716 + (12 + 2 - month) / 12;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="comment">// 2000-01-01 is Saturday (7)</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="comment">//dayOfWeek = (epochDays + 6) % 7 + 1;</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;};</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1EpochConverterJulian_html"><div class="ttname"><a href="classace__time_1_1internal_1_1EpochConverterJulian.html">ace_time::internal::EpochConverterJulian</a></div><div class="ttdoc">Utility class that converts AceTime epoch days to (year, month, day) in the Gregorian calendar and vi...</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00020">EpochConverterJulian.h:20</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1EpochConverterJulian_html_a3631a07f2bbbfe0b393029e2e475dc9d"><div class="ttname"><a href="classace__time_1_1internal_1_1EpochConverterJulian.html#a3631a07f2bbbfe0b393029e2e475dc9d">ace_time::internal::EpochConverterJulian::kInternalEpochYear</a></div><div class="ttdeci">static const int16_t kInternalEpochYear</div><div class="ttdoc">Epoch year used by this epoch converter.</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00026">EpochConverterJulian.h:26</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1EpochConverterJulian_html_a92ffff60aac77d0b2faed3b7e5ccde92"><div class="ttname"><a href="classace__time_1_1internal_1_1EpochConverterJulian.html#a92ffff60aac77d0b2faed3b7e5ccde92">ace_time::internal::EpochConverterJulian::kDaysToInternalEpochFromJulianEpoch</a></div><div class="ttdeci">static const int32_t kDaysToInternalEpochFromJulianEpoch</div><div class="ttdoc">Number of days from the modified proleptic Julian calendar epoch (4713 BC 01-01, modified to start at...</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00041">EpochConverterJulian.h:41</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1EpochConverterJulian_html_ac199e53790dfd7c0a48ec82ba60f231d"><div class="ttname"><a href="classace__time_1_1internal_1_1EpochConverterJulian.html#ac199e53790dfd7c0a48ec82ba60f231d">ace_time::internal::EpochConverterJulian::kDaysToInternalEpochFromUnixEpoch</a></div><div class="ttdeci">static const int32_t kDaysToInternalEpochFromUnixEpoch</div><div class="ttdoc">Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to the internal epoch (2000-01-01 00:00:00 U...</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00032">EpochConverterJulian.h:32</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1EpochConverterJulian_html_acdd68e9e4f53a3584839c6eb6b6d4797"><div class="ttname"><a href="classace__time_1_1internal_1_1EpochConverterJulian.html#acdd68e9e4f53a3584839c6eb6b6d4797">ace_time::internal::EpochConverterJulian::toEpochDays</a></div><div class="ttdeci">static int32_t toEpochDays(int16_t year, uint8_t month, uint8_t day)</div><div class="ttdoc">Convert (year, month, day) in the Gregorian calendar to days since the internal epoch (2000-01-01).</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00071">EpochConverterJulian.h:71</a></div></div>
-<div class="ttc" id="aclassace__time_1_1internal_1_1EpochConverterJulian_html_acecfa83957ed409c70271da7f47e12ec"><div class="ttname"><a href="classace__time_1_1internal_1_1EpochConverterJulian.html#acecfa83957ed409c70271da7f47e12ec">ace_time::internal::EpochConverterJulian::fromEpochDays</a></div><div class="ttdeci">static void fromEpochDays(int32_t epochDays, int16_t &amp;year, uint8_t &amp;month, uint8_t &amp;day)</div><div class="ttdoc">Extract the (year, month, day) fields from AceTime epochDays.</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00087">EpochConverterJulian.h:87</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classace__time_1_1EpochConverterJulian.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classace__time_1_1EpochConverterJulian.html">EpochConverterJulian</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classace__time_1_1EpochConverterJulian.html#ace5207e9e957e78b3c366ed927478557">   25</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> int16_t <a class="code" href="classace__time_1_1EpochConverterJulian.html#ace5207e9e957e78b3c366ed927478557">kInternalEpochYear</a> = 2000;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classace__time_1_1EpochConverterJulian.html#ab238f1dc23fe9172096f8210488553d9">   31</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> int32_t <a class="code" href="classace__time_1_1EpochConverterJulian.html#ab238f1dc23fe9172096f8210488553d9">kDaysToInternalEpochFromUnixEpoch</a> = 10957;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classace__time_1_1EpochConverterJulian.html#a790f54446cc82a53d3e58004582f319a">   40</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> int32_t <a class="code" href="classace__time_1_1EpochConverterJulian.html#a790f54446cc82a53d3e58004582f319a">kDaysToInternalEpochFromJulianEpoch</a> = 1721060</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        + (<a class="code" href="classace__time_1_1EpochConverterJulian.html#ace5207e9e957e78b3c366ed927478557">kInternalEpochYear</a> / 400) * 146097; <span class="comment">// 2451545</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classace__time_1_1EpochConverterJulian.html#a5fcf343db11a56eb87e4dd495654b13b">   70</a></span>&#160;    <span class="keyword">static</span> int32_t <a class="code" href="classace__time_1_1EpochConverterJulian.html#a5fcf343db11a56eb87e4dd495654b13b">toEpochDays</a>(int16_t year, uint8_t month, uint8_t day) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      int8_t mm = (month - 14)/12;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      int32_t jdn = ((int32_t) 1461 * (year + 4800 + mm))/4</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;          + (367 * (month - 2 - 12 * mm))/12</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;          - (3 * ((year + 4900 + mm)/100))/4</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;          + day - 32075;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">return</span> jdn - <a class="code" href="classace__time_1_1EpochConverterJulian.html#a790f54446cc82a53d3e58004582f319a">kDaysToInternalEpochFromJulianEpoch</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classace__time_1_1EpochConverterJulian.html#ae9461207f9cf0f8803bd4ae02697be5e">   86</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classace__time_1_1EpochConverterJulian.html#ae9461207f9cf0f8803bd4ae02697be5e">fromEpochDays</a>(int32_t epochDays,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        int16_t&amp; year, uint8_t&amp; month, uint8_t&amp; day) {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      uint32_t J = epochDays + <a class="code" href="classace__time_1_1EpochConverterJulian.html#a790f54446cc82a53d3e58004582f319a">kDaysToInternalEpochFromJulianEpoch</a>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      uint32_t e = 4 * f + 3;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      uint32_t g = e % 1461 / 4;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      uint32_t h = 5 * g + 2;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      day = (h % 153) / 5 + 1;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      month = (h / 153 + 2) % 12 + 1;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      year = (e / 1461) - 4716 + (12 + 2 - month) / 12;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="comment">// 2000-01-01 is Saturday (7)</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="comment">//dayOfWeek = (epochDays + 6) % 7 + 1;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;};</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassace__time_1_1EpochConverterJulian_html"><div class="ttname"><a href="classace__time_1_1EpochConverterJulian.html">ace_time::EpochConverterJulian</a></div><div class="ttdoc">Utility class that converts AceTime epoch days to (year, month, day) in the Gregorian calendar and vi...</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00019">EpochConverterJulian.h:19</a></div></div>
+<div class="ttc" id="aclassace__time_1_1EpochConverterJulian_html_a5fcf343db11a56eb87e4dd495654b13b"><div class="ttname"><a href="classace__time_1_1EpochConverterJulian.html#a5fcf343db11a56eb87e4dd495654b13b">ace_time::EpochConverterJulian::toEpochDays</a></div><div class="ttdeci">static int32_t toEpochDays(int16_t year, uint8_t month, uint8_t day)</div><div class="ttdoc">Convert (year, month, day) in the Gregorian calendar to days since the internal epoch (2000-01-01).</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00070">EpochConverterJulian.h:70</a></div></div>
+<div class="ttc" id="aclassace__time_1_1EpochConverterJulian_html_a790f54446cc82a53d3e58004582f319a"><div class="ttname"><a href="classace__time_1_1EpochConverterJulian.html#a790f54446cc82a53d3e58004582f319a">ace_time::EpochConverterJulian::kDaysToInternalEpochFromJulianEpoch</a></div><div class="ttdeci">static const int32_t kDaysToInternalEpochFromJulianEpoch</div><div class="ttdoc">Number of days from the modified proleptic Julian calendar epoch (4713 BC 01-01, modified to start at...</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00040">EpochConverterJulian.h:40</a></div></div>
+<div class="ttc" id="aclassace__time_1_1EpochConverterJulian_html_ab238f1dc23fe9172096f8210488553d9"><div class="ttname"><a href="classace__time_1_1EpochConverterJulian.html#ab238f1dc23fe9172096f8210488553d9">ace_time::EpochConverterJulian::kDaysToInternalEpochFromUnixEpoch</a></div><div class="ttdeci">static const int32_t kDaysToInternalEpochFromUnixEpoch</div><div class="ttdoc">Number of days from Unix epoch (1970-01-01 00:00:00 UTC) to the internal epoch (2000-01-01 00:00:00 U...</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00031">EpochConverterJulian.h:31</a></div></div>
+<div class="ttc" id="aclassace__time_1_1EpochConverterJulian_html_ace5207e9e957e78b3c366ed927478557"><div class="ttname"><a href="classace__time_1_1EpochConverterJulian.html#ace5207e9e957e78b3c366ed927478557">ace_time::EpochConverterJulian::kInternalEpochYear</a></div><div class="ttdeci">static const int16_t kInternalEpochYear</div><div class="ttdoc">Epoch year used by this epoch converter.</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00025">EpochConverterJulian.h:25</a></div></div>
+<div class="ttc" id="aclassace__time_1_1EpochConverterJulian_html_ae9461207f9cf0f8803bd4ae02697be5e"><div class="ttname"><a href="classace__time_1_1EpochConverterJulian.html#ae9461207f9cf0f8803bd4ae02697be5e">ace_time::EpochConverterJulian::fromEpochDays</a></div><div class="ttdeci">static void fromEpochDays(int32_t epochDays, int16_t &amp;year, uint8_t &amp;month, uint8_t &amp;day)</div><div class="ttdoc">Extract the (year, month, day) fields from AceTime epochDays.</div><div class="ttdef"><b>Definition:</b> <a href="EpochConverterJulian_8h_source.html#l00086">EpochConverterJulian.h:86</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

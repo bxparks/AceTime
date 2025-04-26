@@ -9,7 +9,6 @@
 #include <stdint.h> // uintptr_t
 #include <AceCommon.h> // copyReplaceString()
 #include "../zoneinfo/infos.h"
-#include "../zoneinfo/brokers.h"
 #include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
 #include "LocalDate.h"
@@ -61,10 +60,10 @@ struct YearMonthTuple {
  * file is the initial Python implementation of this class, which got
  * translated into C++.
  *
- * The underlying zoneinfo files (extended::ZoneInfo, etc) store the UTC and DST
- * offsets of a timezone as a single signed byte in 15-minute increments. This
- * is sufficient to accurate describe all time zones from the year 2000 until
- * 2100. The AT and UNTIL transition times are stored using a 1-minute
+ * The underlying zoneinfo files (extended::Info::ZoneInfo) store the UTC and
+ * DST offsets of a timezone as a single signed byte in 15-minute increments.
+ * This is sufficient to accurate describe all time zones from the year 2000
+ * until 2100. The AT and UNTIL transition times are stored using a 1-minute
  * resolution, which correctly handles the 5 timezones whose DST transition
  * times occur at 00:01. Those zones are:
  *
@@ -76,15 +75,9 @@ struct YearMonthTuple {
  *
  * Not thread-safe.
  *
- * @tparam ZIS type of ZoneInfoStore, needed for implementations that require
- *    more complex brokers, and allows this template class to be independent
- *    of the exact type of the zone primary key
- * @tparam ZIB type of ZoneInfoBroker
- * @tparam ZEB type of ZoneEraBroker
- * @tparam ZPB type of ZonePolicyBroker
- * @tparam ZRB type of ZoneRuleBroker
+ * @tparam B broker type
  */
-template <typename ZIS, typename ZIB, typename ZEB, typename ZPB, typename ZRB>
+template <typename D>
 class ExtendedZoneProcessorTemplate: public ZoneProcessor {
   public:
     /**
@@ -95,27 +88,27 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * given in the 'MaxBufSize' comment in the `zone_infos.h` file. Currently
      * that overall maximum is 7, which has been verified by various tests (e.g.
      * HinnantExtendedTest, DateUtilExtendedTest, JavaExtendedTest, and
-     * AcetzExtendedTest) in the AceTimeValidation project. We set this to one
-     * more than 7 for safety.
+     * AcetzExtendedTest) in the AceTimeSuite/validation/tests. We set this to
+     * one more than 7 for safety.
      */
     static const uint8_t kMaxTransitions = 8;
 
     /** Exposed only for testing purposes. */
-    typedef extended::TransitionTemplate<ZEB, ZPB, ZRB> Transition;
+    typedef extended::TransitionTemplate<D> Transition;
 
     /** Exposed only for testing purposes. */
-    typedef extended::TransitionForSecondsTemplate<ZEB, ZPB, ZRB>
+    typedef extended::TransitionForSecondsTemplate<D>
         TransitionForSeconds;
 
     /** Exposed only for testing purposes. */
-    typedef extended::TransitionForDateTimeTemplate<ZEB, ZPB, ZRB>
+    typedef extended::TransitionForDateTimeTemplate<D>
         TransitionForDateTime;
 
     /** Exposed only for testing purposes. */
-    typedef extended::MatchingEraTemplate<ZEB> MatchingEra;
+    typedef extended::MatchingEraTemplate<D> MatchingEra;
 
     /** Exposed only for testing purposes. */
-    typedef extended::TransitionStorageTemplate<kMaxTransitions, ZEB, ZPB, ZRB>
+    typedef extended::TransitionStorageTemplate<kMaxTransitions, D>
         TransitionStorage;
 
     bool isLink() const override {
@@ -291,7 +284,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * info store at compile time, so it must be set at runtime through this
      * method.
      */
-    void setZoneInfoStore(const ZIS* zoneInfoStore) {
+    void setZoneInfoStore(const typename D::ZoneInfoStore* zoneInfoStore) {
       mZoneInfoStore = zoneInfoStore;
     }
 
@@ -384,13 +377,14 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      *
      * @param type indentifier for the specific subclass of ZoneProcessor (e.g.
      *    Basic versus Extended) mostly used for debugging
-     * @param zoneInfoStore pointer to a ZoneInfoStore that creates a ZIB
+     * @param zoneInfoStore pointer to a ZoneInfoStore that creates a
+     *    ZoneInfoBroker
      * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
      *    uint16_t index into a database table of ZoneInfo records)
      */
     explicit ExtendedZoneProcessorTemplate(
         uint8_t type,
-        const ZIS* zoneInfoStore /*nullable*/,
+        const typename D::ZoneInfoStore* zoneInfoStore /*nullable*/,
         uintptr_t zoneKey
     ) :
         ZoneProcessor(type),
@@ -450,7 +444,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * the 'matches' array, and the number of matches is returned.
      */
     static uint8_t findMatches(
-        const ZIB& zoneInfo,
+        const typename D::ZoneInfoBroker& zoneInfo,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm,
         MatchingEra* matches,
@@ -462,7 +456,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       uint8_t iMatch = 0;
       MatchingEra* prevMatch = nullptr;
       for (uint8_t iEra = 0; iEra < zoneInfo.numEras(); iEra++) {
-        const ZEB era = zoneInfo.era(iEra);
+        const typename D::ZoneEraBroker era = zoneInfo.era(iEra);
         if (eraOverlapsInterval(prevMatch, era, startYm, untilYm)) {
           if (iMatch < maxMatches) {
             matches[iMatch] = createMatchingEra(
@@ -502,7 +496,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static bool eraOverlapsInterval(
         const MatchingEra* prevMatch,
-        const ZEB& era,
+        const typename D::ZoneEraBroker& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
       return (prevMatch == nullptr || compareEraToYearMonth(
@@ -511,7 +505,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /** Return (1, 0, -1) depending on how era compares to (year, month). */
-    static int8_t compareEraToYearMonth(const ZEB& era,
+    static int8_t compareEraToYearMonth(const typename D::ZoneEraBroker& era,
         int16_t year, uint8_t month) {
       if (era.untilYear() < year) return -1;
       if (era.untilYear() > year) return 1;
@@ -531,7 +525,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      */
     static MatchingEra createMatchingEra(
         MatchingEra* prevMatch,
-        const ZEB& era,
+        const typename D::ZoneEraBroker& era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
 
@@ -543,7 +537,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
               1,
               1,
               0,
-              extended::ZoneContext::kSuffixW
+              extended::Info::ZoneContext::kSuffixW
             }
           : extended::DateTuple{
               prevMatch->era.untilYear(),
@@ -557,7 +551,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         startYm.month,
         1,
         0,
-        extended::ZoneContext::kSuffixW
+        extended::Info::ZoneContext::kSuffixW
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
@@ -575,7 +569,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         untilYm.month,
         1,
         0,
-        extended::ZoneContext::kSuffixW
+        extended::Info::ZoneContext::kSuffixW
       };
       if (upperBound < untilDate) {
         untilDate = upperBound;
@@ -608,7 +602,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
         logging::printf("== createTransitionsForMatch()\n");
       }
-      const ZPB policy = match->era.zonePolicy();
+      const typename D::ZonePolicyBroker policy = match->era.zonePolicy();
       if (policy.isNull()) {
         createTransitionsFromSimpleMatch(transitionStorage, match);
       } else {
@@ -626,7 +620,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
       Transition* freeTransition = transitionStorage.getFreeAgent();
       createTransitionForYear(freeTransition, 0 /*not used*/,
-          ZRB() /*rule*/, match);
+          typename D::ZoneRuleBroker() /*rule*/, match);
       freeTransition->compareStatus = extended::CompareStatus::kExactMatch;
       match->lastOffsetSeconds = freeTransition->offsetSeconds;
       match->lastDeltaSeconds = freeTransition->deltaSeconds;
@@ -698,7 +692,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         match->log();
         logging::printf("\n");
       }
-      const ZPB policy = match->era.zonePolicy();
+      const typename D::ZonePolicyBroker policy = match->era.zonePolicy();
       uint8_t numRules = policy.numRules();
       int16_t startY = match->startDateTime.year;
       int16_t endY = match->untilDateTime.year;
@@ -709,7 +703,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       Transition** prior = transitionStorage.reservePrior();
       (*prior)->isValidPrior = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
-        const ZRB rule = policy.rule(r);
+        const typename D::ZoneRuleBroker rule = policy.rule(r);
 
         // Add Transitions for interior years
         int16_t interiorYears[kMaxInteriorYears];
@@ -801,7 +795,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     static void createTransitionForYear(
         Transition* t,
         int16_t year,
-        const ZRB& rule,
+        const typename D::ZoneRuleBroker& rule,
         const MatchingEra* match) {
       t->match = match;
       t->offsetSeconds = match->era.offsetSeconds();
@@ -819,8 +813,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         t->transitionTime = getTransitionTime(year, rule);
         t->deltaSeconds = rule.deltaSeconds();
         ace_common::strncpy_T(
-            t->abbrev, rule.letter(), internal::kAbbrevSize - 1);
-        t->abbrev[internal::kAbbrevSize - 1] = '\0';
+            t->abbrev, rule.letter(), kAbbrevSize - 1);
+        t->abbrev[kAbbrevSize - 1] = '\0';
       }
     }
 
@@ -856,9 +850,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * for the given year.
      */
     static extended::DateTuple getTransitionTime(
-        int16_t year, const ZRB& rule) {
+        int16_t year, const typename D::ZoneRuleBroker& rule) {
 
-      internal::MonthDay monthDay = internal::calcStartDayOfMonth(
+      MonthDay monthDay = calcStartDayOfMonth(
           year,
           rule.inMonth(),
           rule.onDayOfWeek(),
@@ -1048,9 +1042,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // and 'u' with 'u'.
       const extended::DateTuple& matchUntil = match->untilDateTime;
       const extended::DateTuple* transitionTime;
-      if (matchUntil.suffix == extended::ZoneContext::kSuffixS) {
+      if (matchUntil.suffix == extended::Info::ZoneContext::kSuffixS) {
         transitionTime = &tts;
-      } else if (matchUntil.suffix == extended::ZoneContext::kSuffixU) {
+      } else if (matchUntil.suffix == extended::Info::ZoneContext::kSuffixU) {
         transitionTime = &ttu;
       } else { // assume 'w'
         transitionTime = &ttw;
@@ -1147,9 +1141,9 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
             "calcAbbreviations(): format:%s, deltaSeconds:%d, letter:%s\n",
             t->format(), t->deltaSeconds, t->abbrev);
         }
-        internal::createAbbreviation(
+        createAbbreviation(
             t->abbrev,
-            internal::kAbbrevSize,
+            kAbbrevSize,
             t->format(),
             t->offsetSeconds,
             t->deltaSeconds,
@@ -1158,8 +1152,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
     }
 
   private:
-    const ZIS* mZoneInfoStore; // nullable
-    ZIB mZoneInfoBroker;
+    const typename D::ZoneInfoStore* mZoneInfoStore; // nullable
+    typename D::ZoneInfoBroker mZoneInfoBroker;
 
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
     mutable uint8_t mNumMatches = 0; // actual number of matches
@@ -1169,32 +1163,24 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
 /**
  * A specific implementation of ExtendedZoneProcessorTemplate that uses the
- * extended::ZoneXxxBrokers classes which read from 'zonedbx' files in PROGMEM
- * flash memory.
+ * extended::Info::ZoneXxxBrokers classes which read from 'zonedbx' files in
+ * PROGMEM flash memory.
  */
-class ExtendedZoneProcessor: public ExtendedZoneProcessorTemplate<
-    extended::ZoneInfoStore,
-    extended::ZoneInfoBroker,
-    extended::ZoneEraBroker,
-    extended::ZonePolicyBroker,
-    extended::ZoneRuleBroker> {
+class ExtendedZoneProcessor :
+    public ExtendedZoneProcessorTemplate<extended::Info> {
 
   public:
     /** Unique TimeZone type identifier for ExtendedZoneProcessor. */
     static const uint8_t kTypeExtended = 4;
 
-    explicit ExtendedZoneProcessor(const extended::ZoneInfo* zoneInfo = nullptr)
-      : ExtendedZoneProcessorTemplate<
-          extended::ZoneInfoStore,
-          extended::ZoneInfoBroker,
-          extended::ZoneEraBroker,
-          extended::ZonePolicyBroker,
-          extended::ZoneRuleBroker>(
-              kTypeExtended, &mZoneInfoStore, (uintptr_t) zoneInfo)
+    explicit ExtendedZoneProcessor(
+        const extended::Info::ZoneInfo* zoneInfo = nullptr)
+      : ExtendedZoneProcessorTemplate<extended::Info>(
+            kTypeExtended, &mZoneInfoStore, (uintptr_t) zoneInfo)
     {}
 
   private:
-    extended::ZoneInfoStore mZoneInfoStore;
+    extended::Info::ZoneInfoStore mZoneInfoStore;
 };
 
 } // namespace ace_time

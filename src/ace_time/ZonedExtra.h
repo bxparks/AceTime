@@ -19,7 +19,7 @@ class LocalDateTime;
 class ZonedExtra {
   public:
     /** Size of char buffer needed to hold the largest abbreviation. */
-    static const uint8_t kAbbrevSize = internal::kAbbrevSize;
+    static const uint8_t kAbbrevSize = ace_time::kAbbrevSize;
 
     /**
      * The epochSeconds or LocalDateTime was not found because it was outside
@@ -97,8 +97,8 @@ class ZonedExtra {
       , mReqDstOffsetSeconds(reqDstOffsetSeconds)
       , mType(type)
     {
-      strncpy(mAbbrev, abbrev, internal::kAbbrevSize - 1);
-      mAbbrev[internal::kAbbrevSize - 1] = '\0';
+      strncpy(mAbbrev, abbrev, kAbbrevSize - 1);
+      mAbbrev[kAbbrevSize - 1] = '\0';
     }
 
     /** Indicates that the LocalDateTime or epochSeconds was not found. */
@@ -173,7 +173,7 @@ class ZonedExtra {
     int32_t mReqStdOffsetSeconds = kInvalidSeconds;
     int32_t mReqDstOffsetSeconds = kInvalidSeconds;
     uint8_t mType = kTypeNotFound;
-    char mAbbrev[internal::kAbbrevSize] = "";
+    char mAbbrev[kAbbrevSize] = "";
 };
 
 }

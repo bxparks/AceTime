@@ -5,7 +5,7 @@
  * hh:mm:ss) into epoch seconds.
  *
  * The zones.txt file comes from
- * AceTimeValidation/tests/HinnantExtendedTest/zonedbxhd/zones.txt.
+ * AceTimeSuite/validation/tests/HinnantExtendedTest/zonedbxhd/zones.txt.
  *
  * To compile the binary, type:
  *
@@ -30,7 +30,7 @@
  * This program uses EpoxyDuino to compile the Arduino AceTime of the code on a
  * Unix platform. It compiles the Hinnant date library  as a normal C++ library
  * on a Unix platform. It requires the libcurl library to be installed, just
- * like AceTimeTools/compare_cpp.
+ * like AceSuiteSuite/validation/tools/compare_hinnant.
  */
 
 #if ! defined(EPOXY_DUINO)
@@ -142,9 +142,9 @@ static int parseFlags(int argc, const char* const* argv) {
  * Trim from start (in place). See https://stackoverflow.com/questions/216823
  */
 inline void ltrim(string &s) {
-	s.erase(s.begin(), find_if(s.begin(), s.end(), [](int ch) {
-			return !isspace(ch);
-	}));
+  s.erase(s.begin(), find_if(s.begin(), s.end(), [](int ch) {
+      return !isspace(ch);
+  }));
 }
 
 /** Read the 'zones.txt' from the stdin, and process each zone. */
@@ -152,7 +152,7 @@ vector<string> readZones() {
   vector<string> zones;
   string line;
   while (getline(cin, line)) {
-		ltrim(line);
+    ltrim(line);
     if (line.empty()) continue;
     if (line[0] == '#') continue;
     zones.push_back(line);

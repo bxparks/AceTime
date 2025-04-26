@@ -6,7 +6,7 @@
 HINNANT_DATE_DIR := $(abspath ../../../date)
 
 # Various compiler and linker flags borrowed from
-# AceTimeTools/compare_cpp/Makefile.
+# AceTimeSuite/validation/tools/compare_hinnant/Makefile.
 APP_NAME := CompareAceTimeToHinnantDate
 ARDUINO_LIBS := AceCommon AceSorting AceTime
 DATE_SRC := $(wildcard $(HINNANT_DATE_DIR)/src/*.cpp)

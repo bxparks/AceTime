@@ -9,7 +9,6 @@
 #include <stdint.h>
 
 namespace ace_time {
-namespace internal {
 
 /**
  * Utility class that converts AceTime epoch days to (year, month, day) in the
@@ -102,7 +101,6 @@ class EpochConverterHinnant {
     }
 };
 
-}
 }
 
 #endif

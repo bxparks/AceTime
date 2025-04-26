@@ -7,7 +7,6 @@
 #define ACE_TIME_COMPLETE_ZONE_PROCESSOR_H
 
 #include <stdint.h> // uintptr_t
-#include "../zoneinfo/BrokersHigh.h"
 #include "ExtendedZoneProcessor.h"
 
 namespace ace_time {
@@ -17,29 +16,21 @@ namespace ace_time {
  * complete::ZoneXxxBrokers classes which read from 'zonedbc' files in PROGMEM
  * flash memory using the high-resolution zoneinfo data structures.
  */
-class CompleteZoneProcessor: public ExtendedZoneProcessorTemplate<
-    complete::ZoneInfoStore,
-    complete::ZoneInfoBroker,
-    complete::ZoneEraBroker,
-    complete::ZonePolicyBroker,
-    complete::ZoneRuleBroker> {
+class CompleteZoneProcessor: public
+  ExtendedZoneProcessorTemplate<complete::Info> {
 
   public:
     /** Unique TimeZone type identifier for CompleteZoneProcessor. */
     static const uint8_t kTypeComplete = 5;
 
-    explicit CompleteZoneProcessor(const complete::ZoneInfo* zoneInfo = nullptr)
-      : ExtendedZoneProcessorTemplate<
-          complete::ZoneInfoStore,
-          complete::ZoneInfoBroker,
-          complete::ZoneEraBroker,
-          complete::ZonePolicyBroker,
-          complete::ZoneRuleBroker>(
-              kTypeComplete, &mZoneInfoStore, (uintptr_t) zoneInfo)
+    explicit CompleteZoneProcessor(
+        const complete::Info::ZoneInfo* zoneInfo = nullptr)
+      : ExtendedZoneProcessorTemplate<complete::Info>(
+          kTypeComplete, &mZoneInfoStore, (uintptr_t) zoneInfo)
     {}
 
   private:
-    complete::ZoneInfoStore mZoneInfoStore;
+    complete::Info::ZoneInfoStore mZoneInfoStore;
 };
 
 }

@@ -382,6 +382,22 @@ class LocalDate {
     }
 
     /**
+    * Calculate number of days from current LocalDate to the next target (month,
+    * day). For example, setting (month, day) of (12, 25) returns number of days
+    * until the next Christmas. This function should always return an integer in
+    * the interval [0, 365]. In a normal year, the maximum is 364. During a leap
+    * year, the maximum is 365.
+    */
+    int16_t daysUntil(uint8_t month, uint8_t day) const {
+      int16_t y = year();
+      LocalDate target = LocalDate::forComponents(y, month, day);
+      if (this->compareTo(target) > 0) {
+        target.year(y + 1);
+      }
+      return target.toEpochDays() - this->toEpochDays();
+    }
+
+    /**
      * Compare 'this' LocalDate to 'that' LocalDate, returning (<0, 0, >0)
      * according to whether 'this' occurs (before, same as, after) 'that'. If
      * either this->isError() or that.isError() is true, the behavior is

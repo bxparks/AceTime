@@ -25,15 +25,23 @@
  */
 
 #include <stdint.h>
+#include <Arduino.h> // pgm_read_xxx()
+#include <AceCommon.h> // KString
+#include "compat.h" // ACE_TIME_USE_PROGMEM
+#include "BrokerCommon.h"
+
+class __FlashStringHelper;
+class Print;
 
 namespace ace_time{
-namespace zoneinfolow {
+
+class ZoneInfoLow {
+public:
 
 /**
  * Metadata about the zone database. A ZoneInfo struct will contain a pointer
  * to this.
  */
-template<typename S>
 struct ZoneContext {
   /** Sentinel value for an invalid 16-bit year field. */
   static const int16_t kInvalidYear = -32768;
@@ -124,7 +132,6 @@ struct ZoneContext {
  * rule that repeats on the given (month, day, hour) every year during the
  * interval [fromYear, toYear] inclusive.
  */
-template<typename S>
 struct ZoneRule {
   /** FROM year */
   int8_t const fromYear;
@@ -203,9 +210,8 @@ struct ZoneRule {
  * ZonePolicy at different times. Conversely, multiple time zones (ZoneInfo)
  * can choose to follow the same ZonePolicy at different times.
  */
-template<typename S>
 struct ZonePolicy {
-  const ZoneRule<S>* const rules;
+  const ZoneRule* const rules;
   uint8_t const numRules;
 };
 
@@ -222,13 +228,12 @@ struct ZonePolicy {
  *    2) zonePolicy != nullptr. Then the ZoneRule.deltaCode offset is given by
  *    the ZoneRule.deltaCode which matches the time instant of interest.
  */
-template<typename S>
 struct ZoneEra {
   /**
    * Zone policy, determined by the RULES column. Set to nullptr if the RULES
    * column is '-' or an explicit DST shift in the form of 'hh:mm'.
    */
-  const ZonePolicy<S>* const zonePolicy;
+  const ZonePolicy* const zonePolicy;
 
   /**
    * Zone abbreviations (e.g. PST, EST) determined by the FORMAT column. It has
@@ -251,8 +256,8 @@ struct ZoneEra {
    * simpler. For example, 'E%sT' is stored as 'E%T', and the LETTER
    * substitution is performed on the '%' character.
    *
-   * This field will never be a 'nullptr' because the AceTimeTools compiler
-   * always generates a ZoneEra entry with a non-null format.
+   * This field will never be a 'nullptr' because the AceTime Compiler always
+   * generates a ZoneEra entry with a non-null format.
    */
   const char* const format;
 
@@ -316,7 +321,6 @@ struct ZoneEra {
  * Representation of a given time zone, implemented as an array of ZoneEra
  * records.
  */
-template<typename S, typename ZC>
 struct ZoneInfo {
   /** Full name of zone (e.g. "America/Los_Angeles"). */
   const char* const name;
@@ -329,7 +333,7 @@ struct ZoneInfo {
   uint32_t const zoneId;
 
   /** ZoneContext metadata. */
-  const ZC* const zoneContext;
+  const ZoneContext* const zoneContext;
 
   /**
    * Number of ZoneEra entries.
@@ -352,13 +356,467 @@ struct ZoneInfo {
    * A `const ZoneEras*` pointer to `numEras` ZoneEra entries in increasing
    * order of UNTIL time.
    */
-  const ZoneEra<S>* const eras;
+  const ZoneEra* const eras;
 
   /** If Link, points to the target zone info. If Zone, nullptr. */
   const ZoneInfo* const targetInfo;
 };
 
+//-----------------------------------------------------------------------------
+// Brokers are wrappers around the above data objects so that outside code
+// can use the data objects with a consistent API.
+//-----------------------------------------------------------------------------
+
+/**
+ * Convert the `deltaCode` holding the RULES/DSTOFF field in ZoneEra or the
+ * SAVE field in ZoneRule to the delta offset in minutes. The lower 4-bits
+ * stores minutes in units of 15-minutes, shifted by 1h, so can represent the
+ * interval [-01:00 to 02:45].
+ *
+ * @code
+ * deltaMinutes = deltaCode * 15m - 1h
+ * @endcode
+ */
+static int16_t toDeltaMinutes(uint8_t deltaCode) {
+  return ((int16_t)(deltaCode & 0x0f) - 4) * 15;
 }
+
+/**
+ * Convert the `offsetCode` and `deltaCode` holding the STDOFF field of the
+ * ZoneEra into minutes. The `offsetCode` is rounded towards -infinity in
+ * 15-minute multiples. The upper 4-bits of `deltaCode` holds the (unsigned)
+ * remainder in one-minute increments.
+ */
+static int16_t toOffsetMinutes(uint8_t offsetCode, uint8_t deltaCode) {
+  return ((int8_t)offsetCode * 15) + ((deltaCode & 0xf0) >> 4);
 }
+
+
+/**
+ * Convert (code, modifier) fields representing the UNTIL time in ZoneInfo or AT
+ * time in ZoneRule in one minute resolution. The `code` parameter holds the AT
+ * or UNTIL time in minutes component in units of 15 minutes. The lower 4-bits
+ * of `modifier` holds the remainder minutes.
+ */
+static uint16_t timeCodeToMinutes(uint8_t code, uint8_t modifier) {
+  return code * (uint16_t) 15 + (modifier & 0x0f);
+}
+
+/**
+ * Extract the 'w', 's' 'u' suffix from the 'modifier' field, so that they can
+ * be compared against kSuffixW, kSuffixS and kSuffixU. Used for Zone.UNTIL and
+ * Rule.AT  fields.
+ */
+static uint8_t toSuffix(uint8_t modifier) {
+  return modifier & 0xf0;
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Data broker for accessing a ZoneContext.
+ */
+class ZoneContextBroker {
+  public:
+    explicit ZoneContextBroker(const ZoneContext* zoneContext = nullptr)
+        : mZoneContext(zoneContext)
+    {}
+
+    // use the default copy constructor
+    ZoneContextBroker(const ZoneContextBroker&) = default;
+
+    // use the default assignment operator
+    ZoneContextBroker& operator=(const ZoneContextBroker&) = default;
+
+    bool isNull() const { return mZoneContext == nullptr; }
+
+    const ZoneContext* raw() const { return mZoneContext; }
+
+    int16_t startYear() const {
+      return (int16_t) pgm_read_word(&mZoneContext->startYear);
+    }
+
+    int16_t untilYear() const {
+      return (int16_t) pgm_read_word(&mZoneContext->untilYear);
+    }
+
+    int16_t startYearAccurate() const {
+      return (int16_t) pgm_read_word(&mZoneContext->startYearAccurate);
+    }
+
+    int16_t untilYearAccurate() const {
+      return (int16_t) pgm_read_word(&mZoneContext->untilYearAccurate);
+    }
+
+    int16_t baseYear() const {
+      return (int16_t) pgm_read_word(&mZoneContext->baseYear);
+    }
+
+    int16_t maxTransitions() const {
+      return (int16_t) pgm_read_word(&mZoneContext->maxTransitions);
+    }
+
+    const __FlashStringHelper* tzVersion() const {
+      return (const __FlashStringHelper*)
+          pgm_read_ptr(&mZoneContext->tzVersion);
+    }
+
+    uint8_t numFragments() const {
+      return (uint8_t) pgm_read_byte(&mZoneContext->numFragments);
+    }
+
+    uint8_t numLetters() const {
+      return (uint8_t) pgm_read_byte(&mZoneContext->numLetters);
+    }
+
+    const __FlashStringHelper* const* fragments() const {
+      return (const __FlashStringHelper* const*)
+          pgm_read_ptr(&mZoneContext->fragments);
+    }
+
+    const __FlashStringHelper* letter(uint8_t i) const {
+      const char * const* letters = (const char* const*)
+          pgm_read_ptr(&mZoneContext->letters);
+      const char* letter = (const char*) pgm_read_ptr(letters + i);
+      return (const __FlashStringHelper*) letter;
+    }
+
+  private:
+    const ZoneContext* mZoneContext;
+};
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Data broker for accessing ZoneRule.
+ */
+class ZoneRuleBroker {
+  public:
+    explicit ZoneRuleBroker(
+        const ZoneContext* zoneContext = nullptr,
+        const ZoneRule* zoneRule = nullptr)
+        : mZoneContext(zoneContext)
+        , mZoneRule(zoneRule)
+    {}
+
+    // use the default copy constructor
+    ZoneRuleBroker(const ZoneRuleBroker&) = default;
+
+    // use the default assignment operator
+    ZoneRuleBroker& operator=(const ZoneRuleBroker&) = default;
+
+    bool isNull() const { return mZoneRule == nullptr; }
+
+    int16_t fromYear() const {
+      int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneRule->fromYear);
+      int16_t baseYear = ZoneContextBroker(mZoneContext).baseYear();
+      return toYearFromTiny(yearTiny, baseYear);
+    }
+
+    int16_t toYear() const {
+      int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneRule->toYear);
+      int16_t baseYear = ZoneContextBroker(mZoneContext).baseYear();
+      return toYearFromTiny(yearTiny, baseYear);
+    }
+
+    static int16_t toYearFromTiny(int8_t yearTiny, int16_t baseYear) {
+      if (yearTiny == ZoneContext::kInvalidYearTiny)
+          return ZoneContext::kInvalidYear;
+      if (yearTiny == ZoneContext::kMinYearTiny)
+          return ZoneContext::kMinYear;
+
+      // yearTiny should be a maximum of 126, and should never be as high as
+      // 127. But if it does have this value, what should we do? Let's peg the
+      // return value at 32766, so that it's always less than the 32767 maximum
+      // returned by untilYear().
+      if (yearTiny >= ZoneContext::kMaxYearTiny) return ZoneContext::kMaxYear;
+
+      return baseYear + yearTiny;
+    }
+
+    uint8_t inMonth() const {
+      return pgm_read_byte(&mZoneRule->inMonth);
+    }
+
+    uint8_t onDayOfWeek() const {
+      return pgm_read_byte(&mZoneRule->onDayOfWeek);
+    }
+
+    int8_t onDayOfMonth() const {
+      return pgm_read_byte(&mZoneRule->onDayOfMonth);
+    }
+
+    uint32_t atTimeSeconds() const {
+      return 60 * timeCodeToMinutes(
+          pgm_read_byte(&mZoneRule->atTimeCode),
+          pgm_read_byte(&mZoneRule->atTimeModifier));
+    }
+
+    uint8_t atTimeSuffix() const {
+      return toSuffix(pgm_read_byte(&mZoneRule->atTimeModifier));
+    }
+
+    int32_t deltaSeconds() const {
+      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneRule->deltaCode));
+    }
+
+    const __FlashStringHelper* letter() const {
+      uint8_t index = pgm_read_byte(&mZoneRule->letterIndex);
+      return ZoneContextBroker(mZoneContext).letter(index);
+    }
+
+  private:
+    const ZoneContext* mZoneContext;
+    const ZoneRule* mZoneRule;
+};
+
+/**
+ * Data broker for accessing ZonePolicy.
+ */
+class ZonePolicyBroker {
+  public:
+    explicit ZonePolicyBroker(
+        const ZoneContext* zoneContext,
+        const ZonePolicy* zonePolicy)
+        : mZoneContext(zoneContext)
+        , mZonePolicy(zonePolicy)
+    {}
+
+    // use default copy constructor
+    ZonePolicyBroker(const ZonePolicyBroker&) = default;
+
+    // use default assignment operator
+    ZonePolicyBroker& operator=(const ZonePolicyBroker&) = default;
+
+    bool isNull() const { return mZonePolicy == nullptr; }
+
+    uint8_t numRules() const {
+      return pgm_read_byte(&mZonePolicy->numRules);
+    }
+
+    const ZoneRuleBroker rule(uint8_t i) const {
+      const ZoneRule* rules =
+          (const ZoneRule*) pgm_read_ptr(&mZonePolicy->rules);
+      return ZoneRuleBroker(mZoneContext, &rules[i]);
+    }
+
+  private:
+    const ZoneContext* mZoneContext;
+    const ZonePolicy* mZonePolicy;
+};
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Data broker for accessing ZoneEra.
+ */
+class ZoneEraBroker {
+  public:
+    explicit ZoneEraBroker(
+        const ZoneContext* zoneContext = nullptr,
+        const ZoneEra* zoneEra = nullptr)
+        : mZoneContext(zoneContext)
+        , mZoneEra(zoneEra)
+    {}
+
+    // use default copy constructor
+    ZoneEraBroker(const ZoneEraBroker&) = default;
+
+    // use default assignment operator
+    ZoneEraBroker& operator=(const ZoneEraBroker&) = default;
+
+    bool isNull() const { return mZoneEra == nullptr; }
+
+    bool equals(const ZoneEraBroker& other) const {
+      return mZoneEra == other.mZoneEra;
+    }
+
+    const ZonePolicyBroker zonePolicy() const {
+      return ZonePolicyBroker(
+          mZoneContext,
+          (const ZonePolicy*) pgm_read_ptr(&mZoneEra->zonePolicy));
+    }
+
+    int32_t offsetSeconds() const {
+      return 60 * toOffsetMinutes(
+        pgm_read_byte(&mZoneEra->offsetCode),
+        pgm_read_byte(&mZoneEra->deltaCode));
+    }
+
+    int32_t deltaSeconds() const {
+      return 60 * toDeltaMinutes(pgm_read_byte(&mZoneEra->deltaCode));
+    }
+
+    const char* format() const {
+      return (const char*) pgm_read_ptr(&mZoneEra->format);
+    }
+
+    int16_t untilYear() const {
+      int8_t yearTiny = (int8_t) pgm_read_byte(&mZoneEra->untilYear);
+      int16_t baseYear = ZoneContextBroker(mZoneContext).baseYear();
+      return toUntilYearFromTiny(yearTiny, baseYear);
+    }
+
+    static int16_t toUntilYearFromTiny(int8_t yearTiny, int16_t baseYear) {
+      if (yearTiny == ZoneContext::kInvalidYearTiny)
+          return ZoneContext::kInvalidYear;
+      if (yearTiny == ZoneContext::kMinYearTiny)
+          return ZoneContext::kMinYear;
+      if (yearTiny == ZoneContext::kMaxUntilYearTiny)
+          return ZoneContext::kMaxUntilYear;
+      return baseYear + yearTiny;
+    }
+
+    uint8_t untilMonth() const {
+      return pgm_read_byte(&mZoneEra->untilMonth);
+    }
+
+    uint8_t untilDay() const {
+      return pgm_read_byte(&mZoneEra->untilDay);
+    }
+
+    uint32_t untilTimeSeconds() const {
+      return 60 * timeCodeToMinutes(
+        pgm_read_byte(&mZoneEra->untilTimeCode),
+        pgm_read_byte(&mZoneEra->untilTimeModifier));
+    }
+
+    uint8_t untilTimeSuffix() const {
+      return toSuffix(pgm_read_byte(&mZoneEra->untilTimeModifier));
+    }
+
+  private:
+    const ZoneContext* mZoneContext;
+    const ZoneEra* mZoneEra;
+};
+
+/**
+ * Data broker for accessing ZoneInfo.
+ */
+class ZoneInfoBroker {
+  public:
+    explicit ZoneInfoBroker(const ZoneInfo* zoneInfo = nullptr):
+        mZoneInfo(zoneInfo) {}
+
+    // use default copy constructor
+    ZoneInfoBroker(const ZoneInfoBroker&) = default;
+
+    // use default assignment operator
+    ZoneInfoBroker& operator=(const ZoneInfoBroker&) = default;
+
+    /**
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
+     */
+    bool equals(uintptr_t zoneKey) const {
+      return mZoneInfo == (const ZoneInfo*) zoneKey;
+    }
+
+    bool equals(const ZoneInfoBroker& zoneInfoBroker) const {
+      return mZoneInfo == zoneInfoBroker.mZoneInfo;
+    }
+
+    bool isNull() const { return mZoneInfo == nullptr; }
+
+    const ZoneContextBroker zoneContext() const {
+      const ZoneContext* context =
+          (const ZoneContext*) pgm_read_ptr(&mZoneInfo->zoneContext);
+      return ZoneContextBroker(context);
+    }
+
+    const __FlashStringHelper* name() const {
+      return FPSTR(pgm_read_ptr(&mZoneInfo->name));
+    }
+
+    uint32_t zoneId() const {
+      return pgm_read_dword(&mZoneInfo->zoneId);
+    }
+
+    uint8_t numEras() const {
+      return pgm_read_byte(&mZoneInfo->numEras);
+    }
+
+    const ZoneEraBroker era(uint8_t i) const {
+      auto eras = (const ZoneEra*) pgm_read_ptr(&mZoneInfo->eras);
+      return ZoneEraBroker(zoneContext().raw(), &eras[i]);
+    }
+
+    bool isLink() const {
+      return mZoneInfo->targetInfo != nullptr;
+    }
+
+    ZoneInfoBroker targetInfo() const {
+      return ZoneInfoBroker(
+          (const ZoneInfo*) pgm_read_ptr(&mZoneInfo->targetInfo));
+    }
+
+    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
+    void printNameTo(Print& printer) const {
+      ZoneContextBroker zc = zoneContext();
+      ace_common::KString kname(name(), zc.fragments(), zc.numFragments());
+      kname.printTo(printer);
+    }
+
+    /**
+     * Print a short human-readable identifier (e.g. "Los Angeles").
+     * Any underscore in the short name is replaced with a space.
+     */
+    void printShortNameTo(Print& printer) const {
+      ace_common::printReplaceCharTo(
+          printer, zoneinfo::findShortName(name()), '_', ' ');
+    }
+
+  private:
+    const ZoneInfo* mZoneInfo;
+};
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Data broker for accessing the ZoneRegistry. The ZoneRegistry is an
+ * array of (const ZoneInfo*) in the zone_registry.cpp file.
+ */
+class ZoneRegistryBroker {
+  public:
+    ZoneRegistryBroker(const ZoneInfo* const* zoneRegistry):
+        mZoneRegistry(zoneRegistry) {}
+
+    // use default copy constructor
+    ZoneRegistryBroker(const ZoneRegistryBroker&) = default;
+
+    // use default assignment operator
+    ZoneRegistryBroker& operator=(const ZoneRegistryBroker&) = default;
+
+    const ZoneInfo* zoneInfo(uint16_t i) const {
+      return (const ZoneInfo*) pgm_read_ptr(&mZoneRegistry[i]);
+    }
+
+  private:
+    const ZoneInfo* const* mZoneRegistry;
+};
+
+//-----------------------------------------------------------------------------
+// A factory class for a ZoneInfoBroker.
+//-----------------------------------------------------------------------------
+
+/**
+ * A storage object that creates an ZoneInfoBroker from a key that identifies
+ * the ZoneInfo. The key can be a pointer to flash memory, or an integer into
+ * a list stored in a file.
+ */
+class ZoneInfoStore {
+  public:
+    /**
+     * @param zoneKey an opaque Zone primary key (e.g. const ZoneInfo*, or a
+     *    uint16_t index into a database table of ZoneInfo records)
+     */
+    ZoneInfoBroker createZoneInfoBroker(uintptr_t zoneKey) const {
+      return ZoneInfoBroker((const ZoneInfo*) zoneKey);
+    }
+};
+
+}; // ZoneInfoLow
+
+} // ace_time
 
 #endif

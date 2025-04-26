@@ -14,9 +14,7 @@
 #include "ZoneProcessorCache.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
-#include "BasicZone.h"
-#include "ExtendedZone.h"
-#include "CompleteZone.h"
+#include "Zone.h"
 
 namespace ace_time {
 
@@ -75,15 +73,11 @@ class ManualZoneManager {
  * the previously bound TimeZone). The type of the TimeZone will be assigned
  * based on the ZoneProcessor, which will be either kTypeBasic or kTypeExtended.
  *
- * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
- *    make up the zone registry
- * @tparam ZRR class of ZoneRegistrar which holds the registry of ZoneInfo
- *    (e.g. basic::ZoneRegistrar, extended::ZoneRegistrar)
- * @tparam ZP class of ZoneProcessor (e.g. BasicZoneProcessor,
- *    ExtendedZoneProcessor)
- * @tparam Z zone wrapper class, either BasicZone or ExtendedZone
+ * @tparam D container class of the zoneinfo files and brokers
+ * @tparam ZP zone processor
+ * @tparam Z zone wrapper class, BasicZone, ExtendedZone, CompleteZone
  */
-template <typename ZI, typename ZRR, typename ZP, typename Z>
+template <typename D, typename ZP, typename Z>
 class ZoneManagerTemplate : public ZoneManager {
   public:
     /**
@@ -94,7 +88,7 @@ class ZoneManagerTemplate : public ZoneManager {
      */
     ZoneManagerTemplate(
         uint16_t zoneRegistrySize,
-        const ZI* const* zoneRegistry,
+        const typename D::ZoneInfo* const* zoneRegistry,
         ZoneProcessorCacheBaseTemplate<ZP>& zoneProcessorCache
     ):
         mZoneRegistrar(zoneRegistrySize, zoneRegistry),
@@ -105,13 +99,15 @@ class ZoneManagerTemplate : public ZoneManager {
      * Create a TimeZone for the given zone name (e.g. "America/Los_Angeles").
      */
     TimeZone createForZoneName(const char* name) {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
+      const typename D::ZoneInfo* zoneInfo =
+          mZoneRegistrar.getZoneInfoForName(name);
       return createForZoneInfo(zoneInfo);
     }
 
     /** Create a TimeZone for the given 32-bit zoneId. */
     TimeZone createForZoneId(uint32_t id) {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
+      const typename D::ZoneInfo* zoneInfo =
+          mZoneRegistrar.getZoneInfoForId(id);
       return createForZoneInfo(zoneInfo);
     }
 
@@ -120,7 +116,8 @@ class ZoneManagerTemplate : public ZoneManager {
      * used to create this ZoneManager.
      */
     TimeZone createForZoneIndex(uint16_t index) {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForIndex(index);
+      const typename D::ZoneInfo* zoneInfo =
+          mZoneRegistrar.getZoneInfoForIndex(index);
       return createForZoneInfo(zoneInfo);
     }
 
@@ -175,7 +172,7 @@ class ZoneManagerTemplate : public ZoneManager {
      * expected to be used mostly in tests, but it could be useful for
      * applications.
      */
-    TimeZone createForZoneInfo(const ZI* zoneInfo) {
+    TimeZone createForZoneInfo(const typename D::ZoneInfo* zoneInfo) {
       if (! zoneInfo) return TimeZone::forError();
       ZP* processor = mZoneProcessorCache.getZoneProcessor(
           (uintptr_t) zoneInfo);
@@ -187,14 +184,16 @@ class ZoneManagerTemplate : public ZoneManager {
      * purposes.
      */
     ZP* getZoneProcessor(const char* name) {
-      const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForName(name);
+      const typename D::ZoneInfo* zoneInfo =
+          this->mZoneRegistrar.getZoneInfoForName(name);
       if (! zoneInfo) return nullptr;
       return this->mZoneProcessorCache.getZoneProcessor((uintptr_t) zoneInfo);
     }
 
     /** Return the Zone wrapper object for the given index. */
     Z getZoneForIndex(uint16_t index) const {
-      const ZI* zoneInfo = this->mZoneRegistrar.getZoneInfoForIndex(index);
+      const typename D::ZoneInfo* zoneInfo =
+          this->mZoneRegistrar.getZoneInfoForIndex(index);
       return Z(zoneInfo);
     }
 
@@ -204,42 +203,30 @@ class ZoneManagerTemplate : public ZoneManager {
     ZoneManagerTemplate& operator=(const ZoneManagerTemplate&) = delete;
 
   private:
-    const ZRR mZoneRegistrar;
+    const ZoneRegistrarTemplate<D> mZoneRegistrar;
     ZoneProcessorCacheBaseTemplate<ZP>& mZoneProcessorCache;
 };
 
 /**
- * An implementation of the ZoneManager which uses a registry of basic::ZoneInfo
- * records.
+ * An implementation of the ZoneManager which uses a registry of
+ * basic::Info::ZoneInfo records.
  */
 using BasicZoneManager = ZoneManagerTemplate<
-    basic::ZoneInfo,
-    basic::ZoneRegistrar,
-    BasicZoneProcessor,
-    BasicZone
->;
+    basic::Info, BasicZoneProcessor, BasicZone>;
 
 /**
  * An implementation of the ZoneManager which uses a registry of
- * extended::ZoneInfo records.
+ * extended::Info::ZoneInfo records.
  */
 using ExtendedZoneManager = ZoneManagerTemplate<
-    extended::ZoneInfo,
-    extended::ZoneRegistrar,
-    ExtendedZoneProcessor,
-    ExtendedZone
->;
+    extended::Info, ExtendedZoneProcessor, ExtendedZone>;
 
 /**
  * An implementation of the ZoneManager which uses a registry of
- * complete::ZoneInfo records.
+ * complete::Info::ZoneInfo records.
  */
 using CompleteZoneManager = ZoneManagerTemplate<
-    complete::ZoneInfo,
-    complete::ZoneRegistrar,
-    CompleteZoneProcessor,
-    CompleteZone
->;
+    complete::Info, CompleteZoneProcessor, CompleteZone>;
 
 }
 

@@ -2,32 +2,32 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <zonedbtesting/zone_policies.h>
-#include <zonedbtesting/zone_infos.h>
+#include <testingzonedb/zone_policies.h>
+#include <testingzonedb/zone_infos.h>
 
 using namespace ace_time;
-using ace_time::zonedbtesting::kZoneAmerica_Chicago;
-using ace_time::zonedbtesting::kZoneAmerica_Denver;
-using ace_time::zonedbtesting::kZoneAmerica_Los_Angeles;
-using ace_time::zonedbtesting::kZoneAmerica_New_York;
-using ace_time::zonedbtesting::kZoneAmerica_Toronto;
-using ace_time::zonedbtesting::kZoneAmerica_Vancouver;
-using ace_time::zonedbtesting::kZoneAmerica_Edmonton;
-using ace_time::zonedbtesting::kZoneAmerica_Winnipeg;
-using ace_time::zonedbtesting::kZoneIdAmerica_Chicago;
-using ace_time::zonedbtesting::kZoneIdAmerica_Denver;
-using ace_time::zonedbtesting::kZoneIdAmerica_Los_Angeles;
-using ace_time::zonedbtesting::kZoneIdAmerica_New_York;
-using ace_time::zonedbtesting::kZoneIdAmerica_Toronto;
-using ace_time::zonedbtesting::kZoneIdAmerica_Vancouver;
-using ace_time::zonedbtesting::kZoneIdAmerica_Edmonton;
-using ace_time::zonedbtesting::kZoneIdAmerica_Winnipeg;
+using ace_time::testingzonedb::kZoneAmerica_Chicago;
+using ace_time::testingzonedb::kZoneAmerica_Denver;
+using ace_time::testingzonedb::kZoneAmerica_Los_Angeles;
+using ace_time::testingzonedb::kZoneAmerica_New_York;
+using ace_time::testingzonedb::kZoneAmerica_Toronto;
+using ace_time::testingzonedb::kZoneAmerica_Vancouver;
+using ace_time::testingzonedb::kZoneAmerica_Edmonton;
+using ace_time::testingzonedb::kZoneAmerica_Winnipeg;
+using ace_time::testingzonedb::kZoneIdAmerica_Chicago;
+using ace_time::testingzonedb::kZoneIdAmerica_Denver;
+using ace_time::testingzonedb::kZoneIdAmerica_Los_Angeles;
+using ace_time::testingzonedb::kZoneIdAmerica_New_York;
+using ace_time::testingzonedb::kZoneIdAmerica_Toronto;
+using ace_time::testingzonedb::kZoneIdAmerica_Vancouver;
+using ace_time::testingzonedb::kZoneIdAmerica_Edmonton;
+using ace_time::testingzonedb::kZoneIdAmerica_Winnipeg;
 
 //---------------------------------------------------------------------------
 // Set up a BasicZoneManager with a handful of zones.
 //---------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+const basic::Info::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &kZoneAmerica_Chicago, // 0, -06:00
   &kZoneAmerica_Denver, // 1, -07:00
   &kZoneAmerica_Los_Angeles, // 2, -08:00

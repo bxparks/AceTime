@@ -18,7 +18,7 @@ The IANA TZ database is programmatically generated into 3 predefined databases:
 databases have different accuracy ranges, and are designed to work with
 different `ZoneProcessor` and `ZoneManager` classes.
 
-**Version**: 2.4.0 (2024-12-13, TZDB 2024b)
+**Version**: 3.0.0 (2025-04-25, TZDB 2025b)
 
 **Related Documents**:
 
@@ -235,17 +235,17 @@ information are defined in the following namespaces. They are not expected to be
 used by application developers under normal circumstances, so these are listed
 here for reference:
 
-* `ace_time::basic::ZoneXxx`
-* `ace_time::extended::ZoneXxx`
-* `ace_time::complete::ZoneXxx`
+* `ace_time::basic::Info::ZoneXxx`
+* `ace_time::extended::Info::ZoneXxx`
+* `ace_time::complete::Info::ZoneXxx`
 
-The `basic::ZoneInfo` and `extended::ZoneInfo` classes (and their associated
-`ZoneProcessor` classes) have a resolution of 1 minute, which is sufficient to
-represent all UTC offsets and DST shifts of all timezones after 1972
-(Africa/Monrovia seems like the last timezone to conform to a one-minute
-resolution on Jan 7, 1972). The `complete::ZoneInfo` classes have a resolution
-of 1 second, which allows them to represent all timezones, for all years in the
-TZ database, over the years `[0001,10000)`.
+The `basic::Info::ZoneInfo` and `extended::Info::ZoneInfo` classes (and their
+associated `ZoneProcessor` classes) have a resolution of 1 minute, which is
+sufficient to represent all UTC offsets and DST shifts of all timezones after
+1972 (Africa/Monrovia seems like the last timezone to conform to a one-minute
+resolution on Jan 7, 1972). The `complete::Info::ZoneInfo` classes have a
+resolution of 1 second, which allows them to represent all timezones, for all
+years in the TZ database, over the years `[0001,10000)`.
 
 It is expected that most applications using AceTime will use only a small number
 of timezones at the same time (1 to 4 zones have been extensively tested) and
@@ -982,15 +982,15 @@ class TimeZone {
         int8_t dstMinute = 0);
 
     static TimeZone forZoneInfo(
-        const basic::ZoneInfo* zoneInfo,
+        const basic::Info::ZoneInfo* zoneInfo,
         BasicZoneProcessor* zoneProcessor);
 
     static TimeZone forZoneInfo(
-        const extended::ZoneInfo* zoneInfo,
+        const extended::Info::ZoneInfo* zoneInfo,
         ExtendedZoneProcessor* zoneProcessor);
 
     static TimeZone forZoneInfo(
-        const complete::ZoneInfo* zoneInfo,
+        const complete::Info::ZoneInfo* zoneInfo,
         CompleteZoneProcessor* zoneProcessor);
 
     static TimeZone forUtc();
@@ -1200,7 +1200,7 @@ void someFunction() {
 #### Extended TimeZone (kTypeExtended)
 
 This TimeZone is created using two objects:
-* the `extended::ZoneInfo` data objects contained in
+* the `extended::Info::ZoneInfo` data objects contained in
   [zonedbx/zone_infos.h](src/zonedbx/zone_infos.h)
 * an external instance of `ExtendedZoneProcessor` needed for calculating zone
   transitions
@@ -1651,7 +1651,8 @@ methods on the `ZonedExtra` class:
    uint8_t fold = 0)`
 
 Often the `ZonedDateTime` will be created first from the epochSeconds, then the
-`ZonedExtra` will be created to access additional information about the time zone at that particular epochSeconds (e.g. abbreviation):
+`ZonedExtra` will be created to access additional information about the time
+zone at that particular epochSeconds (e.g. abbreviation):
 
 ```C++
 ExtendedZoneProcessor zoneProcessor;
@@ -1741,7 +1742,7 @@ class BasicZoneManager {
   public:
     BasicZoneManager(
         uint16_t registrySize,
-        const basic::ZoneInfo* const* zoneRegistry,
+        const basic::Info::ZoneInfo* const* zoneRegistry,
         BasicZoneProcessorCacheBase& zoneProcessorCache
     );
 
@@ -1751,7 +1752,7 @@ class BasicZoneManager {
     TimeZone createForZoneId(uint32_t id);
     TimeZone createForZoneIndex(uint16_t index);
     TimeZone createForTimeZoneData(const TimeZoneData& d);
-    TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
+    TimeZone createForZoneInfo(const basic::Info::ZoneInfo* zoneInfo);
 
     uint16_t indexForZoneName(const char* name) const;
     uint16_t indexForZoneId(uint32_t id) const;
@@ -1764,17 +1765,17 @@ class ExtendedZoneManager {
   public:
     ExtendedZoneManager(
         uint16_t registrySize,
-        const extended::ZoneInfo* const* zoneRegistry,
+        const extended::Info::ZoneInfo* const* zoneRegistry,
         ExtendedZoneProcessorCacheBase& zoneProcessorCache
     );
 
     uint16_t zoneRegistrySize() const;
 
-    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    TimeZone createForZoneInfo(const extended::Info::ZoneInfo* zoneInfo);
     TimeZone createForZoneId(uint32_t id);
     TimeZone createForZoneIndex(uint16_t index);
     TimeZone createForTimeZoneData(const TimeZoneData& d);
-    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    TimeZone createForZoneInfo(const extended::Info::ZoneInfo* zoneInfo);
 
     uint16_t indexForZoneName(const char* name) const;
     uint16_t indexForZoneId(uint32_t id) const;
@@ -1787,17 +1788,17 @@ class CompleteZoneManager {
   public:
     CompleteZoneManager(
         uint16_t registrySize,
-        const extended::ZoneInfo* const* zoneRegistry,
+        const extended::Info::ZoneInfo* const* zoneRegistry,
         CompleteZoneProcessorCacheBase& zoneProcessorCache
     );
 
     uint16_t zoneRegistrySize() const;
 
-    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    TimeZone createForZoneInfo(const extended::Info::ZoneInfo* zoneInfo);
     TimeZone createForZoneId(uint32_t id);
     TimeZone createForZoneIndex(uint16_t index);
     TimeZone createForTimeZoneData(const TimeZoneData& d);
-    TimeZone createForZoneInfo(const extended::ZoneInfo* zoneInfo);
+    TimeZone createForZoneInfo(const extended::Info::ZoneInfo* zoneInfo);
 
     uint16_t indexForZoneName(const char* name) const;
     uint16_t indexForZoneId(uint32_t id) const;
@@ -2022,11 +2023,11 @@ Another useful feature of `ZoneManager::createForZoneId()` over
 `ZoneManager` interface. In contrast, there are 2 different versions of
 `createForZoneInfo()` which live in the corresponding ZoneManager implementation
 classes because each version needs a different `ZoneInfo` type
-(`basic::ZoneInfo` and `extended::ZoneInfo`). If your code has a reference or
-pointer to the top-level `ZoneManager` interface, then it will be far easier to
-create a `TimeZone` using `createForZoneId()`. You do pay a penalty in
-efficiency because `createForZoneId()` must scan the database, where as
-`createForZoneInfo()` does not perform a search since it has direct access to
+(`basic::Info::ZoneInfo` and `extended::Info::ZoneInfo`). If your code has a
+reference or pointer to the top-level `ZoneManager` interface, then it will be
+far easier to create a `TimeZone` using `createForZoneId()`. You do pay a
+penalty in efficiency because `createForZoneId()` must scan the database, where
+as `createForZoneInfo()` does not perform a search since it has direct access to
 the `ZoneInfo` data structure.
 
 <a name="CreateForZoneIndex"></a>
@@ -2399,9 +2400,9 @@ defined in the `zoneinfo/ZoneInfoXxx.h` header files:
 In v2.3, three versions of these ZoneInfo records were created, to support the 3
 different zonedb types:
 
-* `ace_time::basic::ZoneXxx` - used with `BasicZoneProcessor`
-* `ace_time::extended::ZoneXxx` - used with `ExtendedZoneProcessor`
-* `ace_time::complete::ZoneXxx` - used with `CompleteZoneProcessor`
+* `ace_time::basic::Info::ZoneXxx` - used with `BasicZoneProcessor`
+* `ace_time::extended::Info::ZoneXxx` - used with `ExtendedZoneProcessor`
+* `ace_time::complete::Info::ZoneXxx` - used with `CompleteZoneProcessor`
 
 Information stored in `PROGMEM` must be retrieved using special functions (e.g.
 `pgm_read_byte()`, `pgm_read_word()`, etc). A thin layer of indirection is
@@ -2419,9 +2420,9 @@ abstraction layer is provided by `zoneinfo/Brokers.h`:
 There are 3 sets of these broker classes, duplicated into 2 different C++
 namespaces:
 
-* `ace_time::basic::ZoneXxxBroker`
-* `ace_time::extended::ZoneXxxBroker`
-* `ace_time::complete::ZoneXxxBroker`
+* `ace_time::basic::Info::ZoneXxxBroker`
+* `ace_time::extended::Info::ZoneXxxBroker`
+* `ace_time::complete::Info::ZoneXxxBroker`
 
 The separate namespaces allows compile-time verification that the correct
 `zonedb*` database is used with the correct `BasicZoneProcessor`,
@@ -2439,9 +2440,9 @@ general consumption:
 
 These 3 are meant for unit tests:
 
-* `zonedbtesting` for `BasicZoneProcessor`
-* `zonedbxtesting` for `ExtendedZoneProcessor`
-* `zonedbctesting` for `CompleteZoneProcessor`
+* `testingzonedb` for `BasicZoneProcessor`
+* `testingzonedbx` for `ExtendedZoneProcessor`
+* `testingzonedbc` for `CompleteZoneProcessor`
 
 <a name="BasicZonedb"></a>
 #### Basic zonedb
@@ -2570,8 +2571,8 @@ was intended to be used by the client application:
 using namespace ace_time;
 
 void printStartAndUntilYears() {
-    ace_time::extended::ZoneInfoBroker info(&zonedbx::kZoneAmerica_Los_Angeles);
-    extended::ZoneContextBroker context = info.zoneContext();
+    ace_time::extended::Info::ZoneInfoBroker info(&zonedbx::kZoneAmerica_Los_Angeles);
+    extended::Info::ZoneContextBroker context = info.zoneContext();
 
     Serial.print("startYear: ");
     Serial.print(context.startYear()); // e.g. 2000
@@ -2596,12 +2597,12 @@ timezone were filtered out of the zone database.
 <a name="ExternalZone"></a>
 #### External Zone Classes
 
-The `basic::ZoneInfo`, `extended::ZoneInfo`, and `complete::ZoneInfo` objects
-are meant to be used as *opaque* pointers and simply passed into the `TimeZone`
-class (which in turn, passes the pointer into the corresponding `ZoneProcessor`
-objects.) The internal formats of the `ZoneInfo` structures may change without
-warning, and users of this library should not access its internal data members
-directly.
+The `basic::Info::ZoneInfo`, `extended::Info::ZoneInfo`, and
+`complete::Info::ZoneInfo` objects are meant to be used as *opaque* pointers and
+simply passed into the `TimeZone` class (which in turn, passes the pointer into
+the corresponding `ZoneProcessor` objects.) The internal formats of the
+`ZoneInfo` structures may change without warning, and users of this library
+should not access its internal data members directly.
 
 Instead, client applications should use the `BasicZone`, `ExtendedZone`, and
 `CompleteZone` classes which aims to provide stable external access to some of
@@ -2612,7 +2613,7 @@ namespace ace_time {
 
 class BasicZone {
   public:
-    BasicZone(const basic::ZoneInfo* zoneInfo);
+    BasicZone(const basic::Info::ZoneInfo* zoneInfo);
 
     bool isNull() const;
     uint32_t zoneId() const;
@@ -2625,7 +2626,7 @@ class BasicZone {
 
 class ExtendedZone {
   public:
-    ExtendedZone(const extended::ZoneInfo* zoneInfo);
+    ExtendedZone(const extended::Info::ZoneInfo* zoneInfo);
 
     bool isNull() const;
     uint32_t zoneId() const;
@@ -2675,7 +2676,7 @@ These objects are meant to be used transiently, created on the stack then thrown
 away. For example:
 
 ```C++
-const extended::ZoneInfo* zoneInfo = ...;
+const extended::Info::ZoneInfo* zoneInfo = ...;
 ExtendedZone(zoneInfo).printNameTo(Serial);
 Serial.println();
 ```
@@ -2694,7 +2695,7 @@ zone name into the memory buffer, then extract the string from the buffer:
 using ace_common::PrintStr;
 ...
 
-const extended::ZoneInfo* zoneInfo = ...;
+const extended::Info::ZoneInfo* zoneInfo = ...;
 PrintStr<32> printStr; // buffer of 32 bytes on the stack
 ExtendedZone(zoneInfo).printNameTo(printStr);
 
@@ -2770,7 +2771,7 @@ zones from the `zonedbx::` data set:
 #include <AceTime.h>
 using namespace ace_time;
 ...
-static const extended::ZoneInfo* const kCustomRegistry[] ACE_TIME_PROGMEM = {
+static const extended::Info::ZoneInfo* const kCustomRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Los_Angeles,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Chicago,
@@ -2778,7 +2779,7 @@ static const extended::ZoneInfo* const kCustomRegistry[] ACE_TIME_PROGMEM = {
 };
 
 static const uint16_t kCustomRegistrySize =
-    sizeof(kCustomRegistry) / sizeof(extended::ZoneInfo*);
+    sizeof(kCustomRegistry) / sizeof(extended::Info::ZoneInfo*);
 
 static const uint16_t CACHE_SIZE = 2;
 static ExtendedZoneProcessorCache<CACHE_SIZE> zoneProcessorCache;
@@ -2810,7 +2811,7 @@ C++ code representing these custom zone registries from a list of zones.)
 (**TBD**: It might also be useful for app developers to create custom datasets
 with different range of years. The tools are all here, but not explicitly
 documented currently. Examples of how to this do exist inside the various
-`Makefile` files in the AceTimeValidation project.)
+`Makefile` files under `AceTimeSuite/validation/tests/*/Makefile`.)
 
 <a name="ZoneSorting"></a>
 ## Zone Sorting

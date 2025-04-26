@@ -71,11 +71,12 @@ volatile int16_t year = 2019;
   BasicZoneProcessor processor1;
   BasicZoneProcessor processor2;
 #elif FEATURE == FEATURE_BASIC_ZONE_MANAGER_ONE
-  static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+  static const basic::Info::ZoneInfo* const kBasicZoneRegistry[]
+      ACE_TIME_PROGMEM = {
     &zonedb::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kBasicZoneRegistrySize =
-      sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+      sizeof(kBasicZoneRegistry) / sizeof(basic::Info::ZoneInfo*);
   BasicZoneProcessorCache<1> zoneProcessorCache;
   BasicZoneManager manager(
       kBasicZoneRegistrySize,
@@ -97,11 +98,12 @@ volatile int16_t year = 2019;
   // Construct the same BasicZoneManager as FEATURE_BASIC_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
   // ZoneSorterByName.
-  static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+  static const basic::Info::ZoneInfo* const kBasicZoneRegistry[]
+      ACE_TIME_PROGMEM = {
     &zonedb::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kBasicZoneRegistrySize =
-      sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+      sizeof(kBasicZoneRegistry) / sizeof(basic::Info::ZoneInfo*);
   BasicZoneProcessorCache<1> zoneProcessorCache;
   BasicZoneManager manager(
       kBasicZoneRegistrySize,
@@ -112,11 +114,12 @@ volatile int16_t year = 2019;
   // Construct the same BasicZoneManager as FEATURE_BASIC_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
   // ZoneSorterByOffsetAndName.
-  static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+  static const basic::Info::ZoneInfo* const kBasicZoneRegistry[]
+      ACE_TIME_PROGMEM = {
     &zonedb::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kBasicZoneRegistrySize =
-      sizeof(kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+      sizeof(kBasicZoneRegistry) / sizeof(basic::Info::ZoneInfo*);
   BasicZoneProcessorCache<1> zoneProcessorCache;
   BasicZoneManager manager(
       kBasicZoneRegistrySize,
@@ -137,12 +140,12 @@ volatile int16_t year = 2019;
   auto tz2 = TimeZone::forZoneInfo(&zonedbx::kZoneEurope_Amsterdam,
       &processor2);
 #elif FEATURE == FEATURE_EXTENDED_ZONE_MANAGER_ONE
-  static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+  static const extended::Info::ZoneInfo* const kExtendedZoneRegistry[]
       ACE_TIME_PROGMEM = {
     &zonedbx::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kExtendedZoneRegistrySize =
-      sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+      sizeof(kExtendedZoneRegistry) / sizeof(extended::Info::ZoneInfo*);
   ExtendedZoneProcessorCache<1> zoneProcessorCache;
   ExtendedZoneManager manager(
       kExtendedZoneRegistrySize,
@@ -164,12 +167,12 @@ volatile int16_t year = 2019;
   // Construct the same ExtendedZoneManager as FEATURE_EXTENDED_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
   // ZoneSorterByName.
-  static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+  static const extended::Info::ZoneInfo* const kExtendedZoneRegistry[]
       ACE_TIME_PROGMEM = {
     &zonedbx::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kExtendedZoneRegistrySize =
-      sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+      sizeof(kExtendedZoneRegistry) / sizeof(extended::Info::ZoneInfo*);
   ExtendedZoneProcessorCache<1> zoneProcessorCache;
   ExtendedZoneManager manager(
       kExtendedZoneRegistrySize,
@@ -180,12 +183,12 @@ volatile int16_t year = 2019;
   // Construct the same ExtendedZoneManager as FEATURE_EXTENDED_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
   // ZoneSorterByOffsetAndName.
-  static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+  static const extended::Info::ZoneInfo* const kExtendedZoneRegistry[]
       ACE_TIME_PROGMEM = {
     &zonedbx::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kExtendedZoneRegistrySize =
-      sizeof(kExtendedZoneRegistry) / sizeof(extended::ZoneInfo*);
+      sizeof(kExtendedZoneRegistry) / sizeof(extended::Info::ZoneInfo*);
   ExtendedZoneProcessorCache<1> zoneProcessorCache;
   ExtendedZoneManager manager(
       kExtendedZoneRegistrySize,
@@ -215,12 +218,12 @@ volatile int16_t year = 2019;
   #if defined(ARDUINO_ARCH_AVR)
     #error Unsupported FEATURE on this platform
   #endif
-  static const complete::ZoneInfo* const kCompleteZoneRegistry[]
+  static const complete::Info::ZoneInfo* const kCompleteZoneRegistry[]
       ACE_TIME_PROGMEM = {
     &zonedbc::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kCompleteZoneRegistrySize =
-      sizeof(kCompleteZoneRegistry) / sizeof(complete::ZoneInfo*);
+      sizeof(kCompleteZoneRegistry) / sizeof(complete::Info::ZoneInfo*);
   CompleteZoneProcessorCache<1> zoneProcessorCache;
   CompleteZoneManager manager(
       kCompleteZoneRegistrySize,
@@ -251,12 +254,12 @@ volatile int16_t year = 2019;
   // Construct the same CompleteZoneManager as FEATURE_COMPLETE_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
   // ZoneSorterByName.
-  static const complete::ZoneInfo* const kCompleteZoneRegistry[]
+  static const complete::Info::ZoneInfo* const kCompleteZoneRegistry[]
       ACE_TIME_PROGMEM = {
     &zonedbc::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kCompleteZoneRegistrySize =
-      sizeof(kCompleteZoneRegistry) / sizeof(complete::ZoneInfo*);
+      sizeof(kCompleteZoneRegistry) / sizeof(complete::Info::ZoneInfo*);
   CompleteZoneProcessorCache<1> zoneProcessorCache;
   CompleteZoneManager manager(
       kCompleteZoneRegistrySize,
@@ -270,12 +273,12 @@ volatile int16_t year = 2019;
   // Construct the same CompleteZoneManager as FEATURE_COMPLETE_TIME_ZONE, then
   // subtract its memory consumption numbers to isolate just the
   // ZoneSorterByOffsetAndName.
-  static const complete::ZoneInfo* const kCompleteZoneRegistry[]
+  static const complete::Info::ZoneInfo* const kCompleteZoneRegistry[]
       ACE_TIME_PROGMEM = {
     &zonedbc::kZoneAmerica_Los_Angeles,
   };
   static const uint16_t kCompleteZoneRegistrySize =
-      sizeof(kCompleteZoneRegistry) / sizeof(complete::ZoneInfo*);
+      sizeof(kCompleteZoneRegistry) / sizeof(complete::Info::ZoneInfo*);
   CompleteZoneProcessorCache<1> zoneProcessorCache;
   CompleteZoneManager manager(
       kCompleteZoneRegistrySize,
