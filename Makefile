@@ -1,3 +1,6 @@
+zonedbs:
+	$(MAKE) -C src zonedbs
+
 clean:
-	make -C examples clean
-	make -C tests clean
+	$(MAKE) -C examples clean
+	$(MAKE) -C tests clean

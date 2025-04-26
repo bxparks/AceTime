@@ -10,8 +10,7 @@ using namespace ace_time;
 //---------------------------------------------------------------------------
 // Zone registry. Sorted by zoneId.
 //---------------------------------------------------------------------------
-const extended::Info::ZoneInfo* const kExtendedRegistry[kExtendedRegistrySize]
-    ACE_TIME_PROGMEM = {
+const extended::Info::ZoneInfo* const kExtendedRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAsia_Kuala_Lumpur, // 0x014763c4, Asia/Kuala_Lumpur
   &zonedbx::kZoneIndian_Cocos, // 0x021e86de, Indian/Cocos
   &zonedbx::kZoneAmerica_Mazatlan, // 0x0532189e, America/Mazatlan
@@ -97,3 +96,6 @@ const extended::Info::ZoneInfo* const kExtendedRegistry[kExtendedRegistrySize]
   &zonedbx::kZoneAmerica_Campo_Grande, // 0xfec3e7a6, America/Campo_Grande
 
 };
+
+const uint16_t kExtendedRegistrySize =
+    sizeof(kExtendedRegistry) / sizeof(extended::Info::ZoneInfo*);
