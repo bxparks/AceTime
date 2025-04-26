@@ -143,8 +143,8 @@ const uint32_t kZoneIdUS_Pacific = 0xa950f6ab; // US/Pacific
 
 //---------------------------------------------------------------------------
 // Maximum size of the Transition buffer in ExtendedZoneProcessor for each zone
-// over the given years. Used only in the AceTimeValidation/Extended*Test tests
-// for ExtendedZoneProcessor.
+// over the given years. Used only in the
+// AceTimeSuite/validation/tests/*ExtendedTest tests.
 //
 // MaxBufSize: 6
 //---------------------------------------------------------------------------

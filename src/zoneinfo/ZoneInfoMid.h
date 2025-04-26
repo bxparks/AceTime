@@ -10,10 +10,9 @@
  * @file ZoneInfoMid.h
  *
  * Data structures that describe the mid resolution zoneinfo persistence format.
- * by the AceTimeTools compiler. It has a 1-minute resolution for AT, UNTIL,
- * STDOFF; a 15-minute resolution for DST offset (similar to ZoneInfoLow). But
- * it also uses 2-byte year fields supporting year range of `[-32767,32765]`
- * (similar to ZoneInfoHigh).
+ * It has a 1-minute resolution for AT, UNTIL, STDOFF; a 15-minute resolution
+ * for DST offset (similar to ZoneInfoLow). But it also uses 2-byte year fields
+ * supporting year range of `[-32767,32765]` (similar to ZoneInfoHigh).
  *
  * The BrokersMid.h file provides an abtraction layer which converts these
  * low-level fields into a semantically consistent API which can be used by the
@@ -248,8 +247,8 @@ struct ZoneEra {
    * simpler. For example, 'E%sT' is stored as 'E%T', and the LETTER
    * substitution is performed on the '%' character.
    *
-   * This field will never be a 'nullptr' because the AceTimeTools compiler
-   * always generates a ZoneEra entry with a non-null format.
+   * This field will never be a 'nullptr' because the AceTime Compiler always
+   * generates a ZoneEra entry with a non-null format.
    */
   const char* const format;
 

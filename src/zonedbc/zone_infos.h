@@ -1311,8 +1311,8 @@ const uint32_t kZoneIdZulu = 0x7c9069b5; // Zulu
 
 //---------------------------------------------------------------------------
 // Maximum size of the Transition buffer in ExtendedZoneProcessor for each zone
-// over the given years. Used only in the AceTimeValidation/Extended*Test tests
-// for ExtendedZoneProcessor.
+// over the given years. Used only in the
+// AceTimeSuite/validation/tests/*ExtendedTest tests.
 //
 // MaxBufSize: 8
 //---------------------------------------------------------------------------

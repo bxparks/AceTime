@@ -2811,7 +2811,7 @@ C++ code representing these custom zone registries from a list of zones.)
 (**TBD**: It might also be useful for app developers to create custom datasets
 with different range of years. The tools are all here, but not explicitly
 documented currently. Examples of how to this do exist inside the various
-`Makefile` files in the AceTimeValidation project.)
+`Makefile` files under `AceTimeSuite/validation/tests/*/Makefile`.)
 
 <a name="ZoneSorting"></a>
 ## Zone Sorting

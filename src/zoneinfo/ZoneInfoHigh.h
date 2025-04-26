@@ -240,8 +240,8 @@ struct ZoneEra {
    * simpler. For example, 'E%sT' is stored as 'E%T', and the LETTER
    * substitution is performed on the '%' character.
    *
-   * This field will never be a 'nullptr' because the AceTimeTools compiler
-   * always generates a ZoneEra entry with a non-null format.
+   * This field will never be a 'nullptr' because the AceTime Compiler always
+   * generates a ZoneEra entry with a non-null format.
    */
   const char* const format;
 

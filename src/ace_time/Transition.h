@@ -553,10 +553,11 @@ class TransitionStorageTemplate {
     /**
      * Return the Transition matching the given epochSeconds. Return nullptr if
      * no matching Transition found. If a zone does not have any transition
-     * according to TZ Database, the AceTimeTools/transformer.py script adds an
-     * "anchor" transition at the "beginning of time" which happens to be the
-     * year 1872 (because the year is stored as an int8_t). Therefore, this
-     * method should never return a nullptr for a well-formed ZoneInfo file.
+     * according to TZ Database, the AceTimeSuite/compiler/tzcompiler.sh script
+     * adds an "anchor" transition at the "beginning of time" which happens to
+     * be the year 1872 (because the year is stored as an int8_t). Therefore,
+     * this method should never return a nullptr for a well-formed ZoneInfo
+     * file.
      */
     TransitionForSeconds findTransitionForSeconds(acetime_t epochSeconds)
         const {
