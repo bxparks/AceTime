@@ -64,8 +64,8 @@ test(ZonedDateTimeCompleteTest, forComponents_isError) {
   ZonedDateTime dt = ZonedDateTime::forComponents(-200, 3, 11, 1, 59, 59, tz);
   const OffsetDateTime &odt = dt.offsetDateTime();
   assertTrue(odt.isError());
-  const LocalDateTime &ldt = dt.localDateTime();
-  assertTrue(ldt.isError());
+  const PlainDateTime &pdt = dt.plainDateTime();
+  assertTrue(pdt.isError());
   assertTrue(dt.isError());
 
   // outside [0, 10000) range, should generate error
@@ -73,133 +73,109 @@ test(ZonedDateTimeCompleteTest, forComponents_isError) {
   assertTrue(dt.isError());
 }
 
-test(ZonedDateTimeCompleteTest, forComponents_beforeDst) {
+test(ZonedDateTimeCompleteTest, forComponents_beforeGap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // 01:59 before spring forward should resolve to 01:59-08:00
+  // 01:59 is before the gap and resolves to 01:59-08:00
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  auto expected = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kUnique);
+}
 
-  // check that fold=1 gives identical results, fold ignored for non-overlapping
-  dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz, 1 /*fold*/);
+test(ZonedDateTimeCompleteTest, forComponents_inGap) {
+  TimeZone tz = completeZoneManager.createForZoneInfo(
+      &kZoneAmerica_Los_Angeles);
+
+  // 02:01 is in the gap, select the later time, normalized to 03:01-07:00.
+  auto dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz,
+      Disambiguate::kCompatible);
+  assertEqual(TimeOffset::forHours(-7).toMinutes(),
+      dt.timeOffset().toMinutes());
+  auto expected = PlainDateTime::forComponents(2018, 3, 11, 3, 1, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kGapLater);
+
+  // Same 02:01, select the earlier time, normalized to 01:01-08:00.
+  dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz,
+      Disambiguate::kReversed);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  expected = PlainDateTime::forComponents(2018, 3, 11, 1, 1, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kGapEarlier);
 }
 
-test(ZonedDateTimeCompleteTest, forComponents_inDstGap) {
+test(ZonedDateTimeCompleteTest, forComponents_afterGap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // 02:01 doesn't exist. For input fold=0, the timeOffset of the first
-  // candidate transition, i.e. the most recent matching Transition, is used,
-  // so the input is interpreted as 02:01-08:00 which gets normalized to
-  // 03:01-07:00. The output fold is set to 0 because there is only one matching
-  // instance.
-  auto dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz);
+  // 03:01 is after the gap, should resolve to 03:01-07:00.
+  auto dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz,
+      Disambiguate::kCompatible);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
-
-  // For 02:01, setting fold=1 causes the second transition to be selected,
-  // which has a UTC offset of -07:00, so this is interpreted as 02:01-07:00
-  // which gets normalized to 01:01-08:00.
-  dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz, 1 /*fold*/);
-  assertEqual(TimeOffset::forHours(-8).toMinutes(),
-      dt.timeOffset().toMinutes());
-  expected = LocalDateTime::forComponents(2018, 3, 11, 1, 1, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  auto expected = PlainDateTime::forComponents(2018, 3, 11, 3, 1, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kUnique);
 }
 
-test(ZonedDateTimeCompleteTest, forComponents_inDst) {
+test(ZonedDateTimeCompleteTest, forComponents_beforeOverlap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // 03:01(fold=0) should resolve to 03:01-07:00.
-  auto dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz);
+  // 00:59 is before the overlap, should return 00:59-07:00.
+  auto dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 0, tz,
+      Disambiguate::kCompatible);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
-
-  // 03:01(fold=1) should produce identical results, since there is no overlap
-  dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz, 1 /*fold*/);
-  assertEqual(TimeOffset::forHours(-7).toMinutes(),
-      dt.timeOffset().toMinutes());
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
-}
-
-test(ZonedDateTimeCompleteTest, forComponents_beforeStd) {
-  TimeZone tz = completeZoneManager.createForZoneInfo(
-      &kZoneAmerica_Los_Angeles);
-
-  // 00:59 is an hour before the DST->STD transition, so should return
-  // 00:59-07:00.
-  auto dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 0, tz);
-  assertEqual(TimeOffset::forHours(-7).toMinutes(),
-      dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
-
-  // 00:59(fold=1) gives identical results
-  dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 0, tz, 1 /*fold*/);
-  assertEqual(TimeOffset::forHours(-7).toMinutes(),
-      dt.timeOffset().toMinutes());
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  auto expected = PlainDateTime::forComponents(2018, 11, 4, 0, 59, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kUnique);
 }
 
 test(ZonedDateTimeCompleteTest, forComponents_inOverlap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // There were two instances of 01:00 during fall back. The algorithm picks the
-  // earlier Transition for fold=0, so should resolve to 01:00-07:00.
-  auto dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 0, 0, tz);
+  // 01:02 occurs twice, select the earlier, should resolve to 01:02-08:00.
+  auto dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 2, 0, tz,
+      Disambiguate::kCompatible);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  auto expected = PlainDateTime::forComponents(2018, 11, 4, 1, 2, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kOverlapEarlier);
 
-  // Changing the fold to 01:00(fold=1) selects the second instance, resolves to
-  // 01:01-08:00.
-  dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 0, 0, tz, 1 /*fold*/);
-  assertEqual(TimeOffset::forHours(-8).toMinutes(),
-      dt.timeOffset().toMinutes());
-  expected = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 1);
-
-  // Similarily 01:01(fold=0) selcts the earlier Transition, so should resolve
-  // to 01:01-07:00.
-  dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz);
+  // select earlier explicitly, resolves to 01:02-07:00.
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 2, 0, tz,
+      Disambiguate::kEarlier);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  expected = PlainDateTime::forComponents(2018, 11, 4, 1, 2, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kOverlapEarlier);
 
-  // Changing the fold to 01:01(fold=1) selects the second instance, and
-  // resolves to 01:01-08:00.
-  dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz, 1 /*fold*/);
+  // Select later should resolve to 01:02-08:00.
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 2, 0, tz,
+      Disambiguate::kLater);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 1);
+  expected = PlainDateTime::forComponents(2018, 11, 4, 1, 2, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kOverlapLater);
+
+  // Disambiguate::kReversed also selects later, resolves to 01:02-07:00.
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 2, 0, tz,
+      Disambiguate::kReversed);
+  assertEqual(TimeOffset::forHours(-8).toMinutes(),
+      dt.timeOffset().toMinutes());
+  expected = PlainDateTime::forComponents(2018, 11, 4, 1, 2, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kOverlapLater);
 }
 
 test(ZonedDateTimeCompleteTest, forComponents_afterOverlap) {
@@ -207,46 +183,49 @@ test(ZonedDateTimeCompleteTest, forComponents_afterOverlap) {
       &kZoneAmerica_Los_Angeles);
 
   // 02:00 actually occurs only once, so should resolve to 02:00-08:00
-  auto dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 0, 0, tz);
+  auto dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 0, 0, tz,
+      Disambiguate::kCompatible);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  auto expected = PlainDateTime::forComponents(2018, 11, 4, 2, 0, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kUnique);
 
-  // 02:00(fold=1) should give identical results, because no overlap
-  dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 0, 0, tz, 1 /*fold*/);
+  // 02:00 with kLater should give same result
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 0, 0, tz,
+      Disambiguate::kLater);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kUnique);
 
-  // 02:01 should resolve to 02:01-08:00
-  dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz);
+  // 02:00 with kEarlier should give same result
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz,
+      Disambiguate::kEarlier);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  expected = LocalDateTime::forComponents(2018, 11, 4, 2, 1, 0);
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  expected = PlainDateTime::forComponents(2018, 11, 4, 2, 1, 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kUnique);
 
-  // 02:01(fold=1) gives identical results because no overlap
-  dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz, 1 /*fold*/);
+  // 02:00 with kReversed should give same result
+  dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz,
+      Disambiguate::kReversed);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  assertTrue(expected == dt.localDateTime());
-  assertEqual(dt.fold(), 0);
+  assertTrue(expected == dt.plainDateTime());
+  assertEqual((uint8_t) dt.resolved(), (uint8_t) Resolved::kUnique);
 }
 
 // --------------------------------------------------------------------------
-// ZonedDateTime::forEpochSeconds() with fold
+// ZonedDateTime::forEpochSeconds()
 // --------------------------------------------------------------------------
 
-test(ZonedDateTimeCompleteTest, forEpochSecond_fall_back) {
+test(ZonedDateTimeCompleteTest, forEpochSecond_around_overlap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // Start our sampling at 01:29:00-07:00, which is 31 minutes before the DST
-  // fall-back.
+  // Start at 01:29:00-07:00, in overlap, 31 minutes before the fall-back.
   OffsetDateTime odt = OffsetDateTime::forComponents(
       2022, 11, 6, 1, 29, 0, TimeOffset::forHours(-7));
   acetime_t epochSeconds = odt.toEpochSeconds();
@@ -258,10 +237,10 @@ test(ZonedDateTimeCompleteTest, forEpochSecond_fall_back) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-7*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold()); // first occurrence
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 
-  // Go forward an hour. Should return 01:29:00-08:00, the second time this
-  // was seen, so fold should be 1.
+  // Go forward an hour. Should return 01:29:00-08:00, the second time this was
+  // seen.
   epochSeconds += 3600;
   dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
   assertEqual(2022, dt.year());
@@ -271,10 +250,9 @@ test(ZonedDateTimeCompleteTest, forEpochSecond_fall_back) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-8*60, dt.timeOffset().toMinutes());
-  assertEqual(1, dt.fold()); // second occurrence
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 
-  // Go forward another hour. Should return 02:29:00-08:00, which occurs only
-  // once, so fold should be 0.
+  // Go forward another hour. Should return 02:29:00-08:00, which is unique.
   epochSeconds += 3600;
   dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
   assertEqual(2022, dt.year());
@@ -284,15 +262,14 @@ test(ZonedDateTimeCompleteTest, forEpochSecond_fall_back) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-8*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());  // only occurrence
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 }
 
-test(ZonedDateTimeCompleteTest, forEpochSecond_spring_forward) {
+test(ZonedDateTimeCompleteTest, forEpochSecond_around_gap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // Start our sampling at 01:29:00-08:00, which is 31 minutes before the DST
-  // spring forward.
+  // Start at 01:29:00-08:00, 31 minutes before the gap.
   OffsetDateTime odt = OffsetDateTime::forComponents(
       2022, 3, 13, 1, 29, 0, TimeOffset::forHours(-8));
   acetime_t epochSeconds = odt.toEpochSeconds();
@@ -305,7 +282,7 @@ test(ZonedDateTimeCompleteTest, forEpochSecond_spring_forward) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-8*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 
   // An hour later, we spring forward to 03:29:00-07:00.
   epochSeconds += 3600;
@@ -317,15 +294,20 @@ test(ZonedDateTimeCompleteTest, forEpochSecond_spring_forward) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-7*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 }
 
-test(ZonedDateTimeCompleteTest, forComponents_fall_back) {
+// --------------------------------------------------------------------------
+// ZonedDateTime::forComponents()
+// --------------------------------------------------------------------------
+
+test(ZonedDateTimeCompleteTest, forComponents_overlap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // First occurrence of 01:29:00, should be in -07:00.
-  auto dt = ZonedDateTime::forComponents(2022, 11, 6, 1, 29, 0, tz, 0 /*fold*/);
+  // 01:29:00, kCompatible should select the earlier, -07:00.
+  auto dt = ZonedDateTime::forComponents(2022, 11, 6, 1, 29, 0, tz,
+      Disambiguate::kCompatible);
   assertEqual(2022, dt.year());
   assertEqual(11, dt.month());
   assertEqual(6, dt.day());
@@ -333,10 +315,11 @@ test(ZonedDateTimeCompleteTest, forComponents_fall_back) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-7*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kOverlapEarlier, (uint8_t) dt.resolved());
 
-  // Second occurrence of 01:29:00, should be in -08:00.
-  dt = ZonedDateTime::forComponents(2022, 11, 6, 1, 29, 0, tz, 1 /*fold*/);
+  // 01:29:00, kReversed should select the later, -08:00.
+  dt = ZonedDateTime::forComponents(2022, 11, 6, 1, 29, 0, tz,
+      Disambiguate::kReversed);
   assertEqual(2022, dt.year());
   assertEqual(11, dt.month());
   assertEqual(6, dt.day());
@@ -344,17 +327,16 @@ test(ZonedDateTimeCompleteTest, forComponents_fall_back) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-8*60, dt.timeOffset().toMinutes());
-  assertEqual(1, dt.fold());
+  assertEqual((uint8_t) Resolved::kOverlapLater, (uint8_t) dt.resolved());
 }
 
-test(ZonedDateTimeCompleteTest, forComponents_spring_forward) {
+test(ZonedDateTimeCompleteTest, forComponents_gap) {
   TimeZone tz = completeZoneManager.createForZoneInfo(
       &kZoneAmerica_Los_Angeles);
 
-  // 02:29:00(fold=0) is in the gap during "spring forward" and selects the
-  // earlier Transition, which returns the later UTC, which gets normalized to
-  // the later Transition.
-  auto dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 0 /*fold*/);
+  // 02:29:00 is in the gap, kCompatible selects the later, -07:00
+  auto dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz,
+      Disambiguate::kCompatible);
   assertEqual(2022, dt.year());
   assertEqual(3, dt.month());
   assertEqual(13, dt.day());
@@ -362,11 +344,11 @@ test(ZonedDateTimeCompleteTest, forComponents_spring_forward) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-7*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold()); // no overlap
+  assertEqual((uint8_t) Resolved::kGapLater, (uint8_t) dt.resolved());
 
-  // 02:29:00(fold=1) is in the gap and selects the later Transition, which
-  // returns the earlier UTC, which gets normalized to the earlier Transition.
-  dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz, 1 /*fold*/);
+  // 02:29:00 is in the gap, kReversed selects the earlier, -08:00
+  dt = ZonedDateTime::forComponents(2022, 3, 13, 2, 29, 0, tz,
+      Disambiguate::kReversed);
   assertEqual(2022, dt.year());
   assertEqual(3, dt.month());
   assertEqual(13, dt.day());
@@ -374,7 +356,7 @@ test(ZonedDateTimeCompleteTest, forComponents_spring_forward) {
   assertEqual(29, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-8*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold()); // no overlap
+  assertEqual((uint8_t) Resolved::kGapEarlier, (uint8_t) dt.resolved());
 }
 
 // --------------------------------------------------------------------------
@@ -415,7 +397,7 @@ test(ZonedDateTimeCompleteTest, normalize) {
   assertEqual(0, newDt.second());
 
   // We must normalize() after mutation.
-  dt.normalize();
+  dt.normalize(Disambiguate::kCompatible);
   epochSeconds = dt.toEpochSeconds();
   newDt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
   assertEqual(2021, newDt.year());
@@ -451,12 +433,13 @@ test(ZonedDateTimeCompleteTest, morocco_2090) {
   assertEqual(1, dt.hour());
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 
   // During Ramadan, Morocco observes negative DST, and falls back to UTC+00:00.
   // In the year 2050, that happens at 2050-05-15T03:00:00. So 02:59:59 becomes
   // 02:00:00 one second later.
-  dt = ZonedDateTime::forComponents(2050, 5, 15, 2, 59, 59, tz, 0 /*fold*/);
+  dt = ZonedDateTime::forComponents(2050, 5, 15, 2, 59, 59, tz,
+      Disambiguate::kCompatible);
   acetime_t epochSeconds = dt.toEpochSeconds();
   epochSeconds += 1;
   dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
@@ -466,7 +449,7 @@ test(ZonedDateTimeCompleteTest, morocco_2090) {
   assertEqual(2, dt.hour());
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
-  assertEqual(1, dt.fold()); // second occurrence
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 
   // Validate the epochSeconds of 2090-01-01. That date is exactly 40 years
   // after the custom epoch of 2050-01-01. So the number of elapsed epoch days
@@ -483,8 +466,8 @@ test(ZonedDateTimeCompleteTest, morocco_2090) {
 // forward".
 //
 // Dateline Change skip Friday 30th Dec 2011
-// Thursday 29th December 2011	23:59:59 Hours UTC-10
-// Saturday 31st December 2011	00:00:00 Hours UTC+14
+// Thursday 29th December 2011 23:59:59 Hours UTC-10
+// Saturday 31st December 2011 00:00:00 Hours UTC+14
 test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   // Reconfigure the current epoch year to 2050 to allow calculations in the
   // year 2090.
@@ -492,9 +475,9 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
 
   TimeZone tz = completeZoneManager.createForZoneInfo(&kZonePacific_Apia);
 
-  // Dec 29 23:59:59 UTC-10:00, one second before "mega spring forward"
+  // Dec 29 23:59:59 UTC-10:00, one second before the mega gap
   auto dt = ZonedDateTime::forComponents(
-      2011, 12, 29, 23, 59, 59, tz, 0 /*fold*/);
+      2011, 12, 29, 23, 59, 59, tz, Disambiguate::kCompatible);
   assertEqual(2011, dt.year());
   assertEqual(12, dt.month());
   assertEqual(29, dt.day());
@@ -502,12 +485,12 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   assertEqual(59, dt.minute());
   assertEqual(59, dt.second());
   assertEqual(-10*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 
-  // Dec 30, 00:00:00 is in the gap. Using fold=0 means using the first
-  // transition of UTC-10, which then gets normalized to Dec 31, 00:00:00
-  // UTC+14:00.
-  dt = ZonedDateTime::forComponents(2011, 12, 30, 0, 0, 0, tz, 0 /*fold*/);
+  // Dec 30, 00:00 is in the gap, kCompatible selects the later, Dec 31,
+  // 00:00+14:00.
+  dt = ZonedDateTime::forComponents(
+      2011, 12, 30, 0, 0, 0, tz, Disambiguate::kCompatible);
   assertEqual(2011, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
@@ -515,12 +498,12 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(14*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kGapLater, (uint8_t) dt.resolved());
 
-  // Dec 30, 00:00:00 is in the gap. Using fold=1 means using the seconds
-  // transition of UTC+14, which then gets normalized to Dec 29, 00:00:00
-  // UTC-10:00.
-  dt = ZonedDateTime::forComponents(2011, 12, 30, 0, 0, 0, tz, 1 /*fold*/);
+  // Dec 30, 00:00:00 is in the gap, kReversed selects the earlier, Dec 29,
+  // 00:00-10:00.
+  dt = ZonedDateTime::forComponents(
+      2011, 12, 30, 0, 0, 0, tz, Disambiguate::kReversed);
   assertEqual(2011, dt.year());
   assertEqual(12, dt.month());
   assertEqual(29, dt.day());
@@ -528,12 +511,12 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-10*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kGapEarlier, (uint8_t) dt.resolved());
 
-  // Dec 30, 12:00:00 is still in the gap. Using fold=0 means using the first
-  // transition of UTC-10, which then gets normalized to Dec 31, 12:00:00
-  // UTC+14:00.
-  dt = ZonedDateTime::forComponents(2011, 12, 30, 12, 0, 0, tz, 0 /*fold*/);
+  // Dec 30, 12:00:00 is still in the gap, kCompatible selects later,
+  // Dec 31, 12:00:00+14:00.
+  dt = ZonedDateTime::forComponents(
+      2011, 12, 30, 12, 0, 0, tz, Disambiguate::kCompatible);
   assertEqual(2011, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
@@ -541,12 +524,12 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(14*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kGapLater, (uint8_t) dt.resolved());
 
-  // Dec 30, 12:00:00 is still in the gap. Using fold=1 means using the second
-  // transition of UTC-10, which then gets normalized to Dec 29, 12:00:00
-  // UTC-10:00.
-  dt = ZonedDateTime::forComponents(2011, 12, 30, 12, 0, 0, tz, 1 /*fold*/);
+  // Dec 30, 12:00:00 is still in the gap, kReversed selects earlier,
+  // Dec 29, 12:00:00-10:00.
+  dt = ZonedDateTime::forComponents(
+      2011, 12, 30, 12, 0, 0, tz, Disambiguate::kReversed);
   assertEqual(2011, dt.year());
   assertEqual(12, dt.month());
   assertEqual(29, dt.day());
@@ -554,10 +537,11 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(-10*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kGapEarlier, (uint8_t) dt.resolved());
 
-  // Dec 31, 00:00:00 is just after the gap. Using fold=0 means UTC+14.
-  dt = ZonedDateTime::forComponents(2011, 12, 31, 0, 0, 0, tz, 0 /*fold*/);
+  // Dec 31, 00:00:00 is just after the gap, kCompatible selects unique.
+  dt = ZonedDateTime::forComponents(
+      2011, 12, 31, 0, 0, 0, tz, Disambiguate::kCompatible);
   assertEqual(2011, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
@@ -565,10 +549,11 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(14*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 
-  // Dec 31, 00:00:00 is outside the gap. Setting fold=1 is ignored.
-  dt = ZonedDateTime::forComponents(2011, 12, 31, 0, 0, 0, tz, 1 /*fold*/);
+  // Dec 31, 00:00:00 is outside the gap, kReversed selects same unique.
+  dt = ZonedDateTime::forComponents(
+      2011, 12, 31, 0, 0, 0, tz, Disambiguate::kReversed);
   assertEqual(2011, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
@@ -576,7 +561,7 @@ test(ZonedDateTimeCompleteTest, Pacific_Apia) {
   assertEqual(0, dt.minute());
   assertEqual(0, dt.second());
   assertEqual(14*60, dt.timeOffset().toMinutes());
-  assertEqual(0, dt.fold());
+  assertEqual((uint8_t) Resolved::kUnique, (uint8_t) dt.resolved());
 }
 
 // --------------------------------------------------------------------------

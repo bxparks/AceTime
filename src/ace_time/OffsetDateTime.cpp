@@ -5,7 +5,7 @@
 
 #include <string.h> // strlen()
 #include <Arduino.h> // strncpy_P()
-#include "LocalDateTime.h"
+#include "PlainDateTime.h"
 #include "OffsetDateTime.h"
 #include "TimeOffset.h"
 
@@ -17,8 +17,8 @@ void OffsetDateTime::printTo(Print& printer) const {
     return;
   }
 
-  // LocalDateTime
-  mLocalDateTime.printTo(printer);
+  // PlainDateTime
+  mPlainDateTime.printTo(printer);
 
   // TimeOffset "+/-hh:mm
   mTimeOffset.printTo(printer);
@@ -52,11 +52,11 @@ OffsetDateTime OffsetDateTime::forDateString(
 OffsetDateTime OffsetDateTime::forDateStringChainable(const char*& dateString) {
   const char* s = dateString;
 
-  LocalDateTime ldt = LocalDateTime::forDateStringChainable(s);
+  PlainDateTime pdt = PlainDateTime::forDateStringChainable(s);
   TimeOffset offset = TimeOffset::forOffsetStringChainable(s);
 
   dateString = s;
-  return OffsetDateTime(ldt, offset);
+  return OffsetDateTime(pdt, offset);
 }
 
 }

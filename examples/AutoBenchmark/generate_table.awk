@@ -59,7 +59,7 @@ END {
   for (i = 0; i < TOTAL_BENCHMARKS - 1; i++) {
     name = u[i]["name"]
     if (name ~ /^EmptyLoop/ \
-        || name ~ /^LocalDate::forEpochDays\(\)/ \
+        || name ~ /^PlainDate::forEpochDays\(\)/ \
         || name ~ /^OffsetDateTime::forEpochSeconds\(\)/ \
         || name ~ /^ZonedDateTime::toEpochSeconds\(\)/ \
         || name ~ /^ZonedDateTime::forEpochSeconds\(Basic_nocache\)/ \

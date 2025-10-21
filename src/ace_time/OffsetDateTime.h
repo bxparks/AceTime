@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include "TimeOffset.h"
-#include "LocalDateTime.h"
+#include "PlainDateTime.h"
 
 class Print;
 
@@ -37,10 +37,10 @@ namespace ace_time {
 class OffsetDateTime {
   public:
 
-    /** Factory method from LocalDateTime and TimeOffset. */
-    static OffsetDateTime forLocalDateTimeAndOffset(
-        const LocalDateTime& localDateTime, TimeOffset timeOffset) {
-      return OffsetDateTime(localDateTime, timeOffset);
+    /** Factory method from PlainDateTime and TimeOffset. */
+    static OffsetDateTime forPlainDateTimeAndOffset(
+        const PlainDateTime& plainDateTime, TimeOffset timeOffset) {
+      return OffsetDateTime(plainDateTime, timeOffset);
     }
 
     /**
@@ -56,14 +56,13 @@ class OffsetDateTime {
      * component (instead of an int8_t or int16_t) allows us to overload an
      * additional constructor that accepts a millisecond component in the
      * future.
-     * @param fold optional disambiguation of multiple occurences [0, 1]
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        TimeOffset timeOffset, uint8_t fold = 0) {
-      auto ldt = LocalDateTime::forComponents(
-          year, month, day, hour, minute, second, fold);
-      return OffsetDateTime(ldt, timeOffset);
+        TimeOffset timeOffset) {
+      auto pdt = PlainDateTime::forComponents(
+          year, month, day, hour, minute, second);
+      return OffsetDateTime(pdt, timeOffset);
     }
 
     /**
@@ -72,17 +71,17 @@ class OffsetDateTime {
      * if epochSeconds or timeOffset is an error.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2050-01-01 00:00:00 by default). Use LocalDate::kInvalidEpochSeconds
+     *    (2050-01-01 00:00:00 by default). Use PlainDate::kInvalidEpochSeconds
      *    to define an invalid instance whose isError() returns true.
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
-          TimeOffset timeOffset, uint8_t fold = 0) {
-      if (epochSeconds != LocalDate::kInvalidEpochSeconds) {
+          TimeOffset timeOffset) {
+      if (epochSeconds != PlainDate::kInvalidEpochSeconds) {
         epochSeconds += timeOffset.toSeconds();
       }
-      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds, fold);
-      return OffsetDateTime(ldt, timeOffset);
+      auto pdt = PlainDateTime::forEpochSeconds(epochSeconds);
+      return OffsetDateTime(pdt, timeOffset);
     }
 
     /**
@@ -96,12 +95,12 @@ class OffsetDateTime {
      * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forUnixSeconds64(
-        int64_t unixSeconds, TimeOffset timeOffset, int8_t fold = 0) {
-      if (unixSeconds != LocalDate::kInvalidUnixSeconds64) {
+        int64_t unixSeconds, TimeOffset timeOffset) {
+      if (unixSeconds != PlainDate::kInvalidUnixSeconds64) {
         unixSeconds += timeOffset.toSeconds();
       }
-      auto ldt = LocalDateTime::forUnixSeconds64(unixSeconds, fold);
-      return OffsetDateTime(ldt, timeOffset);
+      auto pdt = PlainDateTime::forUnixSeconds64(unixSeconds);
+      return OffsetDateTime(pdt, timeOffset);
     }
 
     /**
@@ -140,7 +139,7 @@ class OffsetDateTime {
 
     /** Factory method that returns an instance whose isError() is true. */
     static OffsetDateTime forError() {
-      return OffsetDateTime(LocalDateTime::forError(), TimeOffset::forError());
+      return OffsetDateTime(PlainDateTime::forError(), TimeOffset::forError());
     }
 
     /** Constructor. All internal fields are left in an undefined state. */
@@ -149,53 +148,53 @@ class OffsetDateTime {
     /** Return true if any component indicates an error condition. */
     bool isError() const {
       // Check mTimeOffset first because it's expected to be invalid more often.
-      return  mTimeOffset.isError() || mLocalDateTime.isError();
+      return  mTimeOffset.isError() || mPlainDateTime.isError();
     }
 
     /** Return the year. */
-    int16_t year() const { return mLocalDateTime.year(); }
+    int16_t year() const { return mPlainDateTime.year(); }
 
     /** Set the year. */
-    void year(int16_t year) { mLocalDateTime.year(year); }
+    void year(int16_t year) { mPlainDateTime.year(year); }
 
     /** Return the month with January=1, December=12. */
-    uint8_t month() const { return mLocalDateTime.month(); }
+    uint8_t month() const { return mPlainDateTime.month(); }
 
     /** Set the month. */
-    void month(uint8_t month) { mLocalDateTime.month(month); }
+    void month(uint8_t month) { mPlainDateTime.month(month); }
 
     /** Return the day of the month. */
-    uint8_t day() const { return mLocalDateTime.day(); }
+    uint8_t day() const { return mPlainDateTime.day(); }
 
     /** Set the day of the month. */
-    void day(uint8_t day) { mLocalDateTime.day(day); }
+    void day(uint8_t day) { mPlainDateTime.day(day); }
 
     /** Return the hour. */
-    uint8_t hour() const { return mLocalDateTime.hour(); }
+    uint8_t hour() const { return mPlainDateTime.hour(); }
 
     /** Set the hour. */
-    void hour(uint8_t hour) { mLocalDateTime.hour(hour); }
+    void hour(uint8_t hour) { mPlainDateTime.hour(hour); }
 
     /** Return the minute. */
-    uint8_t minute() const { return mLocalDateTime.minute(); }
+    uint8_t minute() const { return mPlainDateTime.minute(); }
 
     /** Set the minute. */
-    void minute(uint8_t minute) { mLocalDateTime.minute(minute); }
+    void minute(uint8_t minute) { mPlainDateTime.minute(minute); }
 
     /** Return the second. */
-    uint8_t second() const { return mLocalDateTime.second(); }
+    uint8_t second() const { return mPlainDateTime.second(); }
 
     /** Set the second. */
-    void second(uint8_t second) { mLocalDateTime.second(second); }
+    void second(uint8_t second) { mPlainDateTime.second(second); }
 
-    /** Return the fold. */
-    uint8_t fold() const { return mLocalDateTime.fold(); }
+    /** Return the resolved. */
+    Resolved resolved() const { return mPlainDateTime.resolved(); }
 
-    /** Set the fold. */
-    void fold(uint8_t fold) { mLocalDateTime.fold(fold); }
+    /** Set the resolved. */
+    void resolved(Resolved resolved) { mPlainDateTime.resolved(resolved); }
 
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
-    uint8_t dayOfWeek() const { return mLocalDateTime.dayOfWeek(); }
+    uint8_t dayOfWeek() const { return mPlainDateTime.dayOfWeek(); }
 
     /** Return the UTC offset of the OffsetDateTime. */
     TimeOffset timeOffset() const { return mTimeOffset; }
@@ -203,14 +202,26 @@ class OffsetDateTime {
     /** Set the UTC offset. */
     void timeOffset(TimeOffset timeOffset) { mTimeOffset = timeOffset; }
 
-    /** Return the LocalDateTime. */
-    const LocalDateTime& localDateTime() const { return mLocalDateTime; }
+    /** Return the PlainDateTime. */
+    const PlainDateTime& plainDateTime() const { return mPlainDateTime; }
 
-    /** Return the LocalDate. */
-    const LocalDate& localDate() const { return mLocalDateTime.localDate(); }
+    /** Return the PlainDate. */
+    const PlainDate& plainDate() const { return mPlainDateTime.plainDate(); }
 
-    /** Return the LocalTime. */
-    const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
+    /** Return the PlainTime. */
+    const PlainTime& plainTime() const { return mPlainDateTime.plainTime(); }
+
+    /** Return the PlainDateTime. */
+    ACE_TIME_DEPRECATED
+    const PlainDateTime& localDateTime() const { return plainDateTime(); }
+
+    /** Return the PlainDate. */
+    ACE_TIME_DEPRECATED
+    const PlainDate& localDate() const { return plainDate(); }
+
+    /** Return the PlainTime. */
+    ACE_TIME_DEPRECATED
+    const PlainTime& localTime() const { return plainTime(); }
 
     /**
      * Create a OffsetDateTime in a different UTC offset code (with the same
@@ -229,12 +240,12 @@ class OffsetDateTime {
      * changed using `Epoch::currentEpochYear()`.
      */
     int32_t toEpochDays() const {
-      if (isError()) return LocalDate::kInvalidEpochDays;
+      if (isError()) return PlainDate::kInvalidEpochDays;
 
-      int32_t epochDays = mLocalDateTime.localDate().toEpochDays();
+      int32_t epochDays = mPlainDateTime.plainDate().toEpochDays();
 
       // Increment or decrement the day count depending on the time offset.
-      acetime_t timeOffset = mLocalDateTime.localTime().toSeconds()
+      acetime_t timeOffset = mPlainDateTime.plainTime().toSeconds()
           - mTimeOffset.toSeconds();
       if (timeOffset >= 86400) {
         epochDays++;
@@ -247,7 +258,7 @@ class OffsetDateTime {
 
     /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
     int32_t toUnixDays() const {
-      if (isError()) return LocalDate::kInvalidEpochDays;
+      if (isError()) return PlainDate::kInvalidEpochDays;
       return toEpochDays() + Epoch::daysToCurrentEpochFromUnixEpoch();
     }
 
@@ -257,9 +268,9 @@ class OffsetDateTime {
      * `Epoch::currentEpochYear()`.
      */
     acetime_t toEpochSeconds() const {
-      if (isError()) return LocalDate::kInvalidEpochSeconds;
-      acetime_t epochSeconds = mLocalDateTime.toEpochSeconds();
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
+      if (isError()) return PlainDate::kInvalidEpochSeconds;
+      acetime_t epochSeconds = mPlainDateTime.toEpochSeconds();
+      if (epochSeconds == PlainDate::kInvalidEpochSeconds) {
         return epochSeconds;
       }
       return epochSeconds - mTimeOffset.toSeconds();
@@ -267,14 +278,14 @@ class OffsetDateTime {
 
     /**
      * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
-     * UTC. Returns LocalDate::kInvalidUnixSeconds64 if isError() is true.
+     * UTC. Returns PlainDate::kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * convert an ISO8601 date to the unix seconds.
      */
     int64_t toUnixSeconds64() const {
-      if (isError()) return LocalDate::kInvalidUnixSeconds64;
-      return mLocalDateTime.toUnixSeconds64() - mTimeOffset.toSeconds();
+      if (isError()) return PlainDate::kInvalidUnixSeconds64;
+      return mPlainDateTime.toUnixSeconds64() - mTimeOffset.toSeconds();
     }
 
     /**
@@ -286,7 +297,7 @@ class OffsetDateTime {
      *
      * If you want to know whether the local representatation of 'this'
      * OffsetDateTime occurs before or after the local representation of
-     * 'that', use `this->localDateTime().compareTo(that.localDateTime())`
+     * 'that', use `this->plainDateTime().compareTo(that.plainDateTime())`
      * instead. This expression ignores the time offset which is sometimes what
      * you want.
      *
@@ -318,12 +329,12 @@ class OffsetDateTime {
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;
 
-    /** Constructor from LocalDateTime and a TimeOffset. */
-    explicit OffsetDateTime(const LocalDateTime& ldt, TimeOffset timeOffset):
-        mLocalDateTime(ldt),
+    /** Constructor from PlainDateTime and a TimeOffset. */
+    explicit OffsetDateTime(const PlainDateTime& pdt, TimeOffset timeOffset):
+        mPlainDateTime(pdt),
         mTimeOffset(timeOffset) {}
 
-    LocalDateTime mLocalDateTime;
+    PlainDateTime mPlainDateTime;
     TimeOffset mTimeOffset;
 };
 
@@ -333,7 +344,7 @@ class OffsetDateTime {
  * or 'minute'.
  */
 inline bool operator==(const OffsetDateTime& a, const OffsetDateTime& b) {
-  return a.mLocalDateTime == b.mLocalDateTime
+  return a.mPlainDateTime == b.mPlainDateTime
       && a.mTimeOffset == b.mTimeOffset;
 }
 

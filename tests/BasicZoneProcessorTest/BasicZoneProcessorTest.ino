@@ -199,12 +199,12 @@ test(BasicZoneProcessorTest, init_primitives) {
       zoneProcessor.mTransitions[2].startEpochSeconds);
 }
 
-test(BasicZoneProcessorTest, initForLocalDate) {
+test(BasicZoneProcessorTest, initForPlainDate) {
   // Test using 2018-01-02. If we use 2018-01-01, the code will populate the
   // cache with transitions from 2017.
   BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
-  LocalDate ld = LocalDate::forComponents(2018, 1, 2);
-  bool ok = zoneProcessor.initForLocalDate(ld);
+  PlainDate pd = PlainDate::forComponents(2018, 1, 2);
+  bool ok = zoneProcessor.initForPlainDate(pd);
 
   assertTrue(ok);
   assertEqual(3, zoneProcessor.mNumTransitions);
@@ -257,18 +257,18 @@ test(BasicZoneProcessorTest, initForLocalDate) {
 
 test(BasicZoneProcessorTest, setZoneKey) {
   BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
-  assertEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
+  assertEqual(zoneProcessor.mYear, PlainDate::kInvalidYear);
   zoneProcessor.initForEpochSeconds(0);
-  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
+  assertNotEqual(zoneProcessor.mYear, PlainDate::kInvalidYear);
 
   zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
-  assertEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
+  assertEqual(zoneProcessor.mYear, PlainDate::kInvalidYear);
   zoneProcessor.initForEpochSeconds(0);
-  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
+  assertNotEqual(zoneProcessor.mYear, PlainDate::kInvalidYear);
 
   // Check that the cache remains valid if the zoneInfo does not change
   zoneProcessor.setZoneKey((uintptr_t) &kZoneAustralia_Darwin);
-  assertNotEqual(zoneProcessor.mYear, LocalDate::kInvalidYear);
+  assertNotEqual(zoneProcessor.mYear, PlainDate::kInvalidYear);
 }
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
@@ -419,26 +419,26 @@ test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
   assertEqual(Info::ZoneContext::kMaxUntilYear,
       zoneContextBroker.untilYearAccurate());
 
-  // 1970 > LocalDate::kMinYear so we can create an OffsetDateTime.
+  // 1970 > PlainDate::kMinYear so we can create an OffsetDateTime.
   dt = OffsetDateTime::forComponents(1970, 3, 11, 1, 59, 59,
       TimeOffset::forHours(-8));
   assertFalse(dt.isError());
   // 1970 is less than 68 years (INT32_MAX seconds) away from
   // Epoch::currentEpochYear() of 2000 so toEpochSeconds() works.
   epochSeconds = dt.toEpochSeconds();
-  assertNotEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
+  assertNotEqual(epochSeconds, PlainDate::kInvalidEpochSeconds);
   // FindResult still works, but since 1970 < startYearAccurate(), the
   // DST transitions may not be accurate.
   FindResult result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
 
-  // 10001 is beyond LocalDate::kMaxYear so should fail.
+  // 10001 is beyond PlainDate::kMaxYear so should fail.
   dt = OffsetDateTime::forComponents(10001, 2, 1, 1, 0, 0,
       TimeOffset::forHours(-8));
   assertTrue(dt.isError());
   // toEpochSeconds() returns invalid seconds
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(epochSeconds, LocalDate::kInvalidEpochSeconds);
+  assertEqual(epochSeconds, PlainDate::kInvalidEpochSeconds);
   // findByEpochSeconds() results NotFound for kInvalidEpochSeconds
   result = zoneProcessor.findByEpochSeconds(epochSeconds);
   assertEqual((int)result.type, (int)FindResult::kTypeNotFound);
@@ -446,16 +446,16 @@ test(BasicZoneProcessorTest, findByEpochSeconds_outOfBounds) {
 
 //---------------------------------------------------------------------------
 
-// Test findByLocalDateTime(). Result can be kNotFound, kExact, or kGap.
+// Test findByPlainDateTime(). Result can be kNotFound, kExact, or kGap.
 // BasicZoneProcessor cannot detect overlap so will never return kOverlap.
-test(BasicZoneProcessorTest, findByLocalDateTime) {
+test(BasicZoneProcessorTest, findByPlainDateTime) {
   BasicZoneProcessor zoneProcessor(&kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   FindResult result;
 
   // way before spring forward
-  auto ldt = LocalDateTime::forComponents(2018, 3, 10, 1, 0, 0);
-  result = zoneProcessor.findByLocalDateTime(ldt);
+  auto pdt = PlainDateTime::forComponents(2018, 3, 10, 1, 0, 0);
+  result = zoneProcessor.findByPlainDateTime(pdt, Disambiguate::kCompatible);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60*60, result.stdOffsetSeconds);
   assertEqual(0*60*60, result.dstOffsetSeconds);
@@ -464,8 +464,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual("PST", result.abbrev);
 
   // just before spring forward
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
-  result = zoneProcessor.findByLocalDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  result = zoneProcessor.findByPlainDateTime(pdt, Disambiguate::kCompatible);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60*60, result.stdOffsetSeconds);
   assertEqual(0*60*60, result.dstOffsetSeconds);
@@ -474,8 +474,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual("PST", result.abbrev);
 
   // spring forward in the gap
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 1);
-  result = zoneProcessor.findByLocalDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 1);
+  result = zoneProcessor.findByPlainDateTime(pdt, Disambiguate::kCompatible);
   assertEqual((int)result.type, (int)FindResult::kTypeGap);
   assertEqual(-8*60*60, result.stdOffsetSeconds);
   assertEqual(1*60*60, result.dstOffsetSeconds);
@@ -484,8 +484,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual("PDT", result.abbrev);
 
   // before fall back
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
-  result = zoneProcessor.findByLocalDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
+  result = zoneProcessor.findByPlainDateTime(pdt, Disambiguate::kCompatible);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60*60, result.stdOffsetSeconds);
   assertEqual(1*60*60, result.dstOffsetSeconds);
@@ -494,8 +494,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual("PDT", result.abbrev);
 
   // just before fall back
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 59, 59);
-  result = zoneProcessor.findByLocalDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 59, 59);
+  result = zoneProcessor.findByPlainDateTime(pdt, Disambiguate::kCompatible);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60*60, result.stdOffsetSeconds);
   assertEqual(1*60*60, result.dstOffsetSeconds);
@@ -505,8 +505,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
 
   // fall back, so there is an overlap, but BasicZoneProcessor cannot detect it
   // so returns kExact, and selects the later of the 2 possible datetime.
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 1);
-  result = zoneProcessor.findByLocalDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 2, 0, 1);
+  result = zoneProcessor.findByPlainDateTime(pdt, Disambiguate::kCompatible);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60*60, result.stdOffsetSeconds);
   assertEqual(0*60*60, result.dstOffsetSeconds);
@@ -515,8 +515,8 @@ test(BasicZoneProcessorTest, findByLocalDateTime) {
   assertEqual("PST", result.abbrev);
 
   // two hours after fall back, no overlap
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 3, 0, 0);
-  result = zoneProcessor.findByLocalDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 3, 0, 0);
+  result = zoneProcessor.findByPlainDateTime(pdt, Disambiguate::kCompatible);
   assertEqual((int)result.type, (int)FindResult::kTypeExact);
   assertEqual(-8*60*60, result.stdOffsetSeconds);
   assertEqual(0*60*60, result.dstOffsetSeconds);

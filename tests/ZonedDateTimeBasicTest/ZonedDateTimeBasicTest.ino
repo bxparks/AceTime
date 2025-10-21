@@ -67,8 +67,8 @@ test(ZonedDateTimeBasicTest, forComponents_beforeDst) {
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 0);
-  assertTrue(expected == dt.localDateTime());
+  auto expected = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 0);
+  assertTrue(expected == dt.plainDateTime());
 }
 
 // TODO: Fix gap
@@ -81,10 +81,10 @@ test(ZonedDateTimeBasicTest, forComponents_inDstGap) {
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
+  auto expected = PlainDateTime::forComponents(2018, 3, 11, 3, 1, 0);
   dt.printTo(SERIAL_PORT_MONITOR);
   SERIAL_PORT_MONITOR.println();
-  assertTrue(expected == dt.localDateTime());
+  assertTrue(expected == dt.plainDateTime());
 }
 */
 
@@ -95,8 +95,8 @@ test(ZonedDateTimeBasicTest, forComponents_inDst) {
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
-  assertTrue(expected == dt.localDateTime());
+  auto expected = PlainDateTime::forComponents(2018, 3, 11, 3, 1, 0);
+  assertTrue(expected == dt.plainDateTime());
 }
 
 test(ZonedDateTimeBasicTest, forComponents_beforeStd) {
@@ -107,8 +107,8 @@ test(ZonedDateTimeBasicTest, forComponents_beforeStd) {
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 0, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
-  assertTrue(expected == dt.localDateTime());
+  auto expected = PlainDateTime::forComponents(2018, 11, 4, 0, 59, 0);
+  assertTrue(expected == dt.plainDateTime());
 }
 
 test(ZonedDateTimeBasicTest, forComponents_inOverlap) {
@@ -119,8 +119,8 @@ test(ZonedDateTimeBasicTest, forComponents_inOverlap) {
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
-  assertTrue(expected == dt.localDateTime());
+  auto expected = PlainDateTime::forComponents(2018, 11, 4, 1, 1, 0);
+  assertTrue(expected == dt.plainDateTime());
 }
 
 test(ZonedDateTimeBasicTest, forComponents_afterOverlap) {
@@ -130,8 +130,8 @@ test(ZonedDateTimeBasicTest, forComponents_afterOverlap) {
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz);
   assertEqual(TimeOffset::forHours(-8).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2018, 11, 4, 2, 1, 0);
-  assertTrue(expected == dt.localDateTime());
+  auto expected = PlainDateTime::forComponents(2018, 11, 4, 2, 1, 0);
+  assertTrue(expected == dt.plainDateTime());
 }
 
 // --------------------------------------------------------------------------

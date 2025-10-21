@@ -11,7 +11,7 @@
 #include "../zoneinfo/infos.h"
 #include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
-#include "LocalDate.h"
+#include "PlainDate.h"
 #include "ZoneProcessor.h"
 #include "Transition.h"
 
@@ -119,19 +119,21 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       return mZoneInfoBroker.zoneId();
     }
 
-    FindResult findByLocalDateTime(const LocalDateTime& ldt) const override {
+    FindResult findByPlainDateTime(
+        const PlainDateTime& pdt,
+        Disambiguate disambiguate) const override {
       FindResult result;
 
-      bool success = initForYear(ldt.year());
+      bool success = initForYear(pdt.year());
       if (! success) {
         return result;
       }
 
       // Find the Transition(s) in the gap or overlap.
       TransitionForDateTime transitionForDateTime =
-          mTransitionStorage.findTransitionForDateTime(ldt);
+          mTransitionStorage.findTransitionForDateTime(pdt);
 
-      // Extract the target Transition, depending on the requested ldt.fold
+      // Extract the target Transition, depending on the requested pdt.fold
       // and the result.num.
       const Transition* transition;
       if (transitionForDateTime.num == 1) {
@@ -142,41 +144,49 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       } else { // num = 0 or 2
         if (transitionForDateTime.prev == nullptr
             || transitionForDateTime.curr == nullptr) {
-          // ldt was far past or far future
+          // pdt was far past or far future
           transition = nullptr;
           result.type = FindResult::kTypeNotFound;
+          result.fold = 0;
         } else { // gap or overlap
           if (transitionForDateTime.num == 0) { // num==0, Gap
             result.type = FindResult::kTypeGap;
-            if (ldt.fold() == 0) {
-              // ldt wants to use the 'prev' transition to convert to
+            if (disambiguate == Disambiguate::kCompatible
+                || disambiguate == Disambiguate::kLater) {
+              // pdt wants to use the 'prev' transition to convert to
               // epochSeconds.
               result.reqStdOffsetSeconds =
                   transitionForDateTime.prev->offsetSeconds;
               result.reqDstOffsetSeconds =
                   transitionForDateTime.prev->deltaSeconds;
+              result.fold = 0;
               // But after normalization, it will be shifted into the curr
               // transition, so select 'curr' as the target transition.
               transition = transitionForDateTime.curr;
             } else {
-              // ldt wants to use the 'curr' transition to convert to
+              // pdt wants to use the 'curr' transition to convert to
               // epochSeconds.
               result.reqStdOffsetSeconds =
                   transitionForDateTime.curr->offsetSeconds;
               result.reqDstOffsetSeconds =
                   transitionForDateTime.curr->deltaSeconds;
+              result.fold = 1;
               // But after normalization, it will be shifted into the prev
               // transition, so select 'prev' as the target transition.
               transition = transitionForDateTime.prev;
             }
           } else { // num==2, Overlap
-            transition = (ldt.fold() == 0)
-                ? transitionForDateTime.prev
-                : transitionForDateTime.curr;
+            if (disambiguate == Disambiguate::kCompatible
+                || disambiguate == Disambiguate::kEarlier) {
+              transition = transitionForDateTime.prev;
+              result.fold = 0;
+            } else {
+              transition = transitionForDateTime.curr;
+              result.fold = 1;
+            }
             result.type = FindResult::kTypeOverlap;
             result.reqStdOffsetSeconds = transition->offsetSeconds;
             result.reqDstOffsetSeconds = transition->deltaSeconds;
-            result.fold = ldt.fold();
           }
         }
       }
@@ -269,7 +279,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mZoneInfoStore->createZoneInfoBroker(zoneKey);
-      mYear = LocalDate::kInvalidYear;
+      mYear = PlainDate::kInvalidYear;
       mNumMatches = 0;
       resetTransitionAllocSize(); // clear the alloc size for new zone
     }
@@ -290,12 +300,12 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Initialize using the epochSeconds.  The epochSeconds is converted to
-     * the LocalDate for UTC time, and the year is used to call initForYear().
+     * the PlainDate for UTC time, and the year is used to call initForYear().
      * Exposed for debugging.
      */
     bool initForEpochSeconds(acetime_t epochSeconds) const {
-      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      return initForYear(ld.year());
+      PlainDate pd = PlainDate::forEpochSeconds(epochSeconds);
+      return initForYear(pd.year());
     }
 
     /**
@@ -304,13 +314,13 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Exposed for debugging.
      */
     bool initForYear(int16_t year) const {
-      // Restrict to [1,9999] even though LocalDate should be able to handle
+      // Restrict to [1,9999] even though PlainDate should be able to handle
       // [0,10000].
-      if (year <= LocalDate::kMinYear || LocalDate::kMaxYear <= year) {
+      if (year <= PlainDate::kMinYear || PlainDate::kMaxYear <= year) {
         if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
           logging::printf(
               "initForYear(): Year %d outside range [%d, %d]\n",
-              year, LocalDate::kMinYear + 1, LocalDate::kMaxYear - 1);
+              year, PlainDate::kMinYear + 1, PlainDate::kMaxYear - 1);
         }
         return false;
       }
@@ -533,7 +543,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
       // ZoneEra.
       extended::DateTuple startDate = (prevMatch == nullptr)
           ? extended::DateTuple{
-              LocalDate::kInvalidYear,
+              PlainDate::kInvalidYear,
               1,
               1,
               0,
@@ -727,7 +737,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         // Add Transition for prior year
         int16_t priorYear = getMostRecentPriorYear(
             rule.fromYear(), rule.toYear(), startY, endY);
-        if (priorYear != LocalDate::kInvalidYear) {
+        if (priorYear != PlainDate::kInvalidYear) {
           if (ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG) {
             logging::printf(
               "findCandidateTransitions(): priorYear: %d\n", priorYear);
@@ -822,7 +832,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
      * Return the most recent year from the Rule[fromYear, toYear] which is
      * prior to the matching ZoneEra years of [startYear, endYear].
      *
-     * Return LocalDate::kInvalidYear if the rule[fromYear, to_year] has no
+     * Return PlainDate::kInvalidYear if the rule[fromYear, to_year] has no
      * prior year to the MatchingEra[startYear, endYear].
      *
      * @param fromYear FROM year field of a Rule entry
@@ -841,7 +851,7 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
           return startYear - 1;
         }
       } else {
-        return LocalDate::kInvalidYear;
+        return PlainDate::kInvalidYear;
       }
     }
 
@@ -1105,8 +1115,8 @@ class ExtendedZoneProcessorTemplate: public ZoneProcessor {
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds =
             st.seconds - (t->offsetSeconds + t->deltaSeconds);
-        LocalDate ld = LocalDate::forComponents(st.year, st.month, st.day);
-        t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
+        PlainDate pd = PlainDate::forComponents(st.year, st.month, st.day);
+        t->startEpochSeconds = pd.toEpochSeconds() + offsetSeconds;
 
         prev = t;
         isAfterFirst = true;

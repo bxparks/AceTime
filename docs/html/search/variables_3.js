@@ -1,7 +1,0 @@
-var searchData=
-[
-  ['deltacode_616',['deltaCode',['../structace__time_1_1ZoneInfoLow_1_1ZoneRule.html#ac32c412a926a1e6bf6a63fa6b4d0f5b7',1,'ace_time::ZoneInfoLow::ZoneRule::deltaCode()'],['../structace__time_1_1ZoneInfoLow_1_1ZoneEra.html#a41a0eabb27f0f03788f9b59475cdb228',1,'ace_time::ZoneInfoLow::ZoneEra::deltaCode()'],['../structace__time_1_1ZoneInfoMid_1_1ZoneRule.html#a16ffe9dea84791756116565a44f38078',1,'ace_time::ZoneInfoMid::ZoneRule::deltaCode()'],['../structace__time_1_1ZoneInfoMid_1_1ZoneEra.html#aca994c3e07ca8dd1e87b2d3cb6959712',1,'ace_time::ZoneInfoMid::ZoneEra::deltaCode()']]],
-  ['deltaminutes_617',['deltaMinutes',['../structace__time_1_1basic_1_1TransitionTemplate.html#a889edac3dd7384799ac2a764e7f06269',1,'ace_time::basic::TransitionTemplate::deltaMinutes()'],['../structace__time_1_1ZoneInfoHigh_1_1ZoneRule.html#a7ead27d502940d0d12bc25ba2d4ee3a1',1,'ace_time::ZoneInfoHigh::ZoneRule::deltaMinutes()'],['../structace__time_1_1ZoneInfoHigh_1_1ZoneEra.html#a9c7154df482f8037d9567c9b7ebd813a',1,'ace_time::ZoneInfoHigh::ZoneEra::deltaMinutes()']]],
-  ['deltaseconds_618',['deltaSeconds',['../structace__time_1_1extended_1_1TransitionTemplate.html#a91b58f1cdb5a066de844067d67b88144',1,'ace_time::extended::TransitionTemplate']]],
-  ['dstoffsetseconds_619',['dstOffsetSeconds',['../classace__time_1_1FindResult.html#a7487628edd6bfc55afc928d9dc69b9c0',1,'ace_time::FindResult']]]
-];

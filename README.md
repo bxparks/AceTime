@@ -18,19 +18,29 @@ range of a 32-bit integer is about 136 years. To be safe, AceTime timezone
 functions should be kept well within the bounds of this interval, for example,
 straddling roughly +/- 60 years of the `Epoch::currentEpochYear()`.
 
-The library provides 3 pre-generated ZoneInfo Databases which are
+The library provides 5 pre-generated ZoneInfo Databases which are
 programmatically extracted from the IANA TZ database:
 
 - [zonedb](src/zonedb) ("basic", not usually recommended)
     - accurate over the years `[2000,10000)`
-    - contains a subset of zones (~450) compatible with `BasicZoneProcessor`
-      and `BasicZoneManager`
+    - contains a subset of zones and links (~450)
+    - compatible with `BasicZoneProcessor` and `BasicZoneManager`
+- [zonedb2025](src/zonedb2025) ("basic", not usually recommended)
+    - accurate over the years `[2025,10000)`
+    - contains almost all zones in the TZDB (~600)
+    - compatible with `BasicZoneProcessor` and `BasicZoneManager`
+    - larger than `zonedb` because it supports more zones
 - [zonedbx](src/zonedbx) ("extended", recommended for most situations)
     - accurate over the years `[2000,10000)`
     - contains all zones and links (~600) in the IANA TZ database
     - compatible with `ExtendedZoneProcessor` and `ExtendedZoneManager`
-- [zonedbc](src/zonedbc) ("complete", mostly intended for validation testing,
-  new in v2.3)
+- [zonedbx2025](src/zonedbx2025) ("extended", recommended for most situations)
+    - accurate over the years `[2025,10000)`
+    - contains all zones and links (~600) in the IANA TZ database
+    - compatible with `ExtendedZoneProcessor` and `ExtendedZoneManager`
+    - about 10kB smaller than `zonedbx` because it can ignore transitions before
+      2025
+- [zonedbc](src/zonedbc) ("complete", intended for validation testing)
     - accurate over the years `[0001,10000)`
     - contains all zones and links (~600) the IANA TZ database
     - compatible with `CompleteZoneProcessor` and `CompleteZoneManager`
@@ -70,70 +80,69 @@ This library can be an alternative to the Arduino Time
 (https://github.com/PaulStoffregen/Time) and Arduino Timezone
 (https://github.com/JChristensen/Timezone) libraries.
 
-**Major Changes in v3.0**: Move `basic::ZoneInfo` to `basic::Info::ZoneInfo`,
-`extended::ZoneInfo` to `extended::Info::ZoneInfo`, and `complete::ZoneInfo` to
-`complete::Info::ZoneInfo`. Upgrade to TZDB 2025b. See [Migrating to
-v3.0](MIGRATING.md#MigratingToVersion300) for more details.
+**Major Changes in v4.0**: Rename `LocalDate` to `PlainDate`; `LocalTime` to
+`PlainTime`; `LocalDateTime` to `PlainDateTime. Backwards compatible macros are
+provided, so most existing programs should still compile. See [Migrating to
+v4.0](MIGRATING.md#MigratingToVersion400) for more details. Add `zonedb2025` and
+`zonedbx2025` databases which contain DST transitions for year >= 2025, which
+reduces flash memory size. Replace `fold` parameter with `disambiguate` (input)
+and `resolved` (output) parameters.
 
-**Version**: 3.0.0 (2025-04-25, TZDB 2025b)
-
-**Changelog**: [CHANGELOG.md](CHANGELOG.md)
-
-**Migration**: [MIGRATING.md](MIGRATING.md)
-
+**Version**: 4.0.0 (2025-10-21, TZDB 2025b) \
+**Changelog**: [CHANGELOG.md](CHANGELOG.md) \
+**Migration**: [MIGRATING.md](MIGRATING.md) \
 **User Guide**: [USER_GUIDE.md](USER_GUIDE.md)
 
 **See Also**:
 
-* AceTimeClock (https://github.com/bxparks/AceTimeClock)
-* acetimec (https://github.com/bxparks/acetimec)
-* acetimego (https://github.com/bxparks/acetimego)
-* acetimepy (https://github.com/bxparks/acetimepy)
+- AceTimeClock (https://github.com/bxparks/AceTimeClock)
+- acetimec (https://github.com/bxparks/acetimec)
+- acetimego (https://github.com/bxparks/acetimego)
+- acetimepy (https://github.com/bxparks/acetimepy)
 
 ## Table of Contents
 
-* [Installation](#Installation)
-    * [Source Code](#SourceCode)
-    * [Dependencies](#Dependencies)
-* [Documentation](#Documentation)
-    * [HelloDateTime](#HelloDateTime)
-    * [HelloZoneManager](#HelloZoneManager)
-    * [WorldClock](#WorldClock)
-* [User Guide](#UserGuide)
-* [Validation](#Validation)
-* [Resource Consumption](#ResourceConsumption)
-    * [Size Of Classes](#SizeOfClasses)
-    * [Zone DB Size](#ZoneDbSize)
-    * [Flash And Static Memory](#FlashAndStaticMemory)
-    * [CPU Usage](#CPUUsage)
-* [System Requirements](#SystemRequirements)
-    * [Hardware](#Hardware)
-    * [Tool Chain](#ToolChain)
-    * [Operating System](#OperatingSystem)
-* [Motivation and Design Considerations](#Motivation)
-* [Comparison to Other Time Libraries](#Comparisons)
-    * [Arduino Time Library](#ArduinoTimeLibrary)
-    * [C Time Library](#CLibrary)
-    * [ESP8266 and ESP32 TimeZones](#Esp8266AndEspTimeZones)
-    * [ezTime](#EzTime)
-    * [Micro Time Zone](#MicroTimeZone)
-    * [Java Time, Joda-Time, Noda Time](#JavaTime)
-    * [Howard Hinnant Date Library](#HinnantDate)
-    * [Google cctz](#Cctz)
-* [License](#License)
-* [Feedback and Support](#FeedbackAndSupport)
-* [Authors](#Authors)
+- [Installation](#installation)
+    - [Source Code](#source-code)
+    - [Dependencies](#dependencies)
+- [Documentation](#documentation)
+    - [HelloDateTime](#hellodatetime)
+    - [HelloZoneManager](#hellozonemanager)
+    - [WorldClock](#worldclock)
+- [User Guide](#user-guide)
+- [Validation](#validation)
+- [Resource Consumption](#resource-consumption)
+    - [Size Of Classes](#size-of-classes)
+    - [Zone DB Size](#zone-db-size)
+    - [Flash And Static Memory](#flash-and-static-memory)
+    - [CPU Usage](#cpu-usage)
+- [System Requirements](#system-requirements)
+    - [Hardware](#hardware)
+    - [Tool Chain](#tool-chain)
+    - [Operating System](#operating-system)
+- [Motivation and Design Considerations](#motivation-and-design-considerations)
+- [Comparison to Other Time Libraries](#comparisons-to-other-time-libraries)
+    - [Arduino Time Library](#arduino-time-library)
+    - [C Time Library](#c-time-library)
+    - [ESP8266 and ESP32 TimeZones](#esp8266-and-esp32-timezones)
+    - [ezTime](#eztime)
+    - [Micro Time Zone](#micro-time-zone)
+    - [Java Time, Joda-Time, Noda Time](#java-time-joda-time-noda-time)
+    - [Howard Hinnant Date Library](#howard-hinnant-date-library)
+    - [Google cctz](#google-cctz)
+- [License](#license)
+- [Feedback and Support](#feedback-and-support)
+- [Authors](#authors)
 
-<a name="Installation"></a>
 ## Installation
 
 The latest stable release is available in the Arduino Library Manager in the
 IDE. Search for "AceTime". Click install. The Library Manager should
 automatically install AceTime and its dependent libraries:
 
-* AceTime (https://github.com/bxparks/AceTime)
-* AceCommon (https://github.com/bxparks/AceCommon)
-* AceSorting (https://github.com/bxparks/AceSorting)
+- AceTime (https://github.com/bxparks/AceTime)
+- AceCommon (https://github.com/bxparks/AceCommon)
+- AceSorting (https://github.com/bxparks/AceSorting)
 
 The development version can be installed by cloning the above repos manually.
 You can copy over the contents to the `./libraries` directory used by the
@@ -145,100 +154,98 @@ the `./libraries` directory.
 The `develop` branch contains the latest development.
 The `master` branch contains the stable releases.
 
-<a name="SourceCode"></a>
 ### Source Code
 
 The source files are organized as follows:
 
-* `src/AceTime.h` - main header file
-* main library code
-    * `src/ace_time/` - date and time classes (`ace_time::` namespace)
-    * `src/ace_time/common/` - shared classes and utilities
-    * `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`
+- `src/AceTime.h` - main header file
+- main library code
+    - `src/ace_time/` - date and time classes (`ace_time::` namespace)
+    - `src/ace_time/common/` - shared classes and utilities
+    - `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`
         namespace)
-    * `src/zoneinfo` - reading the zone databases, and normalizing the
+    - `src/zoneinfo` - reading the zone databases, and normalizing the
       interface for accessing the data records
-* zone databases
-    * `src/zonedb/` - files generated from TZ Database for
+- zone databases
+    - `src/zonedb/` - files generated from TZ Database for
         `BasicZoneProcessor` (`ace_time::zonedb` namespace)
-    * `src/zonedbx/` - files generated from TZ Database for
+    - `src/zonedbx/` - files generated from TZ Database for
         `ExtendedZoneProcessor` (`ace_time::zonedbx` namespace)
-    * `src/zonedbc/` - files generated from TZ Database for
+    - `src/zonedbc/` - files generated from TZ Database for
         `CompleteZoneProcessor` (`ace_time::zonedbc` namespace)
-    * `src/testingzonedb/` - limited subset of `zonedb` for unit tests
-    * `src/testingzonedbx/` - limited subset of `zonedbx` for unit tests
-    * `src/testingzonedbc/` - limited subset of `zonedbc` for unit tests
-* `tests/
-    * unit tests using [AUnit](https://github.com/bxparks/AUnit)
-* `examples/` - example programs and benchmarks
-    * Simple
-        * [HelloDateTime](examples/HelloDateTime)
-            * Simple demo of `ZonedDateTime` class
-        * [HelloZoneManager](examples/HelloZoneManager)
-            * Simple demo of `ExtendedZoneManager` class
-    * Intermediate
-        * [CustomZoneRegistry](examples/CustomZoneRegistry)
-            * Same as `HelloZoneManager`, but using a custom zone registry
+    - `src/testingzonedb/` - limited subset of `zonedb` for unit tests
+    - `src/testingzonedbx/` - limited subset of `zonedbx` for unit tests
+    - `src/testingzonedbc/` - limited subset of `zonedbc` for unit tests
+- `tests/
+    - unit tests using [AUnit](https://github.com/bxparks/AUnit)
+- `examples/` - example programs and benchmarks
+    - Simple
+        - [HelloDateTime](examples/HelloDateTime)
+            - Simple demo of `ZonedDateTime` class
+        - [HelloZoneManager](examples/HelloZoneManager)
+            - Simple demo of `ExtendedZoneManager` class
+    - Intermediate
+        - [CustomZoneRegistry](examples/CustomZoneRegistry)
+            - Same as `HelloZoneManager`, but using a custom zone registry
               with only 7-8 timezones instead of the ~600 timezones in the
               full `zonedbx` registry.
-    * Advanced
-        * [EspTime](examples/EspTime)
-            * Use AceTime with the built-in SNTP client of ESP8266 and ESP32.
-    * Benchmarks
-        * These are internal applications to benchmark various parts of this
+        - [Disambiguate](examples/Disambiguate)
+            - Example of `disambigate` parameter to `forComponents()`
+    - Advanced
+        - [EspTime](examples/EspTime)
+            - Use AceTime with the built-in SNTP client of ESP8266 and ESP32.
+    - Benchmarks
+        - These are internal applications to benchmark various parts of this
           library. They are not meant to be examples for how to use the library.
-        * [MemoryBenchmark](examples/MemoryBenchmark)
-            * determine flash and static memory consumption of various classes
-        * [AutoBenchmark](examples/AutoBenchmark)
-            * determine CPU usage of various features
-        * [ComparisonBenchmark](examples/ComparisonBenchmark)
-            * compare AceTime with
+        - [MemoryBenchmark](examples/MemoryBenchmark)
+            - determine flash and static memory consumption of various classes
+        - [AutoBenchmark](examples/AutoBenchmark)
+            - determine CPU usage of various features
+        - [ComparisonBenchmark](examples/ComparisonBenchmark)
+            - compare AceTime with
             [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
-        * [CompareAceTimeToHinnantDate](examples/CompareAceTimeToHinnantDate)
-            * compare the performance of AceTime to Hinnant date library
-            * AceTime seems to be about 90X faster
-    * Debugging
-        * [DebugZoneProcessor](examples/DebugZoneProcessor)
-            * Command-line debugging tool for ExtenedZoneProcessor using the
+        - [CompareAceTimeToHinnantDate](examples/CompareAceTimeToHinnantDate)
+            - compare the performance of AceTime to Hinnant date library
+            - AceTime seems to be about 90X faster
+    - Debugging
+        - [DebugZoneProcessor](examples/DebugZoneProcessor)
+            - Command-line debugging tool for ExtenedZoneProcessor using the
               EpoxyDuino environment
-        * [ListZones](examples/ListZones)
-            * List the zones managed by the `ExtendedZoneManager`, sorted
+        - [ListZones](examples/ListZones)
+            - List the zones managed by the `ExtendedZoneManager`, sorted
               by name, or by UTC offset and name.
-            * Used to debug the `ZoneSorter` classes.
+            - Used to debug the `ZoneSorter` classes.
 
-<a name="Dependencies"></a>
 ### Dependencies
 
 The AceTime library depends on the following libraries:
 
-* AceCommon (https://github.com/bxparks/AceCommon)
-* AceSorting (https://github.com/bxparks/AceSorting)
+- AceCommon (https://github.com/bxparks/AceCommon)
+- AceSorting (https://github.com/bxparks/AceSorting)
 
 Various programs in the `examples/` directory have one or more of the following
-external dependencies. The comment section near the top of the `*.ino` file will
+external dependencies. The comment section near the top of the `.ino` file will
 usually have more precise dependency information:
 
-* AceTimeClock (https://github.com/bxparks/AceTimeClock)
-* Arduino Time Lib (https://github.com/PaulStoffregen/Time)
-* Arduino Timezone (https://github.com/JChristensen/Timezone)
+- AceTimeClock (https://github.com/bxparks/AceTimeClock)
+- Arduino Time Lib (https://github.com/PaulStoffregen/Time)
+- Arduino Timezone (https://github.com/JChristensen/Timezone)
 
 If you want to run the unit tests or validation tests using a Linux or MacOS
 machine, you need:
 
-* AUnit (https://github.com/bxparks/AUnit)
-* EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
+- AUnit (https://github.com/bxparks/AUnit)
+- EpoxyDuino (https://github.com/bxparks/EpoxyDuino)
 
-<a name="Documentation"></a>
 ## Documentation
 
-* [README.md](README.md): this file
-* [USER_GUIDE.md](USER_GUIDE.md): the AceTime User Guide
-* [DEVELOPER.md](DEVELOPER.md): internal details for developers of AceTime
+- [README.md](README.md): this file
+- [USER_GUIDE.md](USER_GUIDE.md): the AceTime User Guide
+- [DEVELOPER.md](DEVELOPER.md): internal details for developers of AceTime
   library
-* [MIGRATING.md](MIGRATING.md): migrating to versions with breaking changes
-* [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
+- [MIGRATING.md](MIGRATING.md): migrating to versions with breaking changes
+- [Doxygen docs](https://bxparks.github.io/AceTime/html) hosted on GitHub Pages
 
-<a name="HelloDateTime"></a>
 ### HelloDateTime
 
 Here is a simple program (see [examples/HelloDateTime](examples/HelloDateTime))
@@ -362,7 +369,6 @@ losAngelesTime == londonTime: false
 (The default epoch for AceTime is 2050-01-01, so a date in 2019 will return a
 negative epoch seconds.)
 
-<a name="HelloZoneManager"></a>
 ### HelloZoneManager
 
 The [examples/HelloZoneManager](examples/HelloZoneManager) example shows how to
@@ -428,7 +434,6 @@ It produces the following output:
 2019-03-10T21:00:00+11:00[Australia/Sydney]
 ```
 
-<a name="WorldClock"></a>
 ### WorldClock
 
 Here is a photo of the WorldClock
@@ -438,91 +443,48 @@ for all 3 zones:
 
 ![WorldClock](https://github.com/bxparks/clocks/blob/master/WorldClock/WorldClock.jpg)
 
-<a name="UserGuide"></a>
 ## User Guide
 
 The full documentation of the following classes are given in the
 [USER_GUIDE.md](USER_GUIDE.md):
 
-* date and time classes and types
-    * `ace_time::acetime_t`
-    * `ace_time::DateStrings`
-    * `ace_time::LocalTime`
-    * `ace_time::LocalDate`
-    * `ace_time::LocalDateTime`
-    * `ace_time::TimeOffset`
-    * `ace_time::OffsetDateTime`
-    * `ace_time::TimePeriod`
-    * mutation helpers
-        * `ace_time::local_date_mutation::`
-        * `ace_time::time_offset_mutation::`
-        * `ace_time::time_period_mutation::`
-        * `ace_time::offset_date_time_mutation::`
-        * `ace_time::zoned_date_time_mutation::`
-* timezone classes
-    * `ace_time::ZoneProcessor`
-        * `ace_time::BasicZoneProcessor`
-        * `ace_time::ExtendedZoneProcessor`
-        * `ace_time::CompleteZoneProcessor`
-    * `ace_time::TimeZone`
-    * `ace_time::ZonedDateTime`
-    * `ace_time::ZoneManager`
-        * `ace_time::BasicZoneManager`
-        * `ace_time::ExtendedZoneManager`
-        * `ace_time::CompleteZoneManager`
-        * `ace_time::ManualZoneManager`
-* ZoneInfo Database
-    * 3 sets of timezone data are provided (Basic, Extended, Complete) which
-      support slightly different sets of zones and years
-    * programmatically generated from the IANA TZ Database files
-    * each timezone is identified in multiple ways
-        * ZoneInfo: (opaque) pointer to a `ZoneInfo` data structure
-        * ZoneId: unique and stable `uint32_t` identifier (e.g. `0xb7f7e8f2`)
-        * ZoneName: unique human-readable string (e.g. "America/Los_Angeles")
-    * Basic (not usually recommended)
-        * 448 zones and links as of 2023c
-        * ZoneInfo (`const ace_time::basic::Info::ZoneInfo*`)
-            * `ace_time::zonedb::kZoneAfrica_Abidjan`
-            * ...
-            * `ace_time::zonedb::kZonePacific_Wallis`
-        * ZoneId (`uint32_t`)
-            * `ace_time::zonedb::kZoneIdAfrica_Abidjan`
-            * ...
-            * `ace_time::zonedb::kZoneIdPacific_Wallis`
-        * ZoneName (`const char*`)
-            * `"Africa/Abidjan"`
-            * ...
-            * `"Pacific/Wallis"`
-    * Extended (recommended for most cases)
-        * 596 zones and links as of 2023c
-        * ZoneInfo (`const ace_time::extended::ZoneInfo*`)
-            * `ace_time::zonedbx::kZoneAfrica_Abidjan`
-            * ...
-            * `ace_time::zonedbx::kZonePacific_Wallis`
-        * ZoneIds (`uint32_t`)
-            * `ace_time::zonedbx::kZoneIdAfrica_Abidjan`
-            * ...
-            * `ace_time::zonedbx::kZoneIdPacific_Wallis`
-        * ZoneName (`const char*`)
-            * `"Africa/Abidjan"`
-            * ...
-            * `"Pacific/Wallis"`
-    * Complete (useful when full range of years is necessary)
-        * 596 zones and links as of 2023c
-        * ZoneInfo (`const ace_time::complete::ZoneInfo*`)
-            * `ace_time::zonedbc::kZoneAfrica_Abidjan`
-            * ...
-            * `ace_time::zonedbc::kZonePacific_Wallis`
-        * ZoneId (`uint32_t`)
-            * `ace_time::zonedbc::kZoneIdAfrica_Abidjan`
-            * ...
-            * `ace_time::zonedbc::kZoneIdPacific_Wallis`
-        * ZoneName (`const char*`)
-            * `"Africa/Abidjan"`
-            * ...
-            * `"Pacific/Wallis"`
+- date and time classes and types
+    - `ace_time::acetime_t`
+    - `ace_time::DateStrings`
+    - `ace_time::PlainTime`
+    - `ace_time::PlainDate`
+    - `ace_time::PlainDateTime`
+    - `ace_time::TimeOffset`
+    - `ace_time::OffsetDateTime`
+    - `ace_time::TimePeriod`
+    - mutation helpers
+        - `ace_time::plain_date_mutation::`
+        - `ace_time::time_offset_mutation::`
+        - `ace_time::time_period_mutation::`
+        - `ace_time::offset_date_time_mutation::`
+        - `ace_time::zoned_date_time_mutation::`
+- timezone classes
+    - `ace_time::ZoneProcessor`
+        - `ace_time::BasicZoneProcessor`
+        - `ace_time::ExtendedZoneProcessor`
+        - `ace_time::CompleteZoneProcessor`
+    - `ace_time::TimeZone`
+    - `ace_time::ZonedDateTime`
+    - `ace_time::ZoneManager`
+        - `ace_time::BasicZoneManager`
+        - `ace_time::ExtendedZoneManager`
+        - `ace_time::CompleteZoneManager`
+        - `ace_time::ManualZoneManager`
+- ZoneInfo Database
+    - 5 sets of timezone data are provided (zonedb, zonedb2025, zonedbx,
+      zonedb2025, zonedbc) which support slightly different sets of zones and
+      years
+    - programmatically generated from the IANA TZ Database files
+    - each timezone is identified in multiple ways
+        - ZoneInfo: (opaque) pointer to a `ZoneInfo` data structure
+        - ZoneId: unique and stable `uint32_t` identifier (e.g. `0xb7f7e8f2`)
+        - ZoneName: unique human-readable string (e.g. "America/Los_Angeles")
 
-<a name="Validation"></a>
 ## Validation
 
 The details of how the Date, Time and TimeZone classes are validated are given
@@ -576,19 +538,17 @@ of these bugs in these third party libraries.
 - [Go lang `time` package](https://pkg.go.dev/time) from 1800 to 2200
     * 23 zones produce incorrect results
 
-<a name="ResourceConsumption"></a>
 ## Resource Consumption
 
-<a name="SizeOfClasses"></a>
 ### SizeOf Classes
 
 **8-bit processors**
 
 ```
 Sizes of Objects:
-sizeof(LocalDate): 4
-sizeof(LocalTime): 4
-sizeof(LocalDateTime): 8
+sizeof(PlainDate): 4
+sizeof(PlainTime): 4
+sizeof(PlainDateTime): 8
 sizeof(TimeOffset): 4
 sizeof(OffsetDateTime): 12
 sizeof(TimeZone): 5
@@ -639,9 +599,9 @@ Complete:
 
 ```
 Sizes of Objects:
-sizeof(LocalDate): 4
-sizeof(LocalTime): 4
-sizeof(LocalDateTime): 8
+sizeof(PlainDate): 4
+sizeof(PlainTime): 4
+sizeof(PlainDateTime): 8
 sizeof(TimeOffset): 4
 sizeof(OffsetDateTime): 12
 sizeof(TimeZone): 12
@@ -688,24 +648,23 @@ Complete:
   sizeof(CompleteZoneProcessor::MatchingEra): 44
 ```
 
-<a name="ZoneDbSize"></a>
 ### Zone DB Size
 
 The ZoneInfo Database entries are stored in flash memory (using the `PROGMEM`
 compiler directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that
 they do not consume static RAM. The
 [examples/MemoryBenchmark](examples/MemoryBenchmark/) program shows the flash
-memory consumption for the ZoneInfo data files are:
+memory consumption for the ZoneInfo data files are roughly:
 
-* `BasicZoneProcessor` (all zones and links)
-    * 25 kB (8-bit processor)
-    * 32 kB (32-bit processor)
-* `ExtendedZoneProcessor` (all zones and links)
-    * 40 kB (8-bit processor)
-    * 51 kB (32-bit processor)
-* `CompleteZoneProcessor` (all zones and links)
-    * too large (8-bit processor)
-    * 100 kB (32-bit processor)
+- `BasicZoneProcessor` (all zones and links in `zonedb`)
+    - 25 kB (8-bit processor)
+    - 32 kB (32-bit processor)
+- `ExtendedZoneProcessor` (all zones and links in `zonedbx`)
+    - 40 kB (8-bit processor)
+    - 51 kB (32-bit processor)
+- `CompleteZoneProcessor` (all zones and links in `zonedbc`)
+    - too large (8-bit processor)
+    - 100 kB (32-bit processor)
 
 An example of more complex application is the
 WorldClock (https://github.com/bxparks/clocks/tree/master/WorldClock)
@@ -721,7 +680,6 @@ used in small microcontroller environments. In other words, it does not call the
 `String` class. Everything it needs is allocated statically at initialization
 time.
 
-<a name="FlashAndStaticMemory"></a>
 ### Flash And Static Memory
 
 [MemoryBenchmark](examples/MemoryBenchmark/) was used to determine the
@@ -736,7 +694,7 @@ Arduino Nano:
 |----------------------------------------+--------------+--------------|
 | baseline                               |    474/   11 |      0/    0 |
 |----------------------------------------+--------------+--------------|
-| LocalDateTime                          |   1108/   21 |    634/   10 |
+| PlainDateTime                          |   1108/   21 |    634/   10 |
 | ZonedDateTime                          |   1444/   30 |    970/   19 |
 | Manual ZoneManager                     |   1406/   13 |    932/    2 |
 |----------------------------------------+--------------+--------------|
@@ -777,7 +735,7 @@ ESP8266:
 |----------------------------------------+--------------+--------------|
 | baseline                               | 260089/27892 |      0/    0 |
 |----------------------------------------+--------------+--------------|
-| LocalDateTime                          | 260613/27912 |    524/   20 |
+| PlainDateTime                          | 260613/27912 |    524/   20 |
 | ZonedDateTime                          | 261573/27928 |   1484/   36 |
 | Manual ZoneManager                     | 261553/27900 |   1464/    8 |
 |----------------------------------------+--------------+--------------|
@@ -810,7 +768,6 @@ ESP8266:
 +---------------------------------------------------------------------+
 ```
 
-<a name="CPUUsage"></a>
 ### CPU Usage
 
 [AutoBenchmark](examples/AutoBenchmark/) was used to determine the
@@ -825,9 +782,9 @@ Arduino Nano:
 |--------------------------------------------------+----------|
 | EmptyLoop                                        |    3.000 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |  243.000 |
-| LocalDate::toEpochDays()                         |   51.000 |
-| LocalDate::dayOfWeek()                           |   50.000 |
+| PlainDate::forEpochDays()                        |  243.000 |
+| PlainDate::toEpochDays()                         |   51.000 |
+| PlainDate::dayOfWeek()                           |   50.000 |
 |--------------------------------------------------+----------|
 | OffsetDateTime::forEpochSeconds()                |  363.000 |
 | OffsetDateTime::toEpochSeconds()                 |   77.000 |
@@ -887,9 +844,9 @@ ESP8266:
 |--------------------------------------------------+----------|
 | EmptyLoop                                        |    5.000 |
 |--------------------------------------------------+----------|
-| LocalDate::forEpochDays()                        |    7.000 |
-| LocalDate::toEpochDays()                         |    3.500 |
-| LocalDate::dayOfWeek()                           |    3.500 |
+| PlainDate::forEpochDays()                        |    7.000 |
+| PlainDate::toEpochDays()                         |    3.500 |
+| PlainDate::dayOfWeek()                           |    3.500 |
 |--------------------------------------------------+----------|
 | OffsetDateTime::forEpochSeconds()                |   12.500 |
 | OffsetDateTime::toEpochSeconds()                 |    7.000 |
@@ -941,43 +898,41 @@ ESP8266:
 Iterations_per_run: 2000
 ```
 
-<a name="SystemRequirements"></a>
 ## System Requirements
 
-<a name="Hardware"></a>
 ### Hardware
 
 **Tier 1: Fully supported**
 
 These boards are tested on each release:
 
-* Arduino Nano (16 MHz ATmega328P)
-* SparkFun Pro Micro (16 MHz ATmega32U4)
-* Seeed Studio XIAO M0 (SAMD21, 48 MHz ARM Cortex-M0+)
-* STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
-* Adafruit ItsyBitsy M4 (SAMD51, 120 MHz ARM Cortex-M4)
-* NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
-* WeMos D1 Mini (ESP-12E module, 80 MHz ESP8266)
-* ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
+- Arduino Nano (16 MHz ATmega328P)
+- SparkFun Pro Micro (16 MHz ATmega32U4)
+- Seeed Studio XIAO M0 (SAMD21, 48 MHz ARM Cortex-M0+)
+- STM32 Blue Pill (STM32F103C8, 72 MHz ARM Cortex-M3)
+- Adafruit ItsyBitsy M4 (SAMD51, 120 MHz ARM Cortex-M4)
+- NodeMCU 1.0 (ESP-12E module, 80 MHz ESP8266)
+- WeMos D1 Mini (ESP-12E module, 80 MHz ESP8266)
+- ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
 
 **Tier 2: Should work**
 
 These boards should work but I don't test them as often:
 
-* ATtiny85 (8 MHz ATtiny85)
-* Arduino Pro Mini (16 MHz ATmega328P)
-* Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
-* Teensy LC (48 MHz ARM Cortex-M0+)
-* Teensy 3.2 (96 MHz ARM Cortex-M4)
+- ATtiny85 (8 MHz ATtiny85)
+- Arduino Pro Mini (16 MHz ATmega328P)
+- Mini Mega 2560 (Arduino Mega 2560 compatible, 16 MHz ATmega2560)
+- Teensy LC (48 MHz ARM Cortex-M0+)
+- Teensy 3.2 (96 MHz ARM Cortex-M4)
 
 **Tier 3: May work, but not supported**
 
-* Other SAMD21 based boards, e.g Arduino Zero
-    * SAMD21 based boards are now split into 2 groups:
-        * Those using the new ArduinoCore-API, usually Arduino-branded
+- Other SAMD21 based boards, e.g Arduino Zero
+    - SAMD21 based boards are now split into 2 groups:
+        - Those using the new ArduinoCore-API, usually Arduino-branded
         boards. These are explicitly blacklisted. See below.
-        * Other 3rd party SAMD21 boards using the previous Arduino API.
-    * The ones using the previous Arduino API *may* work but I have not
+        - Other 3rd party SAMD21 boards using the previous Arduino API.
+    - The ones using the previous Arduino API *may* work but I have not
       explicitly tested any of them except for the Seeed Studio XIAO M0
       and Adafruit ItsyBitsy M4.
 
@@ -987,46 +942,45 @@ The following boards are *not* supported and are explicitly blacklisted to allow
 the compiler to print useful error messages instead of hundreds of lines of
 compiler errors:
 
-* Any platform using the
+- Any platform using the
   [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api). For example:
-    * Arduino Nano Every
-    * Arduino Nano 33 IoT
-    * Arduino MKRZero
-    * Arduino UNO R4
-    * Raspberry Pi Pico RP2040
+    - Arduino Nano Every
+    - Arduino Nano 33 IoT
+    - Arduino MKRZero
+    - Arduino UNO R4
+    - Raspberry Pi Pico RP2040
 
-<a name="ToolChain"></a>
 ### Tool Chain
 
 This library was developed and tested using:
 
-* [Arduino IDE 1.8.19](https://www.arduino.cc/en/Main/Software)
-* [Arduino CLI 0.33.0](https://arduino.github.io/arduino-cli)
-* [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
-* [Arduino AVR Boards 1.8.6](https://github.com/arduino/ArduinoCore-avr)
-* [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
-* [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
-* [SparkFun SAMD Boards 1.8.9](https://github.com/sparkfun/Arduino_Boards)
-* [Seeeduino SAMD Boards 1.8.4](https://wiki.seeedstudio.com/Seeed_Arduino_Boards/)
-* [STM32duino 2.5.0](https://github.com/stm32duino/Arduino_Core_STM32)
-* [ESP8266 Arduino 3.0.2](https://github.com/esp8266/Arduino)
-* [ESP32 Arduino 2.0.9](https://github.com/espressif/arduino-esp32)
-* [Teensyduino 1.57](https://www.pjrc.com/teensy/td_download.html)
+- [Arduino IDE 1.8.19](https://www.arduino.cc/en/Main/Software)
+- [Arduino CLI 0.33.0](https://arduino.github.io/arduino-cli)
+- [SpenceKonde ATTinyCore 1.5.2](https://github.com/SpenceKonde/ATTinyCore)
+- [Arduino AVR Boards 1.8.6](https://github.com/arduino/ArduinoCore-avr)
+- [Arduino SAMD Boards 1.8.9](https://github.com/arduino/ArduinoCore-samd)
+- [SparkFun AVR Boards 1.1.13](https://github.com/sparkfun/Arduino_Boards)
+- [SparkFun SAMD Boards 1.8.9](https://github.com/sparkfun/Arduino_Boards)
+- [Seeeduino SAMD Boards 1.8.4](https://wiki.seeedstudio.com/Seeed_Arduino_Boards/)
+- [STM32duino 2.5.0](https://github.com/stm32duino/Arduino_Core_STM32)
+- [ESP8266 Arduino 3.0.2](https://github.com/esp8266/Arduino)
+- [ESP32 Arduino 2.0.9](https://github.com/espressif/arduino-esp32)
+- [Teensyduino 1.57](https://www.pjrc.com/teensy/td_download.html)
 
 This library is *not* compatible with:
 
-* Any platform using the
+- Any platform using the
   [ArduinoCore-API](https://github.com/arduino/ArduinoCore-api), for example:
-    * [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
-        * Nano Every
-    * [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
-        * MKRZero
-        * Nano 33 IoT
-    * [ArduinoCore-renesas](https://github.com/arduino/ArduinoCore-renesas)
-        * Arduino UNO R4
-    * [Arduino-Pico](https://github.com/earlephilhower/arduino-pico)
-        * Raspberry Pi Pico (RP2040)
-    * [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
+    - [Arduino megaAVR](https://github.com/arduino/ArduinoCore-megaavr/)
+        - Nano Every
+    - [Arduino SAMD Boards >=1.8.10](https://github.com/arduino/ArduinoCore-samd)
+        - MKRZero
+        - Nano 33 IoT
+    - [ArduinoCore-renesas](https://github.com/arduino/ArduinoCore-renesas)
+        - Arduino UNO R4
+    - [Arduino-Pico](https://github.com/earlephilhower/arduino-pico)
+        - Raspberry Pi Pico (RP2040)
+    - [MegaCoreX](https://github.com/MCUdude/MegaCoreX)
 
 It should work with [PlatformIO](https://platformio.org/) but I have
 not tested it.
@@ -1034,13 +988,11 @@ not tested it.
 The library works on Linux or MacOS (using both g++ and clang++ compilers) using
 the EpoxyDuino (https://github.com/bxparks/EpoxyDuino) emulation layer.
 
-<a name="OperatingSystem"></a>
 ### Operating System
 
 I use Ubuntu 22.04 for the vast majority of my development. I expect that the
 library will work fine under MacOS and Windows, but I have not tested them.
 
-<a name="Motivation"></a>
 ## Motivation and Design Considerations
 
 In the beginning, I created a digital clock using an Arduino Nano board, a small
@@ -1054,13 +1006,13 @@ In full-featured operating systems (e.g. Linux, MacOS, Windows) and languages
 with timezone library support (e.g. Java, Python, JavaScript, C#, Go), the user
 has the ability to specify the Daylight Saving time (DST) transitions using 2
 ways:
-* [POSIX
-format](https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html)
-which encodes the DST transitions into a string (e.g.
-`EST+5EDT,M3.2.0/2,M11.1.0/2`) that can be parsed programmatically, or
-* a reference to a [TZ Database](https://www.iana.org/time-zones) entry
-(e.g. `America/Los_Angeles` or `Europe/London`) which identifies a set of time
-transition rules for the given timezone.
+- [POSIX
+  format](https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html)
+  which encodes the DST transitions into a string (e.g.
+  `EST+5EDT,M3.2.0/2,M11.1.0/2`) that can be parsed programmatically, or
+- a reference to a [TZ Database](https://www.iana.org/time-zones) entry (e.g.
+  `America/Los_Angeles` or `Europe/London`) which identifies a set of time
+  transition rules for the given timezone.
 
 The problem with the POSIX format is that it is somewhat difficult for a human
 to understand, and the programmer must manually update this string when a
@@ -1094,15 +1046,15 @@ string.
 
 The AceTime library is inspired by and borrows from:
 
-* [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-* [Micro Time Zone](https://github.com/evq/utz)
-* [Arduino Timezone](https://github.com/JChristensen/Timezone)
-* [Arduino Time](https://github.com/PaulStoffregen/Time)
-* [Joda-Time](https://www.joda.org/joda-time/)
-* [Noda Time](https://nodatime.org/)
-* [Python datetime](https://docs.python.org/3/library/datetime.html)
-* [Python pytz](https://pypi.org/project/pytz/)
-* [ezTime](https://github.com/ropg/ezTime)
+- [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+- [Micro Time Zone](https://github.com/evq/utz)
+- [Arduino Timezone](https://github.com/JChristensen/Timezone)
+- [Arduino Time](https://github.com/PaulStoffregen/Time)
+- [Joda-Time](https://www.joda.org/joda-time/)
+- [Noda Time](https://nodatime.org/)
+- [Python datetime](https://docs.python.org/3/library/datetime.html)
+- [Python pytz](https://pypi.org/project/pytz/)
+- [ezTime](https://github.com/ropg/ezTime)
 
 The names and API of AceTime classes are heavily borrowed from the [Java JDK 11
 java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
@@ -1142,17 +1094,15 @@ at runtime to 1-3 timezones. The library also aims to be as portable as
 possible, and supports AVR microcontrollers, as well as ESP8266, ESP32 and
 Teensy microcontrollers.
 
-<a name="Comparisons"></a>
 ## Comparisons to Other Time Libraries
 
-<a name="ArduinoTimeLibrary"></a>
 ### Arduino Time Library
 
 The AceTime library can be substantially faster than the equivalent methods in
 the [Arduino Time Library](https://github.com/PaulStoffregen/Time). The
 [ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares the
-CPU run time of `LocalDateTime::forEpochSeconds()` and
-`LocalDateTime::toEpochSeconds()` with the equivalent `breakTime()` and
+CPU run time of `PlainDateTime::forEpochSeconds()` and
+`PlainDateTime::toEpochSeconds()` with the equivalent `breakTime()` and
 `makeTime()` functions of the Arduino Time Library. Details are given in the
 [ComparisonBenchmark/README.md](examples/ComparisonBenchmark/README.md) file.
 Two examples for the Arduino Nano and ESP8266 are shown below:
@@ -1165,10 +1115,10 @@ Two examples for the Arduino Nano and ESP8266 are shown below:
 |----------------------------------------+----------|
 | EmptyLoop                              |    5.000 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |  270.000 |
+| PlainDateTime::forEpochSeconds()       |  270.000 |
 | breakTime()                            |  594.500 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |   66.500 |
+| PlainDateTime::toEpochSeconds()        |   66.500 |
 | makeTime()                             |  344.500 |
 +----------------------------------------+----------+
 ```
@@ -1181,45 +1131,43 @@ Two examples for the Arduino Nano and ESP8266 are shown below:
 |----------------------------------------+----------|
 | EmptyLoop                              |    0.800 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |   13.100 |
+| PlainDateTime::forEpochSeconds()       |   13.100 |
 | breakTime()                            |   42.600 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |    4.500 |
+| PlainDateTime::toEpochSeconds()        |    4.500 |
 | makeTime()                             |   24.800 |
 +----------------------------------------+----------+
 ```
 
-<a name="CLibrary"></a>
 ### C Time Library (time.h)
 
 Some version of the standard Unix/C library `<time.h>` is available in *some*
 Arduino platforms, but not others:
 
-* The [AVR libc time
+- The [AVR libc time
   library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html)
-    * contains methods such as `gmtime()` to convert `time_t` integer into date
+    - contains methods such as `gmtime()` to convert `time_t` integer into date
       time components `struct tm`,
-    * and a non-standard `mk_gmtime()` to convert components into a `time_t`
+    - and a non-standard `mk_gmtime()` to convert components into a `time_t`
       integer
-    * the `time_t` integer is unsigned, and starts at 2000-01-01T00:00:00 UTC
-    * no support for timezones
-    * the `time()` value does *not* auto-increment. The `system_tick()` function
+    - the `time_t` integer is unsigned, and starts at 2000-01-01T00:00:00 UTC
+    - no support for timezones
+    - the `time()` value does *not* auto-increment. The `system_tick()` function
       must be manually called, probably in an ISR (interrupt service routine).
-* The SAMD21 and Teensy platforms do not seem to have a `<time.h>` library.
-* The ESP8266 and ESP32 have a `<time.h>` library.
-    * The `time()` function automatically increments through the
+- The SAMD21 and Teensy platforms do not seem to have a `<time.h>` library.
+- The ESP8266 and ESP32 have a `<time.h>` library.
+    - The `time()` function automatically increments through the
       `system_get_time()` system call.
-    * Provides an SNTP client that can synchronize with an NTP service
+    - Provides an SNTP client that can synchronize with an NTP service
       and resynchronize the `time()` function.
-    * Adds `configTime()` functions to configure the behavior of the
+    - Adds `configTime()` functions to configure the behavior of the
       SNTP service, including POSIX timezones.
-    * ESP8266 `TZ.h` containing pre-calculated POSIX timezone strings.
+    - ESP8266 `TZ.h` containing pre-calculated POSIX timezone strings.
 
 These libraries are all based upon the [traditional C/Unix library
 methods](http://www.catb.org/esr/time-programming/) which can be difficult to
 understand.
 
-<a name="Esp8266AndEspTimeZones"></a>
 ### ESP8266 and ESP32 TimeZones
 
 The ESP8266 platform provides a
@@ -1248,7 +1196,6 @@ also the
 class in the AceTimeClock project which provides a thin-wrapper around this
 service on the ESP platforms.
 
-<a name="EzTime"></a>
 ### ezTime
 
 The [ezTime](https://github.com/ropg/ezTime) is a library that seems to be
@@ -1259,7 +1206,6 @@ network access for this library to work. I wanted to create a library that was
 self-contained and could run on an Arduino Nano with just an RTC chip without a
 network shield.
 
-<a name="MicroTimeZone"></a>
 ### Micro Time Zone
 
 The [Micro Time Zone](https://github.com/evq/utz) is a pure-C library
@@ -1277,11 +1223,10 @@ library contains more algorithmic code so will consume more flash memory. It is
 not entirely clear which library is smaller for 1-3 time zones. (This may be an
 interesting investigation the future.)
 
-<a name="JavaTime"></a>
 ### Java Time, Joda-Time, Noda Time
 
-The names and functionality of most the date and time classes (`LocalTime`,
-`LocalDate`, `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime`) were
+The names and functionality of most the date and time classes (`PlainTime`,
+`PlainDate`, `PlainDateTime`, `OffsetDateTime`, and `ZonedDateTime`) were
 inspired by the architecture of the [Java 11
 java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 package. However, there were many parts of the `java.time` package that were not
@@ -1299,7 +1244,6 @@ provides other fine-grained classes such as `OffsetTime`, `OffsetDate`, `Year`,
 providing too many classes. The API of the library is already too large, I did
 not want to make them larger than necessary.
 
-<a name="HinnantDate"></a>
 ### Howard Hinnant Date Library
 
 The [date](https://github.com/HowardHinnant/date) package by Howard Hinnant is
@@ -1310,17 +1254,17 @@ libraries were voted into the C++20 standard.
 Unfortunately these libraries are not suitable for an Arduino microcontroller
 environment because:
 
-* The libraries depend extensively on 64-bit integers which are
+- The libraries depend extensively on 64-bit integers which are
   impractical on 8-bit microcontrollers with only 32kB of flash memory.
-* The `tz.h` library has the option of downloading the TZ Database files over
+- The `tz.h` library has the option of downloading the TZ Database files over
   the network using `libcurl` to the OS filesystem then parsing the files, or
   using the native Zoneinfo entries on the host OS. Neither options are
   practical on small microcontrollers. The raw TZ Database files consume about
   1MB in gzip'ed format, which are not suitable for a 32kB Arduino
   microcontroller.
-* The libraries has dependencies on other libraries such as `<iostream>` and
+- The libraries has dependencies on other libraries such as `<iostream>` and
   `<chrono>` which don't exist on most Arduino platforms.
-* The libraries are heavily templatized to provide maximum flexibility
+- The libraries are heavily templatized to provide maximum flexibility
   and type-safety. But this makes the libraries incredibly hard to understand
   and cumbersome to use for the simple use cases targeted by the AceTime
   library.
@@ -1333,7 +1277,6 @@ algorithms to the Hinnant Date algorithms. For all times zones between the years
 abbreviations (`ZonedExtra`) calculated from the given epochSeconds match the
 results from the Hinnant Date libraries.
 
-<a name="Cctz"></a>
 ### Google cctz
 
 The [cctz](https://github.com/google/cctz) library from Google is also based on
@@ -1341,12 +1284,10 @@ the `<chrono>` library. I have not looked at this library closely because I
 assumed that it would *not* fit inside an Arduino controller. Hopefully I will
 get some time to take a closer look in the future.
 
-<a name="License"></a>
 ## License
 
 [MIT License](https://opensource.org/licenses/MIT)
 
-<a name="FeedbackAndSupport"></a>
 ## Feedback and Support
 
 If you have any questions, comments, or feature requests for this library,
@@ -1362,7 +1303,6 @@ Please refrain from emailing me directly unless the content is sensitive. The
 problem with email is that I cannot reference the email conversation when other
 people ask similar questions later.
 
-<a name="Authors"></a>
 ## Authors
 
-* Created by Brian T. Park (brian@xparks.net).
+- Created by Brian T. Park (brian@xparks.net).

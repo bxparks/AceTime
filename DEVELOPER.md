@@ -6,16 +6,16 @@ library.
 ## Table of Contents
 
 - [Project Dependency](#project-dependency)
-- [Namespace Dependency](#namespace-dependency)
-- [Zone Info Database](#zone-info-database)
-    - [Template Layer](#template-layer)
+- [Architectural Layers](#architectural-layers)
     - [Storage Layer](#storage-layer)
     - [Broker Layer](#broker-layer)
-    - [ZoneDb Files](#zonedb-files)
-        - [ZoneContext](#zonecontext)
-        - [ZoneInfo and ZoneEra](#zoneinfo-and-zoneera)
-        - [ZonePolicy and ZoneRule](#zonepolicy-and-zonerule)
-        - [ZoneRegistry](#zoneregistry)
+    - [ZoneProcessor Storage Layer](#zoneprocessor-storage-layer)
+    - [Zone Database Layer](#zone-database-layer)
+- [Storage Layer Classes](#storage-layer-classes)
+    - [ZoneContext](#zonecontext)
+    - [ZoneInfo and ZoneEra](#zoneinfo-and-zoneera)
+    - [ZonePolicy and ZoneRule](#zonepolicy-and-zonerule)
+    - [ZoneRegistry](#zoneregistry)
     - [Offset Encoding](#offset-encoding)
     - [TinyYear Encoding](#tinyyear-encoding)
 - [BasicZoneProcessor](#basiczoneprocessor)
@@ -33,212 +33,225 @@ library.
 This repo was programmatically generated from the
 [AceTimeSuite](https://github.com/bxparks/AceTimeSuite) project.
 
-## Namespace Dependency
+## Architectural Layers
 
-The various AceTime namespaces are related in the following way, where the arrow
-means "depends on":
+The AceTime library is organized roughly in layers, and they are related in the
+following way, where the arrow means "depends on":
 
 ```
-           (storage layer)
-           ace_time::zoneinfolow
-           ace_time::zoneinfomid
-           ace_time::zoneinfohigh
+           Storage layer (src/zoneinfo)
+           ace_time::ZoneInfoLow::ZoneXXX
+           ace_time::ZoneInfoMid::ZoneXXX
+           ace_time::ZoneInfoHigh::ZoneXXX
                    ^
                    |
-             (broker layer)
-             ace_time::basic
-             ace_time::extended
-             ace_time::complete
+           Broker layer (src/zoneinfo)
+           ace_time::ZoneInfoLow::ZoneXXXBroker
+           ace_time::ZoneInfoMid::ZoneXXXBroker
+           ace_time::ZoneInfoHigh::ZoneXXXBroker
+           ace_time::basic::Info
+           ace_time::extended::Info
+           ace_time::complete::Info
                    ^      ^
                    |       \
-                   |      (datafile layer)
+                   |      Zone Database layer (src/zonedbYYY)
                    |      ace_time::zonedb
                    |      ace_time::zonedbx
-ace_time::internal |      ace_time::zonedbc
-              ^    |       ^
-               \   |      /
-ace_time::hw    ace_time::
-      ^         ^      ^
-      |        /        \
-ace_time::clock     ace_time::testing
+                   |      ace_time::zonedbc
+                   |       ^
+                   |      /
+                ZoneProcessors (src/ace_time/*Processor)
+                ace_time::basic
+                ace_time::extended
+                ace_time::complete
+                ace_time::BasicZoneProcessorTemplate<>
+                ace_time::ExtendedZoneProcessorTemplate<>
+                ace_time::BasicZoneProcessor
+                ace_time::ExtendedZoneProcessor
+                ace_time::CompleteZoneProcessor
+                                         ^
+                                         |
+DateTime classes (src/ace_time)     TimeZone classes (src/ace_time)
+ace_time::PlainDate                 ace_time::TimeZone
+ace_time::PlainTime                 ace_time::ZoneManager
+ace_time::OffsetDateTime            ace_time::ZoneProcessorCache
+                      ^             ^
+                       \           /
+                        \         /
+                     ZonedDateTime classes (src/ace_time)
+                     ace_time::ZonedDateTime
+                     ace_time::ZonedExtra
+                             ^
+                             |
+                        Testing (src/testing)
+                        ace_time::testing
 ```
 
-## Zone Info Database
-
-### Template Layer
-
-The template layer provides low-level building blocks that define the storage
-formats of various fields, records, and tables used by the zoneinfo databases
-in the AceTime library. These should never be seen directly by the client
-application.
-
-There are 5 major data types that are stored in the zoneinfo database:
-`ZoneContext`, `ZoneRule`, `ZonePolicy`, `ZoneEra` and `ZoneInfo`. These data
-types are analogous to tables in a relational database. There are 3
-implementations defined, corresponding to different resolution levels supported
-by each set:
-
-* `ZoneInfoLow.h`
-    * low resolution persistence format
-        * 1-minute resolution for AT, UNTIL, STDOFF; 15-minute resolution for
-          DST offsets
-        * year fields using 1-byte offset from a `baseYear` of 2100,
-          supporting the years `[1973,2226]`
-    * `zoneinfolow::ZoneContext<>`
-    * `zoneinfolow::ZoneRule<>`
-    * `zoneinfolow::ZonePolicy<>`
-    * `zoneinfolow::ZoneEra<>`
-    * `zoneinfolow::ZoneInfo<>`
-* `ZoneInfoMid.h`
-    * medium resolution persistence format
-        * 1-minute resolution for AT, UNTIL, STDOFF; 15-minute resolution for
-          DST offset
-        * 2-byte year fields supporting years `[-32767,32765]`
-    * `zoneinfomid::ZoneContext<>`
-    * `zoneinfomid::ZoneRule<>`
-    * `zoneinfomid::ZonePolicy<>`
-    * `zoneinfomid::ZoneEra<>`
-    * `zoneinfomid::ZoneInfo<>`
-* `ZoneInfoHigh.h`
-    * high resolution persistence format
-        * 1-second resolution for AT, UNTIL, STDOFF, and DST offsets
-        * 2-byte year fields supporting years `[-32767,32765]`
-    * `zoneinfohigh::ZoneContext<>`
-    * `zoneinfohigh::ZoneRule<>`
-    * `zoneinfohigh::ZonePolicy<>`
-    * `zoneinfohigh::ZoneEra<>`
-    * `zoneinfohigh::ZoneInfo<>`
-
-Wrapping each of these low-level persistent classes are the "broker" layer
-classes. They convert the low-level storage formats into a consistent API using
-identical types and integer sizes. The allows the code in the `src/ace_time`
-layer to agnostic to the exact storage format of the zoneinfo database.
-
-* `BrokersLow.h`
-    * `zoneinfolow::ZoneContextBroker<>`
-    * `zoneinfolow::ZoneRuleBroker<>`
-    * `zoneinfolow::ZonePolicyBroker<>`
-    * `zoneinfolow::ZoneEraBroker<>`
-    * `zoneinfolow::ZoneInfoBroker<>`
-    * `zoneinfolow::ZoneRegistryBroker`
-    * `zoneinfolow::ZoneInfoStore`
-* `BrokersMid.h`
-    * `zoneinfomid::ZoneContextBroker<>`
-    * `zoneinfomid::ZoneRuleBroker<>`
-    * `zoneinfomid::ZonePolicyBroker<>`
-    * `zoneinfomid::ZoneEraBroker<>`
-    * `zoneinfomid::ZoneInfoBroker<>`
-    * `zoneinfomid::ZoneRegistryBroker`
-    * `zoneinfomid::ZoneInfoStore`
-* `BrokersHigh.h`
-    * `zoneinfohigh::ZoneContextBroker<>`
-    * `zoneinfohigh::ZoneRuleBroker<>`
-    * `zoneinfohigh::ZonePolicyBroker<>`
-    * `zoneinfohigh::ZoneEraBroker<>`
-    * `zoneinfohigh::ZoneInfoBroker<>`
-    * `zoneinfohigh::ZoneRegistryBroker`
-    * `zoneinfohigh::ZoneInfoStore`
-
-All of these classes are templatized, so that custom instantiations can be
-created for different zoneinfo databases, which can be verified by the compiler
-to be used together in the proper way.
+The data structures are defined [src/zoneinfo](src/zoneinfo).
 
 ### Storage Layer
 
-This is the actual storage layer used by library, instantiated from the template
-classes. These classes are defined by the
-[zoneinfo/infos.h](src/zoneinfo/infos.h) file:
+The `zoneinfo` storage layer provides low-level data structures that define the
+storage formats of various fields, records, and tables used by the zoneinfo
+databases in the AceTime library. These should be treated as opaque objects by
+the client application which can use the `const ZoneInfo *` pointer as the
+zone identifier.
 
-* Basic
-    * `basic::ZoneContext`
-    * `basic::ZoneRule`
-    * `basic::ZonePolicy`
-    * `basic::ZoneEra`
-    * `basic::ZoneInfo`
-* Extended
-    * `extended::ZoneContext`
-    * `extended::ZoneRule`
-    * `extended::ZonePolicy`
-    * `extended::ZoneEra`
-    * `extended::ZoneInfo`
-* Complete
-    * `complete::ZoneContext`
-    * `complete::ZoneRule`
-    * `complete::ZonePolicy`
-    * `complete::ZoneEra`
-    * `complete::ZoneInfo`
+There are 5 major data types that are stored in the zoneinfo database:
+`ZoneContext`, `ZoneRule`, `ZonePolicy`, `ZoneEra` and `ZoneInfo`. These data
+types are analogous to tables in a relational database.
 
-These classes are intended to be hidden from the client application. The only
-exception is the `const xxx::ZoneInfo*` pointer, which is used as an opaque
-identifier for a timezone. From this pointer, a `TimeZone` object can be
-created.
+The implementation data classes are defined as inner-classes within
+container classes. This allows the container classes to be used as template
+parameters to select the lower-level storage classes as a whole batch.
+
+There are 3 container classes defined, corresponding to different resolution
+levels supported by each set.
+
+- `ZoneInfoLow.h`
+    - low resolution persistence format
+        - 1-minute resolution for AT, UNTIL, STDOFF
+        - 15-minute resolution for DSTOFF
+        - year fields using 1-byte offset from a `baseYear` of 2100,
+          supporting the years `[1973,2226]`
+    - `ZoneInfoLow::ZoneContext`
+    - `ZoneInfoLow::ZoneRule`
+    - `ZoneInfoLow::ZonePolicy`
+    - `ZoneInfoLow::ZoneEra`
+    - `ZoneInfoLow::ZoneInfo`
+- `ZoneInfoMid.h`
+    - medium resolution persistence format
+        - 1-minute resolution for AT, UNTIL, STDOFF
+        - 15-minute resolution for DSTOFF
+        - 2-byte year fields supporting years `[-32767,32765]`
+    - `ZoneInfoMid::ZoneContext`
+    - `ZoneInfoMid::ZoneRule`
+    - `ZoneInfoMid::ZonePolicy`
+    - `ZoneInfoMid::ZoneEra`
+    - `ZoneInfoMid::ZoneInfo`
+- `ZoneInfoHigh.h`
+    - high resolution persistence format
+        - 1-second resolution for AT, UNTIL, STDOFF, and DSTOFF
+        - 2-byte year fields supporting years `[-32767,32765]`
+    - `ZoneInfoHigh::ZoneContext`
+    - `ZoneInfoHigh::ZoneRule`
+    - `ZoneInfoHigh::ZonePolicy`
+    - `ZoneInfoHigh::ZoneEra`
+    - `ZoneInfoHigh::ZoneInfo`
 
 ### Broker Layer
 
-This is the actual broker layer used by library, instantiated from the template
-classes. These classes are defined by the
-[zoneinfo/brokers.h](src/zoneinfo/brokers.h) file:
+Wrapping each of these low-level persistent classes are the "broker" layer
+classes. They convert the low-level storage formats into a consistent API using
+identical types and integer sizes. The allows the code in the ZoneProcessor
+layer to be agnostic to the exact storage format of the zoneinfo database.
 
-* Basic
-    * uses `zoneinfolow::` classes
-    * `basic::ZoneContextBroker`
-    * `basic::ZoneRuleBroker`
-    * `basic::ZonePolicyBroker`
-    * `basic::ZoneEraBroker`
-    * `basic::ZoneInfoBroker`
-    * `basic::ZoneRegistryBroker`
-    * `basic::ZoneInfoStore`
-* Extended
-    * uses `zoneinfolow::` classes (previously used `zoneinfomid::`)
-    * `extended::ZoneContextBroker`
-    * `extended::ZoneRuleBroker`
-    * `extended::ZonePolicyBroker`
-    * `extended::ZoneEraBroker`
-    * `extended::ZoneInfoBroker`
-    * `extended::ZoneRegistryBroker`
-    * `extended::ZoneInfoStore`
-* Complete
-    * uses `zoneinfohigh::` classes
-    * `complete::ZoneContextBroker`
-    * `complete::ZoneRuleBroker`
-    * `complete::ZonePolicyBroker`
-    * `complete::ZoneEraBroker`
-    * `complete::ZoneInfoBroker`
-    * `complete::ZoneRegistryBroker`
-    * `complete::ZoneInfoStore`
+- `ZoneInfoLow.h`
+    - `ZoneInfoLow::ZoneContextBroker`
+    - `ZoneInfoLow::ZoneRuleBroker`
+    - `ZoneInfoLow::ZonePolicyBroker`
+    - `ZoneInfoLow::ZoneEraBroker`
+    - `ZoneInfoLow::ZoneInfoBroker`
+    - `ZoneInfoLow::ZoneRegistryBroker`
+    - `ZoneInfoLow::ZoneInfoStore`
+- `ZoneInfoMid.h`
+    - `ZoneInfoMid::ZoneContextBroker`
+    - `ZoneInfoMid::ZoneRuleBroker`
+    - `ZoneInfoMid::ZonePolicyBroker`
+    - `ZoneInfoMid::ZoneEraBroker`
+    - `ZoneInfoMid::ZoneInfoBroker`
+    - `ZoneInfoMid::ZoneRegistryBroker`
+    - `ZoneInfoMid::ZoneInfoStore`
+- `ZoneInfoHigh.h`
+    - `ZoneInfoHigh::ZoneContextBroker`
+    - `ZoneInfoHigh::ZoneRuleBroker`
+    - `ZoneInfoHigh::ZonePolicyBroker`
+    - `ZoneInfoHigh::ZoneEraBroker`
+    - `ZoneInfoHigh::ZoneInfoBroker`
+    - `ZoneInfoHigh::ZoneRegistryBroker`
+    - `ZoneInfoHigh::ZoneInfoStore`
 
-(TODO: It might be possible to wrap the raw timezone `const ZoneInfo*` pointer
-into a `ZoneInfoBroker` object, and use the broker object as the timezone
-identifier. This would completely hide the low-level `const ZoneInfo*` pointer
-from the client application.)
+The Broker layer adds 2 higher-level brokers on top of the 5 low-level storage
+classes:
 
-### ZoneDb Files
+- `ZoneRegistryBroker`
+    - provides access to the zone registry consisting of a list of pointers to
+      `ZoneInfo` objects
+- `ZoneInfoStore`
+    - provides the high level interface to create a `ZoneInfoBroker` given an
+    identifier for a zone (either a direct pointer, or an offset index)
+    - (TODO: It might be possible to wrap the raw timezone `const ZoneInfo*`
+      pointer into a `ZoneInfoBroker` object, and use the broker object as the
+      timezone identifier. This would completely hide the low-level `const
+      ZoneInfo*` pointer from the client application.)
 
-The AceTime library comes with 3 sets of zoneinfo files, which were
-programmatically generated by the scripts in
-`AceTimeSuite/compiler/tzcompiler.sh` from the [IANA TZ
-Data](https://www.iana.org/time-zones):
+### ZoneProcessor Storage Layer
 
-* `src/zonedb/*`
-    * uses the `zonedb::` namespace
-    * used by `BasicZoneProcessor`
-    * uses `basic::ZoneXxx` classes
-* `src/zonedbx/*`
-    * uses the `zonedbx::` namespace
-    * used by `ExtendedZoneProcessor`
-    * uses `extended::ZoneXxx` classes
-* `src/zonedbc/*`
-    * uses the `zonedbc::` namespace
-    * used by `CompleteZoneProcessor`
-    * uses `complete::ZoneXxx` classes
+There are 3 concrete implementations of the `ZoneProcessor` interface:
+
+- `BasicZoneProcessor`
+- `ExtendedZoneProcessor`
+- `CompleteZoneProcessor`
+
+In theory, the each concrete ZoneProcessor can choose to use any of the
+underlying storage format. However, for simplicity, we restrict each
+ZoneProcessor to a specific storage format, as defined in
+[zoneinfo/infos.h](src/zoneinfo/infos.h):
+
+- BasicZoneProcessor -> ZoneInfoLow
+    - `basic::Info = ZoneInfoLow`
+- ExtendedZoneProcessor -> ZoneInfoLow
+    - `extended::Info = ZoneInfoLow`
+- CompleteZoneProcessor -> ZoneInfoHigh
+    - `complete::Info = ZoneInfoHigh`
+
+In theory, the `basic::`, `extended::`, and `complete::` namespaces provide a
+layer of indirection that would allow changing a particular storage format with
+another storage format, without changing the higher-level code (since the Broker
+Layer provides a consistent API).
+
+### Zone Database Layer
+
+The Zone Database files are programmatically generated by the
+[AceTimeSuite/compiler/tzcompiler.sh](../../compiler/tzcompiler.sh) script using
+the TZDB files from the [IANA TZ Data](https://www.iana.org/time-zones)
+project. They use the low-level data structures defined by
+[src/zoneinfo](src/zoneinfo) files.
+
+There are several `zonedb` directories which are pre-generated and included in
+the library:
+
+- `src/zonedb/`
+    - contains transition rules from year >= 2000
+    - used by `BasicZoneProcessor`
+    - uses the `zonedb::` namespace
+    - uses `basic::Info` classes (i.e. ZoneInfoLow)
+- `src/zonedb2025/`
+    - same as `zonedb` but for transition rules with year >= 2025
+    - uses the `zonedb2025` namespace
+- `src/zonedbx/`
+    - contains transition rules from year >= 2000
+    - used by `ExtendedZoneProcessor`
+    - uses the `zonedbx::` namespace
+    - uses `extended::Info` classes (i.e. ZoneInfoLow)
+- `src/zonedbx2025/`
+    - same as `zonedbx` but for transition rules with year >= 2025
+    - uses the `zonedbx2025` namespace
+- `src/zonedbc/`
+    - contains all transitions from TZDB (year >= 1844)
+    - used by `CompleteZoneProcessor`
+    - uses the `zonedbc::` namespace
+    - uses `complete::Info` classes (i.e. ZoneInfoHigh)
 
 Each `zonedb*/` directory contains the following files:
 
-* `zone_infos.h', `zone_infos.cpp`
-* `zone_policies.h`, `zone_policies.cpp`
-* `zone_registry.h`, `zone_registry.cpp`
+- `zone_infos.cpp`, `zone_infos.h`
+- `zone_policies.cpp`, `zone_policies.h`
+- `zone_registry.cpp`, `zone_registry.h`
 
-#### ZoneContext
+## Storage Layer Classes
+
+### ZoneContext
 
 There is a single `ZoneContext kZoneContext` record included in the
 `zone_infos.h` and `zone_infos.cpp` files. The record and its related data could
@@ -282,7 +295,7 @@ implementations and comparing the flash and static memory usage patterns to
 determine if it's worth moving the `format` strings to `formats[]` array in the
 `ZoneContext`.
 
-#### ZoneInfo and ZoneEra
+### ZoneInfo and ZoneEra
 
 The `zone_infos.h` and `zone_infos.cpp` files contain a `ZoneInfo` record for
 each supported time zone corresponding to a `Zone` or `Link` entry in the IANA
@@ -299,7 +312,7 @@ Near end of the `zone_info.h` file, we list the zones which were deliberately
 excluded by the tool. Also at the end of the `zone_info.h` file, there may be
 warnings about known inaccuracies for a particular zone.
 
-#### ZonePolicy and ZoneRule
+### ZonePolicy and ZoneRule
 
 The `zone_policies.h` and `zone_policies.cpp` hole the `RULE` entries from the
 IANA TZ database. A `ZonePolicy` is a collection of one or more `ZoneRule`
@@ -308,40 +321,47 @@ entry in the TZ database. A `ZoneEra` record may hold a pointer to a
 `ZonePolicy` record. For example, the `kZoneAmerica_Los_Angeles` has a pointer
 to a `kZonePolicyUS` record.
 
-#### Zone Registry
+### Zone Registry
 
 The `zone_registry.h` and `zone_registry.cpp` files contain 2 pre-defined
 registries of timezones:
 
-* `const ZoneInfo* const kZoneRegistry[kZoneRegistrySize]`
-    * contains a list of all `Zone` entries
-* `const ZoneInfo* const kZoneAndLinkRegistry[kZoneAndLinkRegistrySize]`
-    * contains a list of all `Zone` and `Link` entries
+- `const ZoneInfo- const kZoneRegistry[kZoneRegistrySize]`
+    - contains a list of all `Zone` entries
+- `const ZoneInfo- const kZoneAndLinkRegistry[kZoneAndLinkRegistrySize]`
+    - contains a list of all `Zone` and `Link` entries
 
 Due to reasons which are too complicated to explain here, `Zone` and `Link`
 entries should treated with the same priority. Client applications should almost
-always use the `kZoneAndLinkRegistry`. The only exception may be testig
+always use the `kZoneAndLinkRegistry`. The only exception may be testing
 applications which may want to use the smaller `kZoneRegistry` to achieve
 complete coverage of all timezones with the same set of rules, without
 duplicates.
 
 ### Offset Encoding
 
-The `zoneinfolow` storage format was optimized for small size. A number of
-fields which required only 4-bits of space were combined together to save memory
-space. There are 5 offsets and moment-in-time quantities from the TZ zoneinfo
-files which are captured in the `zone_info.{h,cpp}` and `zone_policies.{h,cpp}`
-files:
+The `ZoneInfoHigh` format encodes various formats using 1-second resolution for
+all offsets (STDOFF, DSTOFF) and time instants (AT, UNTIL).
 
-* `STDOFF` field in `Zone` entry (previously `OFFSET`), 1-minute resolution
-* `RULES` field in `Zone` entry when numeric (e.g. "1:00"), 15-minute resolution
-* `UNTIL` field in `Zone` entry, 1-minute resolution
-* `SAVE` field in `Rule` entry, 15-minute resolution
-* `AT` field in `Rule` entry, 1-minute resolution
+The `ZoneInfoLow` and `ZoneInfoMid` storage formats try to reduce the memory
+footprint by encoding the offsets (STDOFF, DSTOFF) in 15-minute resolution, and
+the time instants (AT, UNTIL) with a 1-minute resolution.
+
+A number of fields which required only 4-bits of space were combined together to
+save memory space. There are 5 offsets and moment-in-time quantities from the TZ
+zoneinfo files which are captured in the `zone_info.{h,cpp}` and
+`zone_policies.{h,cpp}` files:
+
+- `STDOFF` field in `Zone` entry (previously `OFFSET`), 1-minute resolution
+- `RULES` (DSTOFF) field in `Zone` entry when numeric (e.g. "1:00"), 15-minute
+  resolution
+- `UNTIL` field in `Zone` entry, 1-minute resolution
+- `SAVE` (DSTOFF) field in `Rule` entry, 15-minute resolution
+- `AT` field in `Rule` entry, 1-minute resolution
 
 To reduce flash memory size, these fields are encoded in non-obvious ways which
 are difficult to remember. Here is my attempt to document the encoding. In the
-following diagram, a field labled `code` (e.g. `offsetCode`) has a unit of 15
+following diagram, a field labeled `code` (e.g. `offsetCode`) has a unit of 15
 minutes. For example, an `offsetCode` of 2 means 30 minutes. To capture time
 offsets or moments with a 1-minute resolution, we store the remaining 15-minutes
 (0 to 14 inclusive), using 4-bits in the upper 4-bits or the lower 4-bits of one
@@ -417,21 +437,21 @@ SAVE (15-min resolution)
 
 ### TinyYear Encoding
 
-The `zoneinfolow` storage format also implements a space saving measure by
+The `ZoneInfoLow` storage format also implements a space saving measure by
 encoding the year fields using a one-byte `int8_t` signed integer offset from
 the `baseYear` field specified in the `ZoneContext` object. The range of a
 one-byte signed integer is `[-128,127]`, but `-128` is used to represent
 `kInvalidYear`, `-127` indicates `-Infinity`, and `+126` and `+127` are used to
 represent `+Infinity` (for the `TO` and `UNTIL` fields). So the actual range of
-the year offset is `[-126,125]`. The base year for the `zonedb` and `zonedbx`
-databases is set to 2100, which means that these databases can represent all
-transition rules over the years `[1974,2225]`.
+the year offset is `[-126,125]`.
 
-So the `zonedb` and `zonedbx` databases can store DST transitions for the next
-200 years, which should be more than enough for the foreseeable future. If the
-range needs to be extended, then the `baseYear` field in `ZoneContext` can be
-updated, the `zonedb` and `zonedbx` databases can be either regenerated or new
-versions of them can be created.
+The base year for the `zonedb` and `zonedbx` databases is set to 2100, which
+means that these databases can represent all transition rules over the years
+`[1974,2225]`. So the `zonedb`, `zonedb2025`, `zonedbx`, and `zonedbx2025`
+databases can store DST transitions for the next 200 years, which should be more
+than enough for the foreseeable future. If the range needs to be extended, then
+the `baseYear` field in `ZoneContext` can be updated, the `zonedb` and `zonedbx`
+databases can be either regenerated or new versions of them can be created.
 
 ## BasicZoneProcessor
 
@@ -446,13 +466,12 @@ versions of them can be created.
 
 The `CompleteZoneProcessor` is currently *identical* to the
 `ExtendedZoneprocessor` (using a template class). This avoid having to maintain
-and test 2 slightly different code bases. This subsection that describes the
-workings of `ExtendedZoneProcessor` applies without modification to
-`CompleteZoneProcessor`.
+and test 2 slightly different code bases. This subsection applies to both
+`ExtendedZoneProcessor` and `CompleteZoneProcessor`.
 
 The low-level storage formats of the 2 databases (`zonedbx` and `zonedbc`) used
-by these 2 classes are actually signficantly different (using `zoneinfolow` and
-`zoneinfohigh` formats respectively). But the encapsulation provided by the
+by these 2 classes are actually significantly different (using `ZoneInfoLow` and
+`ZoneInfoHigh` formats respectively). But the encapsulation provided by the
 Broker layer (i.e. the `ZoneXxxBroker` classes) allow the 2 databases to be
 processed by the exactly the same C++ code.
 
@@ -472,9 +491,9 @@ The call stack of the first method looks like this:
 
 ```
 ZoneDateTime::forComponents()
-  -> TimeZone::getOffsetDateTime(LocalDateTime&)
-    -> ExtendeZoneProcessor::findByLocalDateTime(LocalDateTime&)
-      -> TransitionStorage::findTransitionForDateTime(LocalDateTime&)
+  -> TimeZone::getOffsetDateTime(PlainDateTime&)
+    -> ExtendeZoneProcessor::findByPlainDateTime(PlainDateTime&)
+      -> TransitionStorage::findTransitionForDateTime(PlainDateTime&)
 ```
 
 The call stack of the second method looks like this:
@@ -515,9 +534,9 @@ overlap with the 14-month interval from Dec 1 of the prior year until Feb 1 of
 the following year. For example, `initForYear(2010)` means that the interval is
 from 2009-12-01T00:00 until 2011-02-01T00:00.
 
-A 14-month interval is chosen because a local date time of Jan 1 could land in
+A 14-month interval is chosen because a plain date time of Jan 1 could land in
 the prior year after the correct UTC offset is calculated, so we need to pick up
-Transitions in the prior year. Similarly, a local date time of Dec 31 could land
+Transitions in the prior year. Similarly, a plain date time of Dec 31 could land
 in the following year after correcting for UTC offset.
 
 A `MatchingEra` is a wrapper around a `ZoneEra`, with its startDateTime and
@@ -528,11 +547,11 @@ untilDateTime truncated to be within the 14-month interval of interest.
 The class creates an array of `Transition` objects spanning 14 months that
 covers the given `year`, from 12/1 of the previous year until 2/1 of the
 following year. The extra month at the start and end of the one-year interval is
-to account for the fact that a local DateTime of 1/1 for a given year may
+to account for the fact that a plain DateTime of 1/1 for a given year may
 actually occur in the previous year after shifting to UTC time. But the amount
 of shift is not known until we calculate the Transitions. By starting the
 interval of interest at 12/1, we make sure that correct Transition is determined
-for 12/31 if needed. Similarly, a local DateTime of 12/31 may actually occur on
+for 12/31 if needed. Similarly, a plain DateTime of 12/31 may actually occur on
 1/1 of the following year, so we extend our time interval of interest to 2/1 of
 the following year.
 
@@ -716,10 +735,10 @@ Transition.
 After the list of Transitions is created, the `Transition.startDateTime`
 and `Transition.untilDateTime` created using the transtionTime field.
 
-* The `untilDateTime` of the previous Transition is the current `transitionTime`
-  shifted into the UTC offset of the *previous* Transition.
-* The `startDateTime` of the current Transition is the current `transitionTime`
-  shifted into the UTC offset of the *current* Transition.
+- The `untilDateTime` of the previous Transition is the current `transitionTime`
+  shifted into the UTC offset of the -previous- Transition.
+- The `startDateTime` of the current Transition is the current `transitionTime`
+  shifted into the UTC offset of the -current- Transition.
 
 ### Step 5: Calculate Abbreviations
 

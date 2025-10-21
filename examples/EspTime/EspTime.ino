@@ -5,7 +5,7 @@ the C-library `time()` function to return the number of seconds since Unix epoch
 strings in 4 ways:
 
 1) UTC using old-school C-library functions, `gmtime_r()` and `struct tm`
-2) UTC using ace_time::LocalDateTime
+2) UTC using ace_time::PlainDateTime
 3) America/Los_Angeles using ace_time::ZonedDateTime
 4) Europe/Paris using ace_time::ZonedDateTime
 
@@ -110,10 +110,10 @@ void printNowUsingAceTime(time_t now) {
   DateStrings dateStrings;
 
   // Convert to UTC time.
-  LocalDateTime ldt = LocalDateTime::forUnixSeconds64(now);
-  ldt.printTo(Serial);
+  PlainDateTime pdt = PlainDateTime::forUnixSeconds64(now);
+  pdt.printTo(Serial);
   Serial.print(' ');
-  Serial.print(dateStrings.dayOfWeekLongString(ldt.dayOfWeek()));
+  Serial.print(dateStrings.dayOfWeekLongString(pdt.dayOfWeek()));
   Serial.println(F(" (AceTime)"));
 
   // Convert Unix time to Los Angeles time.

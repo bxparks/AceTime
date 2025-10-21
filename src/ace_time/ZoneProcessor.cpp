@@ -16,12 +16,12 @@ MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
 
   if (onDayOfMonth >= 0) {
     // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
-    uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+    uint8_t daysInMonth = PlainDate::daysInMonth(year, month);
     if (onDayOfMonth == 0) {
       onDayOfMonth =  daysInMonth - 6;
     }
 
-    auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
+    auto limitDate = PlainDate::forComponents(year, month, onDayOfMonth);
     uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
     uint8_t day = (uint8_t) (onDayOfMonth + dayOfWeekShift);
     if (day > daysInMonth) {
@@ -32,13 +32,13 @@ MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
     return {month, day};
   } else {
     onDayOfMonth = -onDayOfMonth;
-    auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
+    auto limitDate = PlainDate::forComponents(year, month, onDayOfMonth);
     int8_t dayOfWeekShift = (limitDate.dayOfWeek() - onDayOfWeek + 7) % 7;
     int8_t day = onDayOfMonth - dayOfWeekShift;
     if (day < 1) {
       // TODO: Support shifting from Jan to Dec of the previous year.
       month--;
-      uint8_t daysInPrevMonth = LocalDate::daysInMonth(year, month);
+      uint8_t daysInPrevMonth = PlainDate::daysInMonth(year, month);
       day += daysInPrevMonth;
     }
     return {month, (uint8_t) day};

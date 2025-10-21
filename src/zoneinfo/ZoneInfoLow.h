@@ -9,17 +9,22 @@
 /**
  * @file ZoneInfoLow.h
  *
- * Data structures describe the low resolution zoneinfo persistence format. It
- * has a 1-minute resolution for AT, UNTIL, STDOFF; 15-minute resolution for DST
- * offsets. The year fields use a 1-byte offset from a `baseYear` which gives a
- * [-127,+126] range.
+ * The ZoneInfo, ZoneEra, ZonePolicy, and ZoneRule data structures in this file
+ * describe the low resolution zoneinfo persistence format. It has a 1-minute
+ * resolution for AT, UNTIL, STDOFF; 15-minute resolution for DST offsets. The
+ * year fields use a 1-byte offset from a `baseYear` which gives a [-127,+126]
+ * range.
  *
- * The BrokersLow.h file provides an abtraction layer which converts these
- * low-level fields into a semantically consistent API which can be used by the
- * AceTime classes.
+ * For each data structure (ZoneInfo, ZoneEra, ZonePolicy, ZoneRule), there is a
+ * corresponding Broker wrapper class (ZoneInfoBroker, ZoneEraBroker,
+ * ZonePolicyBroker, ZoneRuleBroker). The Broker objects provide a semantically
+ * consistent API for the higher-level AceTime classes.
  *
- * The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will
- * use one of these persistence formats, as defined by infos.h.
+ * This database format is used by the zonedb files described as "basic" or
+ * "extended" (e.g. zonedb, zonedbx) because they encode timezone information
+ * after ~1980. It turns out that all timezones after 1980 can be encoded with a
+ * low-res time resolution because the transition rules happened only at certain
+ * multiples of one-minute or 15-minutes.
  *
  * See also DEVELOPER.md for an overview of the ZoneInfoXXX layer.
  */
@@ -35,6 +40,10 @@ class Print;
 
 namespace ace_time{
 
+/**
+ * Wrapper class so that the entire collection can be referenced as a single
+ * template parameter.
+ */
 class ZoneInfoLow {
 public:
 

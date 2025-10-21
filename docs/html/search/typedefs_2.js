@@ -1,7 +1,0 @@
-var searchData=
-[
-  ['transition_726',['Transition',['../classace__time_1_1BasicZoneProcessorTemplate.html#a3b34e0d24626eb157e97407c146fd2e0',1,'ace_time::BasicZoneProcessorTemplate::Transition()'],['../classace__time_1_1ExtendedZoneProcessorTemplate.html#a71cee1e6bcf406c8e5e417ad61fcf2c2',1,'ace_time::ExtendedZoneProcessorTemplate::Transition()'],['../classace__time_1_1extended_1_1TransitionStorageTemplate.html#a1e4a697f721a7651e05cd7e995711f0d',1,'ace_time::extended::TransitionStorageTemplate::Transition()']]],
-  ['transitionfordatetime_727',['TransitionForDateTime',['../classace__time_1_1ExtendedZoneProcessorTemplate.html#a56eae00a6e5e66d7fdc8c15c6a17a0f5',1,'ace_time::ExtendedZoneProcessorTemplate::TransitionForDateTime()'],['../classace__time_1_1extended_1_1TransitionStorageTemplate.html#a741380d6aab5f393fac012e436fdb2e5',1,'ace_time::extended::TransitionStorageTemplate::TransitionForDateTime()']]],
-  ['transitionforseconds_728',['TransitionForSeconds',['../classace__time_1_1ExtendedZoneProcessorTemplate.html#ae811e44232b00118baec421957203981',1,'ace_time::ExtendedZoneProcessorTemplate::TransitionForSeconds()'],['../classace__time_1_1extended_1_1TransitionStorageTemplate.html#a70bd9ec609c12475fdd549e199a0b9eb',1,'ace_time::extended::TransitionStorageTemplate::TransitionForSeconds()']]],
-  ['transitionstorage_729',['TransitionStorage',['../classace__time_1_1ExtendedZoneProcessorTemplate.html#aeb452c152eacd01384e8e55292bc4e79',1,'ace_time::ExtendedZoneProcessorTemplate']]]
-];

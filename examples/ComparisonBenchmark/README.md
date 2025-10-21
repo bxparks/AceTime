@@ -1,8 +1,8 @@
 # Comparison Benchmark
 
 Here are the results from `ComparisonBenchmark.ino` which compares the execution
-time of date-time conversion functions (`LocalDateTime::toEpochSeconds()`,
-`LocalDateTime::forEpochSeconds()`) from the AceTime library with the
+time of date-time conversion functions (`PlainDateTime::toEpochSeconds()`,
+`PlainDateTime::forEpochSeconds()`) from the AceTime library with the
 equilvalent functions (`makeTime()`, `breakTime()`) from the [Arduino
 Time](https://github.com/PaulStoffregen/Time) library.
 
@@ -80,10 +80,10 @@ CPU:
 |----------------------------------------+----------|
 | EmptyLoop                              |    5.000 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |  339.500 |
+| PlainDateTime::forEpochSeconds()       |  339.500 |
 | breakTime()                            |  594.000 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |   62.000 |
+| PlainDateTime::toEpochSeconds()        |   62.000 |
 | makeTime()                             |  345.500 |
 +----------------------------------------+----------+
 Iterations_per_run: 2000
@@ -106,10 +106,10 @@ CPU:
 |----------------------------------------+----------|
 | EmptyLoop                              |    4.500 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |  340.500 |
+| PlainDateTime::forEpochSeconds()       |  340.500 |
 | breakTime()                            |  596.500 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |   62.500 |
+| PlainDateTime::toEpochSeconds()        |   62.500 |
 | makeTime()                             |  347.000 |
 +----------------------------------------+----------+
 Iterations_per_run: 2000
@@ -132,10 +132,10 @@ CPU:
 |----------------------------------------+----------|
 | EmptyLoop                              |    1.300 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |   23.200 |
+| PlainDateTime::forEpochSeconds()       |   23.200 |
 | breakTime()                            |   93.500 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |    6.600 |
+| PlainDateTime::toEpochSeconds()        |    6.600 |
 | makeTime()                             |   56.100 |
 +----------------------------------------+----------+
 Iterations_per_run: 10000
@@ -158,10 +158,10 @@ CPU:
 |----------------------------------------+----------|
 | EmptyLoop                              |    0.800 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |    3.000 |
+| PlainDateTime::forEpochSeconds()       |    3.000 |
 | breakTime()                            |   31.200 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |    1.900 |
+| PlainDateTime::toEpochSeconds()        |    1.900 |
 | makeTime()                             |   22.600 |
 +----------------------------------------+----------+
 Iterations_per_run: 10000
@@ -184,10 +184,10 @@ CPU:
 |----------------------------------------+----------|
 | EmptyLoop                              |    0.400 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |    1.400 |
+| PlainDateTime::forEpochSeconds()       |    1.400 |
 | breakTime()                            |    9.000 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |    0.900 |
+| PlainDateTime::toEpochSeconds()        |    0.900 |
 | makeTime()                             |    7.700 |
 +----------------------------------------+----------+
 Iterations_per_run: 10000
@@ -210,10 +210,10 @@ CPU:
 |----------------------------------------+----------|
 | EmptyLoop                              |    0.800 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |   13.500 |
+| PlainDateTime::forEpochSeconds()       |   13.500 |
 | breakTime()                            |   42.400 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |    4.000 |
+| PlainDateTime::toEpochSeconds()        |    4.000 |
 | makeTime()                             |   24.800 |
 +----------------------------------------+----------+
 Iterations_per_run: 10000
@@ -236,10 +236,10 @@ CPU:
 |----------------------------------------+----------|
 | EmptyLoop                              |    0.390 |
 |----------------------------------------+----------|
-| LocalDateTime::forEpochSeconds()       |    0.900 |
+| PlainDateTime::forEpochSeconds()       |    0.900 |
 | breakTime()                            |    5.420 |
 |----------------------------------------+----------|
-| LocalDateTime::toEpochSeconds()        |    0.600 |
+| PlainDateTime::toEpochSeconds()        |    0.600 |
 | makeTime()                             |    4.870 |
 +----------------------------------------+----------+
 Iterations_per_run: 100000

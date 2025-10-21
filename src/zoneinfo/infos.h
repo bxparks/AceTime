@@ -6,6 +6,21 @@
 #ifndef ACE_TIME_INFOS_H
 #define ACE_TIME_INFOS_H
 
+/**
+ * @file infos.h
+ *
+ * The low-level storage/broker formats are independent of the concrete
+ * ZoneProcessor classes (implementing a specific algorithm for determining DST
+ * transitions). There are 3 ZoneProcessors: BasicZoneProcessor,
+ * ExtendedZoneProcessor, and CompleteZoneProcessor.
+ *
+ * This file provides a mapping between those two layers:
+ *
+ * - BasicZoneProcessor -> ZoneInfoLow
+ * - ExtendedZoneProcessor -> ZoneInfoLow
+ * - CompleteZoneProcessor -> ZoneInfoHigh
+ */
+
 #include "ZoneInfoLow.h"
 #include "ZoneInfoMid.h"
 #include "ZoneInfoHigh.h"

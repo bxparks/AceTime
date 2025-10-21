@@ -384,15 +384,15 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   assertEqual(3, storage.mIndexFree);
 
   // 2000-01-01 00:00, far past
-  auto ldt = LocalDateTime::forComponents(2000, 1, 1, 0, 0, 0);
-  TransitionForDateTime r = storage.findTransitionForDateTime(ldt);
+  auto pdt = PlainDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  TransitionForDateTime r = storage.findTransitionForDateTime(pdt);
   assertEqual(r.num, 0);
   assertEqual(r.prev, nullptr);
   assertNotEqual(r.curr, nullptr);
 
   // 2000-01-30 01:00, matches Transition 1
-  ldt = LocalDateTime::forComponents(2000, 1, 30, 1, 0, 0);
-  r = storage.findTransitionForDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2000, 1, 30, 1, 0, 0);
+  r = storage.findTransitionForDateTime(pdt);
   assertEqual(r.num, 1);
   assertNotEqual(r.prev, nullptr);
   assertNotEqual(r.curr, nullptr);
@@ -400,8 +400,8 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   assertEqual(2000, r.curr->transitionTime.year);
 
   // 2001-04-01 02:30 is in the gap between Transition 1 and 2
-  ldt = LocalDateTime::forComponents(2001, 4, 1, 2, 30, 0);
-  r = storage.findTransitionForDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2001, 4, 1, 2, 30, 0);
+  r = storage.findTransitionForDateTime(pdt);
   assertEqual(r.num, 0);
   assertNotEqual(r.prev, nullptr);
   assertNotEqual(r.curr, nullptr);
@@ -410,8 +410,8 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   assertEqual(2001, r.curr->transitionTime.year);
 
   // 2002-10-27 01:30 is in the overlap between Transition 2 and 3
-  ldt = LocalDateTime::forComponents(2002, 10, 27, 1, 30, 0);
-  r = storage.findTransitionForDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2002, 10, 27, 1, 30, 0);
+  r = storage.findTransitionForDateTime(pdt);
   assertEqual(r.num, 2);
   assertNotEqual(r.prev, nullptr);
   assertNotEqual(r.curr, nullptr);
@@ -420,8 +420,8 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   assertEqual(2002, r.curr->transitionTime.year);
 
   // 2003-01-01 01:00 matches only Transition 3
-  ldt = LocalDateTime::forComponents(2003, 1, 1, 1, 0, 0);
-  r = storage.findTransitionForDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2003, 1, 1, 1, 0, 0);
+  r = storage.findTransitionForDateTime(pdt);
   assertEqual(r.num, 1);
   assertNotEqual(r.prev, nullptr);
   assertNotEqual(r.curr, nullptr);
@@ -429,8 +429,8 @@ test(TransitionStorageTest, findTransitionForDateTime) {
   assertEqual(2002, r.curr->transitionTime.year);
 
   // 2005-01-01 00:00, far future
-  ldt = LocalDateTime::forComponents(2005, 1, 1, 0, 0, 0);
-  r = storage.findTransitionForDateTime(ldt);
+  pdt = PlainDateTime::forComponents(2005, 1, 1, 0, 0, 0);
+  r = storage.findTransitionForDateTime(pdt);
   assertEqual(r.num, 0);
   assertNotEqual(r.prev, nullptr);
   assertEqual(r.curr, nullptr);

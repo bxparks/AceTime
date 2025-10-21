@@ -12,8 +12,8 @@
  *   bytes. (after creating common printResult()).
  *
  * * Sketch uses 35898 bytes (116%) of program storage space. Maximum is 30720
- *   bytes. (after commenting out runLocalDateForEpochDays() and
- *   runLocalDateToEpochDays(), reverted).
+ *   bytes. (after commenting out runPlainDateForEpochDays() and
+ *   runPlainDateToEpochDays(), reverted).
  *
  * * Sketch uses 28136 bytes (91%) of program storage space. Maximum is 30720
  *   bytes. (After creating a custom kBasicRegistry with only 83 zones.)
@@ -92,7 +92,7 @@ const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
 // subtracted.
 volatile uint8_t guard;
 
-void disableOptimization(const LocalDate& ld) {
+void disableOptimization(const PlainDate& ld) {
   guard ^= ld.year();
   guard ^= ld.month();
   guard ^= ld.day();
@@ -212,52 +212,52 @@ static void runEmptyLoop() {
 static volatile unsigned long fakeEpochDays = 42;
 static volatile acetime_t fakeEpochSeconds = 3432;
 
-// LocalDate::forEpochDays()
-static void runLocalDateForEpochDays() {
-  unsigned long localDateForDaysMillis = runLambda([]() {
+// PlainDate::forEpochDays()
+static void runPlainDateForEpochDays() {
+  unsigned long plainDateForDaysMillis = runLambda([]() {
     fakeEpochDays = millis() & 0xffff;
-    LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
-    disableOptimization(localDate);
+    PlainDate plainDate = PlainDate::forEpochDays(fakeEpochDays);
+    disableOptimization(plainDate);
   });
 
-  printResult(F("LocalDate::forEpochDays()"), localDateForDaysMillis,
+  printResult(F("PlainDate::forEpochDays()"), plainDateForDaysMillis,
       emptyLoopMillis);
 }
 
-// LocalDate::toEpochDays()
-static void runLocalDateToEpochDays() {
-  unsigned long localDateToEpochDaysMillis = runLambda([]() {
+// PlainDate::toEpochDays()
+static void runPlainDateToEpochDays() {
+  unsigned long plainDateToEpochDaysMillis = runLambda([]() {
     fakeEpochDays = millis() & 0xffff;
-    LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
-    int32_t epochDays = localDate.toEpochDays();
+    PlainDate plainDate = PlainDate::forEpochDays(fakeEpochDays);
+    int32_t epochDays = plainDate.toEpochDays();
     disableOptimization(epochDays);
   });
   unsigned long forEpochDaysMillis = runLambda([]() {
     fakeEpochDays = millis() & 0xffff;
-    LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
-    disableOptimization(localDate);
+    PlainDate plainDate = PlainDate::forEpochDays(fakeEpochDays);
+    disableOptimization(plainDate);
   });
 
-  printResult(F("LocalDate::toEpochDays()"), localDateToEpochDaysMillis,
+  printResult(F("PlainDate::toEpochDays()"), plainDateToEpochDaysMillis,
       forEpochDaysMillis);
 }
 
-// LocalDate::dayOfWeek()
-static void runLocalDateDaysOfWeek() {
-  unsigned long localDateDayOfWeekMillis = runLambda([]() {
+// PlainDate::dayOfWeek()
+static void runPlainDateDaysOfWeek() {
+  unsigned long plainDateDayOfWeekMillis = runLambda([]() {
     fakeEpochDays = millis() & 0xffff;
-    LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
-    uint8_t dayOfWeek = localDate.dayOfWeek();
-    disableOptimization(localDate);
+    PlainDate plainDate = PlainDate::forEpochDays(fakeEpochDays);
+    uint8_t dayOfWeek = plainDate.dayOfWeek();
+    disableOptimization(plainDate);
     disableOptimization(dayOfWeek);
   });
   unsigned long forEpochDaysMillis = runLambda([]() {
     fakeEpochDays = millis() & 0xffff;
-    LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
-    disableOptimization(localDate);
+    PlainDate plainDate = PlainDate::forEpochDays(fakeEpochDays);
+    disableOptimization(plainDate);
   });
 
-  printResult(F("LocalDate::dayOfWeek()"), localDateDayOfWeekMillis,
+  printResult(F("PlainDate::dayOfWeek()"), plainDateDayOfWeekMillis,
       forEpochDaysMillis);
 }
 
@@ -265,20 +265,20 @@ static void runLocalDateDaysOfWeek() {
 
 // OffsetDateTime::forEpochSeconds()
 static void runOffsetDateTimeForEpochSeconds() {
-  unsigned long localDateForDaysMillis = runLambda([]() {
+  unsigned long plainDateForDaysMillis = runLambda([]() {
     fakeEpochSeconds = millis() & 0xffff;
     OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
         fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
 
-  printResult(F("OffsetDateTime::forEpochSeconds()"), localDateForDaysMillis,
+  printResult(F("OffsetDateTime::forEpochSeconds()"), plainDateForDaysMillis,
       emptyLoopMillis);
 }
 
 // OffsetDateTime::toEpochSeconds()
 static void runOffsetDateTimeToEpochSeconds() {
-  unsigned long localDateToEpochDaysMillis = runLambda([]() {
+  unsigned long plainDateToEpochDaysMillis = runLambda([]() {
     fakeEpochSeconds = millis() & 0xffff;
     OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
         fakeEpochSeconds, TimeOffset());
@@ -292,7 +292,7 @@ static void runOffsetDateTimeToEpochSeconds() {
     disableOptimization(odt);
   });
 
-  printResult(F("OffsetDateTime::toEpochSeconds()"), localDateToEpochDaysMillis,
+  printResult(F("OffsetDateTime::toEpochSeconds()"), plainDateToEpochDaysMillis,
       forEpochDaysMillis);
 }
 
@@ -1279,9 +1279,9 @@ void runCompleteRegistrarFindIndexForIdLinear() {
 void runBenchmarks() {
   runEmptyLoop();
 
-  runLocalDateForEpochDays();
-  runLocalDateToEpochDays();
-  runLocalDateDaysOfWeek();
+  runPlainDateForEpochDays();
+  runPlainDateToEpochDays();
+  runPlainDateDaysOfWeek();
 
   runOffsetDateTimeForEpochSeconds();
   runOffsetDateTimeToEpochSeconds();

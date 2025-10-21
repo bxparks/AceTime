@@ -75,8 +75,8 @@ test(ZonedDateTimeExtendedTest, Yukon2020) {
   dt = ZonedDateTime::forComponents(2020, 3, 8, 2, 0, 0, tz);
   assertEqual(TimeOffset::forHours(-7).toMinutes(),
       dt.timeOffset().toMinutes());
-  auto expected = LocalDateTime::forComponents(2020, 3, 8, 3, 0, 0);
-  assertTrue(expected == dt.localDateTime());
+  auto expected = PlainDateTime::forComponents(2020, 3, 8, 3, 0, 0);
+  assertTrue(expected == dt.plainDateTime());
   epochSeconds = dt.toEpochSeconds();
   ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
   assertEqual("PDT", ze.abbrev());

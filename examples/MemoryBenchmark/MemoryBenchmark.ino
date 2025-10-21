@@ -7,7 +7,7 @@
 
 // List of features of the AceTime library that we want to examine.
 #define FEATURE_BASELINE 0
-#define FEATURE_LOCAL_DATE_TIME 1
+#define FEATURE_PLAIN_DATE_TIME 1
 #define FEATURE_ZONED_DATE_TIME 2
 #define FEATURE_MANUAL_ZONE_MANAGER 3
 #define FEATURE_BASIC_TIME_ZONE 4
@@ -57,8 +57,8 @@ volatile int16_t year = 2019;
 // all these inside the setup() method, which creates the objects on the stack,
 // which do not get detected as memory consumption, so don't show up in the
 // *.txt files.
-#if FEATURE == FEATURE_LOCAL_DATE_TIME
-  auto dt = LocalDateTime::forComponents(year, 6, 17, 9, 18, 0);
+#if FEATURE == FEATURE_PLAIN_DATE_TIME
+  auto dt = PlainDateTime::forComponents(year, 6, 17, 9, 18, 0);
 #elif FEATURE == FEATURE_ZONED_DATE_TIME
   auto dt = ZonedDateTime::forComponents(year, 6, 17, 9, 18, 0, TimeZone());
 #elif FEATURE == FEATURE_MANUAL_ZONE_MANAGER
@@ -314,7 +314,7 @@ void setup() {
 
 #if FEATURE == FEATURE_BASELINE
   guard = 0;
-#elif FEATURE == FEATURE_LOCAL_DATE_TIME
+#elif FEATURE == FEATURE_PLAIN_DATE_TIME
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_ZONED_DATE_TIME

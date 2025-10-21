@@ -28,7 +28,7 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
-**Version**: AceTime v3.0.0
+**Version**: AceTime v4.0.0
 
 **NOTE**: This file was auto-generated using `make README.md`. DO NOT EDIT.
 
@@ -36,8 +36,8 @@ slow on 8-bit AVR processors.
 
 This program depends on the following libraries:
 
-* [AceTime](https://github.com/bxparks/AceTime)
-* [AceRoutine](https://github.com/bxparks/AceRoutine)
+- [AceTime](https://github.com/bxparks/AceTime)
+- [AceRoutine](https://github.com/bxparks/AceRoutine)
 
 ## How to Generate
 
@@ -78,26 +78,26 @@ The CPU times below are given in microseconds.
 ## CPU Time Changes
 
 **v0.8 to v1.4:**
-* The CPU time did not change much from
+- The CPU time did not change much from
 
 **v1.5:**
-* No significant changes to CPU time.
-* Zone registries (kZoneRegistry, kZoneAndLinkRegistry) are now sorted by zoneId
+- No significant changes to CPU time.
+- Zone registries (kZoneRegistry, kZoneAndLinkRegistry) are now sorted by zoneId
   instead of zoneName, and the `ZoneManager::createForZoneId()` will use a
   binary search, instead of a linear search. This makes it 10-15X faster for
   ~266 entries.
-* The `ZoneManager::createForZoneName()` also converts to a zoneId, then
+- The `ZoneManager::createForZoneName()` also converts to a zoneId, then
   performs a binary search, instead of doing a binary search on the zoneName
   directly. Even with the extra level of indirection, the `createForZoneName()`
   is between 1.5-2X faster than the previous version.
 
 **v1.6:**
-* BasicZoneManager and ExtendedZoneManager can take an optional
+- BasicZoneManager and ExtendedZoneManager can take an optional
   LinkRegistry which will be searched if a zoneId is not found. The
   `BasicZoneManager::createForZoneId(link)` benchmark shows that if the zoneId
   is not found, the total search time is roughly double, because the
   LinkRegistry must be search as a fallback.
-* On some compilers, the `BasicZoneManager::createForZoneName(binary)` becames
+- On some compilers, the `BasicZoneManager::createForZoneName(binary)` becames
   slightly slower (~10%?) because the algorithm was moved into the
   `ace_common::binarySearchByKey()` template function, and the compiler is not
   able to optimize the resulting function as well as the hand-rolled version.
@@ -105,141 +105,147 @@ The CPU times below are given in microseconds.
   maintenance.
 
 **v1.7.2:**
-* `SystemClock::clockMillis()` became non-virtual after incorporating
+- `SystemClock::clockMillis()` became non-virtual after incorporating
   AceRoutine v1.3. The sizeof `SystemClockLoop` and `SystemClockCoroutine`
   decreases 4 bytes on AVR, and 4-8 bytes on 32-bit processors. No signficant
   changes in CPU time.
 
 **v1.7.5:**
-* significant changes to size of `ExtendedZoneProcessor`
-    * 8-bit processors
-        * increases by 24 bytes on AVR, due adding 1 pointer and 2
+- significant changes to size of `ExtendedZoneProcessor`
+    - 8-bit processors
+        - increases by 24 bytes on AVR, due adding 1 pointer and 2
             `uint16_t` to MatchingEra
-        * decreases by 48 bytes on AVR, by disabling
+        - decreases by 48 bytes on AVR, by disabling
             `originalTransitionTime` unless
             `ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG` is enabled.
-    * 32-bit processors
-        * increases by 32 bytes on 32-bit processors due to adding
+    - 32-bit processors
+        - increases by 32 bytes on 32-bit processors due to adding
             a pointer and 2 `uint16_t` to MatchingEra
-        * decreases by 32 bytes on 32-bit processors due to disabling
+        - decreases by 32 bytes on 32-bit processors due to disabling
             `originalTransitionTime` in Transition
-* Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
-    * AutoBenchmark indicate that things are a few percentage faster.
+- Upgrade ESP8266 Core from 2.7.4 to 3.0.2.
+    - AutoBenchmark indicate that things are a few percentage faster.
 
 **v1.8.0:**
-* Remove `sizeof()` Clock classes which were moved to AceTimeClock library.
-* No significant changes to excution times of various benchmarks.
+- Remove `sizeof()` Clock classes which were moved to AceTimeClock library.
+- No significant changes to excution times of various benchmarks.
 
 **v1.9.0:**
-* Extract `BasicZoneProcessorCache<SIZE>` and `ExtendedZoneProcessorCache<SIZE>`
+- Extract `BasicZoneProcessorCache<SIZE>` and `ExtendedZoneProcessorCache<SIZE>`
   from `BasicZoneManager` and `ExtendedZoneManager`. Remove all pure `virtual`
   methods from `ZoneManager`, making ZoneManager hierarchy non-polymorphic.
-    * Saves 1100-1300 of flash on AVR.
-    * No signficant changes to CPU performance.
+    - Saves 1100-1300 of flash on AVR.
+    - No signficant changes to CPU performance.
 
 **v1.10.0:**
-* Remove support for SAMD21 boards.
-    * Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
+- Remove support for SAMD21 boards.
+    - Arduino IDE 1.8.19 with SparkFun SAMD 1.8.6 can no longer upload binaries
       to these boards. Something about bossac 1.7.0 not found.
-* Upgrade tool chain:
-    * Arduino IDE from 1.8.13 to 1.8.19
-    * Arduino AVR from 1.8.3 to 1.8.4
-    * STM32duino from 2.0.0 to 2.2.0
-    * ESP32 from 1.0.6 to 2.0.2
-    * Teensyduino from 1.55 to 1.56
-* Add benchmarks for `ZonedDateTime::forComponents()`.
-* Add support for `fold` parameter in `LocalDateTime`, `OffsetDateTime`,
+- Upgrade tool chain:
+    - Arduino IDE from 1.8.13 to 1.8.19
+    - Arduino AVR from 1.8.3 to 1.8.4
+    - STM32duino from 2.0.0 to 2.2.0
+    - ESP32 from 1.0.6 to 2.0.2
+    - Teensyduino from 1.55 to 1.56
+- Add benchmarks for `ZonedDateTime::forComponents()`.
+- Add support for `fold` parameter in `PlainDateTime`, `OffsetDateTime`,
   `ZonedDateTime`, and `ExtendedZoneProcessor`.
-    * The `ZonedDateTime::forComponents()` can be made much faster using 'fold'.
-    * We know exactly when we must normalize and when we can avoid
+    - The `ZonedDateTime::forComponents()` can be made much faster using 'fold'.
+    - We know exactly when we must normalize and when we can avoid
       normalization.
-    * 5X faster on AVR processors when cached, and
-    * 1.5-3X faster on 32-bit processors.
+    - 5X faster on AVR processors when cached, and
+    - 1.5-3X faster on 32-bit processors.
 
 **v1.11.0:**
-* Upgrade ZoneInfo database so that Links are symbolic links to Zones, instead
+- Upgrade ZoneInfo database so that Links are symbolic links to Zones, instead
   of hard links to Zones.
-    * No significant changes to CPU benchmarks.
+    - No significant changes to CPU benchmarks.
 
 **v1.11.5**
-* Upgrade tool chain
-    * Arduino CLI from 0.20.2 to 0.27.1
-    * Arduino AVR Core from 1.8.4 to 1.8.5
-    * STM32duino from 2.2.0 to 2.3.0
-    * ESP32 Core from 2.0.2 to 2.0.5
-    * Teensyduino from 1.56 to 1.57
-* Upgrade TZDB from 2022b to 2022d
+- Upgrade tool chain
+    - Arduino CLI from 0.20.2 to 0.27.1
+    - Arduino AVR Core from 1.8.4 to 1.8.5
+    - STM32duino from 2.2.0 to 2.3.0
+    - ESP32 Core from 2.0.2 to 2.0.5
+    - Teensyduino from 1.56 to 1.57
+- Upgrade TZDB from 2022b to 2022d
 
 **v2.0**
-* Use `int16_t` year fields.
-* Implement adjustable epoch year.
-* Upgrade to TZDB 2022f.
-* AVR:
-    * sizeof(LocalDate) increases from 3 to 4
-    * sizeof(BasicZoneProcessor) increases from 116 to 122
-    * sizeof(ExtendedZoneProcessor) increases from 436 to 468
-    * sizeof(TransitionStorage) increases from 340 to 364
-    * ZonedDateTime::forEpochSeconds() slower by 5-10%
-* ESP8266
-    * sizeof(LocalDate) increases from 3 to 4
-    * sizeof(BasicZoneProcessor) remains at 164
-    * sizeof(ExtendedZoneProcessor) increases from 540 to 588
-    * sizeof(TransitionStorage) increases from 420 to 452
-    * ZonedDateTime::forEpochSeconds() slower by 0-10%
+- Use `int16_t` year fields.
+- Implement adjustable epoch year.
+- Upgrade to TZDB 2022f.
+- AVR:
+    - sizeof(PlainDate) increases from 3 to 4
+    - sizeof(BasicZoneProcessor) increases from 116 to 122
+    - sizeof(ExtendedZoneProcessor) increases from 436 to 468
+    - sizeof(TransitionStorage) increases from 340 to 364
+    - ZonedDateTime::forEpochSeconds() slower by 5-10%
+- ESP8266
+    - sizeof(PlainDate) increases from 3 to 4
+    - sizeof(BasicZoneProcessor) remains at 164
+    - sizeof(ExtendedZoneProcessor) increases from 540 to 588
+    - sizeof(TransitionStorage) increases from 420 to 452
+    - ZonedDateTime::forEpochSeconds() slower by 0-10%
 
 **v2.1.1**
-* Upgrade to TZDB 2022g.
-* Add `ZonedExtra`.
-* Unify fat and symbolic links.
-* Not much difference in execution times, except:
-    * `ZonedDateTime::forComponents()` using the `BasicZoneProcessor`
+- Upgrade to TZDB 2022g.
+- Add `ZonedExtra`.
+- Unify fat and symbolic links.
+- Not much difference in execution times, except:
+    - `ZonedDateTime::forComponents()` using the `BasicZoneProcessor`
       becomes ~50% slower due to the extra work needed to resolve gaps and
       overlaps.
-    * `ZonedDateTime::forEpochSeconds()` using `BasicZoneProcessors` remains
+    - `ZonedDateTime::forEpochSeconds()` using `BasicZoneProcessors` remains
       unchanged.
-    * `ExtendedZoneProcessor` is substantially faster on AVR processors.
+    - `ExtendedZoneProcessor` is substantially faster on AVR processors.
        Maybe it should be recommended ove `BasicZoneProcessor` even on AVR.
 
 **v2.2.0**
-* Upgrade tool chain
-    * Arduino AVR from 1.8.5 to 1.8.6
-    * STM32duino from 2.3.0 to 2.4.0
-    * ESP8266 from 3.0.2 to 3.1.2 failed, reverted back to 3.0.2
-    * ESP32 from 2.0.5 to 2.0.7
-* Add support for Seeed XIAO SAMD21
-    * Seeeduino 1.8.3
-* Upgrade to TZDB 2023b
+- Upgrade tool chain
+    - Arduino AVR from 1.8.5 to 1.8.6
+    - STM32duino from 2.3.0 to 2.4.0
+    - ESP8266 from 3.0.2 to 3.1.2 failed, reverted back to 3.0.2
+    - ESP32 from 2.0.5 to 2.0.7
+- Add support for Seeed XIAO SAMD21
+    - Seeeduino 1.8.3
+- Upgrade to TZDB 2023b
 
 **v2.2.2**
-* Upgrade to TZDB 2023c
+- Upgrade to TZDB 2023c
 
 **v2.2.3**
-* Add support for Adafruit ItsyBitsy M4
-    * Using Adafruit SAMD Boards 1.7.11
-* Remove Teensy 3.2
-    * Nearing end of life. Moved to Tier 2 (should work).
-* Upgrade tool chain
-    * Seeeduino SAMD Boards 1.8.4
-    * STM32duino Boards 2.5.0
-    * ESP32 Boards 2.0.9
+- Add support for Adafruit ItsyBitsy M4
+    - Using Adafruit SAMD Boards 1.7.11
+- Remove Teensy 3.2
+    - Nearing end of life. Moved to Tier 2 (should work).
+- Upgrade tool chain
+    - Seeeduino SAMD Boards 1.8.4
+    - STM32duino Boards 2.5.0
+    - ESP32 Boards 2.0.9
 
 **v2.3.0**
-* Add benchmarks for `CompleteZoneProcessor` and related classes
-* Replace labels of `BasicZoneManager::createForXxx()` with
+- Add benchmarks for `CompleteZoneProcessor` and related classes
+- Replace labels of `BasicZoneManager::createForXxx()` with
   `BasicZoneRegistrar::findIndexForXxx()`, because those are the methods which
   are actually being tested.
 
 **v2.4.0**
-* Support %z format.
-* Upgrade to TZDB 2024b.
-* Upgrade Arduino CLI to 1.1.1
-* Almost no change in execution times.
+- Support %z format.
+- Upgrade to TZDB 2024b.
+- Upgrade Arduino CLI to 1.1.1
+- Almost no change in execution times.
+
+**v3.0.0**
+- Upgrade to TZDB 2025b.
+
+**v4.0.0**
+- Upgrade Arduino CLI to 1.3.1
 
 ## Arduino Nano
 
-* 16MHz ATmega328P
-* Arduino IDE 1.8.19, Arduino CLI 1.1.1
-* Arduino AVR Boards 1.8.6
+- 16MHz ATmega328P
+- Arduino IDE 1.8.19, Arduino CLI 1.3.1
+- Arduino AVR Boards 1.8.6
 
 ```
 {nano_results}
@@ -247,9 +253,9 @@ The CPU times below are given in microseconds.
 
 ## Sparkfun Pro Micro
 
-* 16 MHz ATmega32U4
-* Arduino IDE 1.8.19, Arduino CLI 1.1.1
-* SparkFun AVR Boards 1.1.13
+- 16 MHz ATmega32U4
+- Arduino IDE 1.8.19, Arduino CLI 1.3.1
+- SparkFun AVR Boards 1.1.13
 
 ```
 {micro_results}
@@ -257,9 +263,9 @@ The CPU times below are given in microseconds.
 
 ## Seeed Studio XIAO SAMD21
 
-* SAMD21, 48 MHz ARM Cortex-M0+
-* Arduino IDE 1.8.19, Arduino CLI 1.1.1
-* Seeeduino 1.8.4
+- SAMD21, 48 MHz ARM Cortex-M0+
+- Arduino IDE 1.8.19, Arduino CLI 1.3.1
+- Seeeduino 1.8.4
 
 ```
 {samd21_results}
@@ -267,9 +273,9 @@ The CPU times below are given in microseconds.
 
 ## STM32 Blue Pill
 
-* STM32F103C8, 72 MHz ARM Cortex-M3
-* Arduino IDE 1.8.19, Arduino CLI 1.1.1
-* STM32duino 2.5.0
+- STM32F103C8, 72 MHz ARM Cortex-M3
+- Arduino IDE 1.8.19, Arduino CLI 1.3.1
+- STM32duino 2.5.0
 
 ```
 {stm32_results}
@@ -277,9 +283,9 @@ The CPU times below are given in microseconds.
 
 ## Adafruit ItsyBitsy M4 SAMD51
 
-* SAMD51, 120 MHz ARM Cortex-M4
-* Arduino IDE 1.8.19, Arduino CLI 1.1.1
-* Adafruit SAMD 1.7.11
+- SAMD51, 120 MHz ARM Cortex-M4
+- Arduino IDE 1.8.19, Arduino CLI 1.3.1
+- Adafruit SAMD 1.7.11
 
 ```
 {samd51_results}
@@ -287,9 +293,9 @@ The CPU times below are given in microseconds.
 
 ## ESP8266
 
-* NodeMCU 1.0 clone, 80MHz ESP8266
-* Arduino IDE 1.8.19, Arduino CLI 1.1.1
-* ESP8266 Boards 3.0.2
+- NodeMCU 1.0 clone, 80MHz ESP8266
+- Arduino IDE 1.8.19, Arduino CLI 1.3.1
+- ESP8266 Boards 3.0.2
 
 ```
 {esp8266_results}
@@ -297,9 +303,9 @@ The CPU times below are given in microseconds.
 
 ## ESP32
 
-* ESP32-01 Dev Board, 240 MHz Tensilica LX6
-* Arduino IDE 1.8.19, Arduino CLI 1.1.1
-* ESP32 Boards 2.0.9
+- ESP32-01 Dev Board, 240 MHz Tensilica LX6
+- Arduino IDE 1.8.19, Arduino CLI 1.3.1
+- ESP32 Boards 2.0.9
 
 ```
 {esp32_results}

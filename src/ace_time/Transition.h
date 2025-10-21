@@ -8,7 +8,7 @@
 
 #include <stdint.h> // uint8_t
 #include "common/logging.h"
-#include "local_date_mutation.h"
+#include "plain_date_mutation.h"
 #include "DateTuple.h"
 
 class TransitionStorageTest_getFreeAgent;
@@ -272,7 +272,7 @@ struct TransitionTemplate {
  * Tuple of a matching Transition and its 'fold'. Used by
  * findTransitionForSeconds() which is guaranteed to return only a single
  * Transition if found. Usually `fold=0`. But if the epochSeconds maps to a
- * LocalDateTime which occurs a second time during a "fall back", then `fold` is
+ * PlainDateTime which occurs a second time during a "fall back", then `fold` is
  * set to 1.
  */
 template <typename D>
@@ -284,16 +284,16 @@ struct TransitionForSecondsTemplate {
   uint8_t fold;
 
   /**
-   * Number of occurrences of the resulting LocalDateTime: 0, 1, or 2.
-   * This is needed because a fold=0 can mean that the LocalDateTime occurs
-   * exactly once, or that the first of two occurrences of LocalDateTime was
+   * Number of occurrences of the resulting PlainDateTime: 0, 1, or 2.
+   * This is needed because a fold=0 can mean that the PlainDateTime occurs
+   * exactly once, or that the first of two occurrences of PlainDateTime was
    * selected by the epochSeconds.
    */
   uint8_t num;
 };
 
 /**
- * The result of the findTransitionForDateTime(const LocalDatetime& ldt) method
+ * The result of the findTransitionForDateTime(const PlainDatetime& pdt) method
  * which can return 0, 1, or 2 matching Transitions depending on whether the
  * DateTime is an exact match, in the gap, or in the overlap.
  *
@@ -339,9 +339,9 @@ struct TransitionForDateTimeTemplate {
  * 3) Candidate pool: [mIndexCandidates, mIndexFree)
  * 4) Free agent pool: [mIndexFree, mAllocSize), 0 or 1 element
  *
- * At the completion of the ExtendedZoneProcessor::init(LocalDate& ld) method,
+ * At the completion of the ExtendedZoneProcessor::init(PlainDate& pd) method,
  * the Active pool will contain the active Transitions relevant to the
- * 'year' defined by the LocalDate. The Prior and Candidate pools will be
+ * 'year' defined by the PlainDate. The Prior and Candidate pools will be
  * empty, with the Free pool taking up the remaining space.
  *
  * @tparam SIZE size of internal cache
@@ -593,7 +593,7 @@ class TransitionStorageTemplate {
      * cannot be mapped to any transition. It is 1 if the epochSeconds in the
      * `curr` transition is unique and does not overlap with the `prev` or
      * `next` transition. It is 2 if the epochSeconds in the `curr` transition
-     * maps to a LocalDateTime that overlaps with either the `prev` or `next`
+     * maps to a PlainDateTime that overlaps with either the `prev` or `next`
      * transition. (In theory, I suppose it could overlap with both, but it is
      * improbable that any timezone in the TZDB will ever let that happen.)
      *
@@ -602,7 +602,7 @@ class TransitionStorageTemplate {
      * 2. If `num` is 0 or 1, `fold` will always be 0. If `num` is 2, then
      * `fold` indicates whether `curr` is the earlier (0) or later (1)
      * transition of the overlap. This `fold` parameter will be copied into the
-     * corresponding `fold` parameter in LocalDateTime.
+     * corresponding `fold` parameter in PlainDateTime.
      */
     static void calcFoldAndOverlap(
         uint8_t* fold,
@@ -676,13 +676,13 @@ class TransitionStorageTemplate {
      * dateTime falls in a gap or overlap.
      */
     TransitionForDateTime findTransitionForDateTime(
-        const LocalDateTime& ldt) const {
-      // Convert LocalDateTime to DateTuple.
-      DateTuple localDate{
-          ldt.year(),
-          ldt.month(),
-          ldt.day(),
-          ((ldt.hour() * int32_t(60) + ldt.minute()) * 60 + ldt.second()),
+        const PlainDateTime& pdt) const {
+      // Convert PlainDateTime to DateTuple.
+      DateTuple plainDate{
+          pdt.year(),
+          pdt.month(),
+          pdt.day(),
+          ((pdt.hour() * int32_t(60) + pdt.minute()) * 60 + pdt.second()),
           extended::Info::ZoneContext::kSuffixW,
       };
 
@@ -696,8 +696,8 @@ class TransitionStorageTemplate {
 
         const DateTuple& startDateTime = curr->startDateTime;
         const DateTuple& untilDateTime = curr->untilDateTime;
-        bool isExactMatch = (startDateTime <= localDate)
-            && (localDate < untilDateTime);
+        bool isExactMatch = (startDateTime <= plainDate)
+            && (plainDate < untilDateTime);
 
         if (isExactMatch) {
           // Check for a previous exact match to detect an overlap.
@@ -708,7 +708,7 @@ class TransitionStorageTemplate {
 
           // Loop again to detect an overlap.
           num = 1;
-        } else if (startDateTime > localDate) {
+        } else if (startDateTime > plainDate) {
           // Exit loop since no more candidate transition.
           break;
         }

@@ -12,7 +12,7 @@
 #include "common/common.h" // kAbbrevSize
 #include "common/logging.h"
 #include "TimeOffset.h"
-#include "LocalDate.h"
+#include "PlainDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneProcessor.h"
 
@@ -25,7 +25,7 @@ class BasicZoneProcessorTest_compareRulesBeforeYear;
 class BasicZoneProcessorTest_findLatestPriorRule;
 class BasicZoneProcessorTest_findZoneEra;
 class BasicZoneProcessorTest_init_primitives;
-class BasicZoneProcessorTest_initForLocalDate;
+class BasicZoneProcessorTest_initForPlainDate;
 class BasicZoneProcessorTest_setZoneKey;
 class BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
@@ -203,7 +203,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     }
 
     /**
-     * @copydoc ZoneProcessor::findByLocalDateTime()
+     * @copydoc ZoneProcessor::findByPlainDateTime()
      *
      * The Transitions calculated by BasicZoneProcessor contain only the
      * epochSeconds when each transition occurs. They do not contain the local
@@ -213,14 +213,14 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      *
      * The implementation is somewhat of a hack:
      *
-     * 0) Use the localDateTime to extract the offset, *assuming* that the
-     * localDatetime is UTC. This will get us within 12-14h of the correct
+     * 0) Use the plainDateTime to extract the offset, *assuming* that the
+     * plainDatetime is UTC. This will get us within 12-14h of the correct
      * UTC offset.
-     * 1) Use (localDateTime, offset0) to determine offset1.
-     * 2) Use (localdateTime, offset1) to determine offset2.
+     * 1) Use (plainDateTime, offset0) to determine offset1.
+     * 2) Use (plainDateTime, offset1) to determine offset2.
      * 3) Finally, check if offset1 and offset2 are equal. If they are
-     * we reached equilibrium so we can just return (localDateTime, offset1).
-     * If they are not equal, then we have a cycle because the localDateTime
+     * we reached equilibrium so we can just return (plainDateTime, offset1).
+     * If they are not equal, then we have a cycle because the plainDateTime
      * occurred in a DST gap (STD->DST transition) or overlap (DST->STD
      * transition). We arbitrarily pick the offset of the *later* epochSeconds
      * since that seems to match closely to what most people would expect to
@@ -230,21 +230,26 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * This algorithm will detect a FindResult::kTypeGap, but it will not be
      * able to distinguish between a kTypeExact and kTypeOverlap.
      */
-    FindResult findByLocalDateTime(
-        const LocalDateTime& ldt) const override {
+    FindResult findByPlainDateTime(
+        const PlainDateTime& pdt,
+        Disambiguate disambiguate) const override {
+
+      // BasicZoneProcessor cannot support disambiguate
+      (void) disambiguate;
+
       FindResult result;
-      bool success = initForLocalDate(ldt.localDate());
+      bool success = initForPlainDate(pdt.plainDate());
       if (!success) return result;
 
       // 0) Use the UTC epochSeconds to get intial guess of offset.
-      acetime_t epochSeconds0 = ldt.toEpochSeconds();
+      acetime_t epochSeconds0 = pdt.toEpochSeconds();
       auto result0 = findByEpochSeconds(epochSeconds0);
       if (result0.type == FindResult::kTypeNotFound) return result;
       auto offset0 = TimeOffset::forSeconds(
           result0.reqStdOffsetSeconds + result0.reqDstOffsetSeconds);
 
       // 1) Use offset0 to get the next epochSeconds and offset.
-      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
+      auto odt = OffsetDateTime::forPlainDateTimeAndOffset(pdt, offset0);
       acetime_t epochSeconds1 = odt.toEpochSeconds();
       auto result1 = findByEpochSeconds(epochSeconds1);
       if (result1.type == FindResult::kTypeNotFound) return result;
@@ -252,7 +257,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
           result1.reqStdOffsetSeconds + result1.reqDstOffsetSeconds);
 
       // 2) Use offset1 to get the next epochSeconds and offset.
-      odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
+      odt = OffsetDateTime::forPlainDateTimeAndOffset(pdt, offset1);
       acetime_t epochSeconds2 = odt.toEpochSeconds();
       auto result2 = findByEpochSeconds(epochSeconds2);
       if (result2.type == FindResult::kTypeNotFound) return result;
@@ -269,7 +274,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       } else {
         // If the offsets don't match, then I think we have a kTypeGap.
         // Pick the stdOffset and dstOffset that generate the later epochSeconds
-        // (the earlier transition), but convert into the LocalDateTime of the
+        // (the earlier transition), but convert into the PlainDateTime of the
         // earlier epochSeconds (the later transition).
         if (epochSeconds1 > epochSeconds2) {
           result = result1;
@@ -316,7 +321,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
       if (mZoneInfoBroker.equals(zoneKey)) return;
 
       mZoneInfoBroker = mZoneInfoStore->createZoneInfoBroker(zoneKey);
-      mYear = LocalDate::kInvalidYear;
+      mYear = PlainDate::kInvalidYear;
       mNumTransitions = 0;
     }
 
@@ -378,7 +383,7 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
     friend class ::BasicZoneProcessorTest_findLatestPriorRule;
     friend class ::BasicZoneProcessorTest_findZoneEra;
     friend class ::BasicZoneProcessorTest_init_primitives;
-    friend class ::BasicZoneProcessorTest_initForLocalDate;
+    friend class ::BasicZoneProcessorTest_initForPlainDate;
     friend class ::BasicZoneProcessorTest_setZoneKey;
     friend class ::BasicZoneProcessorTest_calcRuleOffsetMinutes;
 
@@ -445,21 +450,21 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
      * Returns success status: true if successful, false if an error occurred
      * (e.g. out of bounds).
      */
-    bool initForLocalDate(const LocalDate& ld) const {
-      int16_t year = ld.year();
-      if (ld.month() == 1 && ld.day() == 1) {
+    bool initForPlainDate(const PlainDate& pd) const {
+      int16_t year = pd.year();
+      if (pd.month() == 1 && pd.day() == 1) {
         year--;
       }
-      // Restrict to [1,9999], even though LocalDate should be able to handle
+      // Restrict to [1,9999], even though PlainDate should be able to handle
       // [0,10000].
-      if (year <= LocalDate::kMinYear || LocalDate::kMaxYear <= year) {
+      if (year <= PlainDate::kMinYear || PlainDate::kMaxYear <= year) {
         return false;
       }
 
       if (isFilled(year)) return true;
       if (ACE_TIME_BASIC_ZONE_PROCESSOR_DEBUG) {
-        logging::printf("initForLocalDate(): %d (new year %d)\n",
-            ld.year(), year);
+        logging::printf("initForPlainDate(): %d (new year %d)\n",
+            pd.year(), year);
       }
 
       mYear = year;
@@ -482,12 +487,12 @@ class BasicZoneProcessorTemplate: public ZoneProcessor {
 
     /**
      * Initialize the transition cache, by converting the epochSeconds to
-     * year-month-day in UTC, then calling initForLocalDate() with the 'year'
+     * year-month-day in UTC, then calling initForPlainDate() with the 'year'
      * component.
      */
     bool initForEpochSeconds(acetime_t epochSeconds) const {
-      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      return initForLocalDate(ld);
+      PlainDate pd = PlainDate::forEpochSeconds(epochSeconds);
+      return initForPlainDate(pd);
     }
 
     /**

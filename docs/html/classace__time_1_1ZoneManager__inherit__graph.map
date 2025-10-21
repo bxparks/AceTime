@@ -1,4 +1,0 @@
-<map id="ace_time::ZoneManager" name="ace_time::ZoneManager">
-<area shape="rect" id="node1" title="Base class for ManualZoneManager, BasicZoneManager, and ExtendedZoneManager to keep ZoneManager::kInv..." alt="" coords="35,5,215,32"/>
-<area shape="rect" id="node2" href="$classace__time_1_1ZoneManagerTemplate.html" title="A templatized implementation of ZoneManager that binds the ZoneRegistrar with the corresponding (Basi..." alt="" coords="5,80,245,121"/>
-</map>

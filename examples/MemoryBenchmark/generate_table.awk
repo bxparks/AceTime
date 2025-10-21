@@ -8,7 +8,7 @@
 BEGIN {
   NUM_FEATURES = 24
   labels[0] = "baseline"
-  labels[1] = "LocalDateTime"
+  labels[1] = "PlainDateTime"
   labels[2] = "ZonedDateTime"
   labels[3] = "Manual ZoneManager"
   labels[4] = "Basic TimeZone (1 zone)"
@@ -85,7 +85,7 @@ END {
   for (i = 0; i <= NUM_FEATURES; i++) {
     name = labels[i]
     if (name ~ /^baseline/ \
-        || name ~ /^LocalDateTime/ \
+        || name ~ /^PlainDateTime/ \
         || name ~ /^Basic TimeZone \(1 zone\)/ \
         || name ~ /^Basic ZoneSorterByName/ \
         || name ~ /^Extended TimeZone \(1 zone\)/ \

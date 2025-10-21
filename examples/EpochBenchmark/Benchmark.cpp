@@ -12,7 +12,7 @@
 #include "Benchmark.h"
 
 using ace_common::printUint32AsFloat3To;
-using ace_time::LocalDate;
+using ace_time::PlainDate;
 using ace_time::EpochConverterJulian;
 using ace_time::EpochConverterHinnant;
 
@@ -77,7 +77,7 @@ void runEmptyLoop(const __FlashStringHelper* label) {
   uint32_t startMillis = millis();
   for (int16_t year = 2000 - 127; year <= 2000 + 127; year += YEAR_STEP) {
     for (uint8_t month = 1; month <= 12; month++) {
-      uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+      uint8_t daysInMonth = PlainDate::daysInMonth(year, month);
       for (uint8_t day = 1; day <= daysInMonth; day++) {
         guard ^= year;
         guard ^= month;
@@ -98,7 +98,7 @@ void runConverterJulian(const __FlashStringHelper* label) {
   uint32_t iterations = 0;
   for (int16_t year = 2000 - 127; year <= 2000 + 127; year += YEAR_STEP) {
     for (uint8_t month = 1; month <= 12; month++) {
-      uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+      uint8_t daysInMonth = PlainDate::daysInMonth(year, month);
       for (uint8_t day = 1; day <= daysInMonth; day++) {
         // Test toEpochDays()
         int32_t epochDays = EpochConverterJulian::toEpochDays(
@@ -130,7 +130,7 @@ void runConverterHinnant(const __FlashStringHelper* label) {
   uint32_t iterations = 0;
   for (int16_t year = 2000 - 127; year <= 2000 + 127; year += YEAR_STEP) {
     for (uint8_t month = 1; month <= 12; month++) {
-      uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+      uint8_t daysInMonth = PlainDate::daysInMonth(year, month);
       for (uint8_t day = 1; day <= daysInMonth; day++) {
         // Test toEpochDays()
         int32_t epochDays = EpochConverterHinnant::toEpochDays(

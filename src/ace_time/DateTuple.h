@@ -8,7 +8,7 @@
 
 #include <stdint.h> // uint8_t
 #include "common/logging.h"
-#include "local_date_mutation.h"
+#include "plain_date_mutation.h"
 
 #ifndef ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_DEBUG 0
@@ -112,18 +112,18 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
 inline void normalizeDateTuple(DateTuple* dt) {
   const int32_t kOneDayAsSeconds = int32_t(60) * 60 * 24;
   if (dt->seconds <= -kOneDayAsSeconds) {
-    LocalDate ld = LocalDate::forComponents(dt->year, dt->month, dt->day);
-    local_date_mutation::decrementOneDay(ld);
-    dt->year = ld.year();
-    dt->month = ld.month();
-    dt->day = ld.day();
+    PlainDate pd = PlainDate::forComponents(dt->year, dt->month, dt->day);
+    plain_date_mutation::decrementOneDay(pd);
+    dt->year = pd.year();
+    dt->month = pd.month();
+    dt->day = pd.day();
     dt->seconds += kOneDayAsSeconds;
   } else if (kOneDayAsSeconds <= dt->seconds) {
-    LocalDate ld = LocalDate::forComponents(dt->year, dt->month, dt->day);
-    local_date_mutation::incrementOneDay(ld);
-    dt->year = ld.year();
-    dt->month = ld.month();
-    dt->day = ld.day();
+    PlainDate pd = PlainDate::forComponents(dt->year, dt->month, dt->day);
+    plain_date_mutation::incrementOneDay(pd);
+    dt->year = pd.year();
+    dt->month = pd.month();
+    dt->day = pd.day();
     dt->seconds -= kOneDayAsSeconds;
   } else {
     // do nothing
@@ -183,10 +183,10 @@ inline void expandDateTuple(
  * `acetime_t`, which is a signed 32-bit integer.
  */
 inline acetime_t subtractDateTuple(const DateTuple& a, const DateTuple& b) {
-  int32_t epochDaysA = LocalDate::forComponents(
+  int32_t epochDaysA = PlainDate::forComponents(
       a.year, a.month, a.day).toEpochDays();
 
-  int32_t epochDaysB = LocalDate::forComponents(
+  int32_t epochDaysB = PlainDate::forComponents(
       b.year, b.month, b.day).toEpochDays();
 
   // Perform the subtraction of the days first, before converting to seconds, to

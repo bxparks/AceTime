@@ -9,17 +9,19 @@
 /**
  * @file ZoneInfoHigh.h
  *
- * Data structures that encodes the high resolution zoneinfo database
- * persistence format. It has a 1-second resolution for AT, UNTIL, STDOFF, and
- * DST offsets. The year fiels use 2-bytes which supporting years
- * `[-32767,32765]`.
+ * The ZoneInfo, ZoneEra, ZonePolicy, and ZoneRule data structures in this file
+ * describe the high resolution zoneinfo database persistence format. It has a
+ * 1-second resolution for AT, UNTIL, STDOFF, and DST offsets. The year fiels
+ * use 2-bytes which supporting years `[-32767,32765]`.
  *
- * The BrokersHigh.h file provides an abtraction layer which converts these
- * low-level fields into a semantically consistent API which can be used by the
- * AceTime classes.
+ * For each data structure (ZoneInfo, ZoneEra, ZonePolicy, ZoneRule), there is a
+ * corresponding Broker wrapper class (ZoneInfoBroker, ZoneEraBroker,
+ * ZonePolicyBroker, ZoneRuleBroker). The Broker objects provide a semantically
+ * consistent API for the higher-level AceTime classes.
  *
- * The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will
- * use one of these persistence formats, as defined by infos.h.
+ * This database format is used by the zonedb files described as "complete"
+ * (e.g. zonedbc) because the high resolution format is required for some
+ * timezones before ~1980.
  *
  * See also DEVELOPER.md for an overview of the ZoneInfoXXX layer.
  */
@@ -36,7 +38,7 @@ class Print;
 namespace ace_time {
 
 /**
- * Wrapper class so that the entire collection can be referenced as a singel
+ * Wrapper class so that the entire collection can be referenced as a single
  * template parameter.
  */
 class ZoneInfoHigh {
