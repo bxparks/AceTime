@@ -46,7 +46,7 @@
 //   Rules: 352
 //
 // Memory (8-bits):
-//   Context: 16
+//   Context: 20
 //   Rules: 3168
 //   Policies: 189
 //   Eras: 2497
@@ -57,10 +57,10 @@
 //   Letters: 29
 //   Fragments: 116
 //   Names: 4142 (original: 6494)
-//   TOTAL: 17022
+//   TOTAL: 17026
 //
 // Memory (32-bits):
-//   Context: 24
+//   Context: 28
 //   Rules: 4224
 //   Policies: 504
 //   Eras: 3632
@@ -71,7 +71,7 @@
 //   Letters: 41
 //   Fragments: 138
 //   Names: 4142 (original: 6494)
-//   TOTAL: 25368
+//   TOTAL: 25372
 //
 // DO NOT EDIT
 

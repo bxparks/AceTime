@@ -6,7 +6,7 @@
 
 using aunit::TestOnce;
 using aunit::TestRunner;
-using ace_time::LocalDate;
+using ace_time::PlainDate;
 using ace_time::EpochConverterJulian;
 using ace_time::EpochConverterHinnant;
 
@@ -52,7 +52,7 @@ test(EpochConverterJulianTest, allDays) {
     yield(); // Prevent watch dog timer on ESP8266.
   #endif
     for (uint8_t month = 1; month <= 12; month++) {
-      uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+      uint8_t daysInMonth = PlainDate::daysInMonth(year, month);
       for (uint8_t day = 1; day <= daysInMonth; day++) {
         // Test toEpochDays()
         int32_t obsEpochDays = EpochConverterJulian::toEpochDays(
@@ -97,7 +97,7 @@ test(EpochConverterHinnantTest, allDays) {
     yield(); // Prevent watch dog timer on ESP8266.
 #endif
     for (uint8_t month = 1; month <= 12; month++) {
-      uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+      uint8_t daysInMonth = PlainDate::daysInMonth(year, month);
       for (uint8_t day = 1; day <= daysInMonth; day++) {
         // Test toEpochDays()
         int32_t obsEpochDays = EpochConverterHinnant::toEpochDays(

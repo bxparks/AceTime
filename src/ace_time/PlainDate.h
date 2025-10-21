@@ -3,8 +3,8 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_LOCAL_DATE_H
-#define ACE_TIME_LOCAL_DATE_H
+#ifndef ACE_TIME_PLAIN_DATE_H
+#define ACE_TIME_PLAIN_DATE_H
 
 #include <stdint.h>
 #include <string.h> // strlen()
@@ -39,11 +39,11 @@ namespace ace_time {
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
  * fields.
  *
- * Parts of this class were inspired by the java.time.LocalDate class of Java
+ * Parts of this class were inspired by the java.time.PlainDate class of Java
  * 11
- * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDate.html).
+ * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/PlainDate.html).
  */
-class LocalDate {
+class PlainDate {
   public:
     /**
      * Sentinel year which indicates one or more of the following conditions:
@@ -58,7 +58,7 @@ class LocalDate {
     static const int16_t kInvalidYear = INT16_MIN;
 
     /**
-     * The smallest year that is expected to be handled by LocalDate.
+     * The smallest year that is expected to be handled by PlainDate.
      *
      * The algorithms in the EpochConverterHinnant works for the propletic
      * Gregorian calendar down to year 1. However, time zone offsets and
@@ -69,7 +69,7 @@ class LocalDate {
     static const int16_t kMinYear = 0;
 
     /**
-     * The largest year that is expected to be handled by LocalDate.
+     * The largest year that is expected to be handled by PlainDate.
      *
      * The ZoneRule instances in the zoneinfo databases (zonedb, zonedbx) have a
      * maximum `untilYear` value of 32767, so we have to make sure that we stay
@@ -88,15 +88,15 @@ class LocalDate {
 
     /**
      * Minimum valid epochSeconds. The smallest int32, `INT32_MIN`, is used to
-     * indicate an invalid epochSeconds. Use LocalDate::forEpochSeconds() or
-     * LocalDateTime::forEpochSeconds() to obtain the minimum instance of those
+     * indicate an invalid epochSeconds. Use PlainDate::forEpochSeconds() or
+     * PlainDateTime::forEpochSeconds() to obtain the minimum instance of those
      * classes.
      */
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
 
     /**
-     * Maximum valid epochSeconds. Use LocalDate::forEpochSeconds() or
-     * LocalDateTime::forEpochSeconds() to obtain the maximum instance of those
+     * Maximum valid epochSeconds. Use PlainDate::forEpochSeconds() or
+     * PlainDateTime::forEpochSeconds() to obtain the maximum instance of those
      * classes.
      */
     static const acetime_t kMaxEpochSeconds = INT32_MAX;
@@ -144,16 +144,16 @@ class LocalDate {
   public:
     /**
      * Factory method using separated year, month and day fields. Returns
-     * LocalDate::forError() if the parameters are out of range.
+     * PlainDate::forError() if the parameters are out of range.
      *
      * @param year [0,10000]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      */
-    static LocalDate forComponents(
+    static PlainDate forComponents(
         int16_t year, uint8_t month, uint8_t day) {
       year = isYearValid(year) ? year : kInvalidYear;
-      return LocalDate(year, month, day);
+      return PlainDate(year, month, day);
     }
 
     /**
@@ -163,7 +163,7 @@ class LocalDate {
      *
      * @param epochDays number of days since the current epoch
      */
-    static LocalDate forEpochDays(int32_t epochDays) {
+    static PlainDate forEpochDays(int32_t epochDays) {
       int16_t year;
       uint8_t month;
       uint8_t day;
@@ -180,7 +180,7 @@ class LocalDate {
     }
 
     /** Factory method using the number of days since Unix epoch 1970-01-01. */
-    static LocalDate forUnixDays(int32_t unixDays) {
+    static PlainDate forUnixDays(int32_t unixDays) {
       if (unixDays == kInvalidEpochDays) {
         return forError();
       }
@@ -202,7 +202,7 @@ class LocalDate {
      *
      * @param epochSeconds number of seconds since the current epoch
      */
-    static LocalDate forEpochSeconds(acetime_t epochSeconds) {
+    static PlainDate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
         return forError();
       }
@@ -221,7 +221,7 @@ class LocalDate {
      * over the entire range of year `[0,10000]` due to the use of `int64_t`
      * operations.
      */
-    static LocalDate forUnixSeconds64(int64_t unixSeconds) {
+    static PlainDate forUnixSeconds64(int64_t unixSeconds) {
       if (unixSeconds == kInvalidUnixSeconds64) {
         return forError();
       } else {
@@ -235,7 +235,7 @@ class LocalDate {
     }
 
     /**
-     * Factory method. Create a LocalDate from the ISO 8601 date string. If the
+     * Factory method. Create a PlainDate from the ISO 8601 date string. If the
      * string cannot be parsed, then isError() on the constructed object returns
      * true, but the data validation is very weak. Year should be between 0001
      * and 9999. Created for mostly for debugging purposes not for production
@@ -243,7 +243,7 @@ class LocalDate {
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
-    static LocalDate forDateString(const char* dateString) {
+    static PlainDate forDateString(const char* dateString) {
       if (strlen(dateString) < kDateStringLength) {
         return forError();
       }
@@ -257,7 +257,7 @@ class LocalDate {
      *
      * This method assumes that the dateString is sufficiently long.
      */
-    static LocalDate forDateStringChainable(const char*& dateString) {
+    static PlainDate forDateStringChainable(const char*& dateString) {
       const char* s = dateString;
 
       // year (assumes 4 digit year)
@@ -285,17 +285,17 @@ class LocalDate {
     }
 
     /**
-     * Factory method that returns a LocalDate which represents an error
+     * Factory method that returns a PlainDate which represents an error
      * condition. The isError() method will return true.
      */
-    static LocalDate forError() {
-      return LocalDate(kInvalidYear, 0, 0);
+    static PlainDate forError() {
+      return PlainDate(kInvalidYear, 0, 0);
     }
 
   // Instance methods.
   public:
     /** Default constructor does nothing. */
-    explicit LocalDate() = default;
+    explicit PlainDate() = default;
 
     /** Return the year. */
     int16_t year() const { return mYear; }
@@ -382,7 +382,7 @@ class LocalDate {
     }
 
     /**
-    * Calculate number of days from current LocalDate to the next target (month,
+    * Calculate number of days from current PlainDate to the next target (month,
     * day). For example, setting (month, day) of (12, 25) returns number of days
     * until the next Christmas. This function should always return an integer in
     * the interval [0, 365]. In a normal year, the maximum is 364. During a leap
@@ -390,7 +390,7 @@ class LocalDate {
     */
     int16_t daysUntil(uint8_t month, uint8_t day) const {
       int16_t y = year();
-      LocalDate target = LocalDate::forComponents(y, month, day);
+      PlainDate target = PlainDate::forComponents(y, month, day);
       if (this->compareTo(target) > 0) {
         target.year(y + 1);
       }
@@ -398,12 +398,12 @@ class LocalDate {
     }
 
     /**
-     * Compare 'this' LocalDate to 'that' LocalDate, returning (<0, 0, >0)
+     * Compare 'this' PlainDate to 'that' PlainDate, returning (<0, 0, >0)
      * according to whether 'this' occurs (before, same as, after) 'that'. If
      * either this->isError() or that.isError() is true, the behavior is
      * undefined.
      */
-    int8_t compareTo(const LocalDate& that) const {
+    int8_t compareTo(const PlainDate& that) const {
       if (mYear < that.mYear) return -1;
       if (mYear > that.mYear) return 1;
       if (mMonth < that.mMonth) return -1;
@@ -414,7 +414,7 @@ class LocalDate {
     }
 
     /**
-     * Print LocalDate to 'printer' in ISO 8601 format, along with the
+     * Print PlainDate to 'printer' in ISO 8601 format, along with the
      * day of week.
      * This class does not implement the Printable interface to avoid
      * increasing the size of the object from the additional virtual function.
@@ -422,15 +422,15 @@ class LocalDate {
     void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
-    LocalDate(const LocalDate&) = default;
-    LocalDate& operator=(const LocalDate&) = default;
+    PlainDate(const PlainDate&) = default;
+    PlainDate& operator=(const PlainDate&) = default;
 
   private:
     friend bool operator==(
-        const LocalDate& a, const LocalDate& b);
+        const PlainDate& a, const PlainDate& b);
 
     /** Constructor that sets the components. */
-    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
+    explicit PlainDate(int16_t year, uint8_t month, uint8_t day):
         mYear(year),
         mMonth(month),
         mDay(day) {}
@@ -454,15 +454,15 @@ class LocalDate {
     uint8_t mDay; // [1, 31], 0 indicates error
 };
 
-/** Return true if two LocalDate objects are equal in all components. */
-inline bool operator==(const LocalDate& a, const LocalDate& b) {
+/** Return true if two PlainDate objects are equal in all components. */
+inline bool operator==(const PlainDate& a, const PlainDate& b) {
   return a.mDay == b.mDay
       && a.mMonth == b.mMonth
       && a.mYear == b.mYear;
 }
 
-/** Return true if two LocalDate objects are not equal. */
-inline bool operator!=(const LocalDate& a, const LocalDate& b) {
+/** Return true if two PlainDate objects are not equal. */
+inline bool operator!=(const PlainDate& a, const PlainDate& b) {
   return ! (a == b);
 }
 

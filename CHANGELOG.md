@@ -1,6 +1,53 @@
 # Changelog
 
 - unreleased
+- 4.0.0 (2025-10-21, TZDB version 2025b)
+    - See [MIGRATING.md](MIGRATING.md) on breaking API changes, and how to
+      migrate.
+    - **Breaking** Rename LocalXxx to PlainXxx, following the conventions
+      used by more modern timezone libraries (JavaScript Temporal, Python
+      whenever).
+        - LocalDate -> PlainDate
+        - LocalDateTime -> PlainDateTime
+        - LocalTime -> PlainTime
+        - Backwards compatibility macros and methods have been added:
+            - `#define LocalDate PlainDate`
+            - `#define LocalDateTime PlainDateTime`
+            - `#define LocalTime PlainTime`
+    - **Breaking** Rename various methods with 'Local' to 'Plain':
+        - `ZonedDateTime::localDateTime()` -> `plainDateTime()`
+        - `ZonedDateTime::forLocalDateTime()` -> `forPlainDateTime()`
+        - `ZonedExtra::forLocalDateTime()` -> `forPlainDateTime()`
+        - `OffsetDateTime::localDateTime()` -> `plainDateTime()`
+        - `OffsetDateTime::localDate()` -> `plainDate()`
+        - `OffsetDateTime::localTime()` -> `plainTime()`
+        - `PlainDateTime::localDate()` -> `plainDate()`
+        - `PlainDateTime::localTime()` -> `plainTime()`
+        - The old methods are retained for backwards compatibility, but are
+          marked as deprecated.
+    - **Breaking** Replace output parameter `fold` with `resolved`:
+        - `ZonedDateTime::fold` becomes `ZonedDateTime::resolved`
+        - `OffsetDateTime::fold` becomes `OffsetDateTime::resolved`
+        - `PlainDateTime::fold` becomes `PlainDateTime::resolved`
+        - `PlainTime::fold` becomes `PlainTime::resolved`
+    - **Breaking** Replace input parameter `fold` with `disambiguate` in the
+      following methods:
+        - `ZonedDateTime::forComponents()`
+        - `ZonedDateTime::forPlainDateTime()`
+        - `ZonedDateTime::normalize()`
+        - `ZonedExtra::forComponents()`
+        - `ZonedExtra::forPlainDateTime()`
+    - Add 2 more zonedb databases
+        - `zonedb2025`
+            - same as `zonedb`, but using transition rules for 2025 and onwards
+            - used with `BasicZoneManager` and `BasicZoneProcessor
+            - *larger* than `zonedb` because it supports more zones than
+              `zonedb` (almost all zones in the TZDB, except maybe 7 zones)
+        - zonedbx2025
+            - same as zonedbx, but using transition rules for 2025 and onwards
+            - used with `ExtendedZoneManager` and `ExtendedZoneProcessor
+            - *smaller* than `zonedbx` (by around 10 kB) because it only
+              includes transitions after 2025
 - 3.0.0 (2025-04-25, TZDB version 2025b)
     - [upgrade to TZDB 2025a](https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/MWII7R3HMCEDNUCIYQKSSTYYR7UWK4OQ/)
         - Paraguay adopts permanent -03 starting spring 2024.
@@ -9,15 +56,15 @@
     - [upgrade to TZDB 2025b](https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/6JVHNHLB6I2WAYTQ75L6KEPEQHFXAJK3/)
         - New zone for Aysén Region in Chile which moves from -04/-03 to -03.
           (Creates new zone named America/Coyhaique)
-    - **breaking** add ZoneInfo data classes and their brokers into `Info`
+    - **Breaking** Add ZoneInfo data classes and their brokers into `Info`
       container class
         - allows selection of parallel class hierarchies using the `Info`
           container class
         - `basic::ZoneInfo` class moves to `basic::Info::ZoneInfo`
         - `extended::ZoneInfo` class moves to `extended::Info::ZoneInfo`
         - `complete::ZoneInfo` class moves to `complete::Info::ZoneInfo`
-    - **breaking** move `daysUntil(LocalDate, month, day)` to
-      `LocalDate::daysUntil(month, day)` for simplicity
+    - **Breaking** Move `daysUntil(PlainDate, month, day)` to
+      `PlainDate::daysUntil(month, day)` for simplicity
     - See [Migrating to v3.0](MIGRATING.md#MigratingToVersion300) for more
       details.
 - 2.4.0 (2024-12-13, TZDB version 2024b)
@@ -105,7 +152,7 @@
     - Zone Processor with graceful degradation
         - Remove range checks against `ZoneContext.startYear()` and
           `ZoneContext.untilYear()`
-        - Replace with `LocalDate::kMinYear` and `LocalDate::kMaxYear`, mostly
+        - Replace with `PlainDate::kMinYear` and `PlainDate::kMaxYear`, mostly
           for formatting reasons (prevent negative
           years, and years with more than 4 digits).
         - The zone processors will always return something reasonble across the
@@ -224,7 +271,7 @@
           databases.
     - Add `ZonedDateTime::offsetDateTime()`
         - Returns the underlying `OffsetDateTime` inside the `ZonedDateTime`.
-        - Analogous to `ZonedDateTime::localDateTime()`.
+        - Analogous to `ZonedDateTime::plainDateTime()`.
     - Always generate anchor rules in zonedb.
         - Allows `ExtendedZoneProcessor` to work over all years `[0,10000)`
           even with truncated zonedb (e.g. `[2000,2100)`).
@@ -265,8 +312,8 @@
     - **New Class**: `ZonedExtra.h`
         - `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
             - Create instance from epochSeconds and time zone.
-        - `ZonedExtra::forLocalDateTime(ldt, tz)`
-            - Create instance from LocalDateTime and time zone.
+        - `ZonedExtra::forPlainDateTime(pdt, tz)`
+            - Create instance from PlainDateTime and time zone.
     - **Potentially Breaking**: Unified Links
         - Links are now first-class citizens, exactly the same as Zones.
         - Unify "fat links" and "symbolic links" into a single implementation.
@@ -278,7 +325,7 @@
     - Simplify ZoneProcessors
         - `ZoneProcessor.h`, `ExtendedZoneProcessor.h`, `BasicZoneProcessor.h`
         - Remove: `getUtcOffset()`, `getDeltaOffset()`, `getAbbrev()`
-        - Replaced by: `findByLocalDateTime()`, `findByEpochSeconds()`
+        - Replaced by: `findByPlainDateTime()`, `findByEpochSeconds()`
         - These are internal helper methods not intended for public consumption.
     - Unit tests
         - Migrate most unit tests to use the smaller, testing zone databases at
@@ -308,15 +355,15 @@
     - Change internal storage type of `year` component from `int8_t` to
       `int16_t`, extending the range of valid years from [-1873,2127] to
       [1,9999].
-        - Remove `yearTiny()` getters and setters from `LocalDate`,
-          `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime`.
+        - Remove `yearTiny()` getters and setters from `PlainDate`,
+          `PlainDateTime`, `OffsetDateTime`, and `ZonedDateTime`.
             - They were not documented except in doxygen docs.
-        - Remove from `LocalDate`:
+        - Remove from `PlainDate`:
             - `kInvalidYearTiny`, replaced with `kInvalidYear`
             - `kMinYearTiny`, replaced with `kMinYear`
             - `kMaxYearTiny`, replaced with `kMaxYear`
             - `forTinyComponents()`
-        - Remove from `LocalDateTime`
+        - Remove from `PlainDateTime`
             - `forTinyComponents()`
         - Update [AceTimeTools](https://github.com/bxparks/AceTimeTools)
           to generate `src/zonedb` and `src/zonedbx` using `int16_t` year types.
@@ -334,7 +381,7 @@
               wikipedia article https://en.wikipedia.org/wiki/Julian_day.
             - `EpochConverterHinnant` implements the algorithms found in
               https://howardhinnant.github.io/date_algorithms.html.
-        - Migrate `LocalDate` to use the `EpochConverterHinnant` instead of
+        - Migrate `PlainDate` to use the `EpochConverterHinnant` instead of
           `EpochConverterJulian`.
             - The primary reason is that I am able to fully understand the
               algorithms described in `EpochConverterHinnant`.
@@ -413,7 +460,7 @@
         - ESP32 Core from 2.0.2 to 2.0.5
         - Teensyduino from 1.56 to 1.57
 - 1.11.4 (2022-08-13, TZDB 2022b)
-    - Add `ace_time::daysUntil(localDate, month, day)` utility function that
+    - Add `ace_time::daysUntil(plainDate, month, day)` utility function that
       returns the number of days until the next (month, day) date. Useful for
       calculating the number of days until the next Christmas for example.
     - Upgrade to TZDB 2022b.
@@ -501,17 +548,17 @@
       and overlaps.
         - The semantics of the `fold` parameter is intended to be identical to
           [Python PEP 495](https://www.python.org/dev/peps/pep-0495).
-        - Add `LocalTime::fold()`, `LocalDateTime::fold()`,
+        - Add `PlainTime::fold()`, `PlainDateTime::fold()`,
           `OffsetDateTime::fold()`, `ZonedDateTime::fold()`.
         - Update `ExtendedZoneProcessor::getOffsetDateTime(acetime_t)` to
           calculate the `OffsetDateTime::fold()` as an output parameter.
         - Update `ExtendedZoneProcessor::getOffsetDateTime(const
-          LocalDateTime&)` to handle `LocalDateTime::fold()` as an input
+          PlainDateTime&)` to handle `PlainDateTime::fold()` as an input
           parameter.
         - Increases flash usage of `ExtendedZoneProcessor` by around 600 bytes
           on AVR, and 400-600 bytes on 32-bit processors.
     - Add `toUnixSeconds64()` and `forUnixSeconds64()` methods to
-      `LocalDate`, `LocalDateTime`, `OffsetDateTime`, `ZonedDateTime`.
+      `PlainDate`, `PlainDateTime`, `OffsetDateTime`, `ZonedDateTime`.
         - These use 64-bit `int64_t` integers, which allows Unix seconds to be
           used up to 2068-01-19T03:14:07Z (which is the limit of these
           various classes due to the internal use of 32-bit `acetime_t`).
@@ -1009,12 +1056,12 @@
     - Add documentation of `TimeZoneData`, `TimeZone::toTimeZoneData()`, and
       `ZoneManager::createFromTimeZoneData()` to `USER_GUIDE.md`. Looks like I
       added the class in v0.5 but forgot to document it.
-    - Implement `LocalDateTime::compareTo()` using only its components instead
-      of internally converting to epochSeconds. Not all `LocalDateTime` can be
+    - Implement `PlainDateTime::compareTo()` using only its components instead
+      of internally converting to epochSeconds. Not all `PlainDateTime` can be
       represented by an epochSeconds, so this change makes the algorithm more
       robust. The semantics of the method should remain unchanged.
-    - Update the doxygen docs of the `compareTo()` methods of `LocalDateTime`,
-      `LocalTime`, `LocalDate`, `OffsetDateTime` and `ZonedDateTime` to clarify
+    - Update the doxygen docs of the `compareTo()` methods of `PlainDateTime`,
+      `PlainTime`, `PlainDate`, `OffsetDateTime` and `ZonedDateTime` to clarify
       the semantics of those operations.
 - 1.2.1 (2020-11-12, TZ DB version 2020d)
     - No functional change in this release. Mostly documentation.
@@ -1274,7 +1321,7 @@
     - Change `ZonedDateTime::printTo()` format to match Java Time format.
     - Remove `friend` declarations not related to unit tests.
     - Remove redundant definitions of `kInvalidEpochSeconds`, standardize on
-      `LocalDate::kInvalidEpochSeconds`.
+      `PlainDate::kInvalidEpochSeconds`.
     - Make `timeOffset` a required parameter for constructors and factory
       methods `OffsetDateTime` instead of defaulting to `TimeOffset()`.
     - Make `timeZone` a required parameter in constructors and factory methods

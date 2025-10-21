@@ -13,43 +13,51 @@ class Print;
 
 namespace ace_time {
 
-class LocalDateTime;
+class PlainDateTime;
 
 /**
  * Result of a search for transition at a specific epochSeconds or a specific
- * LocalDateTime. More than one transition can match if the LocalDateTime occurs
+ * PlainDateTime. More than one transition can match if the PlainDateTime occurs
  * during an overlap (e.g. during a "fall back" from DST to STD).
  */
 class FindResult {
   public:
+    /** The epochSeconds or PlainDateTime was not found. */
     static const uint8_t kTypeNotFound = 0;
+
+    /** The epochSeconds or PlainDateTime matched a unique ZonedDateTime. */
     static const uint8_t kTypeExact = 1;
+
+    /** The PlainDateTime matched a gap. */
     static const uint8_t kTypeGap = 2;
+
+    /** The PlainDateTime matched an overlap. */
     static const uint8_t kTypeOverlap = 3;
 
     /**
-     * Result of the findByEpochSeconds() or findByLocalDateTime() search
+     * Result of the findByEpochSeconds() or findByPlainDateTime() search
      * methods. There are 2 slightly different cases:
      *
-     * Case 1: findByLocalDateTime()
+     * Case findByPlainDateTime():
      *  * kTypeNotFound:
      *      * No matching Transition found.
      *  * kTypeExact:
      *      * A single Transition found.
      *  * kTypeGap:
-     *      * LocalDateTime occurs in a gap.
-     *      * LocalDateTime::fold=0 returns the earlier transition in
-     *        reqStdOffsetSeconds and reqDstOffsetSeconds, and the later
-     *        transition in stdOffsetSeconds and dstOffsetSeconds.
-     *      * LocalDateTime::fold=1 returns the later transition in
+     *      * PlainDateTime occurs in a gap.
+     *      * ZonedDateTime::resolved is set to either returns the earlier
+     *        transition in reqStdOffsetSeconds and reqDstOffsetSeconds, and the
+     *        later transition in stdOffsetSeconds and dstOffsetSeconds.
+     *      * ZonedDateTime::fold=1 returns the later transition in
      *        reqStdOffsetSeconds and reqDstOffsetSeconds, and the
      *        earlier transition in stdOffsetSeconds and dstOffsetSeconds.
      *  * kTypeOverlap:
-     *      * LocalDateTime matches 2 Transitions.
-     *      * LocalDateTime::fold=0 selects the earlier transition.
-     *      * LocalDateTime::fold=1 selects the later transition.
+     *      * PlainDateTime matches 2 Transitions due to an overlap.
+     *      * ZonedDateTime::resolved is set to Resolved::kOverlapEarlier or
+     *        Resolved::kOverlapLater depending on the
+     *        'disambiguate' flag.
      *
-     * Case 2: findByEpochSeconds()
+     * Case findByEpochSeconds():
      *  * kTypeNotFound:
      *      * If no matching Transition found.
      *  * kTypeExact:
@@ -57,21 +65,38 @@ class FindResult {
      *  * kTypeGap:
      *      * Cannot occur.
      *  * kTypeOverlap:
-     *      * A single Transition found, but the epochSeconds occurs during an
-     *        overlap where two local times can occur.
-     *      * The `fold` parameter contains 0 or 1 to indicate the earlier or
-     *        later resulting OffsetDateTime.
+     *      * Cannot occur.
      */
     uint8_t type = kTypeNotFound;
 
     /**
-     * For findByLocalDateTime(), when type==kTypeOverlap, this is a copy of the
-     * requested LocalDateTime::fold parameter. For all other resulting types,
-     * including kTypeGap, this will be set to 0.
+     * Characterize the result in the gap or overlap further. The 'fold'
+     * parameter is used only if type is 'kTypeGap' or 'kTypeOverlap'.
      *
-     * For findByEpochSeconds(), when type==kTypeOverlap, this defines whether
-     * the corresponding LocalDateTime occurs the first time (0) or the second
-     * time (1). For all other resulting type, this will be set to 0.
+     * For findByEpochSeconds(), the `fold` parameter is relevant only if
+     * epochSeconds falls in an overlap (type==kTypeOverlap).
+     *    * fold=0 means that the requested epochSeconds matched a backwards
+     *    shadow of a later transition (e.g. the first time 1:30am was seen
+     *    before a fallback from 2am to 1am).
+     *    * fold=1 means that the requested epochSeconds matched the forward
+     *    shadow of an earlier transition (e.g. the second time 1:30am was seen
+     *    after a fallback from 2am to 1am).
+     *
+     * For findByPlainDateTime(), the `fold` parameter is relevant for both
+     * kTypeGap and kTypeOverlap.
+     *    * If the requested PlainDateTime is in an overlap:
+     *        * `fold=0` means that the "select earlier"
+     *        (Disambiguate::kCompatible or Disambiguate::kEarlier) was
+     *        requested,
+     *        * `fold=1` means that the "select later" (Disambiguate::kReversed
+     *        or Disambiguate::kLater) option was requested.
+     *    * If the requested PlainDateTime is in a gap:
+     *        * `fold=0` means the earlier transition was requested by a "select
+     *        later" was requested (specified by Disambiguate::kCompatible or
+     *        Disambiguate::Earlier);
+     *        * `fold=1` means that the later transition was selected using
+     *        "select earlier" (specified by Disambiguate::kReversed or
+     *        Disambiguate::Later).
      */
     uint8_t fold = 0;
 
@@ -83,26 +108,26 @@ class FindResult {
 
     /**
      * STD offset of the Transition which matched the epochSeconds requested by
-     * findByEpochSeconds(), or the LocalDateTime requested by
-     * findByLocalDateTime().
+     * findByEpochSeconds(), or the PlainDateTime requested by
+     * findByPlainDateTime().
      *
      * This may be different than the stdOffsetSeconds when
-     * findByLocalDateTime() returns kTypeGap. For all other resulting types
+     * findByPlainDateTime() returns kTypeGap. For all other resulting types
      * from findByEpochSeconds(), and for all resulting types from
-     * findByLocalDateTime(), the reqStdOffsetSeconds will be the same as
+     * findByPlainDateTime(), the reqStdOffsetSeconds will be the same as
      * stdOffsetSeconds.
      */
     int32_t reqStdOffsetSeconds = 0;
 
     /**
      * DST offset of the Transition which matched the epochSeconds requested by
-     * findByEpochSeconds(), or the LocalDateTime requested by
-     * findByLocalDateTime().
+     * findByEpochSeconds(), or the PlainDateTime requested by
+     * findByPlainDateTime().
      *
      * This may be different than the dstOffsetSeconds when
-     * findByLocalDateTime() returns kTypeGap. For all other resulting types
+     * findByPlainDateTime() returns kTypeGap. For all other resulting types
      * from findByEpochSeconds(), and for all resulting types from
-     * findByLocalDateTime(), the reqStdOffsetSeconds will be the same as
+     * findByPlainDateTime(), the reqStdOffsetSeconds will be the same as
      * dstOffsetSeconds.
      */
     int32_t reqDstOffsetSeconds = 0;
@@ -125,7 +150,7 @@ class FindResult {
  * call the correct methods.
  *
  * 2) Fully implement a polymorphic class hierarchy, lifting various common
- * methods (e.g. findByLocalDateTime(), findByEpochSeconds()) into this
+ * methods (e.g. findByPlainDateTime(), findByEpochSeconds()) into this
  * interface as virtual methods, then add a virtual equals() method to implement
  * the operator==().
  *
@@ -148,9 +173,10 @@ class ZoneProcessor {
     /** Return the unique stable zoneId. */
     virtual uint32_t getZoneId() const = 0;
 
-    /** Return the search results at given LocalDateTime. */
-    virtual FindResult findByLocalDateTime(
-        const LocalDateTime& ldt) const = 0;
+    /** Return the search results at given PlainDateTime. */
+    virtual FindResult findByPlainDateTime(
+        const PlainDateTime& pdt,
+        Disambiguate disambiguate) const = 0;
 
     /** Return the search results at given epochSeconds. */
     virtual FindResult findByEpochSeconds(
@@ -244,15 +270,15 @@ class ZoneProcessor {
 
     /**
      * Year that was used to calculate the transitions in the current cache. Set
-     * to LocalDate::kInvalidYear to indicate invalid cache.
+     * to PlainDate::kInvalidYear to indicate invalid cache.
      */
-    mutable int16_t mYear = LocalDate::kInvalidYear;
+    mutable int16_t mYear = PlainDate::kInvalidYear;
 
     /**
      * Epoch year that was used to calculate the transitions in the current
-     * cache. Set to LocalDate::kInvalidYear to indicate invalid cache.
+     * cache. Set to PlainDate::kInvalidYear to indicate invalid cache.
      */
-    mutable int16_t mEpochYear = LocalDate::kInvalidYear;
+    mutable int16_t mEpochYear = PlainDate::kInvalidYear;
 };
 
 inline bool operator==(const ZoneProcessor& a, const ZoneProcessor& b) {

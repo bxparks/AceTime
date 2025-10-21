@@ -3,8 +3,8 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_LOCAL_TIME_H
-#define ACE_TIME_LOCAL_TIME_H
+#ifndef ACE_TIME_PLAIN_TIME_H
+#define ACE_TIME_PLAIN_TIME_H
 
 #include <stdint.h>
 #include "common/common.h"
@@ -19,12 +19,18 @@ namespace ace_time {
  * Trying to create an instance outside of this range causes the isError()
  * method to return true, and toSeconds() returns kInvalidSeconds.
  *
- * Parts of this class were inspired by the java.time.LocalTime class of Java
+ * Parts of this class were inspired by the java.time.PlainTime class of Java
  * 11
- * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalTime.html).
- * The 'fold' parameter was inspired by the datetime package in Python 3.6.
+ * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/PlainTime.html).
+ *
+ * The 'resolved' parameter was originally called 'fold' as inspired by the
+ * datetime package in Python 3.6, but renamed to 'resolved' because the Python
+ * mechanism turned out to be too confusing and not useful enough. This
+ * parameter is arguably better suited to be in OffsetDateTime or ZonedDateTime,
+ * but placing this field in this class reduces the memory size of
+ * OffsetDateTime or ZoneDateTime due to struct alignment.
  */
-class LocalTime {
+class PlainTime {
   public:
     /** An invalid seconds marker that indicates isError() true. */
     static const int32_t kInvalidSeconds = INT32_MIN;
@@ -38,22 +44,21 @@ class LocalTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param fold optional disambiguation of multiple occurrences [0, 1]
      */
-    static LocalTime forComponents(uint8_t hour, uint8_t minute,
-        uint8_t second, uint8_t fold = 0) {
-      return LocalTime(hour, minute, second, fold);
+    static PlainTime forComponents(
+        uint8_t hour, uint8_t minute, uint8_t second) {
+      return PlainTime(hour, minute, second);
     }
 
     /**
-     * Factory method. Create the various components of the LocalTime from
+     * Factory method. Create the various components of the PlainTime from
      * the number of seconds from midnight. If kInvalidSeconds is given,
      * the isError() condition is set to be true. The behavior is undefined
      * if seconds is greater than 86399.
      *
      * @param seconds number of seconds from midnight, (0-86399)
      */
-    static LocalTime forSeconds(acetime_t seconds, uint8_t fold = 0) {
+    static PlainTime forSeconds(acetime_t seconds) {
       uint8_t second, minute, hour;
 
       if (seconds == kInvalidSeconds) {
@@ -66,18 +71,18 @@ class LocalTime {
       }
 
       // Return a single object to allow return value optimization.
-      return LocalTime(hour, minute, second, fold);
+      return PlainTime(hour, minute, second);
     }
 
     /**
-     * Factory method. Create a LocalTime from the ISO 8601 time string. If
-     * the string cannot be parsed, then returns LocalTime::forError().
+     * Factory method. Create a PlainTime from the ISO 8601 time string. If
+     * the string cannot be parsed, then returns PlainTime::forError().
      * However, the data validation on parsing is very weak and the behavior is
      * undefined for most invalid time strings.
      *
      * @param @timeString time in the form of "hh:mm:ss" (e.g. 12:34:56)
      */
-    static LocalTime forTimeString(const char* timeString);
+    static PlainTime forTimeString(const char* timeString);
 
     /**
      * Variant of forTimeString() that updates the pointer to the next
@@ -86,18 +91,18 @@ class LocalTime {
      *
      * This method assumes that the dateString is sufficiently long.
      */
-    static LocalTime forTimeStringChainable(const char*& timeString);
+    static PlainTime forTimeStringChainable(const char*& timeString);
 
     /**
      * Factory method that returns an instance which indicates an error
      * condition. The isError() method will return true.
      */
-    static LocalTime forError() {
-      return LocalTime(kInvalidValue, kInvalidValue, kInvalidValue);
+    static PlainTime forError() {
+      return PlainTime(kInvalidValue, kInvalidValue, kInvalidValue);
     }
 
     /** Default constructor does nothing. */
-    explicit LocalTime() {}
+    explicit PlainTime() {}
 
     /**
      * Return true if any component is outside the normal time range of 00:00:00
@@ -132,11 +137,11 @@ class LocalTime {
     /** Set the second. */
     void second(uint8_t second) { mSecond = second; }
 
-    /** Return the fold. */
-    uint8_t fold() const { return mFold; }
+    /** Return the resolved. */
+    Resolved resolved() const { return mResolved; }
 
-    /** Set the fold. */
-    void fold(uint8_t fold) { mFold = fold; }
+    /** Set the resolved. */
+    void resolved(Resolved resolved) { mResolved = resolved; }
 
     /**
      * Return the number of seconds since midnight.
@@ -152,14 +157,14 @@ class LocalTime {
     }
 
     /**
-     * Compare 'this' LocalTime with 'that' LocalTime, and return (<0, 0, >0)
+     * Compare 'this' PlainTime with 'that' PlainTime, and return (<0, 0, >0)
      * according to whether 'this' occurs (before, same as, after) 'that'.
-     * The 'fold' parameter is ignored.
+     * The 'resolved' parameter is ignored.
      *
      * If either this->isError() or that.isError() is true, the behavior is
      * undefined.
      */
-    int8_t compareTo(const LocalTime& that) const {
+    int8_t compareTo(const PlainTime& that) const {
       if (mHour < that.mHour) return -1;
       if (mHour > that.mHour) return 1;
       if (mMinute < that.mMinute) return -1;
@@ -170,18 +175,18 @@ class LocalTime {
     }
 
     /**
-     * Print LocalTime to 'printer' in ISO 8601 format.
+     * Print PlainTime to 'printer' in ISO 8601 format.
      * This class does not implement the Printable interface to avoid
      * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
-    LocalTime(const LocalTime&) = default;
-    LocalTime& operator=(const LocalTime&) = default;
+    PlainTime(const PlainTime&) = default;
+    PlainTime& operator=(const PlainTime&) = default;
 
   private:
-    friend bool operator==(const LocalTime& a, const LocalTime& b);
+    friend bool operator==(const PlainTime& a, const PlainTime& b);
 
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */
     static const uint8_t kTimeStringLength = 8;
@@ -190,41 +195,34 @@ class LocalTime {
     static const uint8_t kInvalidValue = UINT8_MAX;
 
     /** Constructor that sets the components. */
-    explicit LocalTime(
+    explicit PlainTime(
         uint8_t hour,
         uint8_t minute,
         uint8_t second,
-        uint8_t fold = 0
+        Resolved resolved = Resolved::kUnique
     ):
         mHour(hour),
         mMinute(minute),
         mSecond(second),
-        mFold(fold)
+        mResolved(resolved)
     {}
 
   private:
     uint8_t mHour; // [0, 23]
     uint8_t mMinute; // [0, 59]
     uint8_t mSecond; // [0, 59]
-
-    // Use a separate byte for fold. If we implemented this using a C++ bit
-    // field (e.g. the upper bit of 'mHour'), it causes BasicZoneProcessor and
-    // ExtendedZoneProcessor to consume 200 extra bytes of flash due to the bit
-    // masking operations on accesses and mutations. Even on AVR processors, I
-    // think the increase in static memory is better than paying the 200 bytes
-    // of flash memory. Using a separate byte is also faster.
-    uint8_t mFold; // [0, 1]
+    Resolved mResolved;
 };
 
-/** Return true if two LocalTime objects are equal. The fold is ignored. */
-inline bool operator==(const LocalTime& a, const LocalTime& b) {
+/** Return true if two PlainTime objects are equal. The resolved is ignored. */
+inline bool operator==(const PlainTime& a, const PlainTime& b) {
   return a.mSecond == b.mSecond
       && a.mMinute == b.mMinute
       && a.mHour == b.mHour;
 }
 
-/** Return true if two LocalTime objects are not equal. The fold is ignored. */
-inline bool operator!=(const LocalTime& a, const LocalTime& b) {
+/** Return true if two PlainTime objects are not equal. The resolved is ignored. */
+inline bool operator!=(const PlainTime& a, const PlainTime& b) {
   return ! (a == b);
 }
 

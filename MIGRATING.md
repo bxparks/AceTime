@@ -2,24 +2,96 @@
 
 ## Table of Contents
 
+* [Migrating to v4.0.0](#MigratingToVersion400)
 * [Migrating to v3.0.0](#MigratingToVersion300)
 * [Migrating to v2.3.0](#MigratingToVersion220)
 * [Migrating to v2.2.0](#MigratingToVersion220)
 * [Migrating to v2.1.0](#MigratingToVersion210)
-    * [Unified Links](#UnifiedLinks)
-    * [ZonedExtra](#ZonedExtra)
 * [Migrating to v2.0.0](#MigratingToVersion200)
-    * [High Level](#HighLevel200)
-    * [Details](#Details200)
-    * [Background Motivation](#Motivation200)
 * [Migrating to v1.9.0](#MigratingToVersion190)
-    * [Configuring the Zone Managers](#ConfiguringZoneManagers)
-    * [Using the Zone Managers](#UsingZoneManagers)
-    * [Link Managers](#LinkManagers)
 * [Migrating to v1.8.0](#MigratingToVersion180)
-    * [Migrating to AceTimeClock](#MigratingToAceTimeClock)
-    * [Migrating the DS3231Clock](#MigratingTheDS3231Clock)
-    * [Migrating to LinkManagers](#MigratingToLinkManagers)
+
+<a name="MigratingToVersion400"></a>
+## Migrating to v4.0.0
+
+These changes were originally intended for 3.0.0, but I ran out of time, so I
+released 3.0.0 with just the TZDB updates.
+
+These are API breaking changes, so I am bumping the library version number to
+4.0.0. I tried to provide [shims](src/ace_time/backwards.h) for backwards
+compatibility, so I *think* most old programs will compile with the new version.
+The compiler will print deprecation warnings when old methods are used, but not
+when old classes are used.
+
+### Renamed Classes
+
+For compatibility with other timezone libraries, and for better
+self-documentation, the following classes have been renamed:
+
+- `LocalDate` -> `PlainDate`
+- `LocalDateTime` -> `PlainDateTime`
+- `LocalTime` -> `PlainTime`
+
+For backwards compatibility, a handful of `#define` macros has been provided, so
+I *think* old code should compile with new code:
+
+- `#define LocalDate PlainDate`
+- `#define LocalDateTime PlainDateTime`
+- `#define LocalTime PlainTime`
+
+These will not print deprecation messages unfortunately.
+
+### Renamed Methods
+
+After renaming the classes, a number of methods had to be renamed:
+
+- `ZonedDateTime::localDateTime()` -> `plainDateTime()`
+- `ZonedDateTime::forLocalDateTime()` -> `forPlainDateTime()`
+- `ZonedExtra::forLocalDateTime()` -> `forPlainDateTime()`
+- `OffsetDateTime::localDateTime()` -> `plainDateTime()`
+- `OffsetDateTime::localDate()` -> `plainDate()`
+- `OffsetDateTime::localTime()` -> `plainTime()`
+- `PlainDateTime::localDate()` -> `plainDate()`
+- `PlainDateTime::localTime()` -> `plainTime()`
+
+The old methods still exist for backwards compatibility, but they are marked as
+deprecated, so the compiler will print annoying warnings messages.
+
+### Replace fold Parameter
+
+The `fold` parameter that was borrowed from [Python PEP
+495](https://www.python.org/dev/peps/pep-0495) has proven to be too confusing.
+It is both an input parameter (that controls how a `PlainDateTime` is resolved
+into a `ZonedDateTime`) and an output parameter (that indicates whether or not
+the `PlainDateTime` occurs in an overlap or a gap). In this release, the `fold`
+parameter has been replaced with 2 different enum parameters.
+
+For input, all methods that previously took a 'fold' parameter now take the
+`disambiguate` parameter which is an enum type of `Disambiguate`. It has 4
+options:
+
+- `Disambiguate::kCompatible`
+    - Selects the *earlier* time in an overlap, but the *later* time in a gap.
+    - This is the default if `disambiguate` is not explicitly provided.
+- `Disambiguate::kLater`
+    - Always selects the later time.
+- `Disambiguate::kEarlier`
+    - Always selects the earlier time.
+- `Disambiguate::kReversed`
+    - The opposite of `kCompatible`.
+
+For output, the `fold` parameter previously in the `ZonedDateTime`,
+`OffsetDateTime`, and `PlainDateTime` objects has been replaced replaced with
+the `resolved` parameter which is an enum type of `Resolved`. It has 5 options:
+
+- `Resolved::kUnique` - the ZonedDateTime is unique
+- `Resolved::kOverlapEarlier` - the earlier time in an overlap was selected
+- `Resolved::kOverlapLater` - the later time in an overlap was selected
+- `Resolved::kGapEarlier` - the earlier time in a gap was selected
+- `Resolved::kGapLater` - the later time in a gap was selected
+
+If the calling code does not care about how an ambiguity was resolved, then this
+parameter can be ignored.
 
 <a name="MigratingToVersion300"></a>
 ## Migrating to v3.0.0
@@ -255,7 +327,7 @@ the following methods on `ZonedExtra` are the replacements for the above:
 The `ZonedExtra` object will normally be created through 2 factory methods:
 
 * `ZonedExtra::forEpochSeconds(epochSeconds, tz)`
-* `ZonedExtra::forLocalDateTime(ldt, tz)`
+* `ZonedExtra::forPlainDateTime(pdt, tz)`
 
 The `ZonedExtra` object provides access to other meta-information about the time
 zone at that particular time. See the [ZonedExtra](USER_GUIDE.md#ZonedExtra)
@@ -323,7 +395,7 @@ explained in detail in the next section.
 
 AceTime v2 implements the following major changes and features:
 
-* the internal `year` field in various classes (`LocalDate`, `LocalDateTime`,
+* the internal `year` field in various classes (`PlainDate`, `PlainDateTime`,
   `OffsetDateTime`, `ZonedDateTime`) changes from `int8_t` to an `int16_t`
     * the range increases from `[1873,2127]` to `[1,9999]`
     * the various `year()` methods in these classes were already using `int16_t`
@@ -333,43 +405,43 @@ AceTime v2 implements the following major changes and features:
     * the year range increases from `[2000,2049]` to `[2000,9999]`
     * decouples the TZ database from the adjustable current epoch year
 * removed constants
-    * `LocalDate::kEpochYear`
+    * `PlainDate::kEpochYear`
         * replacement: `Epoch::currentEpochYear()` function
         * reason: no longer a constant
-    * `LocalDate::kSecondsSinceUnixEpoch`
+    * `PlainDate::kSecondsSinceUnixEpoch`
         * purpose: number of seconds from 1970 to the AceTime epoch (2000-01-01
           in v1, but adjustable in v2)
         * replacement: `Epoch::secondsToCurrentEpochFromUnixEpoch64()`
         * reasons:
             * `int32_t` seconds can overflow, so use `int64_t`
             * epoch year is now adjustable, not a constant
-    * `LocalDate::kDaysSinceUnixEpoch`
+    * `PlainDate::kDaysSinceUnixEpoch`
         * purpose: number of days from 1970-01-01 to AceTime epoch (2000-01-01
           in v1, but adjustable in v2)
         * replacement: `Epoch::daysToCurrentEpochFromUnixEpoch()`
         * reason: epoch is now adjustable, so must become a function
-    * `LocalDate::kMinYearTiny`
-        * replacement: `LocalDate::kMinYear`
+    * `PlainDate::kMinYearTiny`
+        * replacement: `PlainDate::kMinYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
-    * `LocalDate::kMaxYearTiny`
-        * replacement: `LocalDate::kMaxYear`
+    * `PlainDate::kMaxYearTiny`
+        * replacement: `PlainDate::kMaxYear`
         * reason: 8-bit offset no longer used, replaced by 16-bit integer
-    * `LocalDate::kInvalidUnixDays`
+    * `PlainDate::kInvalidUnixDays`
         * replacement: `kInvalidEpochDays`
         * reason: simplification, both had the same value `INT32_MIN`
-    * `LocalDate::kInvalidUnixSeconds`
-        * replacement: `LocalDate::kInvalidUnixSeconds64`
+    * `PlainDate::kInvalidUnixSeconds`
+        * replacement: `PlainDate::kInvalidUnixSeconds64`
         * reason: 32-bit versions of `toUnixSeconds()` removed
 * removed functions
-    * `LocalDate::toUnixSeconds()`
+    * `PlainDate::toUnixSeconds()`
         * reason: 32-bit Unix seconds will overflow in the year 2038
-        * replacement: `LocalDate::toUnixSeconds64()`
-    * `LocalDate::forUnixSeconds()`
+        * replacement: `PlainDate::toUnixSeconds64()`
+    * `PlainDate::forUnixSeconds()`
         * reason: 32-bit Unix seconds will overflow in the year 2038
-        * replacement: `LocalDate::forUnixSeconds64()`
-    * `LocalDate::yearTiny()`
+        * replacement: `PlainDate::forUnixSeconds64()`
+    * `PlainDate::yearTiny()`
         * reason: `int8_t` year fields replaced by `int16_t` type
-    * `LocalDate::forTinyComponents()` (undocumented)
+    * `PlainDate::forTinyComponents()` (undocumented)
         * reason: `int8_t` year fields replaced by `int16_t` type
     * `OffsetDateTime::toUnixSeconds()`
     * `OffsetDateTime::forUnixSeconds()`

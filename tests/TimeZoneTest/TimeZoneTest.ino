@@ -187,14 +187,14 @@ test(TimeZoneBasicTest, getZonedExtra) {
       &testingzonedb::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
-  LocalDateTime ldt;
+  PlainDateTime pdt;
   OffsetDateTime dt;
   acetime_t epochSeconds;
   ZonedExtra ze;
 
-  // before spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
-  ze = tz.getZonedExtra(ldt);
+  // 01:59:59 is before gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -203,8 +203,8 @@ test(TimeZoneBasicTest, getZonedExtra) {
   assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -215,9 +215,9 @@ test(TimeZoneBasicTest, getZonedExtra) {
   assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
 
-  // right after spring forward to DST in the gap
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00:00 is in the gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -226,8 +226,8 @@ test(TimeZoneBasicTest, getZonedExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -259,14 +259,14 @@ test(TimeZoneBasicTest, link) {
 
   assertEqual(testingzonedb::kZoneIdUS_Pacific, tz.getZoneId());
 
-  LocalDateTime ldt;
+  PlainDateTime pdt;
   OffsetDateTime dt;
   acetime_t epochSeconds;
   ZonedExtra ze;
 
-  // just before spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
-  ze = tz.getZonedExtra(ldt);
+  // 01:59:59 is before gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
@@ -274,8 +274,8 @@ test(TimeZoneBasicTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -286,9 +286,9 @@ test(TimeZoneBasicTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
 
-  // just after spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00:00 is in the gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -297,8 +297,8 @@ test(TimeZoneBasicTest, link) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -395,14 +395,14 @@ test(TimeZoneExtendedTest, getZoneExtra) {
       &testingzonedbx::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
-  LocalDateTime ldt;
+  PlainDateTime pdt;
   OffsetDateTime dt;
   acetime_t epochSeconds;
   ZonedExtra ze;
 
-  // before spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
-  ze = tz.getZonedExtra(ldt);
+  // before gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -411,8 +411,8 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -423,9 +423,9 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
 
-  // right after spring forward to DST, this is a gap
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00 is in gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -434,8 +434,8 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -446,9 +446,9 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 
-  // just before fall back overlap
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
-  ze = tz.getZonedExtra(ldt);
+  // before overlap
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 0, 59, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -457,8 +457,8 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-7));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -469,9 +469,9 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 
-  // right at fall back overlap, 01:00 occurs twice, fold=0 picks the earlier
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // in overlap, 01:00 occurs twice, select the earlier
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeOverlap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -480,8 +480,8 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-7));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -492,21 +492,9 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 
-  // fall back overlap, 01:00 occurs twice, fold=1 picks the later
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0, 1 /*fold*/);
-  ze = tz.getZonedExtra(ldt);
-  assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
-  assertEqual(-8*60, ze.stdOffset().toMinutes());
-  assertEqual(0*60, ze.dstOffset().toMinutes());
-  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
-  assertEqual(0*60, ze.reqDstOffset().toMinutes());
-  assertEqual(F("PST"), ze.abbrev());
-  //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  ze = tz.getZonedExtra(epochSeconds);
+  // in overlap, 01:00 occurs twice, select the later
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kReversed);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeOverlap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -514,10 +502,22 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
 
-  // 02:00 occurs once, after an hour of overlap
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00 is after the overlap
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -526,8 +526,8 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -559,14 +559,14 @@ test(TimeZoneExtendedTest, link) {
 
   assertEqual(testingzonedb::kZoneIdUS_Pacific, tz.getZoneId());
 
-  LocalDateTime ldt;
+  PlainDateTime pdt;
   OffsetDateTime dt;
   acetime_t epochSeconds;
   ZonedExtra ze;
 
-  // just before spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
-  ze = tz.getZonedExtra(ldt);
+  // 01:59:59 is before the gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -575,8 +575,8 @@ test(TimeZoneExtendedTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -587,9 +587,9 @@ test(TimeZoneExtendedTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
 
-  // just after spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00:00 is in the gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -598,8 +598,8 @@ test(TimeZoneExtendedTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -638,14 +638,14 @@ test(TimeZoneCompleteTest, getZoneExtra) {
       &testingzonedbc::kZoneAmerica_Los_Angeles,
       &zoneProcessor);
 
-  LocalDateTime ldt;
+  PlainDateTime pdt;
   OffsetDateTime dt;
   acetime_t epochSeconds;
   ZonedExtra ze;
 
-  // before spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
-  ze = tz.getZonedExtra(ldt);
+  // before gap, 01:59:59-08:00
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -654,8 +654,8 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -666,9 +666,9 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(0, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
 
-  // right after spring forward to DST, this is a gap
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00 is a gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -677,8 +677,8 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -689,9 +689,9 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 
-  // just before fall back overlap
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
-  ze = tz.getZonedExtra(ldt);
+  // before overlap
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 0, 59, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -700,8 +700,8 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-7));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -712,9 +712,9 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 
-  // right at fall back overlap, 01:00 occurs twice, fold=0 picks the earlier
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 01:00 occurs twice, kCompatible selects the earlier
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeOverlap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -723,8 +723,8 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-7));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-7));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -735,21 +735,9 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(1*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
 
-  // fall back overlap, 01:00 occurs twice, fold=1 picks the later
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 1, 0, 0, 1 /*fold*/);
-  ze = tz.getZonedExtra(ldt);
-  assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
-  assertEqual(-8*60, ze.stdOffset().toMinutes());
-  assertEqual(0*60, ze.dstOffset().toMinutes());
-  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
-  assertEqual(0*60, ze.reqDstOffset().toMinutes());
-  assertEqual(F("PST"), ze.abbrev());
-  //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
-  epochSeconds = dt.toEpochSeconds();
-  ze = tz.getZonedExtra(epochSeconds);
+  // 01:00 occurs twice, kReversed selects the later
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kReversed);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeOverlap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -757,10 +745,22 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
+  //
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
+  epochSeconds = dt.toEpochSeconds();
+  ze = tz.getZonedExtra(epochSeconds);
+  assertFalse(ze.isError());
+  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual(-8*60, ze.stdOffset().toMinutes());
+  assertEqual(0*60, ze.dstOffset().toMinutes());
+  assertEqual(-8*60, ze.reqStdOffset().toMinutes());
+  assertEqual(0*60, ze.reqDstOffset().toMinutes());
+  assertEqual(F("PST"), ze.abbrev());
 
-  // 02:00 occurs once, after an hour of overlap
-  ldt = LocalDateTime::forComponents(2018, 11, 4, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00 occurs once, just after the overlap
+  pdt = PlainDateTime::forComponents(2018, 11, 4, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -769,8 +769,8 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -802,14 +802,14 @@ test(TimeZoneCompleteTest, link) {
 
   assertEqual(testingzonedb::kZoneIdUS_Pacific, tz.getZoneId());
 
-  LocalDateTime ldt;
+  PlainDateTime pdt;
   OffsetDateTime dt;
   acetime_t epochSeconds;
   ZonedExtra ze;
 
-  // just before spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 59);
-  ze = tz.getZonedExtra(ldt);
+  // 01:59:59 is before the gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeExact, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -818,8 +818,8 @@ test(TimeZoneCompleteTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
@@ -830,9 +830,9 @@ test(TimeZoneCompleteTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PST"), ze.abbrev());
 
-  // just after spring forward to DST
-  ldt = LocalDateTime::forComponents(2018, 3, 11, 2, 0, 0);
-  ze = tz.getZonedExtra(ldt);
+  // 02:00:00 is in the gap
+  pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
+  ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
   assertEqual(ZonedExtra::kTypeGap, ze.type());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
@@ -841,8 +841,8 @@ test(TimeZoneCompleteTest, link) {
   assertEqual(0*60, ze.reqDstOffset().toMinutes());
   assertEqual(F("PDT"), ze.abbrev());
   //
-  dt = OffsetDateTime::forLocalDateTimeAndOffset(
-      ldt, TimeOffset::forHours(-8));
+  dt = OffsetDateTime::forPlainDateTimeAndOffset(
+      pdt, TimeOffset::forHours(-8));
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());

@@ -3,7 +3,7 @@
 /**
  * @file UnixTimeTest.ino
  *
- * Quick and dirty validation of LocalDatEtime::toEpochSeconds() and
+ * Quick and dirty validation of PlainDateTime::toEpochSeconds() and
  * forEpochSeconds() against the "standard" <time.h> library provided by some
  * Arduino platforms. The standard C/Unix <time.h> is a big mess. See
  * http://www.catb.org/esr/time-programming/#_gmtime_3_and_localtime_3 and the
@@ -47,7 +47,7 @@ using namespace ace_time;
 //---------------------------------------------------------------------------
 
 test(UnixTimeTest, toEpochSeconds) {
-  auto dt = LocalDateTime::forComponents(2018, 1, 1, 0, 0, 0);
+  auto dt = PlainDateTime::forComponents(2018, 1, 1, 0, 0, 0);
   acetime_t epochSeconds = dt.toEpochSeconds();
 
   struct tm t;
@@ -101,7 +101,7 @@ test(UnixTimeTest, forEpochSeconds) {
   gmtime_r(&unixSeconds, &t);
 #endif
 
-  auto dt = LocalDateTime::forEpochSeconds(epochSeconds);
+  auto dt = PlainDateTime::forEpochSeconds(epochSeconds);
   assertEqual(dt.year(), (int16_t) (t.tm_year + 1900));
   assertEqual(dt.month(), t.tm_mon + 1);
   assertEqual(dt.day(), t.tm_mday);

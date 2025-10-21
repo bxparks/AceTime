@@ -7,44 +7,44 @@
 #include <Arduino.h> // strncpy_P()
 #include <AceCommon.h>
 #include "common/DateStrings.h"
-#include "LocalDateTime.h"
+#include "PlainDateTime.h"
 
 using ace_common::printPad2To;
 
 namespace ace_time {
 
-void LocalDateTime::printTo(Print& printer) const {
+void PlainDateTime::printTo(Print& printer) const {
   if (isError()) {
-    printer.print(F("<Invalid LocalDateTime>"));
+    printer.print(F("<Invalid PlainDateTime>"));
     return;
   }
 
   // Date
-  printer.print(mLocalDate.year());
+  printer.print(mPlainDate.year());
   printer.print('-');
-  printPad2To(printer, mLocalDate.month(), '0');
+  printPad2To(printer, mPlainDate.month(), '0');
   printer.print('-');
-  printPad2To(printer, mLocalDate.day(), '0');
+  printPad2To(printer, mPlainDate.day(), '0');
 
   // 'T' separator
   printer.print('T');
 
   // Time
-  printPad2To(printer, mLocalTime.hour(), '0');
+  printPad2To(printer, mPlainTime.hour(), '0');
   printer.print(':');
-  printPad2To(printer, mLocalTime.minute(), '0');
+  printPad2To(printer, mPlainTime.minute(), '0');
   printer.print(':');
-  printPad2To(printer, mLocalTime.second(), '0');
+  printPad2To(printer, mPlainTime.second(), '0');
 }
 
-LocalDateTime LocalDateTime::forDateString(const char* dateString) {
+PlainDateTime PlainDateTime::forDateString(const char* dateString) {
   if (strlen(dateString) < kDateTimeStringLength) {
-    return LocalDateTime::forError();
+    return PlainDateTime::forError();
   }
   return forDateStringChainable(dateString);
 }
 
-LocalDateTime LocalDateTime::forDateString(
+PlainDateTime PlainDateTime::forDateString(
     const __FlashStringHelper* dateString) {
   // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
   // ESP8266 do not have strlcpy_P(). We need +1 for the '\0' character and
@@ -62,20 +62,20 @@ LocalDateTime LocalDateTime::forDateString(
   return forDateString(buffer);
 }
 
-LocalDateTime LocalDateTime::forDateStringChainable(const char*& dateString) {
+PlainDateTime PlainDateTime::forDateStringChainable(const char*& dateString) {
   const char* s = dateString;
 
   // date
-  LocalDate ld = LocalDate::forDateStringChainable(s);
+  PlainDate pd = PlainDate::forDateStringChainable(s);
 
   // 'T'
   s++;
 
   // time
-  LocalTime lt = LocalTime::forTimeStringChainable(s);
+  PlainTime pt = PlainTime::forTimeStringChainable(s);
 
   dateString = s;
-  return LocalDateTime(ld, lt);
+  return PlainDateTime(pd, pt);
 }
 
 }

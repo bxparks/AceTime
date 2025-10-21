@@ -8,6 +8,8 @@
 
 #include <stdint.h>
 
+#define ACE_TIME_DEPRECATED __attribute__((deprecated))
+
 /**
  * @file common.h
  *
@@ -51,6 +53,62 @@ void swap(T& a, T& b) {
   b = tmp;
 }
 
-}
+/**
+ * These are options that the calling code can use to control how to
+ * disambiguate the ZonedDateTime during an overlap or a gap when converting
+ * from a PlainDateTime.
+ */
+enum class Disambiguate : uint8_t {
+  /** Select the earlier ZonedDateTime in an overlap, but the later
+   * ZonedDateTime in a gap.
+   */
+  kCompatible = 0,
+
+  /** Always select the earlier ZonedDateTime. */
+  kEarlier = 1,
+
+  /** Always select the later ZonedDateTime. */
+  kLater = 2,
+
+  /** The reverse of kCompatible. In other words, select the later ZonedDateTime
+   * in an overlap, and the earlier ZonedDateTime in a gap.
+   */
+  kReversed = 3,
+};
+
+/**
+ * These are the ways that a given PlainDateTime was resolved to a
+ * ZonedDateTime, depending on whether the PlainDateTime occurred in an overlap,
+ * a gap, or was a unique mapping.
+ */
+enum class Resolved : uint8_t {
+  /** PlainDateTime was resolved to a unique ZonedDateTime. */
+  kUnique = 0,
+
+  /** PlainDateTime was in an overlap, and resolved to the earlier
+   * ZonedDateTime.
+   */
+  kOverlapEarlier = 1,
+
+  /** PlainDateTime was in an overlap, and resolved to the later ZonedDateTime.
+   */
+  kOverlapLater = 2,
+
+  /**
+   * PlainDateTime was in a gap, and resolved to the earlier ZonedDateTime that
+   * would have matched if we had extended the later transition rule backwards
+   * in time.
+   */
+  kGapEarlier = 3,
+
+  /**
+   * PlainDateTime was in a gap, and resolved to the later ZonedDateTime
+   * that would have matched if we had extended the earlier transition rule
+   * forwards in time.
+   */
+  kGapLater = 4,
+};
+
+} // ace_time
 
 #endif

@@ -9,20 +9,22 @@
 /**
  * @file ZoneInfoMid.h
  *
- * Data structures that describe the mid resolution zoneinfo persistence format.
- * It has a 1-minute resolution for AT, UNTIL, STDOFF; a 15-minute resolution
- * for DST offset (similar to ZoneInfoLow). But it also uses 2-byte year fields
- * supporting year range of `[-32767,32765]` (similar to ZoneInfoHigh).
+ * The ZoneInfo, ZoneEra, ZonePolicy, and ZoneRule data structures in this file
+ * describe the mid resolution zoneinfo persistence format. It has a 1-minute
+ * resolution for AT, UNTIL, STDOFF; a 15-minute resolution for DST offset
+ * (similar to ZoneInfoLow). But it also uses 2-byte year fields supporting year
+ * range of `[-32767,32765]` (similar to ZoneInfoHigh).
  *
- * The BrokersMid.h file provides an abtraction layer which converts these
- * low-level fields into a semantically consistent API which can be used by the
- * AceTime classes.
+ * For each data structure (ZoneInfo, ZoneEra, ZonePolicy, ZoneRule), there is a
+ * corresponding Broker wrapper class (ZoneInfoBroker, ZoneEraBroker,
+ * ZonePolicyBroker, ZoneRuleBroker). The Broker objects provide a semantically
+ * consistent API for the higher-level AceTime classes.
  *
- * The various zoneinfo database files (e.g. zonedb, zonedbx, zonedbc) will
- * use one of these persistence formats, as defined by infos.h. (The
- * ZoneInfoMid.h persistence format was used at some point during the
- * development, but it is current *not* used by any of the zone*db database
- * files.)
+ * There are current no zonedb files which uses the ZoneInfoMid classes. It was
+ * used at some point during development. This persistence format could support
+ * timezones very far back in the past (I can't remember how far back). But
+ * since it does not support 1-second resolution, it cannot support all
+ * timezones in the entire TZDB database.
  *
  * See also DEVELOPER.md for an overview of the ZoneInfoXXX layer.
  */
@@ -39,7 +41,7 @@ class Print;
 namespace ace_time {
 
 /**
- * Wrapper class so that the entire collection can be referenced as a singel
+ * Wrapper class so that the entire collection can be referenced as a single
  * template parameter.
  */
 class ZoneInfoMid {

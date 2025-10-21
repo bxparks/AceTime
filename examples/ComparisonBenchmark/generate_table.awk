@@ -43,8 +43,8 @@ END {
   for (i = 0; i < TOTAL_BENCHMARKS - 2; i++) {
     name = u[i]["name"]
     if (name ~ /^EmptyLoop/ \
-        || name ~ /^LocalDateTime::forEpochSeconds\(\)/ \
-        || name ~ /^LocalDateTime::toEpochSeconds\(\)/) {
+        || name ~ /^PlainDateTime::forEpochSeconds\(\)/ \
+        || name ~ /^PlainDateTime::toEpochSeconds\(\)/) {
       printf("|----------------------------------------+----------|\n")
     }
     printf("| %-38s | %8.3f |\n", name, u[i]["micros"])

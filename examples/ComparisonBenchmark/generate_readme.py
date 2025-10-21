@@ -25,8 +25,8 @@ print(f"""\
 # Comparison Benchmark
 
 Here are the results from `ComparisonBenchmark.ino` which compares the execution
-time of date-time conversion functions (`LocalDateTime::toEpochSeconds()`,
-`LocalDateTime::forEpochSeconds()`) from the AceTime library with the
+time of date-time conversion functions (`PlainDateTime::toEpochSeconds()`,
+`PlainDateTime::forEpochSeconds()`) from the AceTime library with the
 equilvalent functions (`makeTime()`, `breakTime()`) from the [Arduino
 Time](https://github.com/PaulStoffregen/Time) library.
 

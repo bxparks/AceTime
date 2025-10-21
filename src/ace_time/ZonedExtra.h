@@ -14,7 +14,7 @@
 namespace ace_time {
 
 class TimeZone;
-class LocalDateTime;
+class PlainDateTime;
 
 class ZonedExtra {
   public:
@@ -22,32 +22,33 @@ class ZonedExtra {
     static const uint8_t kAbbrevSize = ace_time::kAbbrevSize;
 
     /**
-     * The epochSeconds or LocalDateTime was not found because it was outside
+     * The epochSeconds or PlainDateTime was not found because it was outside
      * the range of the zoneinfo database (too far past, or too far in the
      * future).
      */
     static const uint8_t kTypeNotFound = 0;
 
     /**
-     * The given LocalDateTime matches a single epochSeconds.
-     * The given epochSeconds matches a single LocalDateTime.
+     * The given PlainDateTime matches a single epochSeconds.
+     * The given epochSeconds matches a single PlainDateTime.
      */
     static const uint8_t kTypeExact = 1;
 
     /**
-     * The given LocalDateTime occurs in a gap and does not match any
+     * The given PlainDateTime occurs in a gap and does not match any
      * epochSeconds.
+     *
      * A given epochSeconds will never return this because it will always match
-     * either a single LocalDateTime or match nothing.
+     * a unique PlainDateTime.
      */
     static const uint8_t kTypeGap = 2;
 
     /**
-     * The given LocalDateTime matches 2 possible epochSeconds, which is
-     * disambguiated by the LocalDateTime::fold input parameter.
-     * The given epochSeconds matches a LocalDateTime that can occur twice, and
-     * is disambiguated by the OffsetDateTime::fold (same as
-     * ZonedDateTime::fold) output parameter.
+     * The given PlainDateTime matches 2 possible epochSeconds, which is
+     * disambiguated by the 'disambiguate' parameter in the lookup function.
+     *
+     * A look up using epochSeconds will never return this because it will
+     * always match a unique PlainDateTime.
      */
     static const uint8_t kTypeOverlap = 3;
 
@@ -57,14 +58,15 @@ class ZonedExtra {
     }
 
     /**
-     * Return an instance for the given LocalDateTime and TimeZone.
-     * If you already have a ZonedDateTime, then the LocalDateTime can be
-     * retrieved using ZonedDateTime::localDateTime().
+     * Return an instance for the given PlainDateTime and TimeZone.
+     * If you already have a ZonedDateTime, then the PlainDateTime can be
+     * retrieved using ZonedDateTime::plainDateTime().
      */
     static ZonedExtra forComponents(
         int16_t year, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second,
-        const TimeZone& tz, uint8_t fold = 0);
+        const TimeZone& tz,
+        Disambiguate disambiguate = Disambiguate::kCompatible);
 
     /** Return an instance for the given epochSeconds and TimeZone. */
     static ZonedExtra forEpochSeconds(
@@ -72,18 +74,28 @@ class ZonedExtra {
         const TimeZone& tz);
 
     /**
-     * Return an instance for the given LocalDateTime and TimeZone.
-     * If you already have a ZonedDateTime, then the LocalDateTime can be
-     * retrieved using ZonedDateTime::localDateTime().
+     * Return an instance for the given PlainDateTime and TimeZone.
+     * If you already have a ZonedDateTime, then the PlainDateTime can be
+     * retrieved using ZonedDateTime::plainDateTime().
      */
-    static ZonedExtra forLocalDateTime(
-        const LocalDateTime& ldt,
-        const TimeZone& tz);
+    static ZonedExtra forPlainDateTime(
+        const PlainDateTime& pdt,
+        const TimeZone& tz,
+        Disambiguate disambiguate = Disambiguate::kCompatible);
 
-    /** Consructor */
+    /** Backwards compatible version of forPlainDateTime(). */
+    ACE_TIME_DEPRECATED
+    static ZonedExtra forLocalDateTime(
+        const PlainDateTime& pdt,
+        const TimeZone& tz,
+        Disambiguate disambiguate = Disambiguate::kCompatible) {
+      return forPlainDateTime(pdt, tz, disambiguate);
+    }
+
+    /** Constructor */
     explicit ZonedExtra() {}
 
-    /** Consructor */
+    /** Constructor */
     explicit ZonedExtra(
         uint8_t type,
         int32_t stdOffsetSeconds,
@@ -101,7 +113,7 @@ class ZonedExtra {
       mAbbrev[kAbbrevSize - 1] = '\0';
     }
 
-    /** Indicates that the LocalDateTime or epochSeconds was not found. */
+    /** Indicates that the PlainDateTime or epochSeconds was not found. */
     bool isError() const {
       return mStdOffsetSeconds == kInvalidSeconds;
     }
@@ -129,7 +141,7 @@ class ZonedExtra {
     }
 
     /**
-     * STD offset of the requested epochSeconds or LocalDateTime.
+     * STD offset of the requested epochSeconds or PlainDateTime.
      * This will be different from stdOffset only for kTypeGap.
      */
     TimeOffset reqStdOffset() const {
@@ -137,7 +149,7 @@ class ZonedExtra {
     }
 
     /**
-     * DST offset of the requested epochSeconds or LocalDateTime.
+     * DST offset of the requested epochSeconds or PlainDateTime.
      * This will be different from stdOffset only for kTypeGap.
      */
     TimeOffset reqDstOffset() const {
@@ -145,10 +157,10 @@ class ZonedExtra {
     }
 
     /**
-     * The total time offset of the requested epochSeconds of LocalDateTime,
+     * The total time offset of the requested epochSeconds of PlainDateTime,
      * (reqStdOffset + reqDstOffset). This value becomes lost when a
      * ZonedDateTime is created using `ZonedDateTime::forComponents()` during a
-     * DST gap, because it was used to convert the given LocalDateTime to an
+     * DST gap, because it was used to convert the given PlainDateTime to an
      * epochSeconds, before the epochSeconds was renormalized back into a
      * ZonedDateTime. The ZonedExtra object provided access to this UTC offset.
      */
@@ -159,7 +171,7 @@ class ZonedExtra {
 
     /**
      * Returns the pointer to the local string buffer containing the timezone
-     * abbreviation (e.g. "PST", "PDT") used at the given LocalDateTime or
+     * abbreviation (e.g. "PST", "PDT") used at the given PlainDateTime or
      * epochSeconds. This pointer is safe to use as long as this object is
      * alive.
      */

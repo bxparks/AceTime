@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include <AceCommon.h> // printPad2To()
 #include "common/DateStrings.h" // DateStrings
-#include "LocalDate.h"
+#include "PlainDate.h"
 
 namespace ace_time {
 
@@ -24,7 +24,7 @@ namespace ace_time {
 //      days because March has 31 days (28 + 3).
 //    * atc_days_of_week[4] is 5 because May (index=4) 1st is shifted by 2
 //      additional days from April, because April has 30 days (28 + 2).
-const uint8_t LocalDate::sDayOfWeek[12] = {
+const uint8_t PlainDate::sDayOfWeek[12] = {
   5 /*Jan=31*/,
   1 /*Feb=28*/,
   0 /*Mar=31, start of "year"*/,
@@ -40,7 +40,7 @@ const uint8_t LocalDate::sDayOfWeek[12] = {
 };
 
 // Using 0=Jan offset.
-const uint8_t LocalDate::sDaysInMonth[12] = {
+const uint8_t PlainDate::sDaysInMonth[12] = {
   31 /*Jan=31*/,
   28 /*Feb=28*/,
   31 /*Mar=31*/,
@@ -55,9 +55,9 @@ const uint8_t LocalDate::sDaysInMonth[12] = {
   31 /*Dec=31*/,
 };
 
-void LocalDate::printTo(Print& printer) const {
+void PlainDate::printTo(Print& printer) const {
   if (isError()) {
-    printer.print(F("<Invalid LocalDate>"));
+    printer.print(F("<Invalid PlainDate>"));
     return;
   }
 

@@ -1,6 +1,6 @@
 /*
- * Compare the run time of LocalDateTime::toEpochSeconds() and
- * LocalDateTime::forEpochSeconds() with the equivalent makeTime() and
+ * Compare the run time of PlainDateTime::toEpochSeconds() and
+ * PlainDateTime::forEpochSeconds() with the equivalent makeTime() and
  * breakTime() functions of the Arduino Time Library
  * (https://github.com/PaulStoffregen/Time).
  *
@@ -75,7 +75,7 @@ void disableOptimization(acetime_t seconds) {
   guard ^= tmp2;
 }
 
-void disableOptimization(const LocalDateTime& dt) {
+void disableOptimization(const PlainDateTime& dt) {
   guard ^= dt.year();
   guard ^= dt.month();
   guard ^= dt.day();
@@ -143,10 +143,10 @@ void runEmptyLoop() {
   printMicrosPerIteration(F("EmptyLoop"), baseMillis);
 }
 
-// AceTime library: LocalDateTime::forEpochSeconds()
+// AceTime library: PlainDateTime::forEpochSeconds()
 void runAceTimeForEpochSeconds() {
   unsigned long elapsedMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    LocalDateTime dt = LocalDateTime::forEpochSeconds(seconds);
+    PlainDateTime dt = PlainDateTime::forEpochSeconds(seconds);
     disableOptimization(dt);
   });
   unsigned long baseMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
@@ -154,24 +154,24 @@ void runAceTimeForEpochSeconds() {
   });
 
   printMicrosPerIteration(
-      F("LocalDateTime::forEpochSeconds()"),
+      F("PlainDateTime::forEpochSeconds()"),
       elapsedMillis - baseMillis);
 }
 
-// AceTime library: LocalDateTime::toEpochSeconds()
+// AceTime library: PlainDateTime::toEpochSeconds()
 void runAceTimeToEpochSeconds() {
   unsigned long elapsedMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    LocalDateTime dt = LocalDateTime::forEpochSeconds(seconds);
+    PlainDateTime dt = PlainDateTime::forEpochSeconds(seconds);
     acetime_t roundTripSeconds = dt.toEpochSeconds();
     disableOptimization(roundTripSeconds);
   });
   unsigned long baseMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    LocalDateTime dt = LocalDateTime::forEpochSeconds(seconds);
+    PlainDateTime dt = PlainDateTime::forEpochSeconds(seconds);
     disableOptimization(dt);
   });
 
   printMicrosPerIteration(
-      F("LocalDateTime::toEpochSeconds()"),
+      F("PlainDateTime::toEpochSeconds()"),
       elapsedMillis - baseMillis);
 }
 

@@ -50,34 +50,47 @@ class ZonedDateTime {
      * @param minute minute [0-59]
      * @param second second [0-59], does not support leap seconds
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
-     * @param fold optional disambiguation of multiple occurences [0, 1]
+     * @param disambiguate disambiguate overlap or gap
      */
     static ZonedDateTime forComponents(
         int16_t year, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second,
-        const TimeZone& timeZone, uint8_t fold = 0) {
-      auto ldt = LocalDateTime::forComponents(
-          year, month, day, hour, minute, second, fold);
-      return forLocalDateTime(ldt, timeZone);
+        const TimeZone& timeZone,
+        Disambiguate disambiguate = Disambiguate::kCompatible) {
+      auto pdt = PlainDateTime::forComponents(
+          year, month, day, hour, minute, second);
+      return forPlainDateTime(pdt, timeZone, disambiguate);
     }
 
     /**
-     * Factory method using LocalDateTime and time zone fields.
+     * Factory method using PlainDateTime and time zone fields.
      * This is intended mostly for testing purposes. Most production code
      * will use the forEpochSeconds() method.
      *
      * The TimeOffset at the given date/time component is calculated using
      * TimeZone::getOffsetDateTime().
      *
-     * @param ldt LocalDateTime (including the fold parameter)
+     * @param pdt PlainDateTime (including the resolved parameter)
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
+     * @param disambiguate disambiguate overlap or gap
      */
-    static ZonedDateTime forLocalDateTime(
-        const LocalDateTime& ldt,
-        const TimeZone& timeZone) {
-      auto odt = timeZone.getOffsetDateTime(ldt);
+    static ZonedDateTime forPlainDateTime(
+        const PlainDateTime& pdt,
+        const TimeZone& timeZone,
+        Disambiguate disambiguate = Disambiguate::kCompatible) {
+      auto odt = timeZone.getOffsetDateTime(pdt, disambiguate);
       return ZonedDateTime(odt, timeZone);
     }
+
+    /** Backwards compatible version of forPlainDateTime(). */
+    ACE_TIME_DEPRECATED
+    static ZonedDateTime forLocalDateTime(
+        const PlainDateTime& pdt,
+        const TimeZone& timeZone,
+        Disambiguate disambiguate = Disambiguate::kCompatible) {
+      return forPlainDateTime(pdt, timeZone, disambiguate);
+    }
+
     /**
      * Factory method. Create the ZonedDateTime from epochSeconds as seen from
      * the given time zone. The dayOfWeek will be calculated internally.
@@ -86,13 +99,13 @@ class ZonedDateTime {
      * @param epochSeconds Number of seconds from the current epoch by
      * `Epoch::currentEpochYear()`. The default is 2050-01-01 00:00:00 UTC
      * which can be changed by `currentEpochYear(year)`. A value of
-     * LocalDate::kInvalidEpochSeconds is a sentinel that is considered to be an
+     * PlainDate::kInvalidEpochSeconds is a sentinel that is considered to be an
      * error and causes isError() to return true.
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone) {
-      OffsetDateTime odt = (epochSeconds == LocalDate::kInvalidEpochSeconds)
+      OffsetDateTime odt = (epochSeconds == PlainDate::kInvalidEpochSeconds)
           ? OffsetDateTime::forError()
           : timeZone.getOffsetDateTime(epochSeconds);
       return ZonedDateTime(odt, timeZone);
@@ -119,8 +132,8 @@ class ZonedDateTime {
     static ZonedDateTime forUnixSeconds64(
         int64_t unixSeconds, const TimeZone& timeZone) {
       acetime_t epochSeconds;
-      if (unixSeconds == LocalDate::kInvalidUnixSeconds64) {
-        epochSeconds = LocalDate::kInvalidEpochSeconds;
+      if (unixSeconds == PlainDate::kInvalidUnixSeconds64) {
+        epochSeconds = PlainDate::kInvalidEpochSeconds;
       } else {
         epochSeconds = unixSeconds
             - Epoch::secondsToCurrentEpochFromUnixEpoch64();
@@ -202,11 +215,11 @@ class ZonedDateTime {
     /** Set the second. */
     void second(uint8_t second) { mOffsetDateTime.second(second); }
 
-    /** Return the fold. */
-    uint8_t fold() const { return mOffsetDateTime.fold(); }
+    /** Return the resolved. */
+    Resolved resolved() const { return mOffsetDateTime.resolved(); }
 
-    /** Set the fold. */
-    void fold(uint8_t fold) { mOffsetDateTime.fold(fold); }
+    /** Set the resolved. */
+    void resolved(Resolved resolved) { mOffsetDateTime.resolved(resolved); }
 
     /**
      * Return the day of the week using ISO 8601 numbering where Monday=1 and
@@ -226,9 +239,15 @@ class ZonedDateTime {
     /** Return the offset zone of the OffsetDateTime. */
     TimeOffset timeOffset() const { return mOffsetDateTime.timeOffset(); }
 
-    /** Return the LocalDateTime of the components. */
-    const LocalDateTime& localDateTime() const {
-      return mOffsetDateTime.localDateTime();
+    /** Return the PlainDateTime of the components. */
+    const PlainDateTime& plainDateTime() const {
+      return mOffsetDateTime.plainDateTime();
+    }
+
+    /** Return the PlainDateTime of the components. */
+    ACE_TIME_DEPRECATED
+    const PlainDateTime& localDateTime() const {
+      return plainDateTime();
     }
 
     /** Return the OffsetDateTime of the components. */
@@ -251,9 +270,12 @@ class ZonedDateTime {
      * additional memory and consume too much CPU resources on 8-bit processors.
      * So we must provide this normalize() method which must be called
      * manually by the client code.
+     *
+     * @param disambiguate disambiguate overlap or gap
      */
-    void normalize() {
-      mOffsetDateTime = mTimeZone.getOffsetDateTime(localDateTime());
+    void normalize(Disambiguate disambiguate = Disambiguate::kCompatible) {
+      mOffsetDateTime = mTimeZone.getOffsetDateTime(
+          plainDateTime(), disambiguate);
     }
 
     /**
@@ -290,7 +312,7 @@ class ZonedDateTime {
 
     /**
      * Return the 64-bit number of seconds from Unix epoch 1970-01-01 00:00:00
-     * UTC. Returns LocalDAte::kInvalidUnixSeconds64 if isError() is true.
+     * UTC. Returns PlainDate::kInvalidUnixSeconds64 if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.
@@ -309,7 +331,7 @@ class ZonedDateTime {
      *
      * If you want to know whether the local representatation of 'this'
      * ZonedDateTime occurs before or after the local representation of 'that',
-     * use `this->localDateTime().compareTo(that.localDateTime())` instead.
+     * use `this->plainDateTime().compareTo(that.plainDateTime())` instead.
      * This expression ignores the time zone which is sometimes what you want.
      *
      * If either this->isError() or that.isError() is true, the result is

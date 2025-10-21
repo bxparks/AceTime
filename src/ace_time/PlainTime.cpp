@@ -5,15 +5,15 @@
 
 #include <string.h> // strlen()
 #include <AceCommon.h>
-#include "LocalTime.h"
+#include "PlainTime.h"
 
 using ace_common::printPad2To;
 
 namespace ace_time {
 
-void LocalTime::printTo(Print& printer) const {
+void PlainTime::printTo(Print& printer) const {
   if (isError()) {
-    printer.print(F("<Invalid LocalTime>"));
+    printer.print(F("<Invalid PlainTime>"));
     return;
   }
 
@@ -25,7 +25,7 @@ void LocalTime::printTo(Print& printer) const {
   printPad2To(printer, mSecond, '0');
 }
 
-LocalTime LocalTime::forTimeString(const char* timeString) {
+PlainTime PlainTime::forTimeString(const char* timeString) {
   if (strlen(timeString) < kTimeStringLength) {
     return forError();
   }
@@ -33,7 +33,7 @@ LocalTime LocalTime::forTimeString(const char* timeString) {
 }
 
 // This assumes that the dateString is always long enough.
-LocalTime LocalTime::forTimeStringChainable(const char*& timeString) {
+PlainTime PlainTime::forTimeStringChainable(const char*& timeString) {
   const char* s = timeString;
 
   // hour
@@ -55,7 +55,7 @@ LocalTime LocalTime::forTimeStringChainable(const char*& timeString) {
   second = 10 * second + (*s++ - '0');
 
   timeString = s;
-  return LocalTime(hour, minute, second);
+  return PlainTime(hour, minute, second);
 }
 
 }

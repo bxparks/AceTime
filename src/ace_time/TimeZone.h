@@ -301,7 +301,9 @@ class TimeZone {
     bool isError() const { return mType == kTypeError; }
 
     /** Return the ZonedExtra information at epochSeconds. */
-    ZonedExtra getZonedExtra(const LocalDateTime& ldt) const {
+    ZonedExtra getZonedExtra(
+        const PlainDateTime& pdt,
+        Disambiguate disambiguate) const {
       switch (mType) {
         case kTypeError:
         case kTypeReserved:
@@ -323,7 +325,8 @@ class TimeZone {
               abbrev);
 
         default: {
-          FindResult result = getBoundZoneProcessor()->findByLocalDateTime(ldt);
+          FindResult result = getBoundZoneProcessor()->findByPlainDateTime(
+              pdt, disambiguate);
           if (result.type == FindResult::kTypeNotFound) {
             return ZonedExtra::forError();
           }
@@ -379,11 +382,13 @@ class TimeZone {
 
     /**
      * Return the best estimate of the OffsetDateTime at the given
-     * LocalDateTime for the current TimeZone. Used by
+     * PlainDateTime for the current TimeZone. Used by
      * ZonedDateTime::forComponents(), so intended to be used mostly for
      * testing and debugging.
      */
-    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const {
+    OffsetDateTime getOffsetDateTime(
+        const PlainDateTime& pdt,
+        Disambiguate disambiguate) const {
       OffsetDateTime odt = OffsetDateTime::forError();
       switch (mType) {
         case kTypeError:
@@ -391,13 +396,14 @@ class TimeZone {
           break;
 
         case kTypeManual:
-          odt = OffsetDateTime::forLocalDateTimeAndOffset(
-              ldt,
+          odt = OffsetDateTime::forPlainDateTimeAndOffset(
+              pdt,
               TimeOffset::forMinutes(mStdOffsetMinutes + mDstOffsetMinutes));
           break;
 
         default: {
-          FindResult result = getBoundZoneProcessor()->findByLocalDateTime(ldt);
+          FindResult result = getBoundZoneProcessor()->findByPlainDateTime(
+              pdt, disambiguate);
           if (result.type == FindResult::kTypeNotFound) {
             break;
           }
@@ -405,9 +411,11 @@ class TimeZone {
           // Convert FindResult into OffsetDateTime using the requested offset.
           TimeOffset reqOffset = TimeOffset::forSeconds(
               result.reqStdOffsetSeconds + result.reqDstOffsetSeconds);
-          odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, reqOffset);
-          odt.fold(result.fold);
+          odt = OffsetDateTime::forPlainDateTimeAndOffset(pdt, reqOffset);
 
+          // TODO: I think this can go into the 'else' section of an
+          // if-statement which combines with the above.
+          //
           // Special processing for kTypeGap: Convert to epochSeconds using the
           // reqStdOffsetMinutes and reqDstOffsetMinutes, then convert back to
           // OffsetDateTime using the target stdOffsetMinutes and
@@ -418,6 +426,8 @@ class TimeZone {
                 result.stdOffsetSeconds + result.dstOffsetSeconds);
             odt = OffsetDateTime::forEpochSeconds(epochSeconds, targetOffset);
           }
+
+          odt.resolved(resolveForResultTypeAndFold(result.type, result.fold));
           break;
         }
       }
@@ -451,8 +461,7 @@ class TimeZone {
 
           TimeOffset offset = TimeOffset::forSeconds(
               result.reqStdOffsetSeconds + result.reqDstOffsetSeconds);
-          odt = OffsetDateTime::forEpochSeconds(
-              epochSeconds, offset, result.fold);
+          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
           break;
         }
       }
@@ -593,6 +602,25 @@ class TimeZone {
     ZoneProcessor* getBoundZoneProcessor() const {
       mZoneProcessor->setZoneKey(mZoneKey);
       return mZoneProcessor;
+    }
+
+    // Convert FindResult.type and fold into a Resolved field.
+    static Resolved resolveForResultTypeAndFold(uint8_t frtype, uint8_t fold) {
+      if (frtype == FindResult::kTypeOverlap) {
+        if (fold == 0) {
+          return Resolved::kOverlapEarlier;
+        } else {
+          return Resolved::kOverlapLater;
+        }
+      } else if (frtype == FindResult::kTypeGap) {
+        if (fold == 0) {
+          return Resolved::kGapLater;
+        } else {
+          return Resolved::kGapEarlier;
+        }
+      } else {
+        return Resolved::kUnique;
+      }
     }
 
   private:

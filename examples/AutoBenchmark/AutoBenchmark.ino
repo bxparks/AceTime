@@ -26,14 +26,14 @@ void setup() {
 
   // print sizeof() various ace_time primitives
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(LocalDate): "));
-  SERIAL_PORT_MONITOR.println(sizeof(LocalDate));
+  SERIAL_PORT_MONITOR.print(F("sizeof(PlainDate): "));
+  SERIAL_PORT_MONITOR.println(sizeof(PlainDate));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(LocalTime): "));
-  SERIAL_PORT_MONITOR.println(sizeof(LocalTime));
+  SERIAL_PORT_MONITOR.print(F("sizeof(PlainTime): "));
+  SERIAL_PORT_MONITOR.println(sizeof(PlainTime));
 
-  SERIAL_PORT_MONITOR.print(F("sizeof(LocalDateTime): "));
-  SERIAL_PORT_MONITOR.println(sizeof(LocalDateTime));
+  SERIAL_PORT_MONITOR.print(F("sizeof(PlainDateTime): "));
+  SERIAL_PORT_MONITOR.println(sizeof(PlainDateTime));
 
   SERIAL_PORT_MONITOR.print(F("sizeof(TimeOffset): "));
   SERIAL_PORT_MONITOR.println(sizeof(TimeOffset));
