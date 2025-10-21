@@ -67,17 +67,6 @@ MANIFEST
 *.app
 
 #-------------------------------------------------------------------------
-# Generated files and directories under tests/validation/*Test/
-#-------------------------------------------------------------------------
-
-tests/validation/*Test/validation_*.h
-tests/validation/*Test/validation_*.cpp
-tests/validation/*Test/validation_*.json
-tests/validation/*Test/zonedb*
-tests/validation/*Test/tzfiles
-tests/validation/*Test/*.nzd
-
-#-------------------------------------------------------------------------
 # C# and .Net 5.0
 # See https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 #-------------------------------------------------------------------------
@@ -97,3 +86,9 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+
+#-------------------------------------------------------------------------
+# Makefile artifacts
+#-------------------------------------------------------------------------
+
+*.touch
