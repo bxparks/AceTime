@@ -509,6 +509,7 @@ until 2200.
 - [C++11/14/17 Hinnant date](https://github.com/HowardHinnant/date) library
 - [GNU libc time](https://www.gnu.org/software/libc/libc.html) library
 - [C# Noda Time](https://nodatime.org) library
+- [Python whenever](https://pypi.org/project/whenever/)
 - [acetimec](https://github.com/bxparks/acetimec) - C version of AceTime
 - [acetimego](https://github.com/bxparks/acetimego) - Go or TinyGo version of
   AceTime
