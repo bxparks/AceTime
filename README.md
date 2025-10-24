@@ -53,6 +53,18 @@ epoch of 1970-01-01 is provided through conversion functions of the `time_t`
 type. Only the 64-bit version of the `time_t` type is supported to avoid the
 [Year 2038 Problem](https://en.wikipedia.org/wiki/Year_2038_problem).
 
+The library does *not* support [leap
+seconds](https://en.wikipedia.org/wiki/Leap_second) and ignores them. Instead it
+uses [UNIX time](https://en.wikipedia.org/wiki/Unix_time) (aka POSIX time) where
+the *POSIX second* is variable in duration compared to the [SI
+second](https://en.wikipedia.org/wiki/Second). During a leap second, a POSIX
+second is conceptually equal to 2 SI seconds, and the POSIX clock changes from
+`23:59:58` to `23:59:59`, then is held for 2 seconds before rolling over to
+`00:00:00`. Most real-time clock (RTC) chips do not support leap seconds either,
+so the final `23:59:59` second will be held for only one second instead of two,
+so a clock using AceTime with such an RTC chip will be off by one second after a
+leap second compared to the atomic UTC clock.
+
 The companion library [AceTimeClock](https://github.com/bxparks/AceTimeClock)
 provides Clock classes to retrieve the time from more accurate sources, such as
 an [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server, or a
@@ -81,7 +93,7 @@ This library can be an alternative to the Arduino Time
 (https://github.com/JChristensen/Timezone) libraries.
 
 **Major Changes in v4.0**: Rename `LocalDate` to `PlainDate`; `LocalTime` to
-`PlainTime`; `LocalDateTime` to `PlainDateTime. Backwards compatible macros are
+`PlainTime`; `LocalDateTime` to `PlainDateTime`. Backwards compatible macros are
 provided, so most existing programs should still compile. See [Migrating to
 v4.0](MIGRATING.md#MigratingToVersion400) for more details. Add `zonedb2025` and
 `zonedbx2025` databases which contain DST transitions for year >= 2025, which
