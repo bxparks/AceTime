@@ -100,7 +100,7 @@ v4.0](MIGRATING.md#MigratingToVersion400) for more details. Add `zonedb2025` and
 reduces flash memory size. Replace `fold` parameter with `disambiguate` (input)
 and `resolved` (output) parameters.
 
-**Version**: 4.0.0 (2025-10-21, TZDB 2025b) \
+**Version**: 4.1.0 (2025-11-17, TZDB 2025b) \
 **Changelog**: [CHANGELOG.md](CHANGELOG.md) \
 **Migration**: [MIGRATING.md](MIGRATING.md) \
 **User Guide**: [USER_GUIDE.md](USER_GUIDE.md)

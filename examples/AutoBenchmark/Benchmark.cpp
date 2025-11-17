@@ -127,7 +127,7 @@ void disableOptimization(uint32_t value) {
 }
 
 void disableOptimization(const ZonedExtra& extra) {
-  guard ^= extra.type() & 0xff;
+  guard ^= (uint8_t)extra.resolved() & 0xff;
   guard ^= extra.timeOffset().toMinutes() & 0xff;
   guard ^= *extra.abbrev();
 }

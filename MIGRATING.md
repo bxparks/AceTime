@@ -2,16 +2,31 @@
 
 ## Table of Contents
 
-* [Migrating to v4.0.0](#MigratingToVersion400)
-* [Migrating to v3.0.0](#MigratingToVersion300)
-* [Migrating to v2.3.0](#MigratingToVersion220)
-* [Migrating to v2.2.0](#MigratingToVersion220)
-* [Migrating to v2.1.0](#MigratingToVersion210)
-* [Migrating to v2.0.0](#MigratingToVersion200)
-* [Migrating to v1.9.0](#MigratingToVersion190)
-* [Migrating to v1.8.0](#MigratingToVersion180)
+* [Migrating to v4.1.0](#migrating-to-v410)
+* [Migrating to v4.0.0](#migrating-to-v400)
+* [Migrating to v3.0.0](#migrating-to-v300)
+* [Migrating to v2.3.0](#migrating-to-v230)
+* [Migrating to v2.2.0](#migrating-to-v220)
+* [Migrating to v2.1.0](#migrating-to-v210)
+* [Migrating to v2.0.0](#migrating-to-v200)
+* [Migrating to v1.9.0](#migrating-to-v190)
+* [Migrating to v1.8.0](#migrating-to-v180)
 
-<a name="MigratingToVersion400"></a>
+## Migrating to v4.1.0
+
+The `uint8_t ZonedExtra::type()` function is replaced with `Resolved
+ZonedExtra::resolved()` which returns an enum of type `Resolved`. The new
+function has exactly the same behavior and semantics as
+`ZonedDateTime::resolved()` which simplifies the implementation and the usage of
+the library.
+
+Here is the mapping from the old values to the new enum:
+
+- `kTypeNotFound` -> `Resolved::kError`
+- `kTypeExact` -> `Resolved::kUnique`
+- `kTypeGap` -> `Resolved::kGapEarlier` or `Resolved::kGapLater`
+- `kTypeOverlap` -> `Resolved::kOverlapEarlier` or `Resolved::kOverlapLater`
+
 ## Migrating to v4.0.0
 
 These changes were originally intended for 3.0.0, but I ran out of time, so I
@@ -93,7 +108,6 @@ the `resolved` parameter which is an enum type of `Resolved`. It has 5 options:
 If the calling code does not care about how an ambiguity was resolved, then this
 parameter can be ignored.
 
-<a name="MigratingToVersion300"></a>
 ## Migrating to v3.0.0
 
 ### Info Container Class
@@ -126,7 +140,6 @@ which may have leaked out is `ace_time::internal::kAbbrevSize` which is the size
 of the string buffer needed to hold the longest TimeZone abbreviation (e.g.
 "PST"). This constant is now at `ace_time::kAbbrevSize`.
 
-<a name="MigratingToVersion230"></a>
 ## Migrating to v2.3.0
 
 The internal implementation details of various classes have changed
@@ -210,7 +223,6 @@ we can be confident that all algorithms (`BasicZoneProcessor`,
 `zonedbx`, `zonedbc`) in the AceTime library are consistent with these third
 party libraries.
 
-<a name="MigratingToVersion220"></a>
 ## Migrating to v2.2
 
 ### Immutable TimeZone class
@@ -250,10 +262,8 @@ TimeZone newTz = TimeZone::forTimeOffset(
 ZonedDateTime newDt = zdt.convertToTimeZone(newTz);
 ```
 
-<a name="MigratingToVersion210"></a>
 ## Migrating to v2.1
 
-<a name="UnifiedLinks"></a>
 ### Unified Links
 
 Over the years, I implemented 4 different versions of the Link entries:
@@ -307,7 +317,6 @@ only 2 methods which apply only to Link time zones:
     * Prints the name of the target Zone if the current zone is a link.
     * It prints nothing is `isLink()` is false.
 
-<a name="ZonedExtra"></a>
 ### ZonedExtra
 
 The `ZonedExtra` class was created to replace 3 ad-hoc query methods on the
@@ -333,10 +342,8 @@ The `ZonedExtra` object provides access to other meta-information about the time
 zone at that particular time. See the [ZonedExtra](USER_GUIDE.md#ZonedExtra)
 section in the `USER_GUIDE.md` for more detailed information about this class.
 
-<a name="MigratingToVersion200"></a>
 ## Migrating to v2.0
 
-<a name="HighLevel200"></a>
 ### High Level
 
 The primary purpose of AceTime v2 is to extend the range of years supported by
@@ -390,7 +397,6 @@ increase of 2.5-3.5 kiB of flash memory would be negligible on those processors.
 Some backwards incompatible changes were necessary from v1 to v2. These are
 explained in detail in the next section.
 
-<a name="Details200"></a>
 ### Details
 
 AceTime v2 implements the following major changes and features:
@@ -491,7 +497,6 @@ number of options:
    The next time the device is rebooted, the date and time will use the
    new epoch year instead of the old epoch year.
 
-<a name="Motivation200"></a>
 ### Background Motivation
 
 Using 32-bit integer field for epochSeconds gives a range of about 136 years.
@@ -515,13 +520,11 @@ The updated AceTime v2 is designed to support a 100-year interval from
 range needs to extended even further in the future, the "current epoch year" is
 made adjustable by the client application.
 
-<a name="MigratingToVersion190"></a>
 ## Migrating to v1.9.0
 
 The `ZoneManager` hierarchy (containing `ManualZoneManager`, `BasicZoneManager`,
 and `ExtendedZoneManager`) was refactored from v1.8.0 to v1.9.0.
 
-<a name="ConfiguringZoneManagers"></a>
 ### Configuring the Zone Managers
 
 In v1.8, the `ZoneManager` was an abstract interface class with 7 pure virtual
@@ -588,7 +591,6 @@ ExtendedoneManager zoneManager(
     zoneProcessorCache);
 ```
 
-<a name="UsingZoneManagers"></a>
 ### Using the Zone Managers
 
 In v1.8, the `ZoneManager` was the parent interface class of all polymorphic
@@ -652,7 +654,6 @@ It is assumed that most applications will hard code either the
 `BasicZoneManager` or the `ExtendedZoneManager`, and will not need this level
 of configuration.
 
-<a name="LinkManagers"></a>
 ### Link Managers
 
 In v1.8, the `LinkManager` was an interface class with pure virtual methods:
@@ -684,7 +685,6 @@ The `BasicLinkManager` and `ExtendedLinkManager` should be used directly,
 instead of through the `LinkManager` interface. Since Link Managers were
 introduced only in v1.8, I expect almost no one to be affected by this.
 
-<a name="MigratingToVersion180"></a>
 ## Migrating to v1.8.0
 
 Three breaking changes were made from v1.7.5 to v1.8.0:
@@ -708,7 +708,6 @@ Three breaking changes were made from v1.7.5 to v1.8.0:
 The following subsections show how to migrate client application from
 AceTime v1.7.5 to AceTime v1.8.0.
 
-<a name="MigratingToAceTimeClock"></a>
 ### Migrating to AceTimeClock
 
 For AceTime v1.8.0, the clock classes under the `ace_time::clock` namespace have
@@ -738,7 +737,6 @@ using namespace ace_time;
 using namespace ace_time::clock;
 ```
 
-<a name="MigratingTheDS3231Clock"></a>
 ### Migrating the DS3231Clock
 
 For AceTime v1.8.0, the `DS3231Clock` class was converted into a template class
@@ -834,7 +832,6 @@ consumption by 1500 bytes on an AVR processor. The flash consumption can be
 reduced by 2000 bytes if the "fast" version `SimpleWireFastInterface` is used
 instead.
 
-<a name="MigratingToLinkManagers"></a>
 ### Migrating to LinkManagers
 
 In v1.7.5, [thin links](USER_GUIDE.md#ThinLinks) were activated by adding the
