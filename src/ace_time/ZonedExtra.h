@@ -21,37 +21,6 @@ class ZonedExtra {
     /** Size of char buffer needed to hold the largest abbreviation. */
     static const uint8_t kAbbrevSize = ace_time::kAbbrevSize;
 
-    /**
-     * The epochSeconds or PlainDateTime was not found because it was outside
-     * the range of the zoneinfo database (too far past, or too far in the
-     * future).
-     */
-    static const uint8_t kTypeNotFound = 0;
-
-    /**
-     * The given PlainDateTime matches a single epochSeconds.
-     * The given epochSeconds matches a single PlainDateTime.
-     */
-    static const uint8_t kTypeExact = 1;
-
-    /**
-     * The given PlainDateTime occurs in a gap and does not match any
-     * epochSeconds.
-     *
-     * A given epochSeconds will never return this because it will always match
-     * a unique PlainDateTime.
-     */
-    static const uint8_t kTypeGap = 2;
-
-    /**
-     * The given PlainDateTime matches 2 possible epochSeconds, which is
-     * disambiguated by the 'disambiguate' parameter in the lookup function.
-     *
-     * A look up using epochSeconds will never return this because it will
-     * always match a unique PlainDateTime.
-     */
-    static const uint8_t kTypeOverlap = 3;
-
     /** Return an instance that indicates an error. */
     static ZonedExtra forError() {
       return ZonedExtra();
@@ -97,17 +66,17 @@ class ZonedExtra {
 
     /** Constructor */
     explicit ZonedExtra(
-        uint8_t type,
+        Resolved resolved,
         int32_t stdOffsetSeconds,
         int32_t dstOffsetSeconds,
         int32_t reqStdOffsetSeconds,
         int32_t reqDstOffsetSeconds,
         const char* abbrev)
-      : mStdOffsetSeconds(stdOffsetSeconds)
+      : mResolved(resolved)
+      , mStdOffsetSeconds(stdOffsetSeconds)
       , mDstOffsetSeconds(dstOffsetSeconds)
       , mReqStdOffsetSeconds(reqStdOffsetSeconds)
       , mReqDstOffsetSeconds(reqDstOffsetSeconds)
-      , mType(type)
     {
       strncpy(mAbbrev, abbrev, kAbbrevSize - 1);
       mAbbrev[kAbbrevSize - 1] = '\0';
@@ -115,10 +84,11 @@ class ZonedExtra {
 
     /** Indicates that the PlainDateTime or epochSeconds was not found. */
     bool isError() const {
-      return mStdOffsetSeconds == kInvalidSeconds;
+      return mResolved == Resolved::kError;
     }
 
-    uint8_t type() const { return mType; }
+    /** Return how disambiguate was resolved. */
+    Resolved resolved() const { return mResolved; }
 
     /** STD offset of the resulting OffsetDateTime. */
     TimeOffset stdOffset() const {
@@ -180,11 +150,11 @@ class ZonedExtra {
   private:
     static const int32_t kInvalidSeconds = INT32_MIN;
 
+    Resolved mResolved = Resolved::kError;
     int32_t mStdOffsetSeconds = kInvalidSeconds;
     int32_t mDstOffsetSeconds = kInvalidSeconds;
     int32_t mReqStdOffsetSeconds = kInvalidSeconds;
     int32_t mReqDstOffsetSeconds = kInvalidSeconds;
-    uint8_t mType = kTypeNotFound;
     char mAbbrev[kAbbrevSize] = "";
 };
 

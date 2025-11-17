@@ -69,7 +69,7 @@ test(TimeZoneTest, forUtc) {
 
   ZonedExtra ze = tz.getZonedExtra(0);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(0, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(0, ze.reqStdOffset().toMinutes());
@@ -96,7 +96,7 @@ test(TimeZoneTest, forTimeOffset_no_dst) {
 
   ZonedExtra ze = tz.getZonedExtra(0);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -126,7 +126,7 @@ test(TimeZoneTest, forTimeOffset_dst) {
 
   ZonedExtra ze = tz.getZonedExtra(0);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -196,7 +196,7 @@ test(TimeZoneBasicTest, getZonedExtra) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -208,7 +208,7 @@ test(TimeZoneBasicTest, getZonedExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -219,7 +219,7 @@ test(TimeZoneBasicTest, getZonedExtra) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeGap, ze.type());
+  assertEqual((uint8_t)Resolved::kGapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -231,7 +231,7 @@ test(TimeZoneBasicTest, getZonedExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -267,7 +267,7 @@ test(TimeZoneBasicTest, link) {
   // 01:59:59 is before gap
   pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -279,7 +279,7 @@ test(TimeZoneBasicTest, link) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -290,7 +290,7 @@ test(TimeZoneBasicTest, link) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeGap, ze.type());
+  assertEqual((uint8_t)Resolved::kGapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -302,7 +302,7 @@ test(TimeZoneBasicTest, link) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -404,7 +404,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -416,7 +416,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -427,7 +427,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeGap, ze.type());
+  assertEqual((uint8_t)Resolved::kGapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -439,7 +439,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -450,7 +450,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 0, 59, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -462,7 +462,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -473,7 +473,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kOverlapEarlier, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -485,7 +485,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -496,7 +496,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kReversed);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kOverlapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -508,7 +508,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -519,7 +519,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -531,7 +531,7 @@ test(TimeZoneExtendedTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -568,7 +568,7 @@ test(TimeZoneExtendedTest, link) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -580,7 +580,7 @@ test(TimeZoneExtendedTest, link) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -591,7 +591,7 @@ test(TimeZoneExtendedTest, link) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeGap, ze.type());
+  assertEqual((uint8_t)Resolved::kGapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -603,7 +603,7 @@ test(TimeZoneExtendedTest, link) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -647,7 +647,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -659,7 +659,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -670,7 +670,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeGap, ze.type());
+  assertEqual((uint8_t)Resolved::kGapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -682,7 +682,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -693,7 +693,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 0, 59, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -705,7 +705,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -716,7 +716,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kOverlapEarlier, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -728,7 +728,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -739,7 +739,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 1, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kReversed);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kOverlapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -751,7 +751,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeOverlap, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -762,7 +762,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   pdt = PlainDateTime::forComponents(2018, 11, 4, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -774,7 +774,7 @@ test(TimeZoneCompleteTest, getZoneExtra) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -811,7 +811,7 @@ test(TimeZoneCompleteTest, link) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 1, 59, 59);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -823,7 +823,7 @@ test(TimeZoneCompleteTest, link) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(0*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -834,7 +834,7 @@ test(TimeZoneCompleteTest, link) {
   pdt = PlainDateTime::forComponents(2018, 3, 11, 2, 0, 0);
   ze = tz.getZonedExtra(pdt, Disambiguate::kCompatible);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeGap, ze.type());
+  assertEqual((uint8_t)Resolved::kGapLater, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());
@@ -846,7 +846,7 @@ test(TimeZoneCompleteTest, link) {
   epochSeconds = dt.toEpochSeconds();
   ze = tz.getZonedExtra(epochSeconds);
   assertFalse(ze.isError());
-  assertEqual(ZonedExtra::kTypeExact, ze.type());
+  assertEqual((uint8_t)Resolved::kUnique, (uint8_t)ze.resolved());
   assertEqual(-8*60, ze.stdOffset().toMinutes());
   assertEqual(1*60, ze.dstOffset().toMinutes());
   assertEqual(-8*60, ze.reqStdOffset().toMinutes());

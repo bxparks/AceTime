@@ -14,18 +14,11 @@ test(ZonedExtra, isError) {
   assertTrue(ze.isError());
 }
 
-test(ZonedExtra, type) {
-  assertEqual(ZonedExtra::kTypeNotFound, FindResult::kTypeNotFound);
-  assertEqual(ZonedExtra::kTypeExact, FindResult::kTypeExact);
-  assertEqual(ZonedExtra::kTypeGap, FindResult::kTypeGap);
-  assertEqual(ZonedExtra::kTypeOverlap, FindResult::kTypeOverlap);
-}
-
 test(ZonedExtra, accessors) {
   const char s[] = "test";
-  ZonedExtra ze(1, 2, 3, 4, 5, s);
+  ZonedExtra ze(Resolved::kUnique, 2, 3, 4, 5, s);
 
-  assertEqual(ze.type(), 1);
+  assertEqual((uint8_t)ze.resolved(), (uint8_t)Resolved::kUnique);
   assertEqual(ze.stdOffset().toSeconds(), 2);
   assertEqual(ze.dstOffset().toSeconds(), 3);
   assertEqual(ze.timeOffset().toSeconds(), 2+3);

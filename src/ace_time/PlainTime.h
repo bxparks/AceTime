@@ -60,18 +60,21 @@ class PlainTime {
      */
     static PlainTime forSeconds(acetime_t seconds) {
       uint8_t second, minute, hour;
+      Resolved resolved;
 
       if (seconds == kInvalidSeconds) {
         second = minute = hour = kInvalidValue; // causes isError() to be true
+        resolved = Resolved::kError;
       } else {
         second = seconds % 60;
         uint16_t minutes = seconds / 60;
         minute = minutes % 60;
         hour = minutes / 60;
+        resolved = Resolved::kUnique;
       }
 
       // Return a single object to allow return value optimization.
-      return PlainTime(hour, minute, second);
+      return PlainTime(hour, minute, second, resolved);
     }
 
     /**
@@ -98,7 +101,9 @@ class PlainTime {
      * condition. The isError() method will return true.
      */
     static PlainTime forError() {
-      return PlainTime(kInvalidValue, kInvalidValue, kInvalidValue);
+      return PlainTime(
+        kInvalidValue, kInvalidValue, kInvalidValue, Resolved::kError
+      );
     }
 
     /** Default constructor does nothing. */

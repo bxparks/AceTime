@@ -77,36 +77,39 @@ enum class Disambiguate : uint8_t {
 };
 
 /**
- * These are the ways that a given PlainDateTime was resolved to a
- * ZonedDateTime, depending on whether the PlainDateTime occurred in an overlap,
- * a gap, or was a unique mapping.
+ * The ways that a given PlainDateTime was resolved to a ZonedDateTime or
+ * ZonedExtra through the `disambiguate` parameter, depending on whether the
+ * PlainDateTime occurred in an overlap, a gap, or was a unique mapping.
  */
 enum class Resolved : uint8_t {
+  /** PlainDateTime could not be resolved. */
+  kError = 0,
+
   /** PlainDateTime was resolved to a unique ZonedDateTime. */
-  kUnique = 0,
+  kUnique = 1,
 
   /** PlainDateTime was in an overlap, and resolved to the earlier
    * ZonedDateTime.
    */
-  kOverlapEarlier = 1,
+  kOverlapEarlier = 2,
 
   /** PlainDateTime was in an overlap, and resolved to the later ZonedDateTime.
    */
-  kOverlapLater = 2,
+  kOverlapLater = 3,
 
   /**
    * PlainDateTime was in a gap, and resolved to the earlier ZonedDateTime that
    * would have matched if we had extended the later transition rule backwards
    * in time.
    */
-  kGapEarlier = 3,
+  kGapEarlier = 4,
 
   /**
    * PlainDateTime was in a gap, and resolved to the later ZonedDateTime
    * that would have matched if we had extended the earlier transition rule
    * forwards in time.
    */
-  kGapLater = 4,
+  kGapLater = 5,
 };
 
 } // ace_time

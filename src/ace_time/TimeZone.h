@@ -317,7 +317,7 @@ class TimeZone {
             abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
           }
           return ZonedExtra(
-              ZonedExtra::kTypeExact,
+              Resolved::kUnique,
               mStdOffsetMinutes * 60,
               mDstOffsetMinutes * 60,
               mStdOffsetMinutes * 60,
@@ -330,8 +330,10 @@ class TimeZone {
           if (result.type == FindResult::kTypeNotFound) {
             return ZonedExtra::forError();
           }
+          Resolved resolved =
+              resolveForResultTypeAndFold(result.type, result.fold);
           return ZonedExtra(
-            result.type, // ZonedExtra::type is identical to FindResult::type
+            resolved,
             result.stdOffsetSeconds,
             result.dstOffsetSeconds,
             result.reqStdOffsetSeconds,
@@ -356,7 +358,7 @@ class TimeZone {
             abbrev = (mDstOffsetMinutes != 0) ? "DST" : "STD";
           }
           return ZonedExtra(
-              ZonedExtra::kTypeExact,
+              Resolved::kUnique,
               mStdOffsetMinutes * 60,
               mDstOffsetMinutes * 60,
               mStdOffsetMinutes * 60,
@@ -370,7 +372,7 @@ class TimeZone {
             return ZonedExtra::forError();
           }
           return ZonedExtra(
-            result.type, // ZonedExtra::type is identical to FindResult::type
+            Resolved::kUnique,
             result.stdOffsetSeconds,
             result.dstOffsetSeconds,
             result.reqStdOffsetSeconds,

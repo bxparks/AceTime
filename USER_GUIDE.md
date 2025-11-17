@@ -19,7 +19,7 @@ The IANA TZ database is programmatically generated into 5 predefined databases:
 ranges, and are designed to work with different `ZoneProcessor` and
 `ZoneManager` classes.
 
-**Version**: 4.0.0 (2025-10-21, TZDB 2025b)
+**Version**: 4.1.0 (2025-11-17, TZDB 2025b)
 
 **Related Documents**:
 
@@ -1616,7 +1616,7 @@ class ZonedExtra {
         const char* abbrev);
 
     bool isError() const;
-    uint8_t type() const;
+    Resolved resolved() const;
 
     TimeOffset timeOffset() const; // stdOffset + dstOffset
     TimeOffset stdOffset() const;
@@ -1640,9 +1640,10 @@ methods on the `ZonedExtra` class:
    uint8_t hour, uint8_t minute, uint8_t second, const TimeZone& tz,
    Disambiguate disambiguate = Disambiguate::kCompatible)`
 
-Often the `ZonedDateTime` will be created first from the epochSeconds, then the
-`ZonedExtra` will be created to access additional information about the time
-zone at that particular epochSeconds (e.g. abbreviation):
+Often the `ZonedDateTime` will be created first using the `forComponents()` or
+`forEpochSeconds()` function, then the `ZonedExtra` will be created to access
+additional information about the time zone at that particular epochSeconds or
+components (e.g. abbreviation):
 
 ```C++
 ExtendedZoneProcessor zoneProcessor;
@@ -1654,9 +1655,11 @@ ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
 ZonedExtra ze = ZonedExtra::forEpochSeconds(epochSeconds, tz);
 ```
 
-The `ZonedExtra::type()` parameter identifies whether the given time instant
-corresponded to a DST gap, or a DST overlap, or an exact match with no
-duplicates.
+The `ZonedExtra::resolved()` parameter indicates how `forComponents()` function
+resolved a gap or an overlap according to the `disambiguate` parameter. For the
+`forEpochSeconds()` function, the resolved parameter will always be
+`Resolved::kUnique`. If the `ZonedExtra` instance is an error, then `resolved()`
+will return `Resolved::kError`.
 
 The `ZonedExtra::stdOffset()` is the standard offset of the timezone at the
 given time instant. For example, for `America/Los_Angeles` this will return
@@ -1683,10 +1686,12 @@ abbreviation is 6 characters long.
 
 The `ZonedExtra::reqStdOffset()` and `ZonedExtra::reqDstOffset()` are relevant
 and different from the corresponding `stdOffset()` and `dstOffset()` only if the
-`type()` is `kTypeGap`. This occurs only if the `ZonedExtra::forComponents()`
-factory method is used. The `reqStdOffset()` and `reqDstOffset()` are
-derived from the transition line that is used to select the earlier or later
-`PlainDateTime` instance to `epochSeconds`.
+requested `PlainDateTime` was in a gap. In other words, if the
+`ZonedExtra::resolved()` is `Resolved::kGapBefore` or `Resolved::kGapAfter`.
+This occurs only if the `ZonedExtra::forComponents()` factory method is used.
+The `reqStdOffset()` and `reqDstOffset()` are derived from the transition line
+that is used to select the earlier or later `PlainDateTime` instance to
+`epochSeconds`.
 
 The `isError()` method returns true if the given `PlainDateTime` or
 `epochSeconds` represents an error condition.
@@ -2155,10 +2160,11 @@ by JavaScript Temporal and the Python whenever libraries.
 
 #### Factory Methods with Disambiguation
 
-There are 2 main factory methods on `ZonedDateTime`: `forEpochSeconds()` and
-`forComponents()`. The `disambiguate` parameter applies to only the
-`forComponents()` method. The `forEpochSeconds()` function always corresponds to
-a unique `ZonedDateTime` object and does not need a `disambiguate` argument.
+The `ZonedDateTime` and `ZonedExtra` classes have 2 factory methods:
+`forEpochSeconds()` and `forComponents()`. The `disambiguate` parameter applies
+to only the `forComponents()` method. The `forEpochSeconds()` function always
+corresponds to a unique `ZonedDateTime` object and does not need a
+`disambiguate` argument.
 
 The `disambiguate` parameter is an enum type that takes 4 values:
 
@@ -2178,12 +2184,14 @@ then the `disambiguate` parameter has no effect, because it maps to a unique
 
 #### Resolved Disambiguation
 
-When the `forComponents()` method returns a `ZonedDateTime`, it is sometimes
-useful to know how the `disambiguate` parameter selected the result. The
-`ZonedDateTime` object exposes a `ZonedDateTime::resolved()` variable. It
-takes 5 values:
+The `ZonedDateTime::forComponents()` method and the
+`ZonedExtra::forComponents()` functions accept the `disambiguate` parameter to
+control what happens during a gap or an overlap. The resulting `ZonedDateTime`
+or `ZonedExtra` exposes a `resolved()` function that returns an enum of type
+`Resolved` which takes 6 values:
 
-- `Resolved::kUnique` - the ZonedDateTime is unique
+- `Resolved::kError` - the result was not found or an error occurred
+- `Resolved::kUnique` - the ZonedDateTime or ZonedExtra is unique
 - `Resolved::kOverlapEarlier` - the earlier time in an overlap was selected
 - `Resolved::kOverlapLater` - the later time in an overlap was selected
 - `Resolved::kGapEarlier` - the earlier time in a gap was selected

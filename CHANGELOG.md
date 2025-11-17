@@ -1,6 +1,11 @@
 # Changelog
 
 - unreleased
+- 4.1.0 (2025-11-17, TZDB version 2025b)
+    - **Breaking** Replace `uint8_t ZonedExtra.type()` with `Resolved
+      ZonedExtra.resolved()`
+        - `ZonedExtra::resolved()` has the same behavior and semantics as
+          `ZonedDateTime.resolved()`
 - 4.0.0 (2025-10-21, TZDB version 2025b)
     - See [MIGRATING.md](MIGRATING.md) on breaking API changes, and how to
       migrate.

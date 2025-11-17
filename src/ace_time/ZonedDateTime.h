@@ -215,7 +215,7 @@ class ZonedDateTime {
     /** Set the second. */
     void second(uint8_t second) { mOffsetDateTime.second(second); }
 
-    /** Return the resolved. */
+    /** Return how disambiguate was resolved. */
     Resolved resolved() const { return mOffsetDateTime.resolved(); }
 
     /** Set the resolved. */
